@@ -41,7 +41,10 @@ callout-icon: false
 
 + It assumes a basic familiarity with the RStudio Environment has already been covered, but no prior programming experiences is expected.
 
-+ Students should be provided with the accompanying data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd. 
++ Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd. 
+  
+  + [data](volleyball_ncaa_div1_2022_23_clean)
+  + [Student Quarto template](student_template.qmd)
 
 + [Posit Cloud](https://posit.cloud/) (via an Instructor account) or [Github classroom](https://classroom.github.com) are good options for disseminating files to students, but simply uploading files to your university's course management system works, too.
 :::

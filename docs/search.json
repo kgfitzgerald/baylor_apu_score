@@ -15,7 +15,7 @@
     "href": "volleyball/ncaa_d1/index.html",
     "title": "Volleyball - Women’s NCAA Division I",
     "section": "",
-    "text": "Facilitation notes\n\n\n\n\n\n\nThis module would be suitable for an in-class lab or take-home assignment in an introductory statistics course.\nIt assumes a basic familiarity with the RStudio Environment has already been covered, but no prior programming experiences is expected.\nStudents should be provided with the accompanying data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.\nPosit Cloud (via an Instructor account) or Github classroom are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.",
+    "text": "Facilitation notes\n\n\n\n\n\n\nThis module would be suitable for an in-class lab or take-home assignment in an introductory statistics course.\nIt assumes a basic familiarity with the RStudio Environment has already been covered, but no prior programming experiences is expected.\nStudents should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.\n\ndata\nStudent Quarto template\n\nPosit Cloud (via an Instructor account) or Github classroom are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.",
     "crumbs": [
       "Home",
       "Volleyball",
