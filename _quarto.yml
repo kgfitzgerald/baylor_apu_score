@@ -1,0 +1,43 @@
+project:
+  type: website
+  output-dir: docs
+  render: 
+    - "index.qmd"
+    - "*/*/index.qmd"
+    - "by-statsds-topic.qmd"
+    
+website:
+  google-analytics: "G-JVDQHPRYT1"
+  cookie-consent:
+    type: implied
+    prefs-text: "Manage cookies"
+  title: "Baylor APU SCORE Module Preprint Repository"
+  page-footer: 
+    center:
+      Maintained by Katie Fitzgerald <br>
+    
+      We use cookies to track usage statistics 
+      to help measure impact of the materials
+      for authors. Please consider allowing 
+      tracking cookies.
+    
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - by-statsds-topic.qmd
+      - href: https://data.scorenetwork.org/
+        text: Data Repository
+  sidebar:
+    contents: auto
+    collapse-level: 1
+
+format:
+  html:
+    theme:
+      - simplex
+      - score.scss
+    toc: true
+
+execute:
+  freeze: auto
