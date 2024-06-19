@@ -80,9 +80,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-filename','listing-file-modified','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-filename","listing-file-modified","listing-categories"],
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -217,6 +217,23 @@ window.Quarto = {
  <span class="menu-text">Modules By Topic</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">Volleyball</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./volleyball/ncaa_d1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Volleyball - Women’s NCAA Division I</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -224,7 +241,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(3)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Bar plots (simple &amp; stacked)">Bar plots (simple &amp; stacked) <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Histograms">Histograms <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Ridge plots">Ridge plots <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Scatterplots">Scatterplots <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Side-by-side boxplots">Side-by-side boxplots <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Variable types">Variable types <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ggplot basics">ggplot basics <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -253,47 +270,53 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1718040528737">
+<div class="quarto-post image-right" data-index="0" data-categories="Variable types,ggplot basics,Histograms,Bar plots (simple &amp; stacked),Scatterplots,Ridge plots,Side-by-side boxplots" data-listing-date-sort="1717052400000" data-listing-file-modified-sort="1718040528737" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4156">
+<div class="thumbnail">
+<p><a href="./volleyball/ncaa_d1/index.html" class="no-external"></a></p><a href="./volleyball/ncaa_d1/index.html" class="no-external">
+<p class="card-img-top"><img src="volleyball/ncaa_d1/scoreboard.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./volleyball/ncaa_d1/index.html" class="no-external"></a></p>
+</div>
 <div class="body">
-
+<h3 class="no-anchor listing-title">
+<a href="./volleyball/ncaa_d1/index.html" class="no-external">Volleyball - Women’s NCAA Division I</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./volleyball/ncaa_d1/index.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('Variable types'); return false;">
+Variable types
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('ggplot basics'); return false;">
+ggplot basics
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Histograms'); return false;">
+Histograms
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Bar plots (simple &amp; stacked)'); return false;">
+Bar plots (simple &amp; stacked)
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Scatterplots'); return false;">
+Scatterplots
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Ridge plots'); return false;">
+Ridge plots
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Side-by-side boxplots'); return false;">
+Side-by-side boxplots
+</div>
+</div>
+<div class="listing-description">
+<a href="./volleyball/ncaa_d1/index.html" class="no-external">Exploring volleyball statistics through visualization</a>
+</div>
 </div>
 <div class="metadata">
-<p><a href="./docs/docs/volleyball/ncaa_d1/volleyball_ncaa_d1.qmd" class="no-external"></a></p><a href="./docs/docs/volleyball/ncaa_d1/volleyball_ncaa_d1.qmd" class="no-external">
-<div class="metadata-value listing-filename">
-volleyball_ncaa_d1.qmd
+<a href="./volleyball/ncaa_d1/index.html" class="no-external">
+<div class="listing-date">
+May 30, 2024
 </div>
-<div class="metadata-value listing-file-modified">
-6/10/24, 10:28:48 AM
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-listing-file-modified-sort="1718040528737">
-<div class="body">
-
-</div>
-<div class="metadata">
-<p><a href="./docs/volleyball/ncaa_d1/volleyball_ncaa_d1.qmd" class="no-external"></a></p><a href="./docs/volleyball/ncaa_d1/volleyball_ncaa_d1.qmd" class="no-external">
-<div class="metadata-value listing-filename">
-volleyball_ncaa_d1.qmd
-</div>
-<div class="metadata-value listing-file-modified">
-6/10/24, 10:28:48 AM
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-listing-file-modified-sort="1718040528737">
-<div class="body">
-
-</div>
-<div class="metadata">
-<p><a href="./volleyball/ncaa_d1/volleyball_ncaa_d1.qmd" class="no-external"></a></p><a href="./volleyball/ncaa_d1/volleyball_ncaa_d1.qmd" class="no-external">
-<div class="metadata-value listing-filename">
-volleyball_ncaa_d1.qmd
-</div>
-<div class="metadata-value listing-file-modified">
-6/10/24, 10:28:48 AM
+<div class="listing-author">
+Katie Fitzgerald, Jazmine Gurrola, Joseph Hsieh, Dat Tran
 </div>
 </a>
 </div>

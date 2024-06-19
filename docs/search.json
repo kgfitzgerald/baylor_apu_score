@@ -1,20 +1,73 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Baylor-APU SCORE Module Pre-print Repository",
-    "section": "",
-    "text": "This page contains education materials for the SCORE Network that were created by faculty and students from the Department of Statistical Science at Baylor University and the Department of Mathematics, Physics, & Statistics at Azusa Pacific University.\nThe SCORE Network Module Repository enables you to search for modules by either sport (along the left), or you can browse by statistics and data science topic.\nPlease note that these material have not yet completed the required pedagogical and industry peer reviews to become a published module on the SCORE Network. However, instructors are still welcome to use these materials if they are so inclined.\nThe development of the SCORE with Data network is funded by the National Science Foundation (award 2142705).\nContributing and/or Joining the SCORE Network\n\nIf you are interested in contributing to and/or joining the SCORE Network, please check out https://scorenetwork.org/index.html.\nIf you are interested in creating a page similar to this to host your own “in development modules”, please feel free to copy the Github repository this page was derived from: https://github.com/iramler/slu_score_preprints."
-  },
-  {
     "objectID": "by-statsds-topic.html",
     "href": "by-statsds-topic.html",
     "title": "Modules By Topic",
     "section": "",
-    "text": "volleyball_ncaa_d1.qmd\n\n\n6/10/24, 10:28:48 AM\n\n\n\n\n\n\n\n\n\n\n\nvolleyball_ncaa_d1.qmd\n\n\n6/10/24, 10:28:48 AM\n\n\n\n\n\n\n\n\n\n\n\nvolleyball_ncaa_d1.qmd\n\n\n6/10/24, 10:28:48 AM\n\n\n\n\n\n\nNo matching items",
+    "text": "Volleyball - Women’s NCAA Division I\n\n\n\n\n\n\nVariable types\n\n\nggplot basics\n\n\nHistograms\n\n\nBar plots (simple & stacked)\n\n\nScatterplots\n\n\nRidge plots\n\n\nSide-by-side boxplots\n\n\n\nExploring volleyball statistics through visualization\n\n\n\n\n\nMay 30, 2024\n\n\nKatie Fitzgerald, Jazmine Gurrola, Joseph Hsieh, Dat Tran\n\n\n\n\n\n\nNo matching items",
     "crumbs": [
       "Home",
       "Modules By Topic"
+    ]
+  },
+  {
+    "objectID": "volleyball/ncaa_d1/index.html",
+    "href": "volleyball/ncaa_d1/index.html",
+    "title": "Volleyball - Women’s NCAA Division I",
+    "section": "",
+    "text": "Facilitation notes\n\n\n\n\n\n\nThis module would be suitable for an in-class lab or take-home assignment in an introductory statistics course.\nIt assumes a basic familiarity with the RStudio Environment has already been covered, but no prior programming experiences is expected.\nStudents should be provided with the accompanying data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.\nPosit Cloud (via an Instructor account) or Github classroom are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.",
+    "crumbs": [
+      "Home",
+      "Volleyball",
+      "Volleyball - Women's NCAA Division I"
+    ]
+  },
+  {
+    "objectID": "volleyball/ncaa_d1/index.html#volleyball-lingo",
+    "href": "volleyball/ncaa_d1/index.html#volleyball-lingo",
+    "title": "Volleyball - Women’s NCAA Division I",
+    "section": "Volleyball lingo",
+    "text": "Volleyball lingo\nBefore proceeding with any analysis, let’s make sure we know some volleyball lingo in order to understand what information is contained in each variable (column) in our dataset.\n\n\nTotally new to volleyball? Watch this 4-minute video: The Rules of Volleyball - EXPLAINED!\n\nBe the first team to win 3 sets to 25 points!!\n Image source: BoxOut Sports\n\n\nThe basics\n\nTo win a volleyball match, your team must be the first to win 3 sets\nA match can consist of 3, 4, or 5 sets (“best 3 out of 5”)\nYour team wins a set if you are the first to score 25 points\n\nbut you have to win by at least 2 points!\nand the 5th match (if necessary) only goes to 15 points\n\nSo how do you score points? By hitting the ball into your opponents side of the court without them successfully returning the ball. (Or by them committing an unforced error such as a missed serve or running into the net, but we won’t worry about that in this analysis).\nPlay begins on each point with a serve from the back line and ends when the ball hits the ground.\n\n\n\n\n\n\n\nVolleyball “stats” that might occur during any given play\n\n\n\n\nAn ace is a serve that directly results in a point (the opponent does not successfully return the serve).\nAn attack is on offensive play where a player strategically hits the ball over the net using an overhead motion\nA kill is when an attack results in a point for the attacking team (the opposing team doesn’t “dig” or successfully return the ball)\nAn assist is recorded when a player passes or sets the ball to a teammate who attacks the ball for a kill.\nA block is a defensive play at the net when a player successfully blocks the ball from an opponent’s attack, sending it back down into the opponent’s court, directly resulting in a point.\nA dig is a defensive play when a player successfully passes the ball from an attack and keeps it in play",
+    "crumbs": [
+      "Home",
+      "Volleyball",
+      "Volleyball - Women's NCAA Division I"
+    ]
+  },
+  {
+    "objectID": "volleyball/ncaa_d1/index.html#variable-descriptions",
+    "href": "volleyball/ncaa_d1/index.html#variable-descriptions",
+    "title": "Volleyball - Women’s NCAA Division I",
+    "section": "Variable descriptions",
+    "text": "Variable descriptions\nThe volleyball data you’ll be analyzing in this lab provides season-level team statistics for 334 teams during the 2022-3 season. Many of the variables are reported as an average “per set.” For example, if a team played 30 matches, this means they played anywhere from 90 to 150 sets during the season, so aces_per_set provides the number of aces they scored, on average, across those 90+ sets. The table below provides detailed descriptions of each variable.\n\n\nVariable Descriptions\n\n\n\n\n\n\n\n\nVariable\nDescription\n\n\n\n\nteam\ncollege of the volleyball team\n\n\nconference\nconference to which the team belongs\n\n\nregion\nregion to which the team belongs\n\n\naces_per_set\nthe average amount of balls served that directly lead to a point (not including errors by the opponent) per set\n\n\nassists_per_set\nthe average amount of sets, passes, or digs to a teammate that directly result in a kill per set\n\n\nteam_attacks_per_set\nthe average amount of times the ball is sent to the other team’s court from an overhead motion per set\n\n\nblocks-per_set\nthe average amount of times the ball is blocked from being hit on to the teams side per set\n\n\ndigs_per_set\naverage amount of times the ball is passed by a player successfully after an opponents attack per set\n\n\nhitting_pctg\ntotal team kills minus team hitting errors all divided by total attempts\n\n\nkills_per_set\naverage amount of hits that directly result in a point per set\n\n\nopp_hitting_pctg\nthe average hitting percentage of the teams opponent per set\n\n\nw\nthe amount of team wins for the season\n\n\nl\nthe amount of team losses for the season\n\n\nwin_pctg\nthe amount of total wins divided by the total matches of the season\n\n\nwinning_season\nIndication (yes/no) of whether the team won 50% or more of its matches during the season",
+    "crumbs": [
+      "Home",
+      "Volleyball",
+      "Volleyball - Women's NCAA Division I"
+    ]
+  },
+  {
+    "objectID": "volleyball/ncaa_d1/index.html#viewing-your-data",
+    "href": "volleyball/ncaa_d1/index.html#viewing-your-data",
+    "title": "Volleyball - Women’s NCAA Division I",
+    "section": "Viewing your data",
+    "text": "Viewing your data\nYou saw that glimpse() is one way to get a quick look at your data. Often, you’ll want to view your whole dataset. There are two ways to do this:\n\n\n\nTIP: Recall that RStudio is split into four quadrants: Source (upper left), Environment (upper right), Console (bottom left), and Files/Plots/Packages/Help/Viewer (bottom right)\n[INSERT ANNOTATED IMAGE HERE??]\n\ntype View(volleyball) in your Console and then click return/Enter on your keyboard.\nOR, in your Environment tab, double click the name of the dataset you want to view.\n\nThis will open up your data in a new viewer tab so that you can view it like a spreadsheet (like Google Sheets or Excel*). Once open, you can sort the data by clicking on a column.\n\n\n*Unlike Google Sheets or Excel, however, you won’t be able to edit the data directly in the spreadsheet.\n\n\n\n\n\n\nExercise 2\n\n\n\nView the volleyball data and sort it appropriately to answer the following questions:\n\nWhich NCAA Division I women’s volleyball team had the best record (highest win percentage) during the 2022-3 season?\nWhat percentage of their matches did this team win?\nWhat conference and region is this team in?\nWhich team had the worst record?\nWhat percentage of their matches did they win?\nWhat conference and region is this team in?\n\n\n\n\n\nTIP: When viewing the data, clicking on a column once will sort the data according to that variable in ascending order; clicking twice will sort in descending order.",
+    "crumbs": [
+      "Home",
+      "Volleyball",
+      "Volleyball - Women's NCAA Division I"
+    ]
+  },
+  {
+    "objectID": "volleyball/ncaa_d1/index.html#creating-visualizations",
+    "href": "volleyball/ncaa_d1/index.html#creating-visualizations",
+    "title": "Volleyball - Women’s NCAA Division I",
+    "section": "Creating visualizations",
+    "text": "Creating visualizations\nR (and the tidyverse package in particular) has some powerful functions for making visualizations. The type of visualization you should create depends on the type(s) of variable(s) you are exploring. In the remainder of this module, you will explore the volleyball data via visualizations.",
+    "crumbs": [
+      "Home",
+      "Volleyball",
+      "Volleyball - Women's NCAA Division I"
     ]
   }
 ]
