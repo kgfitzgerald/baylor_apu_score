@@ -69,5 +69,12 @@
       "Volleyball",
       "Volleyball - Women's NCAA Division I"
     ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Baylor-APU SCORE Module Pre-print Repository",
+    "section": "",
+    "text": "This page contains education materials for the SCORE Network that were created by faculty and students from the Department of Statistical Science at Baylor University and the Department of Mathematics, Physics, & Statistics at Azusa Pacific University.\nThe SCORE Network Module Repository enables you to search for modules by either sport (along the left), or you can browse by statistics and data science topic.\nPlease note that these material have not yet completed the required pedagogical and industry peer reviews to become a published module on the SCORE Network. However, instructors are still welcome to use these materials if they are so inclined.\nThe development of the SCORE with Data network is funded by the National Science Foundation (award 2142705).\nContributing and/or Joining the SCORE Network\n\nIf you are interested in contributing to and/or joining the SCORE Network, please check out https://scorenetwork.org/index.html.\nIf you are interested in creating a page similar to this to host your own “in development modules”, please feel free to copy the Github repository this page was derived from: https://github.com/iramler/slu_score_preprints."
   }
 ]
