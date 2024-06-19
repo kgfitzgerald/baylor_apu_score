@@ -1,0 +1,15 @@
+{
+  "hash": "6b35989f128a5d81f575fe23b7b23509",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Volleyball - Women's NCAA Division I\"\nauthor: \"YOUR NAME HERE\"\nformat:\n  html:\n    self-contained: true\n    toc: true\n    toc_float: true\n    number_section: false\n    highlight: tango\neditor: visual\neditor_options:\n  chunk_output_type: console\n---\n\n\n# Getting started: Volleyball data\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(tidyverse) #loads package\nlibrary(ggridges)\n\nvolleyball <- read_csv(\"volleyball_ncaa_div1_2022_23_clean.csv\") #loads data\n```\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\nglimpse(volleyball)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\nRows: 334\nColumns: 15\n$ team                 <chr> \"Lafayette\", \"Delaware St.\", \"Yale\", \"Coppin St.\"…\n$ conference           <chr> \"Patriot\", \"MEAC\", \"Ivy League\", \"MEAC\", \"Atlanti…\n$ region               <chr> \"East\", \"Southeast\", \"East\", \"Southeast\", \"East\",…\n$ aces_per_set         <dbl> 2.33, 2.20, 2.15, 2.15, 2.03, 1.98, 1.93, 1.91, 1…\n$ assists_per_set      <dbl> 11.01, 11.45, 12.60, 10.56, 11.61, 11.46, 12.26, …\n$ team_attacks_per_set <dbl> 34.54, 29.98, 35.39, 32.52, 34.10, 31.53, 37.03, …\n$ blocks_per_set       <dbl> 1.31, 2.17, 1.82, 1.81, 1.83, 2.39, 1.73, 1.85, 1…\n$ digs_per_set         <dbl> 13.60, 12.58, 15.29, 14.22, 14.27, 12.59, 15.39, …\n$ hitting_pctg         <dbl> 0.180, 0.250, 0.242, 0.194, 0.201, 0.226, 0.227, …\n$ kills_per_set        <dbl> 11.93, 12.12, 13.90, 11.54, 12.40, 12.24, 13.70, …\n$ opp_hitting_pctg     <dbl> 0.227, 0.137, 0.155, 0.170, 0.188, 0.175, 0.202, …\n$ w                    <dbl> 8, 24, 23, 23, 18, 17, 19, 16, 18, 20, 29, 15, 10…\n$ l                    <dbl> 15, 7, 3, 11, 13, 13, 13, 13, 13, 10, 4, 14, 20, …\n$ win_pctg             <dbl> 0.348, 0.774, 0.885, 0.676, 0.581, 0.567, 0.594, …\n$ winning_season       <chr> \"no\", \"yes\", \"yes\", \"yes\", \"yes\", \"yes\", \"yes\", \"…\n```\n\n\n:::\n:::\n\n\n## Exercise 1\n\na. YOUR ANSWER HERE\n\nb. YOUR ANSWER HERE\n\nc. YOUR ANSWER HERE\n\nd. YOUR ANSWER HERE\n\ne. YOUR ANSWER HERE",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

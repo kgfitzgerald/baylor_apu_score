@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.554">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Katie Fitzgerald">
+<meta name="author" content="Jazmine Gurrola">
+<meta name="author" content="Joseph Hsieh">
+<meta name="author" content="Dat Tran">
+<meta name="dcterms.date" content="2024-05-30">
+<meta name="description" content="Exploring volleyball statistics through visualization">
+
+<title>Volleyball - Women’s NCAA Division I</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="volleyball_module_files/libs/clipboard/clipboard.min.js"></script>
+<script src="volleyball_module_files/libs/quarto-html/quarto.js"></script>
+<script src="volleyball_module_files/libs/quarto-html/popper.min.js"></script>
+<script src="volleyball_module_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="volleyball_module_files/libs/quarto-html/anchor.min.js"></script>
+<link href="volleyball_module_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="volleyball_module_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="volleyball_module_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="volleyball_module_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="volleyball_module_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#welcome-video" id="toc-welcome-video" class="nav-link active" data-scroll-target="#welcome-video">Welcome video</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#getting-started-volleyball-data" id="toc-getting-started-volleyball-data" class="nav-link" data-scroll-target="#getting-started-volleyball-data">Getting started: Volleyball data</a>
+  <ul class="collapse">
+  <li><a href="#volleyball-lingo" id="toc-volleyball-lingo" class="nav-link" data-scroll-target="#volleyball-lingo">Volleyball lingo</a></li>
+  <li><a href="#variable-descriptions" id="toc-variable-descriptions" class="nav-link" data-scroll-target="#variable-descriptions">Variable descriptions</a></li>
+  <li><a href="#viewing-your-data" id="toc-viewing-your-data" class="nav-link" data-scroll-target="#viewing-your-data">Viewing your data</a></li>
+  <li><a href="#creating-visualizations" id="toc-creating-visualizations" class="nav-link" data-scroll-target="#creating-visualizations">Creating visualizations</a></li>
+  </ul></li>
+  <li><a href="#one-numerical-variable" id="toc-one-numerical-variable" class="nav-link" data-scroll-target="#one-numerical-variable">One numerical variable</a></li>
+  <li><a href="#one-categorical-variable" id="toc-one-categorical-variable" class="nav-link" data-scroll-target="#one-categorical-variable">One categorical variable</a></li>
+  <li><a href="#two-numeric-variables" id="toc-two-numeric-variables" class="nav-link" data-scroll-target="#two-numeric-variables">Two numeric variables</a></li>
+  <li><a href="#two-categorical-variables" id="toc-two-categorical-variables" class="nav-link" data-scroll-target="#two-categorical-variables">Two categorical variables</a></li>
+  <li><a href="#one-numeric-one-categorical-variable" id="toc-one-numeric-one-categorical-variable" class="nav-link" data-scroll-target="#one-numeric-one-categorical-variable">One numeric &amp; one categorical variable</a></li>
+  <li><a href="#more-than-2-variables" id="toc-more-than-2-variables" class="nav-link" data-scroll-target="#more-than-2-variables">More than 2 variables</a></li>
+  <li><a href="#practice-on-new-research-questions" id="toc-practice-on-new-research-questions" class="nav-link" data-scroll-target="#practice-on-new-research-questions">Practice on new research questions</a></li>
+  <li><a href="#bonus-practice" id="toc-bonus-practice" class="nav-link" data-scroll-target="#bonus-practice">BONUS practice</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</div>
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Volleyball - Women’s NCAA Division I</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Variable types</div>
+    <div class="quarto-category">ggplot basics</div>
+    <div class="quarto-category">Histograms</div>
+    <div class="quarto-category">Bar plots (simple &amp; stacked)</div>
+    <div class="quarto-category">Scatterplots</div>
+    <div class="quarto-category">Ridge plots</div>
+    <div class="quarto-category">Side-by-side boxplots</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Exploring volleyball statistics through visualization
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Katie Fitzgerald <a href="mailto:kfitzgerald@apu.edu" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Azusa Pacific University
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jazmine Gurrola </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Azusa Pacific University
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Joseph Hsieh </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Azusa Pacific University
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Dat Tran </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Azusa Pacific University
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 30, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Facilitation notes">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Facilitation notes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>This module would be suitable for an in-class lab or take-home assignment in an introductory statistics course.</p></li>
+<li><p>It assumes a basic familiarity with the RStudio Environment has already been covered, but no prior programming experiences is expected.</p></li>
+<li><p>Students should be provided with the accompanying data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.</p></li>
+<li><p><a href="https://posit.cloud/">Posit Cloud</a> (via an Instructor account) or <a href="https://classroom.github.com">Github classroom</a> are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<section id="welcome-video" class="level1">
+<h1>Welcome video</h1>
+<iframe width="560" height="315" src="" title="placeholder">
+</iframe>
+</section>
+<section id="introduction" class="level1 page-columns page-full">
+<h1>Introduction</h1>
+<p>In this module, you will be analyzing data from the NCAA Division I Women’s Volleyball season in 2022-3. The goal of this module is to help you explore data through visualization and to deepen your understanding of variable types (e.g.&nbsp;categorical, numerical). Data comes in many different forms, and an important part of being a good analyst is knowing what visualizations and analyses are appropriate and will provide insight into the data you have.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Learning Objectives">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this module, you will be able to:</p>
+<ul>
+<li><p>Read (import) a dataset into your RStudio Environment</p></li>
+<li><p>Use R to visualize the following types of variables:</p>
+<ul>
+<li><p>one numeric variable (histogram, boxplot)</p></li>
+<li><p>two numeric variables (scatterplot)</p></li>
+<li><p>one categorical variable (simple bar plot)</p></li>
+<li><p>two categorical variables (stacked and standardized bar plots)</p></li>
+<li><p>one numeric + one categorical variable (faceted histogram, ridge plots, side-by-side boxplots)</p></li>
+<li><p>more than two variables (scatterplot with color or size aesthetic)</p></li>
+</ul></li>
+<li><p>Interpret visualizations to investigate a research question</p></li>
+</ul>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<br>
+<br>
+<br>
+</p>
+<p><strong>NOTE</strong>: <strong>R</strong> is the name of the programming language itself and <strong>RStudio</strong> is a convenient interface. To throw even more lingo in, you may be accessing RStudio through a web-based version called <strong>Posit Cloud</strong>. But R is the programming language you are learning :)</p>
+</div></div><div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research Questions">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research Questions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>During this lab, you’ll investigate the following research questions (don’t worry if you’re new to volleyball, we’ll introduce lingo soon!):</p>
+<ul>
+<li>Which NCAA Division I women’s volleyball team had the best and worst records during the 2022-3 season? What percentage of matches did they win?</li>
+<li>How many kills are typically scored per set?</li>
+<li>What is the most common way of scoring a point in volleyball (kill, block, or ace)?</li>
+<li>Which region has the most teams? Which conference has the most teams? How many teams are in a typical conference?</li>
+<li>If your defense tends to be strong (e.g.&nbsp;lots of digs), does your offense also tend to be strong (lots of kills)?</li>
+<li>Which conference had the most teams with winning seasons? Which conference had the least?</li>
+<li>Does the average number of blocks vary by region?</li>
+<li>What’s the relationship between a team’s hitting percentage, their opponent’s hitting percentage, and their win percentage?</li>
+<li>If a team has strong hitters (that get lots of kills), are they also more likely to have strong blockers?</li>
+<li>What’s the relationship between assists and kills?</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="getting-started-volleyball-data" class="level1 page-columns page-full">
+<h1>Getting started: Volleyball data</h1>
+<p>The first step to any analysis in R is to <strong>load necessary packages and data</strong>.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>You can think of <strong>packages</strong> like apps on your phone; they extend the functionality and give you access to many more features beyond what comes in the “base package”.</p>
+</div></div><p>Running the following code will load the <code>tidyverse</code> and <code>ggridges</code> packages and the <code>volleyball</code> data we will be using in this lab.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: As you follow along in the lab, you should run each corresponding code chunk in your .qmd document. To “Run” a code chunk, you can press the green “Play” button in the top right corner of the code chunk in your .qmd. You can also place your cursor anywhere in the line(s) of code you want to run and press “command + return” (Mac) or “Ctrl + Enter” (Windows).</p>
+</div><div class="">
+<p><strong>TIP</strong>: Using a hashtag in R allows you to add comments to your code (in plain English). Data scientists often use comments to explain what each piece of the code is doing.</p>
+</div></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#loads package</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggridges)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>volleyball <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"volleyball_ncaa_div1_2022_23_clean.csv"</span>) <span class="co">#loads data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can use the <code>glimpse()</code> function to get a quick look (errr.. glimpse) at our <code>volleyball</code> data. The <code>glimpse</code> code provides the number of observations (Rows) and the number of variables (Columns) in the dataset. The “Rows” and “Columns” are referred to as the <strong>dimensions</strong> of the dataset. It also shows us the names of the variables (<code>team</code>, <code>conference</code>, …, <code>winning_season</code>) and the first few observations for each variable (e.g.&nbsp;the first three teams in the dataset are Lafayette, Deleware St., and Yale).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(volleyball)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 334
+Columns: 15
+$ team                 &lt;chr&gt; "Lafayette", "Delaware St.", "Yale", "Coppin St."…
+$ conference           &lt;chr&gt; "Patriot", "MEAC", "Ivy League", "MEAC", "Atlanti…
+$ region               &lt;chr&gt; "East", "Southeast", "East", "Southeast", "East",…
+$ aces_per_set         &lt;dbl&gt; 2.33, 2.20, 2.15, 2.15, 2.03, 1.98, 1.93, 1.91, 1…
+$ assists_per_set      &lt;dbl&gt; 11.01, 11.45, 12.60, 10.56, 11.61, 11.46, 12.26, …
+$ team_attacks_per_set &lt;dbl&gt; 34.54, 29.98, 35.39, 32.52, 34.10, 31.53, 37.03, …
+$ blocks_per_set       &lt;dbl&gt; 1.31, 2.17, 1.82, 1.81, 1.83, 2.39, 1.73, 1.85, 1…
+$ digs_per_set         &lt;dbl&gt; 13.60, 12.58, 15.29, 14.22, 14.27, 12.59, 15.39, …
+$ hitting_pctg         &lt;dbl&gt; 0.180, 0.250, 0.242, 0.194, 0.201, 0.226, 0.227, …
+$ kills_per_set        &lt;dbl&gt; 11.93, 12.12, 13.90, 11.54, 12.40, 12.24, 13.70, …
+$ opp_hitting_pctg     &lt;dbl&gt; 0.227, 0.137, 0.155, 0.170, 0.188, 0.175, 0.202, …
+$ w                    &lt;dbl&gt; 8, 24, 23, 23, 18, 17, 19, 16, 18, 20, 29, 15, 10…
+$ l                    &lt;dbl&gt; 15, 7, 3, 11, 13, 13, 13, 13, 13, 10, 4, 14, 20, …
+$ win_pctg             &lt;dbl&gt; 0.348, 0.774, 0.885, 0.676, 0.581, 0.567, 0.594, …
+$ winning_season       &lt;chr&gt; "no", "yes", "yes", "yes", "yes", "yes", "yes", "…</code></pre>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>ERROR?</strong> Did you get a error message that says <code>could not find function "glimpse"</code>? This means you need to load the <code>tidyverse</code> package. You can do this by running the code <code>library(tidyverse)</code> from the previous code chunk. A shortcut is to hit the “fast-forward” button (next to the “Play” button in your code chunk), which will run all code chunks above your current one.</p>
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 1">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>What are the <strong>dimensions</strong> of this dataset?</p></li>
+<li><p>What are the <strong>observational units</strong> for this data? That is, what does one row represent?</p></li>
+<li><p>How many <strong>categorical variables</strong> are there? List the names of these variables.</p></li>
+<li><p>How many <strong>continuous numeric variables</strong> are there?</p></li>
+<li><p>How many <strong>discrete numeric variables</strong> are there? List the names of these variables.</p></li>
+</ol>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<strong>TIP:</strong> Type your answers to each exercise in the .qmd document.<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<strong>TIP:</strong> To distinguish between continuous and discrete, ask yourself “can this variable have decimal values or only whole-numbers?” Read more about variable types <a href="win_loss_pctg">here</a>.</p>
+</div></div><section id="volleyball-lingo" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="volleyball-lingo">Volleyball lingo</h2>
+<p>Before proceeding with any analysis, let’s make sure we know some volleyball lingo in order to understand what information is contained in each variable (column) in our dataset.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Totally new to volleyball? Watch this 4-minute video: <a href="https://www.youtube.com/watch?v=9g7nYQv-kPM">The Rules of Volleyball - EXPLAINED!</a></p>
+</div><section id="be-the-first-team-to-win-3-sets-to-25-points" class="level4">
+<h4 class="anchored" data-anchor-id="be-the-first-team-to-win-3-sets-to-25-points">Be the first team to win 3 sets to 25 points!!</h4>
+<p><img src="scoreboard.png" class="img-fluid"> Image source: <a href="https://boxoutsports.com/graphics/volleyball/final-score">BoxOut Sports</a></p>
+</section></div>
+<section id="the-basics" class="level4">
+<h4 class="anchored" data-anchor-id="the-basics">The basics</h4>
+<ul>
+<li>To win a volleyball <strong>match</strong>, your team must be the first to win 3 <strong>sets</strong></li>
+<li>A match can consist of 3, 4, or 5 sets (“best 3 out of 5”)</li>
+<li>Your team wins a <strong>set</strong> if you are the first to score 25 points
+<ul>
+<li>but you have to win by at least 2 points!</li>
+<li>and the 5th match (if necessary) only goes to 15 points</li>
+</ul></li>
+<li><strong>So how do you score points?</strong> By hitting the ball into your opponents side of the court without them successfully returning the ball. (Or by them committing an unforced error such as a missed serve or running into the net, but we won’t worry about that in this analysis).</li>
+<li>Play begins on each point with a <strong>serve</strong> from the back line and ends when the ball hits the ground.</li>
+</ul>
+<div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Volleyball “stats” that might occur during any given play
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>An <a href="https://youtu.be/iijvUf5xkkU?si=IeNP8aA_I7d21mh0"><strong>ace</strong></a> is a serve that directly results in a point (the opponent does not successfully return the serve).</li>
+<li>An <strong>attack</strong> is on offensive play where a player strategically hits the ball over the net using an overhead motion</li>
+<li>A <a href="https://youtu.be/tUzcjhn-4NI?si=pgT8qmxIKMbRBWWz"><strong>kill</strong></a> is when an attack results in a point for the attacking team (the opposing team doesn’t “dig” or successfully return the ball)</li>
+<li>An <a href="https://youtu.be/1mngzX6Kj5Y?si=idFLgtZfDjVDOGmK&amp;t=29"><strong>assist</strong></a> is recorded when a player passes or sets the ball to a teammate who attacks the ball for a kill.</li>
+<li>A <a href="https://youtu.be/zysWNW_jW5I?si=2n7-_T16TKogPLG6"><strong>block</strong></a> is a defensive play at the net when a player successfully blocks the ball from an opponent’s attack, sending it back down into the opponent’s court, directly resulting in a point.</li>
+<li>A <a href="https://youtu.be/Av-mL-STW4o?si=hPKS2GDExEPdGwDc"><strong>dig</strong></a> is a defensive play when a player successfully passes the ball from an attack and keeps it in play</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="variable-descriptions" class="level2">
+<h2 class="anchored" data-anchor-id="variable-descriptions">Variable descriptions</h2>
+<p>The <code>volleyball</code> data you’ll be analyzing in this lab provides season-level team statistics for 334 teams during the 2022-3 season. Many of the variables are reported as an average “per set.” For example, if a team played 30 matches, this means they played anywhere from 90 to 150 sets during the season, so <code>aces_per_set</code> provides the number of aces they scored, on average, across those 90+ sets. The table below provides detailed descriptions of each variable.</p>
+<details>
+<summary>
+<b>Variable Descriptions</b>
+</summary>
+<table class="table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 87%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>team</code></td>
+<td>college of the volleyball team</td>
+</tr>
+<tr class="even">
+<td><code>conference</code></td>
+<td>conference to which the team belongs</td>
+</tr>
+<tr class="odd">
+<td><code>region</code></td>
+<td>region to which the team belongs</td>
+</tr>
+<tr class="even">
+<td><code>aces_per_set</code></td>
+<td>the average amount of balls served that directly lead to a point (not including errors by the opponent) per set</td>
+</tr>
+<tr class="odd">
+<td><code>assists_per_set</code></td>
+<td>the average amount of sets, passes, or digs to a teammate that directly result in a kill per set</td>
+</tr>
+<tr class="even">
+<td><code>team_attacks_per_set</code></td>
+<td>the average amount of times the ball is sent to the other team’s court from an overhead motion per set</td>
+</tr>
+<tr class="odd">
+<td><code>blocks-per_set</code></td>
+<td>the average amount of times the ball is blocked from being hit on to the teams side per set</td>
+</tr>
+<tr class="even">
+<td><code>digs_per_set</code></td>
+<td>average amount of times the ball is passed by a player successfully after an opponents attack per set</td>
+</tr>
+<tr class="odd">
+<td><code>hitting_pctg</code></td>
+<td>total team kills minus team hitting errors all divided by total attempts</td>
+</tr>
+<tr class="even">
+<td><code>kills_per_set</code></td>
+<td>average amount of hits that directly result in a point per set</td>
+</tr>
+<tr class="odd">
+<td><code>opp_hitting_pctg</code></td>
+<td>the average hitting percentage of the teams opponent per set</td>
+</tr>
+<tr class="even">
+<td><code>w</code></td>
+<td>the amount of team wins for the season</td>
+</tr>
+<tr class="odd">
+<td><code>l</code></td>
+<td>the amount of team losses for the season</td>
+</tr>
+<tr class="even">
+<td><code>win_pctg</code></td>
+<td>the amount of total wins divided by the total matches of the season</td>
+</tr>
+<tr class="odd">
+<td><code>winning_season</code></td>
+<td>Indication (yes/no) of whether the team won 50% or more of its matches during the season</td>
+</tr>
+</tbody>
+</table>
+</details></section>
+<section id="viewing-your-data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="viewing-your-data">Viewing your data</h2>
+<p>You saw that <code>glimpse()</code> is one way to get a quick look at your data. Often, you’ll want to view your whole dataset. There are two ways to do this:</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<strong>TIP:</strong> Recall that RStudio is split into four quadrants: Source (upper left), <strong>Environment</strong> (upper right), <strong>Console</strong> (bottom left), and Files/Plots/Packages/Help/Viewer (bottom right)</p>
+<p>[INSERT ANNOTATED IMAGE HERE??]</p>
+</div></div><ol type="1">
+<li>type <code>View(volleyball)</code> in your <strong>Console</strong> and then click return/Enter on your keyboard.</li>
+<li>OR, in your <strong>Environment</strong> tab, double click the name of the dataset you want to view.</li>
+</ol>
+<p>This will open up your data in a new viewer tab so that you can view it like a spreadsheet (like Google Sheets or Excel*). Once open, you can sort the data by clicking on a column.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>*Unlike Google Sheets or Excel, however, you won’t be able to <em>edit</em> the data directly in the spreadsheet.</p>
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 2">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>View</code> the <code>volleyball</code> data and sort it appropriately to answer the following questions:</p>
+<ol type="a">
+<li><p>Which NCAA Division I women’s volleyball team had the <strong>best</strong> record (highest win percentage) during the 2022-3 season?</p></li>
+<li><p>What percentage of their matches did this team win?</p></li>
+<li><p>What conference and region is this team in?</p></li>
+<li><p>Which team had the <strong>worst</strong> record?</p></li>
+<li><p>What percentage of their matches did they win?</p></li>
+<li><p>What conference and region is this team in?</p></li>
+</ol>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: When viewing the data, clicking on a column once will sort the data according to that variable in <em>ascending</em> order; clicking twice will sort in <em>descending</em> order.</p>
+</div></div></section>
+<section id="creating-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="creating-visualizations">Creating visualizations</h2>
+<p>R (and the <code>tidyverse</code> package in particular) has some powerful functions for making visualizations. The type of visualization you should create depends on the type(s) of variable(s) you are exploring. In the remainder of this module, you will explore the <code>volleyball</code> data via visualizations.</p>
+</section>
+</section>
+<section id="one-numerical-variable" class="level1 page-columns page-full">
+<h1>One numerical variable</h1>
+<div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research question">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>How many kills are typically scored per set?</p>
+</div>
+</div>
+<p>Because <code>kills_per_set</code>is a <strong>numeric variable</strong>, it is appropriate to visualize it using a <strong>histogram</strong> We can create a histogram of number of kills per set with the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(volleyball, <span class="fu">aes</span>(<span class="at">x =</span> kills_per_set)) <span class="sc">+</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">"white"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="volleyball_module_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: Your code must refer to datasets and variable names <em>exactly</em> as they are appear in your Environment/data. If, for example, we instead had saved the <code>volleyball</code> data as <code>vball</code> and the variable name was <code>Kills_per_set</code> (with a capital <code>K</code>), the first line of plotting code would instead need to be <code>ggplot(vball, aes(x = Kills_per_set))</code>. It’s usually a good idea to open your data in your Environment and/or run <code>glimpse()</code> on your data to verify the exact names.</p>
+</div><div class="">
+<p><strong>TIP</strong>: When you run the histogram code, you may see the default message: “<code>stat_bin() using bins = 30. Pick better value with binwidth</code>.” This is just a message, not an error. It’s simply informing you that by default <code>ggplot()</code> uses 30 bins when creating a histogram, but you can change this by adding <code>bins = XX</code> inside of <code>geom_histogram()</code>. For example, <code>geom_histogram(bins = 10)</code> will create a histogram with 10 bins. Alternatively, you can specify the <em>width</em> of each bin using <code>binwidth</code>. Try using <code>geom_histogram(binwidth = 1)</code> to see what happens.</p>
+</div></div>
+<div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+IMPORTANT SUMMARY: ggplot basics
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Every basic visualization created with <code>ggplot</code> must contain at least two “layers” that are added together with a <code>+</code> sign:</p>
+<ol type="1">
+<li>the <code>ggplot()</code> layer to initiate a blank visualization</li>
+<li>a <code>geom_xxxx()</code> layer to specify what type of <code>geom</code>etric object(s) you want to place in the visualization (e.g.&nbsp;points, bars, histogram, boxplot, etc).</li>
+</ol>
+<p>The <code>ggplot()</code> layer should always have two things:</p>
+<ol type="1">
+<li>the name of the dataset, provided as the first argument</li>
+<li>an <code>aes()</code> function that specifies how variables will get mapped to <code>aes</code>thetic elements of the plot, such as the <code>x</code> or <code>y</code> axis, or the <code>size</code> or <code>color</code> of dots or lines.</li>
+</ol>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+We use the term “argument” to refer to the “inputs” to a function.</p>
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 3">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Copy, paste the code above to reproduce the visualization in your document.</p></li>
+<li><p>Describe the shape of the distribution of <code>kills_per_set</code>. Make sure to comment on <strong>modality</strong>, <strong>skewness</strong>, and whether there are any <strong>potential outliers</strong>.</p></li>
+<li><p>Based on this histogram, how would you answer the research question (how many kills are typical per set)?</p></li>
+</ol>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<br>
+<strong>TIP</strong>: Read <a href="https://openintro-ims.netlify.app/explore-numerical#histograms">here</a> for a reminder of terminology and how to describe a distribution in terms of its modality and skewness.</p>
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 4">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Copy, paste, tweak the <code>ggplot()</code> code above to explore the distribution of <code>blocks_per_set</code>.</p></li>
+<li><p>Describe the shape of the distribution and interpret what you see.</p></li>
+<li><p>Copy, paste, tweak the <code>ggplot()</code> code above to explore the distribution of <code>aces_per_set</code>.</p></li>
+<li><p>Describe the shape of the distribution and interpret what you see.</p></li>
+<li><p>What is the most common way of scoring a point in volleyball (kill, block, or ace)?</p></li>
+</ol>
+</div>
+</div>
+<p>Another common visualization for a numeric variable is a <strong>boxplot</strong>. The following image shows 3 boxplots and 3 histograms for the variables explored above.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="volleyball_module_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 5">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The histograms and boxplots are visualizing the same information, but each visualization types has different pros/cons.</p>
+<ol type="a">
+<li><p>Is modality visible in both types of visualizations? Explain.</p></li>
+<li><p>Is skewness visible in both types of visualizations? Explain.</p></li>
+<li><p>Are potential outliers visible in both types of visualizations? Explain.</p></li>
+<li><p>Is there any additional information in a boxplot that’s not provided by a histogram? Explain.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="one-categorical-variable" class="level1 page-columns page-full">
+<h1>One categorical variable</h1>
+<p>Let’s use visualization to explore another question:</p>
+<div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research question">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Which region has the most teams?</strong></p>
+</div>
+</div>
+<p>Because <code>region</code> is a <strong>categorical variable</strong>, it is appropriate to visualize it using a <strong>bar plot</strong>.</p>
+<p>The general template for creating a simple bar plot is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> variable)) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice it follows the same general format as the histogram code, but now we use <code>geom_bar()</code> instead of <code>geom_histogram()</code> because we are dealing with one categorical instead of one numeric variable.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 6">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 6
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Copy, paste, tweak the code above to create a bar plot for <code>region</code>.</p></li>
+<li><p>Which region has the most teams?</p></li>
+</ol>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<strong>TIP</strong>: In the template code, <code>data</code> and <code>variable</code> are just placeholders. Make sure to replace them with the appropriate dataset and variable names for this analysis.</p>
+</div></div></section>
+<section id="two-numeric-variables" class="level1 page-columns page-full">
+<h1>Two numeric variables</h1>
+<div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research question">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If your defense tends to be strong (e.g.&nbsp;lots of digs), does your offense also tend to be strong (lots of kills)?</p>
+</div>
+</div>
+<p>To investigate this question, we need a <strong>scatterplot</strong> because we are dealing with <strong>two numeric variables</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(volleyball, <span class="fu">aes</span>(<span class="at">x =</span> digs_per_set, <span class="at">y =</span> kills_per_set)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="volleyball_module_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+</p>
+<p>Notice that the scatterplot code again follows the same general format of a <code>ggplot()</code> layer, with data and <code>aes</code>thetics sepcified inside, and a <code>geom_</code> layer, this time <code>geom_point()</code>. Because a scatterplot is for <em>two</em> variables instead of one, we must specify two variables, <code>x</code> and <code>y</code>, in the <code>aes()</code> function.</p>
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 7">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Copy, paste the scatterplot code into your .qmd to reproduce the visualization in your document.</p></li>
+<li><p>Use the scatterplot to answer the research question. Make sure to comment on the strength and direction of the relationship.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="two-categorical-variables" class="level1">
+<h1>Two categorical variables</h1>
+<p>Consider our next research question:</p>
+<div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research question">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Which conference had the most teams with winning seasons? Which conference had the least?</p>
+</div>
+</div>
+<p>Note that this is a question about <strong>two categorical variables,</strong> <code>conference</code> and <code>winning_season</code>, therefore, a <strong>stacked bar plot</strong> is appropriate for investigating this question. We can do this using the code below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(volleyball, <span class="fu">aes</span>(<span class="at">y =</span> conference, <span class="at">fill =</span> winning_season)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="volleyball_module_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Using <code>fill</code> in ggplot
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that we added the second categorical variable to the <code>fill</code> <code>aes</code>thetic because we “fill” the bar with the categories of <code>winning_season</code>. We can adapt the code further to turn the stacked bar plot into a <strong>standardized bar plot</strong>.</p>
+<p>Adding <code>position = "fill"</code> inside <code>geom_bar()</code> turns the stacked bar plot into a standardized bar plot. Since the x axis now shows proportions instead of counts, we use a <code>labs()</code> layer to change the x-axis label.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(volleyball, <span class="fu">aes</span>(<span class="at">y =</span> conference, <span class="at">fill =</span> winning_season)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"proportion"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="volleyball_module_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 8">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 8
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Copy, paste the code for both visualizations above to recreate them in your document.</p></li>
+<li><p>Comment on the differences between the stacked and standardized stacked bar plot.</p></li>
+<li><p>What conference had the <em>most</em> teams with winning seasons? Do the two visualizations lead to different interpretations of this question? Explain.</p></li>
+<li><p>What conference had the <em>least</em> teams with winning seasons? Do the two visualizations lead to different interpretations of this question? Explain.</p></li>
+<li><p>Which of the two visualizations would you choose to communicate an answer to these research questions? Comment on pros and cons of your choice.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="one-numeric-one-categorical-variable" class="level1">
+<h1>One numeric &amp; one categorical variable</h1>
+<div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research question">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Does the average number of attacks vary by region?</p>
+</div>
+</div>
+<p>Note that now we are interested in comparing a numeric variable (<code>team_attacks_per_set</code>) across groups of a categorical variable (<code>region</code>). To visualize one numeric + one categorical variable, we have a couple options:</p>
+<ul>
+<li><p>faceted histogram</p></li>
+<li><p>ridge plot</p></li>
+<li><p>side-by-side boxplot</p></li>
+</ul>
+<p>To create a faceted histogram, we simply add a layer called <code>facet_wrap()</code> to our visualization pipeline for a histogram, which specifies which categorical variable we want to <code>facet</code> by. We use <code>ncol = 1</code> to specify that we want the histograms to all appear in 1 column (by default it will place them all next to each other in 1 row).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(volleyball, <span class="fu">aes</span>(<span class="at">x =</span> team_attacks_per_set)) <span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">"white"</span>, <span class="at">binwidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> region, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="volleyball_module_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>To create a ridge plot, we use the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(volleyball, <span class="fu">aes</span>(<span class="at">x =</span> team_attacks_per_set, <span class="at">y =</span> region)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_density_ridges</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="volleyball_module_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(volleyball, <span class="fu">aes</span>(<span class="at">x =</span> team_attacks_per_set, <span class="at">y =</span> region)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="volleyball_module_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 9">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 9
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Copy, paste the code for the three visualizations above to reproduce them in your document.</p></li>
+<li><p>All of the above visualizations display the same data. Comment on what you observe. Use the visualizations to answer the research question: do number of attacks differ by region?</p></li>
+<li><p>Comment on which of the three visualizations you prefer and why.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="more-than-2-variables" class="level1 page-columns page-full">
+<h1>More than 2 variables</h1>
+<p>We can utilize extra <code>aes</code>thetics (in addition to x- and y-axis) such as <code>color</code>, <code>shape</code>, or <code>size</code> to investigate relationships of more than two variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(volleyball, <span class="fu">aes</span>(<span class="at">x =</span> hitting_pctg, <span class="at">y =</span> opp_hitting_pctg,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">color =</span> win_pctg)) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">trans =</span> <span class="st">"reverse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="volleyball_module_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>Note:</strong> the third layer here <code>scale_color_gradient()</code> is not strictly necessary. It simply reverse the order of the color scale so that larger numbers are darker and smaller numbers are lighter, which tends to align better with viewer’s intuition.</p>
+</div><div class="">
+<p><strong>EXTRA</strong>: We could add in a 4th or even 5th variable using additional aesthetics such as <code>size</code> or <code>alpha</code> (transparency), but often squeezing too many variables into one visualization makes it cognitively difficult to process and interpret. Alternatively, we may sometimes choose to “double encode” a variable (2 aesthetics for the same variable) to make a relationship in the data more visually salient. But there should be a clear reason for doing so, and you should make sure the extra encoding doesn’t confuse the viewer.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(volleyball, <span class="fu">aes</span>(<span class="at">x =</span> hitting_pctg, <span class="at">y =</span> opp_hitting_pctg,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">color =</span> win_pctg, <span class="at">size =</span> win_pctg)) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">trans =</span> <span class="st">"reverse"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="volleyball_module_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 10">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 10
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Copy, paste the code above to recreate the visualization in your document.</p></li>
+<li><p>What are the variables being displayed in the visualization above? What type of variables are they?</p></li>
+<li><p>What insight can be gleaned from the above visualizations? Comment on 2 things the visualizations reveal about NCAA volleyball teams.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="practice-on-new-research-questions" class="level1 page-columns page-full">
+<h1>Practice on new research questions</h1>
+<div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+IMPORTANT SUMMARY
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Data visualizations are a useful tool for exploring a dataset and investigating research questions. You’ve now been exposed to code for creating visualizations for many different data types. Now, it’s your turn to practice choosing an appropriate visualization for new research questions.</p>
+<p>To get started, you should always ask yourself a series of questions:</p>
+<ol type="1">
+<li>what variable(s) in my dataset are relevant for answering the research question?</li>
+<li>what type of variable is each one?</li>
+<li>what type of visualization is appropriate for the type(s) and number of variables you have</li>
+</ol>
+<p>In the following exercises, once you determine the appropriate visualization for your question, you should copy, paste, tweak code from the appropriate section of this lab to visually investigate the research question.</p>
+<p>For example, if you identify that you have two numeric variables, you should copy paste code for scatterplots from the “Two numeric variables” section of this lab.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 11">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 11
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Kills and blocks are both typically scored by tall players at the net. Is there a strong positive relationship between kills and blocks? In other words, if a team has strong hitters (that get lots of kills), are they also more likely to have strong blockers? Produce a visualization to investigate this question and comment on your findings.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 12">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 12
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Produce one visualization to answer the following questions:</p>
+<ol type="a">
+<li><p>What conference has the most teams?</p></li>
+<li><p>About how many teams are in a typical conference? (You can “eyeball” this from the visualization - don’t need to calculate an actual number)</p></li>
+</ol>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<br>
+<br>
+<strong>TIP</strong>: If the x-axis of your visualization is too cluttered to read all the category labels, try switching the categorical variable to the y-axis instead. You can do this by simply specifying <code>y = variable</code> instead of <code>x = variable</code> inside <code>aes()</code>.</p>
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 13">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 13
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Produce a visualization to investigate the relationship between assists and kills. Comment on what you find and explain why the relationship is what it is.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 14">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 14
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Produce one visualization to investigate the following questions and comment on your findings:</p>
+<ol type="a">
+<li><p>Is there a wide range of win percentages across college volleyball teams, or do most teams win roughly 50% of their matches?</p></li>
+<li><p>Did any team have a perfect season? That is, did anyone win 100% of their matches?</p></li>
+<li><p>The name of the “best” team isn’t visible in your visualization, but in Exercise 2a you identified who this team was. Google to find out who won the championship in 2022-3. Was it the team with the best record?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="bonus-practice" class="level1">
+<h1>BONUS practice</h1>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="BONUS 1">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+BONUS 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>State an additional research question that can be investigated using the <code>volleyball</code> data, and create a visualization to investigate it. Comment on your findings.</p>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

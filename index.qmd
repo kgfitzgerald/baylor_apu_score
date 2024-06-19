@@ -1,0 +1,17 @@
+---
+title: "Baylor-APU SCORE Module Pre-print Repository"
+---
+
+This page contains education materials for the [SCORE Network](https://scorenetwork.org/index.html) that were created by faculty and students from the [Department of Statistical Science at Baylor University](https://statistics.artsandsciences.baylor.edu){target="_blank"} and the [Department of Mathematics, Physics, & Statistics at Azusa Pacific University](https://www.apu.edu/clas/mathphysics/).
+
+The [SCORE Network](https://scorenetwork.org/index.html){target="_blank"} Module Repository enables you to search for modules by either sport (along the left), or you can browse [by statistics and data science topic](by-statsds-topic.qmd).
+
+Please note that these material have not yet completed the required pedagogical and industry peer reviews to become a published module on the SCORE Network. However, instructors are still welcome to use these materials if they are so inclined.
+
+*The development of the SCORE with Data network is funded by the National Science Foundation (award 2142705).*
+
+**Contributing and/or Joining the SCORE Network**
+
+-   If you are interested in contributing to and/or joining the SCORE Network, please check out [https://scorenetwork.org/index.html](https://scorenetwork.org/index.html){target="_blank"}.
+
+-   If you are interested in creating a page similar to this to host your own "in development modules", please feel free to copy the Github repository this page was derived from: [https://github.com/iramler/slu_score_preprints](https://github.com/iramler/slu_score_preprints){target="_blank"}.
