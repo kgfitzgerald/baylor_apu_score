@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Rodney X. Sturdivant, Ph.D.">
+<meta name="author" content="Ian Young">
+<meta name="author" content="Joshua Patrick, Ph.D.">
+<meta name="author" content="Connor Bryson">
+<meta name="dcterms.date" content="2024-07-01">
+<meta name="description" content="Exploring MMA fight decisions by weight category">
+
+<title>MMA Fight Decisions</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="mma_index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="mma_index_files/libs/quarto-html/quarto.js"></script>
+<script src="mma_index_files/libs/quarto-html/popper.min.js"></script>
+<script src="mma_index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="mma_index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="mma_index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="mma_index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="mma_index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="mma_index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="mma_index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#welcome-video" id="toc-welcome-video" class="nav-link active" data-scroll-target="#welcome-video">Welcome video</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#getting-started-mma-data" id="toc-getting-started-mma-data" class="nav-link" data-scroll-target="#getting-started-mma-data">Getting started: MMA data</a>
+  <ul class="collapse">
+  <li><a href="#mma-lingo" id="toc-mma-lingo" class="nav-link" data-scroll-target="#mma-lingo">MMA lingo</a></li>
+  <li><a href="#variable-descriptions" id="toc-variable-descriptions" class="nav-link" data-scroll-target="#variable-descriptions">Variable descriptions</a></li>
+  <li><a href="#viewing-your-data" id="toc-viewing-your-data" class="nav-link" data-scroll-target="#viewing-your-data">Viewing your data</a></li>
+  </ul></li>
+  <li><a href="#chi-square-test-overview" id="toc-chi-square-test-overview" class="nav-link" data-scroll-target="#chi-square-test-overview">Chi-square Test Overview</a></li>
+  <li><a href="#chi-square-test-example" id="toc-chi-square-test-example" class="nav-link" data-scroll-target="#chi-square-test-example">Chi-square Test Example</a>
+  <ul class="collapse">
+  <li><a href="#preparing-the-data" id="toc-preparing-the-data" class="nav-link" data-scroll-target="#preparing-the-data">Preparing the data</a></li>
+  <li><a href="#visualizing-the-data-the-contingency-table" id="toc-visualizing-the-data-the-contingency-table" class="nav-link" data-scroll-target="#visualizing-the-data-the-contingency-table">Visualizing the data: the contingency table</a></li>
+  <li><a href="#visualizing-the-data-mosaic-plot" id="toc-visualizing-the-data-mosaic-plot" class="nav-link" data-scroll-target="#visualizing-the-data-mosaic-plot">Visualizing the data: Mosaic plot</a></li>
+  <li><a href="#conducting-the-chi-square-test" id="toc-conducting-the-chi-square-test" class="nav-link" data-scroll-target="#conducting-the-chi-square-test">Conducting the Chi-square test</a>
+  <ul class="collapse">
+  <li><a href="#observed-counts" id="toc-observed-counts" class="nav-link" data-scroll-target="#observed-counts">Observed counts</a></li>
+  <li><a href="#expected-counts" id="toc-expected-counts" class="nav-link" data-scroll-target="#expected-counts">Expected counts</a></li>
+  <li><a href="#test-results" id="toc-test-results" class="nav-link" data-scroll-target="#test-results">Test results</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#chi-square-test-issues-fisher-exact-test-example" id="toc-chi-square-test-issues-fisher-exact-test-example" class="nav-link" data-scroll-target="#chi-square-test-issues-fisher-exact-test-example">Chi-square Test Issues (Fisher Exact Test) Example</a>
+  <ul class="collapse">
+  <li><a href="#chi-square-test" id="toc-chi-square-test" class="nav-link" data-scroll-target="#chi-square-test">Chi-square Test</a></li>
+  <li><a href="#fisher-exact-test" id="toc-fisher-exact-test" class="nav-link" data-scroll-target="#fisher-exact-test">Fisher Exact Test</a></li>
+  </ul></li>
+  <li><a href="#case-study-1-interpreting-results" id="toc-case-study-1-interpreting-results" class="nav-link" data-scroll-target="#case-study-1-interpreting-results">Case study 1: Interpreting Results</a>
+  <ul class="collapse">
+  <li><a href="#examining-the-sample" id="toc-examining-the-sample" class="nav-link" data-scroll-target="#examining-the-sample">Examining the Sample</a></li>
+  <li><a href="#conducting-the-test" id="toc-conducting-the-test" class="nav-link" data-scroll-target="#conducting-the-test">Conducting the Test</a></li>
+  <li><a href="#examining-the-results" id="toc-examining-the-results" class="nav-link" data-scroll-target="#examining-the-results">Examining the Results</a>
+  <ul class="collapse">
+  <li><a href="#residuals" id="toc-residuals" class="nav-link" data-scroll-target="#residuals">Residuals</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#case-study-2-putting-it-all-together" id="toc-case-study-2-putting-it-all-together" class="nav-link" data-scroll-target="#case-study-2-putting-it-all-together">Case study 2: Putting it all together</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</div>
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MMA Fight Decisions</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Variable types</div>
+    <div class="quarto-category">Chi-square test (2x2)</div>
+    <div class="quarto-category">Fisher Exact test</div>
+    <div class="quarto-category">Chi-square test (rxc)</div>
+    <div class="quarto-category">Mosaic plots</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Exploring MMA fight decisions by weight category
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Rodney X. Sturdivant, Ph.D. <a href="mailto:Rodney_Sturdivant@baylor.edu" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Baylor University
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Ian Young </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Baylor University
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Joshua Patrick, Ph.D. </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Baylor University
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Connor Bryson </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Baylor University
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 1, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Facilitation notes">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Facilitation notes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>This module would be suitable for an in-class lab or take-home assignment in an introductory statistics course.</p></li>
+<li><p>It assumes a basic familiarity with the RStudio Environment has already been covered, but no prior programming experiences is expected.</p></li>
+<li><p>Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce tests/visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.</p>
+<ul>
+<li><a href="mma.csv">data</a></li>
+<li><a href="mma_student_template.qmd">Student Quarto template</a></li>
+</ul></li>
+<li><p><a href="https://posit.cloud/">Posit Cloud</a> (via an Instructor account) or <a href="https://classroom.github.com">Github classroom</a> are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<section id="welcome-video" class="level1">
+<h1>Welcome video</h1>
+<iframe width="560" height="315" src="" title="placeholder">
+</iframe>
+</section>
+<section id="introduction" class="level1 page-columns page-full">
+<h1>Introduction</h1>
+<p>In this module, you will be analyzing data from mixed marshall arts (MMA) fights in order to determine if the weight class of the fighters is related to the type of decision that ended the fight.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Learning Objectives">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this module, you will be able to:</p>
+<ul>
+<li><p>Read (import) a dataset into your RStudio Environment</p></li>
+<li><p>Use R to visualize the following types of variables:</p>
+<ul>
+<li>two categorical variable (mosaic and plots)</li>
+</ul></li>
+<li><p>Test for an association between two categorical variables (2 categories each)</p>
+<ul>
+<li><p>Using the Chi-square test</p></li>
+<li><p>Using Fisher’s Exact test</p></li>
+</ul></li>
+<li><p>Test for an association between two categorical variables (more than 2 categories each)</p></li>
+</ul>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<br>
+<br>
+<br>
+</p>
+<p><strong>NOTE</strong>: <strong>R</strong> is the name of the programming language itself and <strong>RStudio</strong> is a convenient interface. To throw even more lingo in, you may be accessing RStudio through a web-based version called <strong>Posit Cloud</strong>. But R is the programming language you are learning :)</p>
+</div></div><div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research Questions">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research Questions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>During this lab, you’ll investigate the following research questions (don’t worry if you’re new to MMA, we’ll introduce lingo soon!):</p>
+<ul>
+<li>What are the percentages of MMA fight decisions for different weight classes?</li>
+<li>Are percentages in decisions different based on weight class?</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="getting-started-mma-data" class="level1 page-columns page-full">
+<h1>Getting started: MMA data</h1>
+<p>The first step to any analysis in R is to <strong>load necessary packages and data</strong>.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>You can think of <strong>packages</strong> like apps on your phone; they extend the functionality and give you access to many more features beyond what comes in the “base package”.</p>
+</div></div><p>Running the following code will load the <code>tidyverse</code>, <code>ggplot2</code>, other packages, and the <code>mma</code> data we will be using in this lab.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: As you follow along in the lab, you should run each corresponding code chunk in your .qmd document. To “Run” a code chunk, you can press the green “Play” button in the top right corner of the code chunk in your .qmd. You can also place your cursor anywhere in the line(s) of code you want to run and press “command + return” (Mac) or “Ctrl + Enter” (Windows).</p>
+</div><div class="">
+<p><strong>TIP</strong>: Using a hashtag in R allows you to add comments to your code (in plain English). Data scientists often use comments to explain what each piece of the code is doing.</p>
+</div></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#loads package</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>mma <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"mma.csv"</span>) <span class="co">#loads data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can use the <code>glimpse()</code> function to get a quick look (errr.. glimpse) at our <code>mma</code> data. The <code>glimpse</code> code provides the number of observations (Rows) and the number of variables (Columns) in the dataset. The “Rows” and “Columns” are referred to as the <strong>dimensions</strong> of the dataset. It also shows us the names of the variables (<code>date</code>, <code>day</code>, …, <code>p2_team</code>) and the first few observations for each variable (e.g.&nbsp;the first two fights in the dataset took place on October 9, 2010 and October 5, 2019).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(mma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 28,771
+Columns: 20
+$ date           &lt;chr&gt; "12/4/10", "5/15/10", "6/12/09", "1/23/09", "3/25/22", …
+$ month          &lt;dbl&gt; 12, 5, 6, 1, 3, 4, 2, 5, 1, 9, 1, 8, 6, 12, 2, 3, 1, 12…
+$ year           &lt;dbl&gt; 2010, 2010, 2009, 2009, 2022, 2021, 2021, 2018, 2018, 2…
+$ event          &lt;chr&gt; "Strikeforce: Henderson vs. Babalu 2", "Strikeforce: He…
+$ championship   &lt;lgl&gt; FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,…
+$ decision       &lt;chr&gt; "Decision - Unanimous", "Submission", "TKO", "Unanimous…
+$ decision_group &lt;chr&gt; "Decision", "Submission", "KO/TKO", "Decision", "KO/TKO…
+$ round          &lt;chr&gt; "3", "1", "2", "3", "1", "3", "3", "2", "1", "3", "1", …
+$ time           &lt;time&gt; 05:00:00, 00:56:00, 01:47:00, 05:00:00, 01:37:00, 05:0…
+$ p1_result      &lt;chr&gt; "L", "W", "L", "L", "L", "L", "W", "L", "L", "W", "L", …
+$ p1_id          &lt;dbl&gt; 2504991, 2504991, 2504991, 2504991, 4239497, 4239497, 4…
+$ p1_name        &lt;chr&gt; "Aaron, Tom", "Aaron, Tom", "Aaron, Tom", "Aaron, Tom",…
+$ p1_country     &lt;chr&gt; "USA", "USA", "USA", "USA", "ESP", "ESP", "ESP", "ESP",…
+$ p1_sex         &lt;chr&gt; "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", …
+$ p2_result      &lt;chr&gt; "W", "L", "W", "W", "W", "W", "L", "W", "W", "L", "W", …
+$ p2_id          &lt;dbl&gt; 2504993, 2504992, 2504956, 2514253, 5078428, 4236955, 4…
+$ p2_name        &lt;chr&gt; "Ricehouse, Matt", "Steenberg, Eric", "Voelker, Bobby",…
+$ p2_country     &lt;chr&gt; "USA", "CAN", "USA", "USA", "BRA", "USA", "ENG", "USA",…
+$ p2_sex         &lt;chr&gt; "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", "M", …
+$ wtClass        &lt;chr&gt; "Lightweight", "Catchweight", "Welterweight", "Lightwei…</code></pre>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>ERROR?</strong> Did you get a error message that says <code>could not find function "glimpse"</code>? This means you need to load the <code>tidyverse</code> package. You can do this by running the code <code>library(tidyverse)</code> from the previous code chunk. A shortcut is to hit the “fast-forward” button (next to the “Play” button in your code chunk), which will run all code chunks above your current one.</p>
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 1">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>What are the <strong>dimensions</strong> of this dataset?</p></li>
+<li><p>What are the <strong>observational units</strong> for this data? That is, what does one row represent?</p></li>
+<li><p>How many <strong>categorical variables</strong> are there? List the names of these variables.</p></li>
+<li><p>How many <strong>ordinal variables</strong> are there? List the names of these variables. Note that the tests we will introduce in the module are only appropriate for categorical (or possibly ordinal) variables!</p></li>
+</ol>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<strong>TIP:</strong> Type your answers to each exercise in the .qmd document.<br>
+<br>
+<br>
+<br>
+<strong>TIP:</strong> To determine if a variable is categorical, read more about variable types <a href="https://stats.oarc.ucla.edu/other/mult-pkg/whatstat/what-is-the-difference-between-categorical-ordinal-and-interval-variables/">here</a>.</p>
+</div></div><section id="mma-lingo" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="mma-lingo">MMA lingo</h2>
+<p>Before proceeding with any analysis, let’s make sure we know some MMA lingo in order to understand what information is contained in each variable (column) in our dataset.</p>
+<section id="the-basics" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="the-basics">The basics</h4>
+<ul>
+<li>Fighters are in different <strong>weight classes</strong> and may only fight in their own class or higher weight classes.
+<ul>
+<li>There are 8 classes for men and 4 for women.</li>
+</ul></li>
+<li>Fights consist of rounds (typically 3).</li>
+<li>Fights may end early due to:
+<ul>
+<li>A <strong>submission</strong>: one fighter “taps out” or concedes.</li>
+<li><strong>Knock out (KO)</strong> or <strong>Technical knock out (TKO)</strong> (the referee stops the fight).</li>
+</ul></li>
+<li>If a fight is not stopped early, then the winner is determined by judges (known as a <strong>decision</strong>).
+<ul>
+<li>The decision could be unanimous (U) if all judges agree, or split (S) if not all judges agree.</li>
+</ul></li>
+<li><strong>Championship fights</strong> are those which determine who is the champion of a given weight class.</li>
+</ul>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Totally new to MMA? See this site: <a href="https://www.ufc.com/intro-to-mma?language_content_entity=en">INTRODUCTION TO MMA</a></p>
+</div></div><div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Weight Classes in the mma data set
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Currently there are 12 <a href="https://www.ufc.com/news/understanding-ufc-weight-classes-and-weigh-ins?language_content_entity=en">UFC weight classes</a>. From lightest to heaviest:
+<ul>
+<li>Strawweight 115 lb, Flyweight 125 lb, Bantamweight 135 lb, Featherweight 145 lb, Lightweight 155 lb, Super lightweight 165 lb, Welterweight 170 lb, Super welterweight 175 lb, Middleweight 185 lb, Super middleweight 195 lb, Light heavyweight 205 lb, Cruiserweight 225 lb, Heavyweight 265 lb, Super heavyweight<br>
+</li>
+</ul></li>
+<li>Our mma data set includes fights from only 9 of the 12 classes.</li>
+<li>The original data listed both fighter weight classes
+<ul>
+<li>For some fights the fighters were from different weight classes</li>
+<li>We assumed the fight weight class was the heavier class of the two fighters.</li>
+</ul></li>
+<li>Three additional weight classes are listed in the data:
+<ul>
+<li><strong>Atomweight</strong>: a class recognized by some fight organizations for women that is lighter (105 lbs) than the 12 classes.</li>
+<li><strong>Catchweight</strong>: fights that don’t follow traditional weight classes, often agree to in contracts between fighters.</li>
+<li><strong>Open Weight</strong>: unofficial weight class that allow fighters of different sizes to compete against each other with no weight limit.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="variable-descriptions" class="level2">
+<h2 class="anchored" data-anchor-id="variable-descriptions">Variable descriptions</h2>
+<p>The data used for the following examples is MMA fight data. The data is a SAMPLE of fights from 1991 to 2023 (not all fights in that period). In addition to data about the fight generally (date, name of event, whether it was a “championship” fight etc) data is provided for each fighter participating in the fight (columns starting with p1 are the first fighter and p2 the second).</p>
+<details>
+<div class="cell">
+<div class="cell-output-display">
+<div id="xzexkgjbya" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xzexkgjbya table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#xzexkgjbya thead, #xzexkgjbya tbody, #xzexkgjbya tfoot, #xzexkgjbya tr, #xzexkgjbya td, #xzexkgjbya th {
+  border-style: none;
+}
+
+#xzexkgjbya p {
+  margin: 0;
+  padding: 0;
+}
+
+#xzexkgjbya .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#xzexkgjbya .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#xzexkgjbya .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#xzexkgjbya .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#xzexkgjbya .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xzexkgjbya .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xzexkgjbya .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xzexkgjbya .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#xzexkgjbya .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#xzexkgjbya .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#xzexkgjbya .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#xzexkgjbya .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#xzexkgjbya .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#xzexkgjbya .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#xzexkgjbya .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#xzexkgjbya .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#xzexkgjbya .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#xzexkgjbya .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#xzexkgjbya .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xzexkgjbya .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#xzexkgjbya .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#xzexkgjbya .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#xzexkgjbya .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xzexkgjbya .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#xzexkgjbya .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#xzexkgjbya .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xzexkgjbya .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xzexkgjbya .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#xzexkgjbya .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xzexkgjbya .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#xzexkgjbya .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xzexkgjbya .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xzexkgjbya .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xzexkgjbya .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xzexkgjbya .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xzexkgjbya .gt_left {
+  text-align: left;
+}
+
+#xzexkgjbya .gt_center {
+  text-align: center;
+}
+
+#xzexkgjbya .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#xzexkgjbya .gt_font_normal {
+  font-weight: normal;
+}
+
+#xzexkgjbya .gt_font_bold {
+  font-weight: bold;
+}
+
+#xzexkgjbya .gt_font_italic {
+  font-style: italic;
+}
+
+#xzexkgjbya .gt_super {
+  font-size: 65%;
+}
+
+#xzexkgjbya .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#xzexkgjbya .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#xzexkgjbya .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#xzexkgjbya .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#xzexkgjbya .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#xzexkgjbya .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#xzexkgjbya .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_col_headings">
+<th id="Variable" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Variable</th>
+<th id="Definition" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Definition</th>
+<th id="Example_Values" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Example_Values</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Variable">date</td>
+<td class="gt_row gt_left" headers="Definition">date of the event (mdy)</td>
+<td class="gt_row gt_left" headers="Example_Values">10/12/2023</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Variable">month</td>
+<td class="gt_row gt_left" headers="Definition">month of the event</td>
+<td class="gt_row gt_left" headers="Example_Values">10</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Variable">year</td>
+<td class="gt_row gt_left" headers="Definition">year of the event</td>
+<td class="gt_row gt_left" headers="Example_Values">2023</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Variable">event</td>
+<td class="gt_row gt_left" headers="Definition">name of the event</td>
+<td class="gt_row gt_left" headers="Example_Values">UFC 1: The Beginning</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Variable">championship</td>
+<td class="gt_row gt_left" headers="Definition">is the event a championship event</td>
+<td class="gt_row gt_left" headers="Example_Values">TRUE/FALSE</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Variable">decision</td>
+<td class="gt_row gt_left" headers="Definition">fight result</td>
+<td class="gt_row gt_left" headers="Example_Values">TKO (Injury)</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Variable">decision_group</td>
+<td class="gt_row gt_left" headers="Definition">aggregated groups of decision variable</td>
+<td class="gt_row gt_left" headers="Example_Values">KO/TKO</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Variable">round</td>
+<td class="gt_row gt_left" headers="Definition">how many rounds the fight lasted</td>
+<td class="gt_row gt_left" headers="Example_Values">3</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Variable">time</td>
+<td class="gt_row gt_left" headers="Definition">time the fight ended</td>
+<td class="gt_row gt_left" headers="Example_Values">4:42</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Variable">p1_result</td>
+<td class="gt_row gt_left" headers="Definition">result of the fight for fighter 1(2)</td>
+<td class="gt_row gt_left" headers="Example_Values">W</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Variable">p1_id</td>
+<td class="gt_row gt_left" headers="Definition">a unique ID for fighter 1(2)</td>
+<td class="gt_row gt_left" headers="Example_Values">2354059</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Variable">p1_name</td>
+<td class="gt_row gt_left" headers="Definition">full name of fighter 1(2)</td>
+<td class="gt_row gt_left" headers="Example_Values">Shamrock, Ken</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Variable">p1_country</td>
+<td class="gt_row gt_left" headers="Definition">home country of fighter 1(2)</td>
+<td class="gt_row gt_left" headers="Example_Values">USA</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="Variable">p1_sex</td>
+<td class="gt_row gt_left" headers="Definition">sex of fighter 1(2)</td>
+<td class="gt_row gt_left" headers="Example_Values">M</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Variable">wtClass</td>
+<td class="gt_row gt_left" headers="Definition">aggregated groups of Weight Class</td>
+<td class="gt_row gt_left" headers="Example_Values">Heavyweight</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</details></section>
+<section id="viewing-your-data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="viewing-your-data">Viewing your data</h2>
+<p>You saw that <code>glimpse()</code> is one way to get a quick look at your data. Often, you’ll want to view your whole dataset. There are two ways to do this:</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<strong>TIP:</strong> Recall that RStudio is split into four quadrants: Source (upper left), <strong>Environment</strong> (upper right), <strong>Console</strong> (bottom left), and Files/Plots/Packages/Help/Viewer (bottom right)</p>
+</div></div><ol type="1">
+<li>type <code>View(mma)</code> in your <strong>Console</strong> and then click return/Enter on your keyboard.</li>
+<li>OR, in your <strong>Environment</strong> tab, double click the name of the dataset you want to view.</li>
+</ol>
+<p>This will open up your data in a new viewer tab so that you can view it like a spreadsheet (like Google Sheets or Excel*). Once open, you can sort the data by clicking on a column.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>*Unlike Google Sheets or Excel, however, you won’t be able to <em>edit</em> the data directly in the spreadsheet.</p>
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 2">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>View</code> the <code>mma</code> data and sort it appropriately to answer the following questions:</p>
+<ol type="a">
+<li><p>What was the latest fight date in the data set?</p></li>
+<li><p>What was the event of the fight(s) on this date?</p></li>
+<li><p>How many fights took place at this event?</p></li>
+<li><p>How many of these fights ended with a KO or TKO?</p></li>
+<li><p>Which fighters one the fights ending in KO or TKO?</p></li>
+<li><p>What weight class were the fighters who won by KO or TKO?</p></li>
+</ol>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: When viewing the data, clicking on a column once will sort the data according to that variable in <em>ascending</em> order; clicking twice will sort in <em>descending</em> order.</p>
+</div></div></section>
+</section>
+<section id="chi-square-test-overview" class="level1">
+<h1>Chi-square Test Overview</h1>
+<p>The chi-square test is a test used to determine if there is a significant association between two categorical variables. It compares the observed frequencies of the different categories with the expected independent frequencies. The hypotheses involved are:</p>
+<ul>
+<li><span class="math inline">\(H_0:\)</span> there is no assocation between the two variables (null hypothesis)</li>
+<li><span class="math inline">\(H_a:\)</span> there is an assocation between the two variables (alternative hypothesis)</li>
+</ul>
+<p>We will use the MMA data to explore the test and determine if, since the year 2020, fighter weight class and the decision of a fight are associated. In order to perform the analyis we will produce a “contingency table” displaying the data (<em>note: To perform a chi-square test in many software packages, it is often not necessary to format the data into a contingency table. Many packages can take data from a standard rectangular data table and pass it through a chi-square function.</em>). Additionally, it we will illustrate how to present the data in a more visual format.</p>
+</section>
+<section id="chi-square-test-example" class="level1 page-columns page-full">
+<h1>Chi-square Test Example</h1>
+<div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research question">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Is there difference in the proportion of fights ending in a decision between the heavyweight and middleweight classes since 2020?</p>
+</div>
+</div>
+<section id="preparing-the-data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="preparing-the-data">Preparing the data</h2>
+<p>We first select the variables of interest, and “filter” the data to the categories we wish to compare and the years of interest.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select, filter, and prepare relevant data for analysis</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> mma <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, wtClass, decision_group) <span class="sc">|&gt;</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2020</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(wtClass <span class="sc">==</span> <span class="st">"Middleweight"</span> <span class="sc">|</span> wtClass <span class="sc">==</span> <span class="st">"Heavyweight"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">decision =</span> <span class="fu">if_else</span>(decision_group <span class="sc">==</span> <span class="st">"Decision"</span>, <span class="st">"Decision"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"KO/TKO/Submission"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: in logical expressions, a double equal sign is used “==”.</p>
+</div><div class="">
+<p><strong>TIP</strong>: in logical expressions, “|” is “OR”</p>
+</div><div class="">
+<p><strong>TIP</strong>: mutate is a dplyr function that allows us to create new variables.</p>
+</div><div class="">
+<p><strong>TIP</strong>: if_else returns the first value listed (“Decision”) if the logical expression is true, otherwise it returns the second value listed (“KO/TKO/Submission”)</p>
+</div></div>
+
+
+<p>View the “data1” data frame and confirm that you understand what the code produced.</p>
+</section>
+<section id="visualizing-the-data-the-contingency-table" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="visualizing-the-data-the-contingency-table">Visualizing the data: the contingency table</h2>
+<p>A contingency table rows (r) are categories of the first variable and columns (c) those of the second variable. The “r x c” table cells are the counts for each combination of categories. In our example, both variables have two categories so we have a “2x2” contingency table:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data1<span class="sc">$</span>wtClass, data1<span class="sc">$</span>decision )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              
+               Decision KO/TKO/Submission
+  Heavyweight       241               570
+  Middleweight      164               334</code></pre>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: select the variable from “data1” using a “$” followed by the name of the variable.</p>
+</div></div><p>We see that among the heavyweight fights, 241 ended with a decision.</p>
+<p>The R package “DescTools” we loaded includes a function that will add percentages (by row, column, or total) as well as the totals for rows/columns (known as “margins”) to the table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">PercTable</span>(data1<span class="sc">$</span>wtClass, data1<span class="sc">$</span>decision, <span class="at">rfrq =</span> <span class="st">"010"</span>,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">margins =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                         
+                       Decision   KO/TKO/Submission   Sum
+                                                         
+Heavyweight    freq         241                 570   811
+               p.row      29.7%               70.3%     .
+                                                         
+Middleweight   freq         164                 334   498
+               p.row      32.9%               67.1%     .
+                                                         
+Sum            freq         405                 904 1'309
+               p.row      30.9%               69.1%     .
+                                                         </code></pre>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: the rfrq option identifies which percentages to display. A “1” in the second position as in our example adds row percentages. Changing the first position to “1” would give total percentages and to the third position column percentages.</p>
+</div><div class="">
+<p><strong>TIP</strong>: we provide a vector, c(), with values 1 (row) and 2 (column) of which margins to add to the table. If we input c(1) we would get only the row totals.</p>
+</div></div>
+<p>We added row percentages; notice that the percentages total to 100% for each row of the table, including for the column totals row.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 3">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 3
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the contingency tables to answer the following questions:</p>
+<ol type="a">
+<li><p>How many middleweight fights are included in the sample?</p></li>
+<li><p>How many middleweight fights ended with a KO/TKO/Submission? What percentage of middleweight fights in the sample does this represent?</p></li>
+<li><p>Which weight class had a higher percentage of fights ending in KO/TKO/Submission?</p></li>
+<li><p>Based on the contingency table, does there appear to be a meaningful association between weight class and how the fight ended? In other words, is the proportion of fights ending in decision a lot different in the two weight classes?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="visualizing-the-data-mosaic-plot" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-the-data-mosaic-plot">Visualizing the data: Mosaic plot</h2>
+<p>A Mosaic plot visualizes the contingency table using rectangles with widths proportional to the counts for each category or combination of categories.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmosaic)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data1) <span class="sc">+</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(wtClass, decision), <span class="at">fill =</span> wtClass)) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">'Decision'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mma_index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 4">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the Mosaic plot to answer the following questions (use the contingency table to assist!):</p>
+<ol type="a">
+<li><p>Are there more fights ending in decision or in KO/TKO/Submission in the data set (how do you know this from the Mosaic plot)?</p></li>
+<li><p>Which weight class appears more likely to have a KO/TKO/Submission? Does this seem to be a big difference between the weight classes?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="conducting-the-chi-square-test" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="conducting-the-chi-square-test">Conducting the Chi-square test</h2>
+<p>We first write the hypotheses presented earlier for our example:</p>
+<ul>
+<li><span class="math inline">\(H_0:\)</span> there is no assocation between weight class and whether the fight ended in with a decision or not (null hypothesis)</li>
+<li><span class="math inline">\(H_a:\)</span> there is an assocation between weight class and whether the fight ended in with a decision or not (alternative hypothesis)</li>
+</ul>
+<p>The command “chisq.test” with the two variables as inputs performs the Chi-square test.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>wt_decision.chisq <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(data1<span class="sc">$</span>wtClass, data1<span class="sc">$</span>decision)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: save the test results into an object (here named “wt_decision.chisq”) in order to later extract all information produced.</p>
+</div></div><section id="observed-counts" class="level3">
+<h3 class="anchored" data-anchor-id="observed-counts">Observed counts</h3>
+<p>We first confirm that the test has the correct data by extracting the “<strong>observed</strong>” values. These should be the same as in the contingency table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>wt_decision.chisq<span class="sc">$</span>observed</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              data1$decision
+data1$wtClass  Decision KO/TKO/Submission
+  Heavyweight       241               570
+  Middleweight      164               334</code></pre>
+</div>
+</div>
+</section>
+<section id="expected-counts" class="level3">
+<h3 class="anchored" data-anchor-id="expected-counts">Expected counts</h3>
+<p>We next extract the “<strong>expected</strong>” values computed in order to perform the test. These are values that would be observed if the sample perfectly matched the proportions suggested in the null hypothesis - exactly the same proportions in the two decision categories for each weight class category (and vice versa). You will explore this in the next exercise.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>wt_decision.chisq<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              data1$decision
+data1$wtClass  Decision KO/TKO/Submission
+  Heavyweight  250.9206          560.0794
+  Middleweight 154.0794          343.9206</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 5">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 5
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the table of expected counts to answer the following questions:</p>
+<ol type="a">
+<li><p>Compute the marginal expected counts (i.e.&nbsp;the total expected in rows and columns. How do these values compare to the marginal observed counts shown in the contingency table?</p></li>
+<li><p>Compute the row percentages for the expected table. What do you notice about these percentages? Which row percentages from the contingency table presented earlier do they match? How does confirm the expected counts are based on the null hypothesis?</p></li>
+<li><p>How do the expected counts compare to the observed counts?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Computing Expected Counts
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A simple method to compute the expected count for each cell is the following formula:</p>
+<p><span class="math inline">\(E = (r \times c) / n\)</span></p>
+<p>Where r is the row total, c the column total, and n the grand total for the entire sample.</p>
+<p>For fun, use this formula to compute the expected counts for one of the cells in our contingency table!</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Chi-square test assumption
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The chi-square test is not valid if <strong>expected counts</strong> are too small. A general rule of thumb is that they should be <strong>greater than or equal to 5</strong>.</p>
+<p>In our example, the expected counts are all well above 5. We will explore this issue further in our next example.</p>
+</div>
+</div>
+</section>
+<section id="test-results" class="level3">
+<h3 class="anchored" data-anchor-id="test-results">Test results</h3>
+<p>The observed counts are unlikely to exactly match the expected (this is a sample). However, if the null hypothesis is true we would anticipate the reasonably close agreement. The Chi-square test statistic, <span class="math inline">\(X^2\)</span>, measures how well they agree as:</p>
+<p><span class="math display">\[X^2 = \sum \frac{(O-E)^2}{E}\]</span> In this expression, the <span class="math inline">\(\sum\)</span> symbol means “sum” or add. The terms added involve the observed (O) and expected (E) counts. In our case, there are 4 such quantities (one for each cell of the tables). For example, for the first cell (row 1, column 1) the quantity computed is:</p>
+<p><span class="math display">\[\frac{(241-250.9206)^2}{250.9206} = 0.39\]</span></p>
+<p>We calculate in similar fashion for the other three cells, and then sum (add) the four values. The resulting value, 1.3462, is given in the output from the test “X-squared”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>wt_decision.chisq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  data1$wtClass and data1$decision
+X-squared = 1.3462, df = 1, p-value = 0.2459</code></pre>
+</div>
+</div>
+<p>If the <strong>observed perfectly matches the expected</strong> in all cells the <span class="math inline">\(X^2\)</span> value would be 0. Of course, that is unlikely. However, if the null hypothesis is true, a smaller value is more likely. But how small is reasonable? Put another way, how large a value - reflecting big differences in the observed and expected - would make us question whether the null hypothesis is true?</p>
+<p>We answer this question, statistically, by calculating the probability of obtaining a value of <span class="math inline">\(X^2\)</span> of 1.3462 (our observed value) or greater <strong>assuming the null hypothesis is true.</strong> If the null hypothesis is true, the distribution of possible <span class="math inline">\(X^2\)</span> values follows a <span class="math inline">\(\chi^2\)</span> (“Chi-squared”) distribution. There is one parameter for this distribution, known as the “degrees of freedom” (df). For an r x c contingency table:</p>
+<p><span class="math display">\[df = (r -1) \times (c-1)\]</span></p>
+<p>Since <span class="math inline">\(r = c = 2\)</span> in our example, <span class="math inline">\(df = (2-1) \times (2-1) = 1\)</span>.</p>
+<p>With the distribution defined, we can compute the probability. The output from R gives us the result as the <em>p-value</em> of 0.2459. If the null hypothesis is true, we have a probability of roughly 0.25 of obtaining observed/expected differences as great as observed in our sample.</p>
+<p>Typically, the null hypothesis is “rejected” if the p-value is pretty small. A common cutoff is 0.05. Since our value is not that small, we cannot reject the null hypothesis.</p>
+<div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+IMPORTANT SUMMARY: Chi-square test conclusion
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>We lack evidence to conclude weight class is associated with whether a decision is needed for the fight.</strong></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 6">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 6
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The conclusion from the Chi-square test is that the sample does not provide enough evidence to say weight class is assocated with the decision type. How does this result compare to your intuition from looking at tables and plots earlier?</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="chi-square-test-issues-fisher-exact-test-example" class="level1">
+<h1>Chi-square Test Issues (Fisher Exact Test) Example</h1>
+<div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research question">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Is there difference in the proportion of fights ending in a decision in the four lightest classes (atomweight to bantamweight) in 2023?</p>
+</div>
+</div>
+<p>We first select the variables of interest, and “filter” the data to the categories we wish to compare and the years of interest.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select, filter, and prepare relevant data for analysis</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> mma <span class="sc">|&gt;</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2023</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, wtClass, decision_group) <span class="sc">|&gt;</span> </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(wtClass <span class="sc">==</span> <span class="st">"Flyweight"</span> <span class="sc">|</span> </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>           wtClass <span class="sc">==</span> <span class="st">"Bantamweight"</span> <span class="sc">|</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>           wtClass <span class="sc">==</span> <span class="st">"Strawweight"</span> <span class="sc">|</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>           wtClass <span class="sc">==</span> <span class="st">"Atomweight"</span>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">decision =</span> <span class="fu">if_else</span>(decision_group <span class="sc">==</span> <span class="st">"Decision"</span>, <span class="st">"Decision"</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"KO/TKO/Submission"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We again visualize the data. We quickly observe that there is not a lot of data for the two lightest weight classes, atomweight and strawweight. In fact, neither category had a fight which did not end in decision.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmosaic)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data2) <span class="sc">+</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(wtClass, decision), <span class="at">fill =</span> wtClass)) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">'Decision'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mma_index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="chi-square-test" class="level2">
+<h2 class="anchored" data-anchor-id="chi-square-test">Chi-square Test</h2>
+<p>We can proceed with the Chi-square test. However, notice that R responds with a warning message. The test results are still produced and in this case we again cannot conclude evidence of an association (p = 0.1851). Notice the degrees of freedom for this example. With 4 weight class categories, we have <span class="math inline">\((4-1)\times(2-1) = 3\)</span> degrees of freedom for the test.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>wt_decision2.chisq <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(data2<span class="sc">$</span>wtClass, data2<span class="sc">$</span>decision)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in chisq.test(data2$wtClass, data2$decision): Chi-squared approximation
+may be incorrect</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>wt_decision2.chisq </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  data2$wtClass and data2$decision
+X-squared = 4.8241, df = 3, p-value = 0.1851</code></pre>
+</div>
+</div>
+<p>The warning message is due to the assumption about expected cell counts. These values are well below the rule of thumb of five for both categories in the atomweight and strawweight classes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>wt_decision2.chisq<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              data2$decision
+data2$wtClass   Decision KO/TKO/Submission
+  Atomweight   0.4848485         0.5151515
+  Bantamweight 7.2727273         7.7272727
+  Flyweight    7.7575758         8.2424242
+  Strawweight  0.4848485         0.5151515</code></pre>
+</div>
+</div>
+</section>
+<section id="fisher-exact-test" class="level2">
+<h2 class="anchored" data-anchor-id="fisher-exact-test">Fisher Exact Test</h2>
+<p>When the assumption for the Chi-square test is not met, all is not lost! We can instead compute the p-value “exactly” using probability theory (the “hypergeometric” distribution is used, but we will omit the details).</p>
+<p>The Fisher’s Exact Test assumes the row and column totals are fixed, then calculates the probability of a particular set of cell counts, then figures out all possible tables that could be constructed given the fixed totals, and calculates probabilities for each of these tables. The test determines which of these tables are extreme or more extreme than the table observed, and sums up the probabilities for the table seen and the more extreme tables to get the p-value.</p>
+<p>The hypotheses for this test are the same as for the Chi-square test:</p>
+<p><span class="math inline">\(H_0\)</span>: Weight class and the fight decision are not associated.<br>
+<span class="math inline">\(H_a\)</span>: Weight class and the fight decision are associated.</p>
+<p>The command is changed to “fisher.test”, but the general format of the command and output is unchanged.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>wt_decision2.fisher <span class="ot">&lt;-</span> <span class="fu">fisher.test</span>(data2<span class="sc">$</span>wtClass, data2<span class="sc">$</span>decision)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>wt_decision2.fisher</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Fisher's Exact Test for Count Data
+
+data:  data2$wtClass and data2$decision
+p-value = 0.09378
+alternative hypothesis: two.sided</code></pre>
+</div>
+</div>
+<p>The test returned a p-value of 0.09378. Our conclusion then after performing a Fisher’s Exact Test is again we do not have evidence to suggest that weight class and fight decision are associated (p = 0.09). In other words, we fail to reject our null hypothesis.</p>
+<p>Notice that the p-value is changed by a fair amount in this example even though the conclusion is unchanged. The issue with the Chi-square assumption had an impact on the calculation in this case.</p>
+<div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Fisher Exact Test issues
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Fisher Exact test requires a great deal of computation. Every possible table of counts must be formed. For larger tables, this computation (even with the advances in computing power) might not alway be feasible.</p>
+<p>Chi-square tests notoriously lack “power” (they may not produce statistically significant results even when there is an association). The exact test power is often even lower. In fact, in some situations with small samples there is no chance the test could lead to rejecting the null hypothesis!</p>
+</div>
+</div>
+</section>
+</section>
+<section id="case-study-1-interpreting-results" class="level1">
+<h1>Case study 1: Interpreting Results</h1>
+<section id="examining-the-sample" class="level2">
+<h2 class="anchored" data-anchor-id="examining-the-sample">Examining the Sample</h2>
+<p>Below we select a larger sample of years and weight classes, and produce the output shown in previous examples. Use the output to answer the questions in the exercise.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select, filter, and prepare relevant data for analysis</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>data3 <span class="ot">&lt;-</span> mma <span class="sc">|&gt;</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2020</span>) <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(wtClass <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Strawweight"</span>, <span class="st">"Flyweight"</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"Bantamweight"</span>, <span class="st">"Welterweight"</span>,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"Middleweight"</span>, <span class="st">"Heavyweight"</span>))  <span class="sc">|&gt;</span> <span class="fu">select</span>(year, wtClass, decision_group) <span class="sc">|&gt;</span> </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">decision =</span> <span class="fu">if_else</span>(decision_group <span class="sc">==</span> <span class="st">"Decision"</span>,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Decision"</span>,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"KO/TKO/Submission"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(data3<span class="sc">$</span>wtClass, data3<span class="sc">$</span>decision)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              
+               Decision KO/TKO/Submission
+  Bantamweight      302               350
+  Flyweight         248               263
+  Heavyweight       241               570
+  Middleweight      164               334
+  Strawweight       123                80
+  Welterweight      270               440</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmosaic)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data3) <span class="sc">+</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(wtClass, decision), <span class="at">fill =</span> wtClass)) <span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">'Decision'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="mma_index_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 7">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 7
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>What is the research question for the data selected?</p></li>
+<li><p>What are the degrees of freedom that will be used in a Chi-square test with this sample?</p></li>
+<li><p>Do you think the Chi-square test assumption will be a concern with this data? Explain.</p></li>
+<li><p>Does the data seem to suggest an association? Explain.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="conducting-the-test" class="level2">
+<h2 class="anchored" data-anchor-id="conducting-the-test">Conducting the Test</h2>
+<p>Again, we provide output from a test. Use this to answer the exercise questions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>case1.chisq <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(data3<span class="sc">$</span>wtClass, data3<span class="sc">$</span>decision)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>case1.chisq<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              data3$decision
+data3$wtClass   Decision KO/TKO/Submission
+  Bantamweight 259.64431          392.3557
+  Flyweight    203.49424          307.5058
+  Heavyweight  322.96248          488.0375
+  Middleweight 198.31728          299.6827
+  Strawweight   80.84018          122.1598
+  Welterweight 282.74151          427.2585</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>case1.chisq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  data3$wtClass and data3$decision
+X-squared = 109.58, df = 5, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 8">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 8
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>What hypotheses for the test?</p></li>
+<li><p>What are your conclusions based on the test?</p></li>
+<li><p>Is the test appropriate (assumptions met) or is another test required?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="examining-the-results" class="level2">
+<h2 class="anchored" data-anchor-id="examining-the-results">Examining the Results</h2>
+<p>The statistically significant results from the test in this case study beg some questions.</p>
+<ul>
+<li><ol type="1">
+<li>Which weight classes and which decision groups differ?</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>We achieved statistical significance, but perhaps this is simply do to the very large sample size. Is there practical significance?</li>
+</ol></li>
+</ul>
+<p>We can do an informal inspection of the observed and expected values (and also consider the visualization). We have already produced the observed (contingency) and expected tables. We add the row percentages below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">PercTable</span>(data3<span class="sc">$</span>wtClass, data3<span class="sc">$</span>decision, <span class="at">rfrq =</span> <span class="st">"010"</span>,</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">margins =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                         
+                       Decision   KO/TKO/Submission   Sum
+                                                         
+Bantamweight   freq         302                 350   652
+               p.row      46.3%               53.7%     .
+                                                         
+Flyweight      freq         248                 263   511
+               p.row      48.5%               51.5%     .
+                                                         
+Heavyweight    freq         241                 570   811
+               p.row      29.7%               70.3%     .
+                                                         
+Middleweight   freq         164                 334   498
+               p.row      32.9%               67.1%     .
+                                                         
+Strawweight    freq         123                  80   203
+               p.row      60.6%               39.4%     .
+                                                         
+Welterweight   freq         270                 440   710
+               p.row      38.0%               62.0%     .
+                                                         
+Sum            freq       1'348               2'037 3'385
+               p.row      39.8%               60.2%     .
+                                                         </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 9">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 9
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>What categories are different and likely led to the statistically signficant result?</p></li>
+<li><p>How easy is it to identify the important differences in observed and expected values (consider this question in a table with more than two decision categories!)?</p></li>
+</ol>
+</div>
+</div>
+<section id="residuals" class="level3">
+<h3 class="anchored" data-anchor-id="residuals">Residuals</h3>
+<p>When we have a high number of rows and columns it is difficult to see if there are practical differences between certain cells. This may be achievable with a 2x2 table, but is much more difficult with larger tables. To help with this problem, we can calculate the <strong>Pearson standardized residuals</strong> which help identify cells we should investigate.</p>
+<p>The formula for the Pearson residuals is:</p>
+<p><span class="math display">\[\frac{(O-E)}{\sqrt(E)}\]</span></p>
+<p>Notice this is the square root of the “contribution” of each cell to the overall test statistic <span class="math inline">\(X^2\)</span>. Essentially, the formula identifies cells that have large differences between observed and expected (the <span class="math inline">\((O-E)\)</span> in the formula) but “standardizes” these differences (the <span class="math inline">\(sqrt(E)\)</span> in the formula).</p>
+<p>One way to think about the standardization is to consider a simple example. Suppose we have two cells with <span class="math inline">\(O-E = 2\)</span>. However, one cell has an expected count of 10 and the other an expected count of 1,000. In the first case, the <span class="math inline">\(O-E\)</span> difference is 20% of the expected value. In the second, it is only 0.2% which is actually a small amount. The standardization basically puts these on the same scale.</p>
+<p>Standardized residuals roughly follow a “normal distribution” which means we would expect approximately 95% of the values to between -2 and 2 and 99% between -3 and 3. Thus, values outside these ranges are somewhat unusual and cells that may contribute to a statistical association.</p>
+<p>We can output the residuals from the Chi-square test in similar fashion to the expected counts:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>case1.chisq<span class="sc">$</span>residuals</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              data3$decision
+data3$wtClass    Decision KO/TKO/Submission
+  Bantamweight  2.6285868        -2.1383153
+  Flyweight     3.1198964        -2.5379882
+  Heavyweight  -4.5607794         3.7101246
+  Middleweight -2.4368714         1.9823578
+  Strawweight   4.6890531        -3.8144733
+  Welterweight -0.7577501         0.6164182</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 10">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 10
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Based on the residuals what categories are different and likely led to the statistically signficant result?</p></li>
+<li><p>Considering the categories you identified, do the differences seem practically meaningful? Explain.</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="case-study-2-putting-it-all-together" class="level1">
+<h1>Case study 2: Putting it all together</h1>
+<div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+IMPORTANT SUMMARY
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Chi-square and Fisher Exact tests (if appropriate) are used in exploring associations between two <strong>categorical variables</strong>. Basic steps in these tests include:</p>
+<ol type="1">
+<li>Formulating a research question.</li>
+<li>Identifying variables in the data set that are relevant to answering the research question.</li>
+<li>If the variables are both categorical, proceed with the Chi-square analysis.</li>
+<li>Visualize the data using contingency tables and Mosaic plots.</li>
+<li>Perform the Chi-square test (check the assumption of expected counts &gt;5 and use Fisher exact test if not met).</li>
+<li>Reach a conclusion based on the test.<br>
+</li>
+<li>If a statistically significant association is found, examine the residuals to help identify categories that differ and consider if the differences are practically meaningful.</li>
+</ol>
+<p>In the following exercise, copy/paste/tweak code to perform analysis using these steps.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 11">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 11
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>MMA leadership is interested in whether there is a difference based on sex in how fights ended (all possible categories, not just decision or not) in 2023. Perform an analysis to provide them with insights related to this question. If there are differences, describe them for the leadership team. <em>Hint: consider the variables “p1_sex” and “decision_group” for this question.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 12">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 12
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Formulate an additional question that involves categorical variables available in the data set and perform the analysis to address the question.</p>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

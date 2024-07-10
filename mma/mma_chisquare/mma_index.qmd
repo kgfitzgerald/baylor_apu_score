@@ -1,0 +1,742 @@
+---
+title: "MMA Fight Decisions"
+author:
+  - name: Rodney X. Sturdivant, Ph.D.
+    email: Rodney_Sturdivant@baylor.edu
+    affiliation:
+      - id: baylor
+        name: Baylor University
+  - name: Ian Young
+    affiliation:
+      - ref: baylor
+  - name: Joshua Patrick, Ph.D.
+    affiliation:
+      - ref: baylor
+  - name: Connor Bryson
+    affiliation:
+      - ref: baylor
+date: July 1, 2024
+format:
+  html:
+    grid:
+      margin-width: 350px
+toc: true
+toc-location: left
+description: Exploring MMA fight decisions by weight category
+categories:
+  - Variable types
+  - Chi-square test (2x2)
+  - Fisher Exact test
+  - Chi-square test (rxc)
+  - Mosaic plots
+editor_options:
+  chunk_output_type: console
+callout-icon: false
+---
+
+::: {.callout-note collapse="true" title="Facilitation notes" appearance="minimal"}
++ This module would be suitable for an in-class lab or take-home assignment in an introductory statistics course. 
+
++ It assumes a basic familiarity with the RStudio Environment has already been covered, but no prior programming experiences is expected.
+
++ Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce tests/visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd. 
+  
+  + [data](mma.csv)
+  + [Student Quarto template](mma_student_template.qmd)
+
++ [Posit Cloud](https://posit.cloud/) (via an Instructor account) or [Github classroom](https://classroom.github.com) are good options for disseminating files to students, but simply uploading files to your university's course management system works, too.
+:::
+
+# Welcome video
+
+<iframe width="560" height="315" src title="placeholder">
+
+</iframe>
+
+# Introduction
+
+In this module, you will be analyzing data from mixed marshall arts (MMA) fights in order to determine if the weight class of the fighters is related to the type of decision that ended the fight.  
+
+::: {.callout-note title="Learning Objectives" appearance="minimal"}
+By the end of this module, you will be able to:
+
+-   Read (import) a dataset into your RStudio Environment
+
+-   Use R to visualize the following types of variables:
+
+    -   two categorical variable (mosaic and plots)
+
+-   Test for an association between two categorical variables (2 categories each)
+
+    - Using the Chi-square test
+    
+    - Using Fisher's Exact test
+    
+-   Test for an association between two categorical variables (more than 2 categories each)
+   
+:::
+
+::: column-margin
+\
+\
+\
+\
+
+**NOTE**: **R** is the name of the programming language itself and **RStudio** is a convenient interface. To throw even more lingo in, you may be accessing RStudio through a web-based version called **Posit Cloud**. But R is the programming language you are learning :) 
+:::
+
+::: {.callout-caution collapse="true" title="Research Questions"}
+
+During this lab, you'll investigate the following research questions (don't worry if you're new to MMA, we'll introduce lingo soon!):
+
++ What are the percentages of MMA fight decisions for different weight classes?
++ Are percentages in decisions different based on weight class?
+
+:::
+
+# Getting started: MMA data
+
+The first step to any analysis in R is to **load necessary packages and data**. 
+
+::: column-margin
+You can think of **packages** like apps on your phone; they extend the functionality and give you access to many more features beyond what comes in the “base package”.
+:::
+
+Running the following code will load the `tidyverse`, `ggplot2`, other packages, and the `mma` data we will be using in this lab.
+
+
+
+::: column-margin
+**TIP**: As you follow along in the lab, you should run each corresponding code chunk in your .qmd document. To "Run" a code chunk, you can press the green "Play" button in the top right corner of the code chunk in your .qmd. You can also place your cursor anywhere in the line(s) of code you want to run and press "command + return" (Mac) or "Ctrl + Enter" (Windows).
+:::
+
+::: column-margin
+**TIP**: Using a hashtag in R allows you to add comments to your code (in plain English). Data scientists often use comments to explain what each piece of the code is doing.
+:::
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse) #loads package
+library(ggplot2)
+library(DescTools)
+
+mma <- read_csv("mma.csv") #loads data
+```
+
+We can use the `glimpse()` function to get a quick look (errr.. glimpse) at our `mma` data. The `glimpse` code provides the number of observations (Rows) and the number of variables (Columns) in the dataset. The “Rows” and “Columns” are referred to as the **dimensions** of the dataset. It also shows us the names of the variables (`date`, `day`, ..., `p2_team`) and the first few observations for each variable (e.g. the first two fights in the dataset took place on October 9, 2010 and October 5, 2019).
+
+```{r}
+glimpse(mma)
+```
+
+::: column-margin
+**ERROR?** Did you get a error message that says `could not find function "glimpse"`? This means you need to load the `tidyverse` package. You can do this by running the code `library(tidyverse)` from the previous code chunk. A shortcut is to hit the "fast-forward" button (next to the "Play" button in your code chunk), which will run all code chunks above your current one.
+:::
+
+
+::: {.callout-note  title="Exercise 1"}
+
+a. What are the **dimensions** of this dataset?
+
+
+b. What are the **observational units** for this data? That is, what does one row represent?
+
+c. How many **categorical variables** are there? List the names of these variables.  
+
+d. How many **ordinal variables** are there? List the names of these variables.  Note that the tests we will introduce in the module are only appropriate for categorical (or possibly ordinal) variables!
+
+:::
+
+::: column-margin
+\
+**TIP:** Type your answers to each exercise in the .qmd document. 
+\
+\
+\
+\
+**TIP:** To determine if a variable is categorical, read more about variable types [here](https://stats.oarc.ucla.edu/other/mult-pkg/whatstat/what-is-the-difference-between-categorical-ordinal-and-interval-variables/).
+:::
+
+## MMA lingo
+
+Before proceeding with any analysis, let's make sure we know some MMA lingo in order to understand what information is contained in each variable (column) in our dataset.
+
+
+#### The basics
+-   Fighters are in different **weight classes** and may only fight in their own class or higher weight classes.
+    - There are 8 classes for men and 4 for women.
+-   Fights consist of rounds (typically 3).
+-   Fights may end early due to:
+    - A **submission**: one fighter "taps out" or concedes.
+    - **Knock out (KO)** or **Technical knock out (TKO)** (the referee stops the fight).
+- If a fight is not stopped early, then the winner is determined by judges (known as a **decision**).
+    - The decision could be unanimous (U) if all judges agree, or split (S) if not all judges agree.
+-   **Championship fights** are those which determine who is the champion of a given weight class.
+
+
+::: column-margin
+Totally new to MMA? See this site: [INTRODUCTION TO MMA](https://www.ufc.com/intro-to-mma?language_content_entity=en)
+:::
+
+::: {.callout-important}
+
+#### Weight Classes in the mma data set
+
+-   Currently there are 12 [UFC weight classes](https://www.ufc.com/news/understanding-ufc-weight-classes-and-weigh-ins?language_content_entity=en).  From lightest to heaviest:
+    - Strawweight	115 lb, Flyweight	125 lb, Bantamweight 135 lb, 
+    Featherweight	145 lb, Lightweight	155 lb, Super lightweight	165 lb,
+    Welterweight	170 lb, Super welterweight	175 lb, Middleweight	185 lb,
+    Super middleweight	195 lb, Light heavyweight	205 lb, 
+    Cruiserweight	225 lb, Heavyweight	265 lb, Super heavyweight	
+-   Our mma data set includes fights from only 9 of the 12 classes. 
+-   The original data listed both fighter weight classes
+    - For some fights the fighters were from different weight classes
+    - We assumed the fight weight class was the heavier class of the two fighters.
+-   Three additional weight classes are listed in the data: 
+    - **Atomweight**: a class recognized by some fight organizations for women that is lighter (105 lbs) than the 12 classes.
+    - **Catchweight**: fights that don't follow traditional weight classes, often agree to in contracts between fighters.
+    - **Open Weight**: unofficial weight class that allow fighters of different sizes to compete against each other with no weight limit.
+
+:::
+
+
+## Variable descriptions
+
+The data used for the following examples is MMA fight data. The data is a SAMPLE of fights from 1991 to 2023 (not all fights in that period). In addition to data about the fight generally (date, name of event, whether it was a "championship" fight etc) data is provided for each fighter participating in the fight (columns starting with p1 are the first fighter and p2 the second). 
+
+<details>
+
+```{r, echo=FALSE}
+data_dictionary <- tibble(
+  Variable = c("date","month", "year", "event", "championship",
+               "decision", "decision_group", "round", "time", 
+               "p1_result", "p1_id", "p1_name", 
+               "p1_country", "p1_sex",  
+               "wtClass"),
+  Definition = c("date of the event (mdy)", "month of the event",
+                 "year of the event", "name of the event",
+                 "is the event a championship event", "fight result", 
+                 "aggregated groups of decision variable",
+                 "how many rounds the fight lasted", 
+                 "time the fight ended", 
+                 "result of the fight for fighter 1(2)",
+                 "a unique ID for fighter 1(2)", 
+                 "full name of fighter 1(2)", 
+                 "home country of fighter 1(2)",
+                 "sex of fighter 1(2)",  
+                 "aggregated groups of Weight Class"),
+  Example_Values = c("10/12/2023", "10", "2023", 
+                     "UFC 1: The Beginning", "TRUE/FALSE",
+                     "TKO (Injury)", "KO/TKO", "3", "4:42", "W",
+                     "2354059", "Shamrock, Ken",
+                     "USA", "M",  "Heavyweight")
+)
+
+
+data_dictionary |> gt::gt()
+
+```
+
+## Viewing your data
+
+You saw that `glimpse()` is one way to get a quick look at your data. Often, you'll want to view your whole dataset. There are two ways to do this:
+
+::: column-margin :::
+\
+**TIP:** Recall that RStudio is split into four quadrants: Source (upper left), **Environment** (upper right), **Console** (bottom left), and Files/Plots/Packages/Help/Viewer (bottom right)
+
+:::
+
+1. type `View(mma)` in your **Console** and then click return/Enter on your keyboard. 
+2. OR, in your **Environment** tab, double click the name of the dataset you want to view. 
+
+This will open up your data in a new viewer tab so that you can view it like a spreadsheet (like Google Sheets or Excel\*). Once open, you can sort the data by clicking on a column. 
+
+::: column-margin :::
+\*Unlike Google Sheets or Excel, however, you won't be able to *edit* the data directly in the spreadsheet.
+:::
+
+::: {.callout-note  title="Exercise 2"}
+
+`View` the `mma` data and sort it appropriately to answer the following questions:
+
+a. What was the latest fight date in the data set?
+
+b. What was the event of the fight(s) on this date?
+
+c. How many fights took place at this event?
+
+d. How many of these fights ended with a KO or TKO?
+
+e. Which fighters one the fights ending in KO or TKO?
+
+f. What weight class were the fighters who won by KO or TKO?
+
+:::
+
+::: column-margin :::
+**TIP**: When viewing the data, clicking on a column once will sort the data according to that variable in *ascending* order; clicking twice will sort in *descending* order.
+:::
+
+# Chi-square Test Overview
+
+The chi-square test is a test used to determine if there is a significant association between two categorical variables. It compares the observed frequencies of the different categories with the expected independent frequencies. The hypotheses involved are:
+
+- $H_0:$  there is no assocation between the two variables (null hypothesis)
+- $H_a:$  there is an assocation between the two variables (alternative hypothesis)
+
+We will use the MMA data to explore the test and determine if, since the year 2020, fighter weight class and the decision of a fight are associated. In order to perform the analyis we will produce a "contingency table" displaying the data (*note: To perform a chi-square test in many software packages, it is often not necessary to format the data into a contingency table. Many packages can take data from a standard rectangular data table and pass it through a chi-square function.*). Additionally, it we will illustrate how to present the data in a more visual format.  
+
+
+# Chi-square Test Example
+
+::: {.callout-caution title="Research question"}
+
+Is there difference in the proportion of fights ending in a decision between the heavyweight and middleweight classes since 2020?
+
+:::
+
+## Preparing the data
+
+We first select the variables of interest, and "filter" the data to the categories we wish to compare and the years of interest.
+
+```{r, echo=TRUE}
+# Select, filter, and prepare relevant data for analysis
+data1 <- mma |> 
+  select(year, wtClass, decision_group) |> 
+  filter(year >= 2020) |>
+  filter(wtClass == "Middleweight" | wtClass == "Heavyweight") |> 
+  mutate(decision = if_else(decision_group == "Decision", "Decision",
+                            "KO/TKO/Submission"))
+
+```
+
+::: column-margin :::
+**TIP**: in logical expressions, a double equal sign is used "==". 
+:::
+
+::: column-margin :::
+**TIP**: in logical expressions, "|" is "OR" 
+:::
+
+::: column-margin :::
+**TIP**: mutate is a dplyr function that allows us to create new variables. 
+:::
+
+::: column-margin :::
+**TIP**: if_else returns the first value listed ("Decision") if the logical expression is true, otherwise it returns the second value listed ("KO/TKO/Submission") 
+:::
+
+View the "data1" data frame and confirm that you understand what the code produced.
+
+## Visualizing the data: the contingency table
+
+A contingency table rows (r) are categories of the first variable and columns (c) those of the second variable.  The "r x c" table cells are the counts for each combination of categories.  In our example, both variables have two categories so we have a "2x2" contingency table:
+
+```{r}
+table(data1$wtClass, data1$decision )
+```
+
+::: column-margin :::
+**TIP**: select the variable from "data1" using a "$" followed by the name of the variable. 
+:::
+
+We see that among the heavyweight fights, 241 ended with a decision.
+
+The R package "DescTools" we loaded includes a function that will add percentages (by row, column, or total) as well as the totals for rows/columns (known as "margins") to the table.
+
+
+```{r}
+PercTable(data1$wtClass, data1$decision, rfrq = "010",
+                     margins = c(1,2))
+```
+
+::: column-margin :::
+**TIP**: the rfrq option identifies which percentages to display.  A "1" in the second position as in our example adds row percentages.  Changing the first position to "1" would give total percentages and to the third position column percentages.
+:::
+
+::: column-margin :::
+**TIP**: we provide a vector, c(), with values 1 (row) and 2 (column) of which margins to add to the table.  If we input c(1) we would get only the row totals.
+:::
+
+We added row percentages; notice that the percentages total to 100\% for each row of the table, including for the column totals row.
+
+::: {.callout-note  title="Exercise 3"}
+
+Use the contingency tables to answer the following questions:
+
+a. How many middleweight fights are included in the sample?
+
+b. How many middleweight fights ended with a KO/TKO/Submission?  What percentage of middleweight fights in the sample does this represent?
+
+c. Which weight class had a higher percentage of fights ending in KO/TKO/Submission?
+
+d. Based on the contingency table, does there appear to be a meaningful association between weight class and how the fight ended?  In other words, is the proportion of fights ending in decision a lot different in the two weight classes? 
+
+:::
+
+
+
+## Visualizing the data: Mosaic plot
+
+A Mosaic plot visualizes the contingency table using rectangles with widths proportional to the counts for each category or combination of categories. 
+
+```{r, warning=FALSE}
+library(ggmosaic)
+ggplot(data1) + 
+  geom_mosaic(aes(x = product(wtClass, decision), fill = wtClass)) +
+  xlab('Decision')
+```
+
+::: {.callout-note  title="Exercise 4"}
+
+Use the Mosaic plot to answer the following questions (use the contingency table to assist!):
+
+a. Are there more fights ending in decision or in KO/TKO/Submission in the data set (how do you know this from the Mosaic plot)?
+
+b. Which weight class appears more likely to have a KO/TKO/Submission?  Does this seem to be a big difference between the weight classes?
+
+:::
+
+
+## Conducting the Chi-square test
+
+We first write the hypotheses presented earlier for our example:
+
+- $H_0:$  there is no assocation between weight class and whether the fight ended in with a decision or not (null hypothesis)
+- $H_a:$  there is an assocation between weight class and whether the fight ended in with a decision or not (alternative hypothesis)
+
+The command "chisq.test" with the two variables as inputs performs the Chi-square test.
+
+```{r}
+wt_decision.chisq <- chisq.test(data1$wtClass, data1$decision)
+```
+
+::: column-margin :::
+**TIP**: save the test results into an object (here named "wt_decision.chisq") in order to later extract all information produced. 
+:::
+
+### Observed counts
+
+We first confirm that the test has the correct data by extracting the "**observed**" values.  These should be the same as in the contingency table.
+
+```{r}
+wt_decision.chisq$observed
+```
+
+### Expected counts
+
+We next extract the "**expected**" values computed in order to perform the test.  These are values that would be observed if the sample perfectly matched the proportions suggested in the null hypothesis - exactly the same proportions in the two decision categories for each weight class category  (and vice versa).  You will explore this in the next exercise.  
+
+```{r}
+wt_decision.chisq$expected
+```
+
+::: {.callout-note  title="Exercise 5"}
+
+Use the table of expected counts to answer the following questions:
+
+a. Compute the marginal expected counts (i.e. the total expected in rows and columns.  How do these values compare to the marginal observed counts shown in the contingency table?
+
+b. Compute the row percentages for the expected table.  What do you notice about these percentages?  Which row percentages from the contingency table presented earlier do they match?  How does confirm the expected counts are based on the null hypothesis?
+
+c.  How do the expected counts compare to the observed counts?
+
+:::
+
+::: {.callout-important}
+
+## Computing Expected Counts
+
+A simple method to compute the expected count for each cell is the following formula: 
+
+$E = (r \times c) / n$
+
+Where r is the row total, c the column total, and n the grand total for the entire sample.  
+
+For fun, use this formula to compute the expected counts for one of the cells in our contingency table!
+
+:::
+
+::: {.callout-important}
+
+## Chi-square test assumption
+
+The chi-square test is not valid if **expected counts** are too small.  A general rule of thumb is that they should be **greater than or equal to 5**.  
+
+In our example, the expected counts are all well above 5.  We will explore this issue further in our next example. 
+
+:::
+
+### Test results
+
+The observed counts are unlikely to exactly match the expected (this is a sample).  However, if the null hypothesis is true we would anticipate the reasonably close agreement.  The Chi-square test statistic, $X^2$, measures how well they agree as:
+
+$$X^2 = \sum \frac{(O-E)^2}{E}$$
+In this expression, the $\sum$ symbol means "sum" or add.  The terms added involve the observed (O) and expected (E) counts.  In our case, there are 4 such quantities (one for each cell of the tables).  For example, for the first cell (row 1, column 1) the quantity computed is:
+
+$$\frac{(241-250.9206)^2}{250.9206} = 0.39$$
+
+We calculate in similar fashion for the other three cells, and then sum (add) the four values.  The resulting value, 1.3462, is given in the output from the test "X-squared".  
+
+```{r}
+wt_decision.chisq
+```
+
+If the **observed perfectly matches the expected** in all cells the $X^2$ value would be 0.  Of course, that is unlikely.  However, if the null hypothesis is true, a smaller value is more likely.  But how small is reasonable?  Put another way, how large a value - reflecting big differences in the observed and expected - would make us question whether the null hypothesis is true?
+
+We answer this question, statistically, by calculating the probability of obtaining a value of $X^2$ of 1.3462 (our observed value) or greater **assuming the null hypothesis is true.** If the null hypothesis is true, the distribution of possible $X^2$ values follows a $\chi^2$ ("Chi-squared") distribution.  There is one parameter for this distribution, known as the "degrees of freedom" (df).  For an r x c contingency table:
+
+$$df = (r -1) \times (c-1)$$ 
+
+Since $r = c = 2$ in our example, $df = (2-1) \times (2-1) = 1$.
+
+With the distribution defined, we can compute the probability.  The output from R gives us the result as the *p-value* of 0.2459.  If the null hypothesis is true, we have a probability of roughly 0.25 of obtaining observed/expected differences as great as observed in our sample.
+
+Typically, the null hypothesis is "rejected" if the p-value is pretty small.  A common cutoff is 0.05.  Since our value is not that small, we cannot reject the null hypothesis.  
+
+
+::: {.callout-important}
+
+## IMPORTANT SUMMARY: Chi-square test conclusion
+
+**We lack evidence to conclude weight class is associated with whether a decision is needed for the fight.**
+
+:::
+
+
+::: {.callout-note  title="Exercise 6"}
+
+The conclusion from the Chi-square test is that the sample does not provide enough evidence to say weight class is assocated with the decision type.  How does this result compare to your intuition from looking at tables and plots earlier?
+
+:::
+
+# Chi-square Test Issues (Fisher Exact Test) Example
+
+::: {.callout-caution title="Research question"}
+
+Is there difference in the proportion of fights ending in a decision in the four lightest classes (atomweight to bantamweight) in 2023?
+
+:::
+
+
+We first select the variables of interest, and "filter" the data to the categories we wish to compare and the years of interest.
+
+```{r, echo=TRUE}
+# Select, filter, and prepare relevant data for analysis
+data2 <- mma |> 
+  filter(year == 2023) |>
+  select(year, wtClass, decision_group) |> 
+  filter(wtClass == "Flyweight" | 
+           wtClass == "Bantamweight" |
+           wtClass == "Strawweight" |
+           wtClass == "Atomweight"  ) |> 
+  mutate(decision = if_else(decision_group == "Decision", "Decision",
+                            "KO/TKO/Submission"))
+
+```
+
+We again visualize the data.  We quickly observe that there is not a lot of data for the two lightest weight classes, atomweight and strawweight.  In fact, neither category had a fight which did not end in decision.
+
+```{r, warning=FALSE}
+library(ggmosaic)
+ggplot(data2) + 
+  geom_mosaic(aes(x = product(wtClass, decision), fill = wtClass)) +
+  xlab('Decision')
+```
+
+
+## Chi-square Test
+
+We can proceed with the Chi-square test.  However, notice that R responds with a warning message.  The test results are still produced and in this case we again cannot conclude evidence of an association (p = 0.1851).  Notice the degrees of freedom for this example.  With 4 weight class categories, we have $(4-1)\times(2-1) = 3$ degrees of freedom for the test.
+
+```{r}
+wt_decision2.chisq <- chisq.test(data2$wtClass, data2$decision)
+wt_decision2.chisq 
+```
+
+The warning message is due to the assumption about expected cell counts.  These values are well below the rule of thumb of five for both categories in the atomweight and strawweight classes.
+
+```{r}
+
+wt_decision2.chisq$expected
+```
+
+## Fisher Exact Test
+
+When the assumption for the Chi-square test is not met, all is not lost!  We can instead compute the p-value "exactly" using probability theory (the "hypergeometric" distribution is used, but we will omit the details).
+
+The Fisher's Exact Test assumes the row and column totals are fixed, then calculates the probability of a particular set of cell counts, then figures out all possible tables that could be constructed given the fixed totals, and calculates probabilities for each of these tables. The test determines which of these tables are extreme or more extreme than the table observed, and sums up the probabilities for the table seen and the more extreme tables to get the p-value.  
+
+The hypotheses for this test are the same as for the Chi-square test:
+
+$H_0$: Weight class and the fight decision are not associated.  
+$H_a$: Weight class and the fight decision are associated.
+
+The command is changed to "fisher.test", but the general format of the command and output is unchanged.
+
+```{r}
+wt_decision2.fisher <- fisher.test(data2$wtClass, data2$decision)
+wt_decision2.fisher
+```
+
+The test returned a p-value of 0.09378.  Our conclusion then after performing a Fisher's Exact Test is again we do not have evidence to suggest that weight class and fight decision are associated (p = 0.09). In other words, we fail to reject our null hypothesis.  
+
+Notice that the p-value is changed by a fair amount in this example even though the conclusion is unchanged.  The issue with the Chi-square assumption had an impact on the calculation in this case.
+
+::: {.callout-important}
+
+## Fisher Exact Test issues
+
+The Fisher Exact test requires a great deal of computation.  Every possible table of counts must be formed.  For larger tables, this computation (even with the advances in computing power) might not alway be feasible.
+
+Chi-square tests notoriously lack "power" (they may not produce statistically significant results even when there is an association).  The exact test power is often even lower.  In fact, in some situations with small samples there is no chance the test could lead to rejecting the null hypothesis!
+
+:::
+
+# Case study 1: Interpreting Results
+
+## Examining the Sample
+
+Below we select a larger sample of years and weight classes, and produce the output shown in previous examples.  Use the output to answer the questions in the exercise.
+
+```{r, echo=TRUE}
+# Select, filter, and prepare relevant data for analysis
+data3 <- mma |> 
+  filter(year >= 2020) |>
+  filter(wtClass %in% c("Strawweight", "Flyweight",
+                              "Bantamweight", "Welterweight",
+                              "Middleweight", "Heavyweight"))  |> select(year, wtClass, decision_group) |> 
+  mutate(decision = if_else(decision_group == "Decision",
+                            "Decision",
+                            "KO/TKO/Submission"))
+
+```
+
+
+```{r}
+table(data3$wtClass, data3$decision)
+```
+
+```{r, warning=FALSE}
+library(ggmosaic)
+ggplot(data3) + 
+  geom_mosaic(aes(x = product(wtClass, decision), fill = wtClass)) +
+  xlab('Decision')
+```
+
+::: {.callout-note  title="Exercise 7"}
+
+a.  What is the research question for the data selected?
+
+b.  What are the degrees of freedom that will be used in a Chi-square test with this sample?
+
+c.  Do you think the Chi-square test assumption will be a concern with this data?  Explain.
+
+d.  Does the data seem to suggest an association?  Explain.
+
+:::
+
+## Conducting the Test
+
+Again, we provide output from a test.  Use this to answer the exercise questions.
+
+```{r}
+case1.chisq <- chisq.test(data3$wtClass, data3$decision)
+case1.chisq$expected
+case1.chisq
+```
+
+::: {.callout-note  title="Exercise 8"}
+
+a.  What hypotheses for the test?
+
+b.  What are your conclusions based on the test?
+
+c.  Is the test appropriate (assumptions met) or is another test required?
+
+:::
+
+## Examining the Results
+
+The statistically significant results from the test in this case study beg some  questions. 
+
+- (1) Which weight classes and which decision groups differ?
+- (2) We achieved statistical significance, but perhaps this is simply do to the very large sample size.  Is there practical significance?  
+
+We can do an informal inspection of the observed and expected values (and also consider the visualization).  We have already produced the observed (contingency) and expected tables.  We add the row percentages below. 
+
+```{r}
+PercTable(data3$wtClass, data3$decision, rfrq = "010",
+                     margins = c(1,2))
+```
+   
+
+::: {.callout-note  title="Exercise 9"}
+
+a.  What categories are different and likely led to the statistically signficant result?
+
+b.  How easy is it to identify the important differences in observed and expected values (consider this question in a table with more than two decision categories!)?
+
+:::
+
+### Residuals
+
+When we have a high number of rows and columns it is difficult to see if there are practical differences between certain cells. This may be achievable with a 2x2 table, but is much more difficult with larger tables. To help with this problem, we can calculate the **Pearson standardized residuals** which help identify cells we should investigate. 
+
+The formula for the Pearson residuals is:
+
+$$\frac{(O-E)}{\sqrt(E)}$$
+
+Notice this is the square root of the "contribution" of each cell to the overall test statistic $X^2$.  Essentially, the formula identifies cells that have large differences between observed and expected (the $(O-E)$ in the formula) but "standardizes" these differences (the $sqrt(E)$ in the formula).
+
+One way to think about the standardization is to consider a simple example.  Suppose we have two cells with $O-E = 2$.  However, one cell has an expected count of 10 and the other an expected count of 1,000.  In the first case, the $O-E$ difference is 20\% of the expected value.  In the second, it is only 0.2% which is actually a small amount. The standardization basically puts these on the same scale.
+
+Standardized residuals roughly follow a "normal distribution" which means we would expect approximately 95\% of the values to between -2 and 2 and 99\% between -3 and 3.  Thus, values outside these ranges are somewhat unusual and cells that may contribute to a statistical association.
+
+We can output the residuals from the Chi-square test in similar fashion to the expected counts:
+
+```{r}
+
+case1.chisq$residuals
+```
+
+::: {.callout-note  title="Exercise 10"}
+
+a.  Based on the residuals what categories are different and likely led to the statistically signficant result?
+
+b.  Considering the categories you identified, do the differences seem practically meaningful?  Explain.
+
+:::
+
+
+# Case study 2: Putting it all together
+
+::: {.callout-important}
+
+## IMPORTANT SUMMARY
+
+Chi-square and Fisher Exact tests (if appropriate) are used in exploring associations between two **categorical variables**.  Basic steps in these tests include:
+
+1. Formulating a research question.
+2. Identifying variables in the data set that are relevant to answering the research question.
+3. If the variables are both categorical, proceed with the Chi-square analysis.
+4. Visualize the data using contingency tables and Mosaic plots.
+5. Perform the Chi-square test (check the assumption of expected counts >5 and use Fisher exact test if not met).
+6. Reach a conclusion based on the test.  
+7. If a statistically significant association is found, examine the residuals to help identify categories that differ and consider if the differences are practically meaningful.
+
+In the following exercise, copy/paste/tweak code to perform analysis using these steps.
+
+:::
+
+::: {.callout-note  title="Exercise 11"}
+
+MMA leadership is interested in whether there is a difference based on sex in how fights ended (all possible categories, not just decision or not) in 2023.  Perform an analysis to provide them with insights related to this question.  If there are differences, describe them for the leadership team.  *Hint: consider the variables "p1_sex" and "decision_group" for this question.*
+
+:::
+
+::: {.callout-note  title="Exercise 12"}
+
+Formulate an additional question that involves categorical variables available in the data set and perform the analysis to address the question.
+
+:::
