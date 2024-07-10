@@ -9,6 +9,7 @@
 <meta name="author" content="Rodney X. Sturdivant, Ph.D.">
 <meta name="author" content="Ian Young">
 <meta name="author" content="Joshua Patrick, Ph.D.">
+<meta name="author" content="Connor Bryson">
 <meta name="dcterms.date" content="2024-07-01">
 <meta name="description" content="Exploring MMA fight decisions by weight category">
 
@@ -202,6 +203,14 @@ window.Quarto = {
             Baylor University
           </p>
       </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Connor Bryson </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Baylor University
+          </p>
+      </div>
   </div>
 
 <div class="quarto-title-meta">
@@ -254,7 +263,7 @@ Facilitation notes
 </section>
 <section id="introduction" class="level1 page-columns page-full">
 <h1>Introduction</h1>
-<p>In this module, you will be analyzing data from</p>
+<p>In this module, you will be analyzing data from mixed marshall arts (MMA) fights in order to determine if the weight class of the fighters is related to the type of decision that ended the fight.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Learning Objectives">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -451,23 +460,23 @@ Weight Classes in the mma data set
 <details>
 <div class="cell">
 <div class="cell-output-display">
-<div id="jtfrxybfpy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jtfrxybfpy table {
+<div id="vdtxguoqbp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vdtxguoqbp table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jtfrxybfpy thead, #jtfrxybfpy tbody, #jtfrxybfpy tfoot, #jtfrxybfpy tr, #jtfrxybfpy td, #jtfrxybfpy th {
+#vdtxguoqbp thead, #vdtxguoqbp tbody, #vdtxguoqbp tfoot, #vdtxguoqbp tr, #vdtxguoqbp td, #vdtxguoqbp th {
   border-style: none;
 }
 
-#jtfrxybfpy p {
+#vdtxguoqbp p {
   margin: 0;
   padding: 0;
 }
 
-#jtfrxybfpy .gt_table {
+#vdtxguoqbp .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -493,12 +502,12 @@ Weight Classes in the mma data set
   border-left-color: #D3D3D3;
 }
 
-#jtfrxybfpy .gt_caption {
+#vdtxguoqbp .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jtfrxybfpy .gt_title {
+#vdtxguoqbp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -510,7 +519,7 @@ Weight Classes in the mma data set
   border-bottom-width: 0;
 }
 
-#jtfrxybfpy .gt_subtitle {
+#vdtxguoqbp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -522,7 +531,7 @@ Weight Classes in the mma data set
   border-top-width: 0;
 }
 
-#jtfrxybfpy .gt_heading {
+#vdtxguoqbp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -534,13 +543,13 @@ Weight Classes in the mma data set
   border-right-color: #D3D3D3;
 }
 
-#jtfrxybfpy .gt_bottom_border {
+#vdtxguoqbp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jtfrxybfpy .gt_col_headings {
+#vdtxguoqbp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -555,7 +564,7 @@ Weight Classes in the mma data set
   border-right-color: #D3D3D3;
 }
 
-#jtfrxybfpy .gt_col_heading {
+#vdtxguoqbp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -575,7 +584,7 @@ Weight Classes in the mma data set
   overflow-x: hidden;
 }
 
-#jtfrxybfpy .gt_column_spanner_outer {
+#vdtxguoqbp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -587,15 +596,15 @@ Weight Classes in the mma data set
   padding-right: 4px;
 }
 
-#jtfrxybfpy .gt_column_spanner_outer:first-child {
+#vdtxguoqbp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jtfrxybfpy .gt_column_spanner_outer:last-child {
+#vdtxguoqbp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jtfrxybfpy .gt_column_spanner {
+#vdtxguoqbp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -607,11 +616,11 @@ Weight Classes in the mma data set
   width: 100%;
 }
 
-#jtfrxybfpy .gt_spanner_row {
+#vdtxguoqbp .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jtfrxybfpy .gt_group_heading {
+#vdtxguoqbp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -637,7 +646,7 @@ Weight Classes in the mma data set
   text-align: left;
 }
 
-#jtfrxybfpy .gt_empty_group_heading {
+#vdtxguoqbp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -652,15 +661,15 @@ Weight Classes in the mma data set
   vertical-align: middle;
 }
 
-#jtfrxybfpy .gt_from_md > :first-child {
+#vdtxguoqbp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jtfrxybfpy .gt_from_md > :last-child {
+#vdtxguoqbp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jtfrxybfpy .gt_row {
+#vdtxguoqbp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -679,7 +688,7 @@ Weight Classes in the mma data set
   overflow-x: hidden;
 }
 
-#jtfrxybfpy .gt_stub {
+#vdtxguoqbp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -692,7 +701,7 @@ Weight Classes in the mma data set
   padding-right: 5px;
 }
 
-#jtfrxybfpy .gt_stub_row_group {
+#vdtxguoqbp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -706,15 +715,15 @@ Weight Classes in the mma data set
   vertical-align: top;
 }
 
-#jtfrxybfpy .gt_row_group_first td {
+#vdtxguoqbp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jtfrxybfpy .gt_row_group_first th {
+#vdtxguoqbp .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jtfrxybfpy .gt_summary_row {
+#vdtxguoqbp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -724,16 +733,16 @@ Weight Classes in the mma data set
   padding-right: 5px;
 }
 
-#jtfrxybfpy .gt_first_summary_row {
+#vdtxguoqbp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jtfrxybfpy .gt_first_summary_row.thick {
+#vdtxguoqbp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jtfrxybfpy .gt_last_summary_row {
+#vdtxguoqbp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -743,7 +752,7 @@ Weight Classes in the mma data set
   border-bottom-color: #D3D3D3;
 }
 
-#jtfrxybfpy .gt_grand_summary_row {
+#vdtxguoqbp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -753,7 +762,7 @@ Weight Classes in the mma data set
   padding-right: 5px;
 }
 
-#jtfrxybfpy .gt_first_grand_summary_row {
+#vdtxguoqbp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -763,7 +772,7 @@ Weight Classes in the mma data set
   border-top-color: #D3D3D3;
 }
 
-#jtfrxybfpy .gt_last_grand_summary_row_top {
+#vdtxguoqbp .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -773,11 +782,11 @@ Weight Classes in the mma data set
   border-bottom-color: #D3D3D3;
 }
 
-#jtfrxybfpy .gt_striped {
+#vdtxguoqbp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jtfrxybfpy .gt_table_body {
+#vdtxguoqbp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -786,7 +795,7 @@ Weight Classes in the mma data set
   border-bottom-color: #D3D3D3;
 }
 
-#jtfrxybfpy .gt_footnotes {
+#vdtxguoqbp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -800,7 +809,7 @@ Weight Classes in the mma data set
   border-right-color: #D3D3D3;
 }
 
-#jtfrxybfpy .gt_footnote {
+#vdtxguoqbp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -809,7 +818,7 @@ Weight Classes in the mma data set
   padding-right: 5px;
 }
 
-#jtfrxybfpy .gt_sourcenotes {
+#vdtxguoqbp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -823,7 +832,7 @@ Weight Classes in the mma data set
   border-right-color: #D3D3D3;
 }
 
-#jtfrxybfpy .gt_sourcenote {
+#vdtxguoqbp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -831,63 +840,63 @@ Weight Classes in the mma data set
   padding-right: 5px;
 }
 
-#jtfrxybfpy .gt_left {
+#vdtxguoqbp .gt_left {
   text-align: left;
 }
 
-#jtfrxybfpy .gt_center {
+#vdtxguoqbp .gt_center {
   text-align: center;
 }
 
-#jtfrxybfpy .gt_right {
+#vdtxguoqbp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jtfrxybfpy .gt_font_normal {
+#vdtxguoqbp .gt_font_normal {
   font-weight: normal;
 }
 
-#jtfrxybfpy .gt_font_bold {
+#vdtxguoqbp .gt_font_bold {
   font-weight: bold;
 }
 
-#jtfrxybfpy .gt_font_italic {
+#vdtxguoqbp .gt_font_italic {
   font-style: italic;
 }
 
-#jtfrxybfpy .gt_super {
+#vdtxguoqbp .gt_super {
   font-size: 65%;
 }
 
-#jtfrxybfpy .gt_footnote_marks {
+#vdtxguoqbp .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jtfrxybfpy .gt_asterisk {
+#vdtxguoqbp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jtfrxybfpy .gt_indent_1 {
+#vdtxguoqbp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jtfrxybfpy .gt_indent_2 {
+#vdtxguoqbp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jtfrxybfpy .gt_indent_3 {
+#vdtxguoqbp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jtfrxybfpy .gt_indent_4 {
+#vdtxguoqbp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jtfrxybfpy .gt_indent_5 {
+#vdtxguoqbp .gt_indent_5 {
   text-indent: 25px;
 }
 </style>

@@ -12,6 +12,9 @@ author:
   - name: Joshua Patrick, Ph.D.
     affiliation:
       - ref: baylor
+  - name: Connor Bryson
+    affiliation:
+      - ref: baylor
 date: July 1, 2024
 format:
   html:
