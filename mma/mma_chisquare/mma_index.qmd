@@ -55,7 +55,7 @@ callout-icon: false
 
 # Introduction
 
-In this module, you will be analyzing data from 
+In this module, you will be analyzing data from mixed marshall arts (MMA) fights in order to determine if the weight class of the fighters is related to the type of decision that ended the fight.  
 
 ::: {.callout-note title="Learning Objectives" appearance="minimal"}
 By the end of this module, you will be able to:
