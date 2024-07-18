@@ -10,9 +10,10 @@ format:
     highlight: tango
 editor_options:
   chunk_output_type: console
+embed-resources: true
 ---
 
-# Getting Started: Masters 2023 Scores and Single Mean Confidence Intervals and Hypothesis Testing
+# Getting Started: Masters 2023 Scores
 ```{r, warning = FALSE, message = FALSE}
 library(tidyverse)
 library(BSDA)
@@ -30,7 +31,7 @@ c.  YOUR ANSWER HERE
 
 # Confidence Intervals for Single Means
 
-## Exercise 2: T-Distribution Confidence Intervals
+## Exercise 2: t-distribution Confidence Intervals
 
 ```{r}
 amateurs_round1 <- masters_2023 |> 
@@ -57,7 +58,7 @@ f.  YOUR ANSWER HERE
 
 g.  YOUR ANSWER HERE
 
-## Exercise 3: Z-Distribution Confidence Intervals
+## Exercise 3: z-distribution Confidence Intervals
 
 ```{r}
 pga_round1 <- masters_2023 |> 
@@ -86,7 +87,7 @@ c.  YOUR ANSWER HERE
 
 # Hypothesis Testing with Single Mean Confidence Intervals
 
-## Exercise 5: T-test for Single Mean Hypothesis Testing
+## Exercise 5: t-test for Single Mean Hypothesis Testing
 
 a.  YOUR ANSWER HERE
 
@@ -96,7 +97,7 @@ c.  YOUR ANSWER HERE
 
 d.  YOUR ANSWER HERE
 
-## Exercise 6: Z-test for Single Mean Hypothesis Testing
+## Exercise 6: z-test for Single Mean Hypothesis Testing
 
 a.  YOUR ANSWER HERE
 
@@ -170,7 +171,7 @@ f.  YOUR ANSWER HERE
 
 g.  YOUR ANSWER HERE
 
-## Challenge 4: Z vs T Large Sample Size
+## Challenge 4: z vs t Large Sample Size
 
 ```{r}
 pga_rounds1_2 <- masters_2023 |> 
