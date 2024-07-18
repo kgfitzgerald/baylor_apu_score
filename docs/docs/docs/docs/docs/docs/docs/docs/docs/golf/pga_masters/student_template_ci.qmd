@@ -1,0 +1,189 @@
+---
+title: "Masters - Single Mean Confidence Intervals"
+author: "YOUR NAME HERE"
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: tango
+editor_options:
+  chunk_output_type: console
+embed-resources: true
+---
+
+# Getting Started: Masters 2023 Scores
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(BSDA)
+
+masters_2023 <- read_csv("masters_2023.csv")
+```
+
+## Exercise 1: Data Structure
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+# Confidence Intervals for Single Means
+
+## Exercise 2: t-distribution Confidence Intervals
+
+```{r}
+amateurs_round1 <- masters_2023 |> 
+  filter(round == 1, tour == "Amateur")
+x_bar <- amateurs_round1 |> 
+  summarise(mean(score)) |> 
+  pull()
+std_dev <- amateurs_round1 |> 
+  summarize(sd(score)) |> 
+  pull()
+```
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+e.  YOUR ANSWER HERE
+
+f.  YOUR ANSWER HERE
+
+g.  YOUR ANSWER HERE
+
+## Exercise 3: z-distribution Confidence Intervals
+
+```{r}
+pga_round1 <- masters_2023 |> 
+  filter(round == 1, tour == "PGA")
+x_bar <- pga_round1 |> 
+  summarise(mean(score)) |> 
+  pull()
+sigma <- pga_round1 |> 
+  summarise(sd(score)) |> 
+  pull()
+```
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+## Exercise 4: R for Confidence Intervals
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+# Hypothesis Testing with Single Mean Confidence Intervals
+
+## Exercise 5: t-test for Single Mean Hypothesis Testing
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+## Exercise 6: z-test for Single Mean Hypothesis Testing
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+e.  YOUR ANSWER HERE
+
+# More Practice
+
+## Challenge 1: Critical Values Knowledge Check
+
+```{r}
+liv_round3 <- masters_2023 |> 
+  filter(round == 3, tour == "LIV")
+```
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+e.  YOUR ANSWER HERE
+
+## Challenge 2: P-Values Knowledge Check
+
+```{r}
+pro_round4 <- masters_2023 |> 
+  filter(round == 4, tour == "PGA")
+```
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+e.  YOUR ANSWER HERE
+
+## Challenge 3: Confidence Interval Knowledge Check
+
+```{r}
+## Sample 1
+amateur_round2 <- masters_2023 |> 
+  filter(round == 2, tour == "Amateur")
+
+## Sample 2
+pga_rounds2_4 <- masters_2023 |> 
+  filter(round %in% c(1, 2), tour == "PGA")
+```
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+e.  YOUR ANSWER HERE
+
+f.  YOUR ANSWER HERE
+
+g.  YOUR ANSWER HERE
+
+## Challenge 4: z vs t Large Sample Size
+
+```{r}
+pga_rounds1_2 <- masters_2023 |> 
+  filter(round %in% c(1, 2), tour == "PGA")
+```
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+e.  YOUR ANSWER HERE

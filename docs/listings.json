@@ -2,6 +2,10 @@
   {
     "listing": "/by-statsds-topic.html",
     "items": [
+      "/mma/mma_chisquare/index.html",
+      "/golf/pga_gir/index.html",
+      "/golf/pga_masters/index.html",
+      "/tennis/tennis_sampsize/index.html",
       "/volleyball/ncaa_d1/index.html"
     ]
   }

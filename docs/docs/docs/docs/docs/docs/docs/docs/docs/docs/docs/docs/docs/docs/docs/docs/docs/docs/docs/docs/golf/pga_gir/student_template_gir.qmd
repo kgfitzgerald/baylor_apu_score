@@ -1,0 +1,122 @@
+---
+title: "PGA - Scheffler Greens in Regulation"
+author: "YOUR NAME HERE"
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: tango
+editor: visual
+editor_options:
+  chunk_output_type: console
+---
+
+# Getting Started: Scottie Scheffler Greens in Regulation
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse) #loads package
+
+scheffler_2023 <- read_csv("scheffler_2023.csv") #loads data
+```
+
+## Exercise 1: Data Structure
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+## Exercise 2: Manipulating Data
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+# Confidence Intervals for Proportions
+
+## Exercise 3: Manual Confidence Interval
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+## Exercise 4: R Functions for Confidence Intervals
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+## Exercise 5: Confidence Interval Hypothesis Testing
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+# Comparing Two Proportions
+
+## Exercise 6: Comparing Two Proportions
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+e.  YOUR ANSWER HERE
+
+f.  YOUR ANSWER HERE
+
+g.  YOUR ANSWER HERE
+
+h.  YOUR ANSWER HERE
+
+i.  YOUR ANSWER HERE
+
+j.  YOUR ANSWER HERE
+
+# Challenge Problems
+
+## Challenge 1: Two Player Comparison
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+e.  YOUR ANSWER HERE
+
+## Challenge 2: Past Comparison
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+## Challenge 3: Changing Conditions
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
