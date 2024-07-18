@@ -32,7 +32,7 @@ embed-resources: true
 + Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd. 
   
   + [data](scheffler_2023.csv)
-  + [Student Quarto template](student_template_gir.qmd)
+  + [Student Quarto template](student_template.qmd)
 
 + [Posit Cloud](https://posit.cloud/) (via an Instructor account) or [Github classroom](https://classroom.github.com) are good options for disseminating files to students, but simply uploading files to your university's course management system works, too.
 :::
