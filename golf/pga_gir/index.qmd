@@ -147,7 +147,7 @@ Images source: [Tanglewood Golf Course](https://www.tanglewoodfulton.com/golf-co
 ::: {.callout-important}
 
 #### Pars and Greens in Regulation
--   A **par** in golf is the number of strokes a good golfer is expected to make on a hole or course
+-   A **par** in golf is the number of strokes a good golfer is expected to take on a hole or course
 -   A **green in regulation** (GIR) is when a golfer reaches the green in the expected number of strokes (or fewer) on a par 3, 4, or 5 hole
 
      -  For example, on a **par 4** hole, a golfer would be expected to reach the green in 2 strokes (a drive and an approach shot) and then putt out in 2 more strokes for a total of 4 strokes. If a golfer reaches the green in 2 strokes, they have hit the green in regulation.
@@ -240,17 +240,15 @@ b. From what `cut` did Scottie Scheffler have the worst Green in Regulation rate
 
 # Confidence Intervals for Proportions
 
-Confidence Intervals for Proportions can be used for a variety of purposes, including:
+A confidence interval for a proportion is a range of values that is likely to contain the true value of the population proportion with a certain level of confidence. Confidence intervals for proportions can be used for a variety of purposes, including:
 
-1. A confidence interval is a range of values that is likely to contain the true value of a population parameter with a certain level of confidence.
+1. Quantifying the precision of our estimates. The wider the confidence interval, the less precise our estimate is, the narrower the confidence interval, the more precise our estimate is.
 
-2. Confidence intervals help us to quantify the precision of our estimates. The wider the confidence interval, the less precise our estimate is, the narrower the confidence interval, the more precise our estimate is.
+2. Making inferences about the population proportion. For example, if a 90% confidence interval was used, it could be said that if the same population was sampled on numerous occasions and interval estimates were made on each occasion, approximately 90% of the intervals would contain the population parameter.
 
-3. Inferences can be made about the population proportion based on the sample proportion when using confidence intervals. For example, if a 90% confidence interval was used, it could be said that if the same population was sampled on numerous occasions and interval estimates were made on each occasion, approximately 90% of the intervals would contain the population parameter.
+3. Testing hypothesized values of the population proportion. If the hypothesized value is not within the confidence interval, then we have reason to believe that it is not the true population proportion.
 
-4. Confidence intervals for proportions can be used to test hypothesized values of the population proportion. If the hypothesized value is not within the confidence interval, then we have reason to believe that it is not the true population proportion.
-
-5. Confidence intervals for proportions can be used to compare two proportions. If the confidence intervals for two proportions do not overlap, then the two proportions are significantly different.
+4. Comparing two proportions. If the confidence intervals for two sample proportions do not overlap, then we have reason to believe that the two true population proportions are different.
 
 ## Making Confidence Intervals in R
 
@@ -284,19 +282,19 @@ Some common Confidence Intervals and their corresponding z-scores are:
 
 In R you can perform basic math using the `*` operator for multiplication and the `\` operator for division. 
 
-For a quick example if proportion of success for a problem is .6, the sample size is 100, and the test is being performed at the 95% confidence level than the confidence interval for the proportion of success can be calculated as follows:
+For a quick example if the proportion of success for a problem is .6, the sample size is 100, and the test is being performed at the 95% confidence level, then the confidence interval for the proportion of success can be calculated as follows:
 
 ```{r}
 lower_limit <- .6 - 1.96 * sqrt((.6 * (1-.6))/100)
 upper_limit <- .6 + 1.96 * sqrt((.6 * (1-.6))/100)
 ```
 
-This would give you the lower limit (`r lower_limit`) and upper limit (`r upper_limit`) of the confidence interval for the proportion of success.
+This would give you the lower limit (`r lower_limit`) and the upper limit (`r upper_limit`) of the 95% confidence interval for the true proportion of success.
 
 
 ::: {.callout-note title="Exercise 3: Manual Confidence Intervals"}
 
-Use the numbers from row with **`cut` = "Fairway"** of the `scheffler_2023_mutated` dataset to calculate a **95% confidence interval** for the proportion of greens hit in regulation by Scottie Scheffler from the fairway. 
+Use the numbers from the `scheffler_2023_mutated` data frame where **`cut` = "Fairway"** to calculate a **95% confidence interval** for the proportion of greens hit in regulation by Scottie Scheffler from the fairway. 
 
 a. What is value of $\hat{p}$ for the fairway cut?
 
@@ -325,6 +323,11 @@ binom.test(60, 100, conf.level = .95)
 binom.test(60, 100, conf.level = .95)$conf.int
 ```
 
+::: column-margin
+
+**TIP**: The `$` operator is used to access a specific element of a list in R. In this case, the `conf.int` element of the list returned by the `binom.test()` function contains the confidence interval.
+
+:::
 
 ::: {.callout-note title="Exercise 4: Using R Functions for Confidence Intervals"}
 
@@ -399,11 +402,11 @@ binom.test(60, 100, p = .7, conf.level = .95)
 binom.test(70, 100, p = .7, conf.level = .95)
 ```
 
-The p-value of the test is returned in the output of the `binom.test()` function. For the first test, the p-value is `r round(binom.test(60, 100, p = .7)$p.value, 3)` and for the second test, the p-value is 1. Since the p-value of the first test is less than the significance level of 0.05, the null hypothesis is rejected. Since the p-value of the second test is greater than the significance level of 0.05, the null hypothesis is not rejected.
+The p-value of the test is returned in the output of the `binom.test()` function. For the first test, the p-value is `r round(binom.test(60, 100, p = .7)$p.value, 3)` and for the second test, the p-value is 1. Since the p-value of the first test is less than the significance level of 0.05, the null hypothesis is rejected. Since the p-value for the second test is greater than the significance level of 0.05, we fail to reject the null hypothesis.
 
 #### Drawing Conclusions
 
-If the null hypothesis is rejected we can conclude that the sample data provides enough evidence to support the alternative hypothesis. If the Null Hypothesis was that the population proportion is equal to .7 and the alternative hypothesis was that the population proportion is not equal to .7 and $\alpha = 0.5$, then we might say, 
+If the null hypothesis is rejected we can conclude that the sample data provides enough evidence to support the alternative hypothesis. If the null hypothesis was that the population proportion is equal to .7 and the alternative hypothesis was that the population proportion is not equal to .7 and $\alpha = 0.5$, then we might say, 
 
 *"There is significant evidence to suggest that the true population proportion is not equal to .7 at the 95% confidence level."*
 
@@ -424,7 +427,7 @@ You set up a hypothesis test with the following hypotheses:
 
 ::: {.callout-note title="Exercise 5: Confidence Intervals for Hypothesis Testing"}
 
-Use the `binom.test()` function to test the hypothesis that the proportion of greens hit in regulation by Scottie Scheffler from the fairway is 0.75. $\alpha = 0.05$.
+Use the `binom.test()` function to test the hypothesis that the true proportion of greens hit in regulation by Scottie Scheffler from the fairway is not 0.75. $\alpha = 0.05$.
 
 a. What is the **p-value** of the test?
 
@@ -468,10 +471,10 @@ $n_1$ and $n_2$ are the sample sizes for the two samples.
 
 The pooled proportion is calculated as:
 
-$\hat{p} = \frac{x_1 + x_2}{n_1 + n_2}$
+$$\hat{p} = \frac{x_1 + x_2}{n_1 + n_2}$$
 
 However, R has a function that can do this for you.
-The `prop.test()` function in R can be used to compare two proportions. The `prop.test()` function takes the number of successes and the total number of trials for each sample as arguments and returns a p-value for the comparison. Use the argument `correct = FALSE` in the function to get the correct results. The `prop.test()` function will list the test statistic as a X-squared value, which is the square of the Z-score. The p-value stays the same as listed in the output.
+The `prop.test()` function in R can be used to compare two proportions. The `prop.test()` function takes the number of successes and the total number of trials for each sample as arguments and returns a p-value for the comparison. Use the argument `correct = FALSE` in the function to get the correct results. The `prop.test()` function will list the test statistic as an X-squared value, which is the square of the Z-score. The p-value stays the same as listed in the output.
 
 ::: column-margin
 
@@ -545,7 +548,7 @@ e. Is **0** included in the confidence interval for the difference in proportion
 
 f. Based on your answers above, what is your **conclusion** about the  two proportions?
 
-Use the `prop.test()` function to compare the proportion of greens hit in regulation by Scottie Scheffler from the **Other** cut and the **Bunker**. Make the alternative hypothesis that the proportion of greens hit in regulation from the Other cut is greater than the proportion of greens hit in regulation from the bunker. Use the **95% confidence level**. Set **correct = FALSE**.
+Use the `prop.test()` function to compare the proportion of greens hit in regulation by Scottie Scheffler from the **Other** cut and the **Bunker**. Make the alternative hypothesis that the proportion of greens hit in regulation from the **Other** cut is **greater** than the proportion of greens hit in regulation from the **Bunker**. Use the **95% confidence level**. Set **correct = FALSE**.
 
 g. What is the value of the **test statistic**?
 
@@ -632,9 +635,22 @@ mcilroy_2023 <- filter(pga_girs, player == "Rory McIlroy", year == 2023)
 
 <!-- ::: -->
 
+:::column-margin
+
+**HINT**: Use the code below to filter the data:
+
+```{r}
+top_bunker_players <- pga_girs |> 
+  filter(cut == "Bunker", holes >= 25, year == 2023) |> 
+  mutate(gir = greens / holes) |>
+  arrange(desc(gir))
+```
+
+:::
+
 ::: {.callout-note title="Challenge 3: Changing Conditions"}
 
-3. Find the best and worst bunker players in 2023 who took more than 50 approach shots from the bunker.
+3. Find the best and worst bunker players in 2023 who took more than 25 approach shots from the bunker.
 
     a. Test the hypothesis that the proportion of greens hit in regulation from the bunker by the best bunker player is greater than the proportion of greens hit in regulation from the bunker by the worst bunker player. Use the **90% confidence level**. Set **correct = FALSE**.
     
