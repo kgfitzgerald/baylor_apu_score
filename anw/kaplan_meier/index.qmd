@@ -1,0 +1,778 @@
+---
+title: "American Ninja Warrior - Kaplan-Meier Survival Analyis"
+author:
+  - name: Jonathan Lieb
+    email: jonathan_lieb1@baylor.edu
+    affiliation:
+      - id: bay
+        name: Baylor University
+date: July 22, 2024
+format:
+  html:
+    grid:
+      margin-width: 350px
+toc: true
+toc-location: left
+description: Exploring Survival Analysis using the Kaplan-Meier method with American Ninja Warrior data.
+categories:
+  - Kaplan-Meier
+  - Log Rank test
+  - Nonparametric tests
+editor_options:
+  chunk_output_type: console
+callout-icon: false
+# embed-resources: true
+---
+
+::: {.callout-note collapse="true" title="Facilitation notes" appearance="minimal"}
+-   This module would be suitable for an in-class lab or take-home assignment in an intermediate statistics course.
+
+-   It assumes a familiarity with the RStudio Environment and R programming language.
+
+-   Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd.
+
+    -   <a href="anw_2021_stage1.csv" download>data</a>
+    -   [Student Quarto template](student_template.qmd)
+
+-   [Posit Cloud](https://posit.cloud/) (via an Instructor account) or [Github classroom](https://classroom.github.com) are good options for disseminating files to students, but simply uploading files to your university's course management system works, too.
+:::
+
+# Welcome video
+
+<iframe width="560" height="315" src title="placeholder">
+
+</iframe>
+
+# Introduction
+
+In this module, you will explore American Ninja Warrior data from the 2021 stage 1 finals through the lens of **survival analysis**. Survival analysis is a statistical method used to analyze the time until an event of interest occurs (often this event is death). In this case, the obstacles will be our time, and the event of interest will be **DEATH** (we're calling failing off an obstacle death).
+
+::: column-margin
+American Ninja Warrior Logo ![](American_Ninja_Warrior_Logo.jpg)
+
+Imagage Source [Wikimedia](https://commons.wikimedia.org/wiki/File:American_Ninja_Warrior_Logo.jpg)
+:::
+
+One of the simplest methods for survival analysis is the **Kaplan-Meier method**. This method estimates the survival function, which is the probability that a subject survives past a certain time. The Kaplan-Meier method is non-parametric, meaning it makes no assumptions about the distribution of the survival times. It is a step function that decreases at each event time.
+
+::: {.callout-note title="Learning Objectives" appearance="minimal"}
+By the end of this module you should be able to:
+
+-   Load data into R
+
+-   Calculate Survival Estimates using the Kaplan-Meier method
+
+-   Censor data
+
+-   Make Survival Probability Plots
+
+-   Compare Survival Curves for different groups
+
+-   Perform the Log Rank Test
+
+-   Perform and Intepret Results from other Nonparametric tests
+:::
+
+::: column-margin
+\
+\
+\
+\
+
+**NOTE**: **R** is the name of the programming language itself and **RStudio** is a convenient interface. To throw even more lingo in, you may be accessing RStudio through a web-based version called **Posit Cloud**. But R is the programming language you are learning :)
+:::
+
+::: {.callout-caution collapse="true" title="Research Question"}
+During this lab we will explore the following research questions:
+
+-   What is the probability of a competitor surviving past a certain obstacle?
+-   How do conditional probabilities of survival change as the competitor progresses through the course?
+-   Do survival probabilities differ based on sex?
+:::
+
+# Getting started: American Ninja Warrior data
+
+The first step to any analysis in R is to **load necessary packages and data**.
+
+Running the following code will load the `tidyverse`, `survival`, and `survminer` packages and the `anw_2021_stage1` data we will be using in this lab.
+
+::: column-margin
+**TIP**: As you follow along in the lab, you should run each corresponding code chunk in your .qmd document. To "Run" a code chunk, you can press the green "Play" button in the top right corner of the code chunk in your .qmd. You can also place your cursor anywhere in the line(s) of code you want to run and press "command + return" (Mac) or "Ctrl + Enter" (Windows).
+:::
+
+::: column-margin
+**TIP**: If you get an error while attempting to load the library or data, you may need to install the package or check the file path. You can install packages using the `install.packages()` function in R. Once you have installed a package, you can load it into your R environment using the `library()` function. If that is not the issue, you may need to check the file path to ensure the data is in the correct location.
+:::
+
+```{r, warning = FALSE, message = FALSE}
+# Load packages
+library(tidyverse)
+library(survival)
+library(survminer)
+
+# Load Data
+ninja <- read_csv("anw_2021_stage1.csv")
+```
+
+We can use the `glimpse()` function to get a quick look at our `ninja` data. The dimensions of the dataset, the variable names, and the first few observations are displayed.
+
+```{r}
+glimpse(ninja)
+```
+
+Use the `head()` function to view the first few rows of the dataset better.
+
+```{r}
+head(ninja)
+```
+
+::: {.callout-note title="Exercise 1: Data Structure"}
+a.  How many **observations** are in the dataset?
+
+b.  How many **variables** are in the dataset?
+
+c.  Which **variable** should be used as the time variable in the survival analysis?
+:::
+
+::: column-margin
+\
+**TIP:** Type your answers to each exercise in the .qmd document.\
+:::
+
+## Terms to know
+
+Before proceeding with the survival analysis, let's make sure we understand American Ninja Warrior and some of it's vocabulary to help us climb our way through this lab.
+
+#### How does American Ninja Warrior work?
+
+American Ninja Warrior is an NBC competition show where participants attempt to complete a series of **obstacle courses** of increasing difficulty. In a single **obstacle course**, the competitors must complete a series of obstacles in a row. If they fail an **obstacle** (usually this happens when they fall into the water below), they are eliminated from the competition. The competitors also have a time limit to complete the course. The competitors are ranked based on how far they get in the course and how quickly they complete it.
+
+Most of the obstacles are designed to test the competitors' upper body strength. Some obstacles require balance and agility though.
+
+::: column-margin
+The warped wall is arguably the most famous, although now least difficult, obstacle on an American Ninja Warrior course. The warped wall is a curved wall that competitors must run up and grab the top of. The warped wall is on every course and is often the final obstacle, although this is not the case on the Finals courses.
+
+The warped wall was previously 14 feet and is now 14.5 feet tall. They have even had a 18 foot warped wall on the show.
+
+Warped Wall ![](warped_wall.png)
+
+Image Source: [SB Nation](https://www.americanninjawarriornation.com/2019/4/11/18306334/warped-wall-evolution-as-the-ninjas-get-better-the-obstacles-get-harder)
+:::
+
+The obstacles in American Ninja Warrior are all given names. For example, the famed **Warped Wall** is a curved wall that competitors must run up and grab the top of. The **Salmon Ladder** is a series of rungs that competitors must move up by jumping and pulling themselves up.
+
+Watch Enzo Wilson complete the American Ninja Warrior course at the 2021 Finals Stage 1 (Season 13) in the video below.
+
+{{< video https://www.youtube.com/embed/kYXFjANBHl4 >}}
+
+::: callout-important
+#### Key Terms
+
+-   **Obstacle**: A challenge that competitors must complete to move on in the competition.
+
+-   **Course**: A series of obstacles that competitors must complete in a row. A typical course has 6-10 obstacles.
+
+-   **Stage**: A round of the competition. The competition starts with Stage 1 and progresses to Stage 4.
+
+-   **Time Limit**: The amount of time competitors have to complete the course, often between 2-4 minutes.
+:::
+
+## Variable Descriptions
+
+The `ninja` data you'll be analyzing in this lab provides the individual run information for each ninja in the 2021 Finals Stage 1 (Season 13). The data includes the ninja's name, their sex, the obstacle they failed on, and the cause of that failure.
+
+<details>
+
+<summary><b>Variable Descriptions</b></summary>
+
+| Variable          | Description                                        |
+|-------------------|----------------------------------------------------|
+| `name`            | Name of the American Ninja Warrior                 |
+| `sex`             | Sex of the American Ninja Warrior (M/F)            |
+| `obstacle`        | The name of the obstacle the ninja failed on       |
+| `obstacle_number` | The obstacles' place in the run                    |
+| `cause`           | What caused the ninja to fail (Fall/Time/Complete) |
+
+</details>
+
+## Points of Confusion
+
+Use the following code to create a table of the obstacle names and their corresponding obstacle numbers. This will help you understand the order of the obstacles in the course.
+
+```{r}
+ninja |> 
+  distinct(obstacle, obstacle_number)
+```
+
+It can be seen quickly that there is no obstacle number 6 in the data and that there are 2 obstacles with number 8. Both of these appear confusing at first, but they have logical explanations.
+
+The missing obstacle number 6 is due to the fact that no ninja failed on obstacle 6. Some quick research tells us that obstacle 6 was the **warped wall**.
+
+::: column-margin
+Read about the 2021 Stage 1 Split Decision [here](https://www.americanninjawarriornation.com/2021/9/21/22686483/american-ninja-warrior-season-13-2021-national-finals-stage-one-split-decision).
+:::
+
+The duplicate obstacle number 8 is due to the fact that Stage One of the 2021 Finals allowed a **split-decision**. This means that competitors could choose between two different obstacles for obstacle 8.
+
+Another important thing to note is that **obstacle 10** is not really an obstacle, but rather the **end of the course**.
+
+Lastly, one competitor **Joe Moravsky** ran the course twice (falling the first time and completing it the second time). This is because he was the **Safety Pass Winner** from the previous round. The Safety Pass allows a competitor to run the course again if they fail the first time. This poses some questions about how to handle this observation. We could 
+
+a. Include both runs in the analysis, treating them as separate observations.
+
+b. Include only the first run in the analysis.
+
+c. Include only the second run in the analysis.
+
+If we include the second run in the analysis, we are neglecting the fact that Joe Moravsky had already attempted the course once and may have learned from his mistakes. 
+
+If we include the first run in the analysis, an argument could be made that Moravsky only failed the first time because he knew he had a second chance.
+
+In most survival analysis situations, an individual would not be capable of participating twice from the beginning (after all if death were truly the event of interest, it would be safe to say there is no second chance). Therefore, we will only include the first run in the analysis.
+
+Run the code below to remove the second run from the data.
+```{r}
+ninja <- ninja |> 
+  filter(name != "Joe Moravsky (Safety Pass)")
+```
+
+Now that we've cleared some of the muddiness, let's move on to the fun stuff!
+
+# Kaplan-Meier Survival Analysis
+
+## Censored Data
+
+In survival analysis, we often have need to **censor data**. Censored data occurs when the **event of interest** has not occurred for some of the observations. In our case, the event of interest is the failure of a competitor on an obstacle. If a competitor completes the course, we do not know which obstacle they would have failed on. Additionally if the time limit is reached, we do not know which obstacle the competitor would have failed on, although we do know that they didn't fail on any of the ones they completed before time was up. Both of these situations are examples of **censored data**.
+
+Use the code below to create a new column called `censor` in the `ninja` data that is a binary indicator of whether or not the observation should be censored. This column will be used to indicate whether the data is censored or not.
+
+```{r}
+# Makes a column called censor that is 1 if the competitor failed and 0 if they completed the course or ran out of time
+ninja <- ninja |> 
+  mutate(censor = if_else(cause %in%  c("Complete", "Time"), 0, 1))
+```
+
+## Calculating Survival Probabilities
+
+The Kaplan-Meier estimator uses information from all of the observations in the data and considers survival to a certain point in time as a series of steps defined at the observed survival times.
+
+In order to calculate the probability of surviving past a certain point in time (past a certain obstacle in this case), the conditional probability of surviving past that point given that the competitor has survived up to that point must be calculated first.
+
+The formula for the conditional probability of surviving past a point in time ($t_i$) given that the competitor has survived up to that point in time($t_{i-1}$) is:
+
+::: column-margin
+**Note**: This function could also be written as $P(T > t_i | T \geq t_{i-1}) = \frac{n_i - d_i}{n_i}$
+:::
+
+$P(T \geq t_i | T \geq t_{i-1}) = 1- \frac{d_i}{n_i}$
+
+Where:
+
+- $d_i$ is the number of competitors that failed at time $t_i$
+
+- $n_i$ is the number of competitors that were at risk at time $t_i$
+
+The Kaplan-Meier estimator is the product of the conditional probabilities of surviving past each point in time up through that point in time.
+
+$\hat{S}(t) = \prod_{t_i \leq t} (1 - \frac{d_i}{n_i})$
+
+::: column-margin
+**Note**: Censored data does not count in the at risk competitors
+:::
+
+where $n_i = n_{i-1} - d_{i-1} - c_{i-1}$
+
+For example if we have this data:
+
+```{r}
+# Setting a seed for reproducibility
+set.seed(123)
+
+# Creating fake data
+fake_data <- tibble(obstacle_number = c(1:5, 4:5), censor = c(rep(1, 5), rep(0, 2))) |> 
+  sample_n(25, replace = TRUE)
+
+head(fake_data)
+```
+
+And we wanted to calculate the Kaplan-Meier estimate of surviving past obstacle 2 we would need to find the following probabilities:
+
+$P(T > 1 | T > 0) = P(T > 1) =  1 - \frac{\text{number of competitors that failed at obstacle 1}}{\text{number of competitors that attempted obstacle 1}}$
+
+$P(T > 2 | T > 1) = 1 - \frac{\text{number of competitors that failed at obstacle 2}}{\text{number of competitors that attempted obstacle 2}}$
+
+The following code calculates the first two probabilities:
+
+```{r}
+fake_data_summary <- fake_data |> 
+  filter(obstacle_number <= 2) |> 
+  group_by(obstacle_number) |> 
+  summarize(fails = sum(censor == 1)) |> 
+  ungroup() |>
+  mutate(at_risk = 25 - cumsum(fails),
+         cond_prob = 1 - fails/at_risk)
+
+fake_data_summary
+```
+
+We would then need to multiply these two probabilities together to get the Kaplan-Meier estimate of surviving past obstacle 2.
+
+$P(T > 2) = P(T > 1) * P(T > 2 | T > 1)$
+
+The following code calculates the Kaplan-Meier estimate of surviving past obstacle 2:
+
+```{r}
+kaplan_meier <- fake_data_summary |> 
+  summarize(kaplan_meier = prod(cond_prob))
+```
+
+The Kaplan-Meier estimate of surviving past obstacle 2 in this fake example is `r kaplan_meier$kaplan_meier`.
+
+## Kaplan-Meier Estimator Manual Calculation
+
+The `ninja` data frame contains information about individual competitors in the ninja competition. We will need to summarize the data to calculate the Kaplan-Meier estimator manually.
+
+::: {.callout-note title="Exercise 2: Manual Calculation of Kaplan-Meier Estimator"}
+In this exercise you will calculate the Kaplan-Meier estimator of surviving past each obstacle in the ninja competition step-by-step.
+
+::: {.callout-note title="Part 1: Number of Events"}
+The first step is to calculate the number of competitors that failed and the number of competitors that were censored at each point in time. These are the $d_i$ and $c_i$ values needed to calculate the conditional probability of surviving past each point in time.
+
+Use the following code to sum the number of competitors that failed and the number of competitors that were censored at each obstacle.
+
+::: column-margin
+<br><br><br><br><br><br><br>
+**Note**: The censored column is the number of competitors that were censored at each obstacle. The only reason that this number is not 0 at any obstacle that is not number 10 (completed) is because some competitors ran out of time on that obstacle.
+:::
+
+```{r}
+ninja_summary <- ninja |> 
+  group_by(obstacle = obstacle_number) |>
+  summarize(fails = sum(cause == "Fall"),
+            censored = sum(cause %in% c("Complete", "Time")))
+```
+
+a.  At which **obstacle** did the most competitors fail?
+
+b.  At which **obstacle** were the most competitors censored (not including obstacle 10 which is completion)?
+:::
+
+::: {.callout-note title="Part 2: At Risk Competitors"}
+The second step is to calculate the number of competitors at risk at each point in time. This is the $n_i$ value needed to calculate the conditional probability of surviving past each point in time.
+
+Use the following code to calculate the number of competitors at risk at each point in time from the `ninja_summary` data frame.
+
+::: column-margin
+<br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+**Note**: The `lag` function shifts the `cumsum` of the `fails` column down one row. The `default = 0` argument fills in the first row with 0. This is necessary to help calculate the number of competitors at risk at each obstacle. Note that the `lag` function is not used in conjunction with the `cumsum`function for the `censored` column.
+:::
+
+```{r}
+ninja_summary <- ninja_summary |> 
+  mutate(attempts = 69 - lag(cumsum(fails), default = 0) - cumsum(censored))
+```
+
+a.  Which **obstacle** had the most competitors at risk?
+
+b.  Why don't **censored** competitors contribute to the number of competitors at risk at the obstacle?
+:::
+
+::: {.callout-note title="Part 3: Conditional Survival Probability"}
+The third step is to calculate the conditional probability of survival at each point in time. This is the $P(T \geq t_i | T \geq t_{i-1})$ value needed to calculate the Kaplan-Meier estimator and is calculated as $1 - \frac{d_i}{n_i}$.
+
+a.  Use the `ninja_summary` data frame to calculate the probability that someone survives each obstacle. Do this using the `mutate` function to create a new column called `surv_prob`. Survival probability is 1 minus the number of competitors that failed divided by the number of competitors at risk. **Save this data frame as `ninja_summary`**.
+
+::: column-margin
+<br><br><br><br><br><br><br><br><br><br>
+**TIP**: You can pipe the data frame into the `mutate` function to create a new column.
+
+**TIP**: The `mutate` function works like so: `data_frame |> mutate(new_column = calculation)`
+:::
+
+```{r, include=FALSE}
+ninja_summary <- ninja_summary |> 
+  mutate(surv_prob = 1- (fails / attempts))
+```
+
+b.  What **percentage** of at-risk competitors **survived** the first obstacle?
+
+c.  What **percentage** of at-risk competitors **failed** the fifth obstacle?
+
+d.  Which obstacle had the **highest** conditional **fail** probability?
+
+e.  Did **obstacle 2** or **obstacle 7** have a higher conditional **survival** rate?
+:::
+
+::: {.callout-note title="Part 4: Kaplan-Meier"}
+The final step is to calculate the Kaplan-Meier estimator of surviving past each point in time ($\hat{S}(t)$) This is calculated as the product of the conditional probabilities of surviving past each point in time up through the desired point in time ($\prod_{i=1}^{t} P(T \geq t_i | T \geq t_{i-1})$).
+
+Use the following code to calculate the Kaplan-Meier estimator manually by multiplying the conditional probabilities of surviving past each point in time up through the desired point in time.
+
+::: column-margin
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+**Note**: The `cumprod` function calculates the cumulative product of the values given to it.
+:::
+
+```{r}
+ninja_summary <- ninja_summary |> 
+  mutate(km = cumprod(surv_prob))
+```
+
+a.  What is the Kaplan-Meier estimate for surviving past the **first obstacle**?
+
+b.  What is the Kaplan-Meier estimate for surviving past first **five obstacles**?
+
+c.  What is the farthest obstacle that for which the Kaplan-Meier estimator has more **50%** of competitors surviving?
+:::
+
+#### Plotting the Kaplan-Meier Estimator
+
+We will now use `ggplot2` to plot the Kaplan-Meier estimator for the ninja competitors. The Kaplan-Meier estimator is a step function, so we will use `geom_step` to plot the estimator. We will also use `geom_point` to plot the points where the estimator changes.
+
+::: column-margin
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+Type `?geom_step`, `?geom_point`, or `?ggplot` in the console to learn more about these functions.
+:::
+
+::: {.callout-note title="Part 5: Plotting the Kaplan-Meier Estimator"}
+::: column-margin
+**TIP**: Remember that you can add the `+` operator to continue adding layers to the plot like seen below
+
+```{r, eval=FALSE}
+ggplot(your_data, aes(x = time_var, y = kaplan_meier_var)) +
+  geom_step() +
+  geom_point()
+```
+
+**TIP**: You can also add labels to the plot using the `labs` function like seen below
+
+```{r, eval=FALSE}
+ggplot(your_data, aes(x = time_var, y = kaplan_meier_var)) +
+  geom_step() +
+  geom_point() +
+  labs(title = "Your Title",
+       x = "X Axis Label",
+       y = "Y Axis Label")
+```
+:::
+
+a.  Use the `ninja_summary` data frame in conjunction with `ggplot2`'s `geom_step` and `geom_point` to plot the Kaplan-Meier estimator for the ninja competitors.
+
+b.  Comment on the plot.
+
+c.  What do you notice about where the lowest point on the plot is in regard to **survival probability**? Does **survival probability** reach zero? Why or why not?
+:::
+:::
+
+## Using R to Calculate the Kaplan-Meier Estimator
+
+Phew! That was a lot of tedious work to calculate and plot the Kaplan-Meier estimator manually. Luckily, there is a much easier way to calculate the Kaplan-Meier estimator using R.
+
+The `survival` package in R provides a function called `survfit` that can be used to calculate the Kaplan-Meier estimator. The `survfit` function requires a `Surv` object as input. The `Surv` object is created using the `Surv` function, which requires two arguments:
+
+1.  The time to event data. The time to event data is the time at which the event occurred or the time at which the individual was censored. **In our case this is the `obstacle_number` in our `ninja` data.**
+
+2.  The event status. The event status is a binary variable that indicates whether the event occurred or the individual was censored. The event status is coded as 1 if the event occurred and 0 if the individual was censored. **This is contained in the `censor` column of the `ninja` data.**
+
+Below a survfit model is created for the `ninja` dataset and the results are stored in the `ninja_km` object.
+
+```{r}
+ninja_km <- survfit(Surv(obstacle_number, censor) ~ 1, data = ninja)
+```
+
+::: {.callout-note title="Exercise 3: Kaplan-Meier Estimates and Interpretation"}
+Use `summary(ninja_km)` to view a summary of the Kaplan-Meier estimator.
+
+a.  Do the values in the **survival** column match the values you calculated manually?
+
+::: column-margin
+The computations for calculating the Confidence Interval for the K-M Estimate are fairly complex. The method most commonly used is called the **log-log survival function** and was proposed by Kalbfleisch and Prentice (2002). This function is computed by $ln(-ln[\hat{S}(t)])$ with variance derived from the delta method and calculated by $$
+\frac{1}{[ln(\hat{S}(t))]^2}\sum_{t_i\leq{t}}\frac{d_i}{n_i(n_i - d_i)} 
+$$.
+
+The endpoints for the confidence interval for the **log-log survival function** are therefore found by $ln(-ln[\hat{S}(t)]) \pm Z_{1-\alpha / 2} SE [ln(-ln[\hat{S}(t)]) ]$
+
+And the endpoints expressed by the computer and seen in the summary are $exp[-exp(\hat{c}_u)] \text{ and } exp[-exp(\hat{c}_l)]$
+:::
+
+The output also shows the **95% confidence intervals**.
+
+b.  Which **obstacle number** is the first point in time where a survival rate of **less than .5** falls within the **95% confidence interval**?
+
+c.  What do you notice about the **standard error** as the time increases?
+:::
+
+#### Quartile Interpretation
+
+The three quartiles are common statistics to look at when doing a survival analysis. The interpretations of these are as follows:
+
+::: column-margin
+**Note**: If the data is uncensored the estimate is just the median of the data. If the data is censored, the KM estimate is used to find these by finding the time at which it drops below the percentile
+:::
+
+1.  **25th Percentile**- 75% of the people survive past this point in time
+
+2.  **Median**- 50% of the people will survive past this time
+
+3.  **75th Percentile**- 25% survive past this time
+
+::: {.callout-note title="Exercise 4: Interpreting Quartiles"}
+Use the results from `quantile(ninja_km)` to answer the following questions
+
+a.  What is the **earliest time** that the confidence intervals imply that the true mean of surviving past that time could be **75%**? What is the **latest** time?
+
+b.  What is the **interpretation** of the NA values in the 75th percentile columns?
+
+c.  What is the earliest **time** (within the 95% confidence interval) at which the true survival rate suggests **50%** of the competitors would fail on or before?
+:::
+
+#### Plotting with R
+
+After fitting a Kaplan-Meier model, we can use the `ggsurvplot` function from the `survminer` package to plot the Kaplan-Meier estimator. The `ggsurvplot` function requires the Kaplan-Meier model as input.
+
+Below is an example of how easy it is to plot the Kaplan-Meier estimator using R.
+
+```{r}
+ggsurvplot(ninja_km,
+           conf.int = TRUE)
+```
+
+# Kaplan-Meier Estimator by Groups
+
+Sometimes we may want to compare the survival probabilities of different groups of individuals. For example, we may want to compare survival probabilities based on age, gender, treatment group, or a variety of other factors.
+
+In our data set, we have a variable called `sex` that indicates the gender of the competitor. We can use this variable to compare the survival probabilities for males and females.
+
+The Kaplan-Meier estimator can be calculated for different groups of individuals quite easily in **R**. We simply have to add the variable `sex` to our function in the model to do this.
+
+```{r}
+ninja_km_gender <- survfit(Surv(obstacle_number, 
+                                censor)~ sex, data = ninja)
+```
+
+A plot can be created to help us compare these groups.
+
+::: column-margin
+**Fun Fact**: Jesse Labreck was the only woman to complete the 2021 American Ninja Warrior Stage 1 Finals Course.
+
+You can watch her incredible run below {{< video https://www.youtube.com/embed/8KIED3eCNUs >}}
+:::
+
+```{r}
+ggsurvplot(ninja_km_gender,
+           conf.int = TRUE)
+```
+
+::: {.callout-note title="Exercise 5: Kaplan-Meier Estimates by Group"}
+a.  Which `sex` group has a higher survival probability for most of the time points?
+
+b.  Which `sex` has a wider confidence interval throughout the time points?
+
+c.  Explain why your answer to **b** might be the case.
+:::
+
+## The Log-Rank Test
+
+The Log-Rank Test is a statistical test used to compare the survival probabilities of two or more groups. The test is used to determine if there is a statistically significant difference between the survival probabilities of the groups.
+
+The hypotheses for our log-rank test are as follows:
+
+-   $H_0: S_M(t) = S_F(t)$ for all $t$
+-   $H_a: S_M(t) \neq S_F(t)$ for at least one $t$
+
+where $S_M(t)$ is the survival probability for males at time $t$ and $S_F(t)$ is the survival probability for females at time $t$.
+
+When comparing two groups like this, we can calculate the **expected** number of deaths in each group. Below is the formula for calculating the number of expected deaths for group 0 at time $t_i$:
+
+$$\hat{e}_{0i} = \frac{n_{0i}d_i}{n_i}$$
+
+where $n_{0i}$ is the number of individuals at risk in group 0 at time $t_i$, $d_i$ is the total number of deaths at time $t_i$, and $n_i$ is the total number of individuals at risk at time $t_i$.
+
+The **variance** estimator is drawn from the hypergeometric distribution. The formula for the variance of the number of deaths in group 0 at time $t_i$ is:
+
+$$\hat{v}_{0i} = \frac{n_{0i}n_{1i}d_i(n_i - d_i)}{n_i^2(n_i - 1)}$$
+
+where $n_{0i}$ is the number of individuals at risk in group 0 at time $t_i$, $n_{1i}$ is the number of individuals at risk in group 1 at time $t_i$, $d_i$ is the total number of deaths at time $t_i$, and $n_i$ is the total number of individuals at risk at time $t_i$.
+
+The **test statistic** is calculated as the square of the sum of the differences between the observed and expected number of deaths for the group divided by the sum of the variance of the number of deaths for the group at each time point. The formula for the test statistic is as follows:
+
+$$Q = \frac{[\sum_{i=1}^m (d_{0i} - \hat{e}_{0i})]^2}{\sum_{i=1}^m \hat{v}_{0i}}$$ 
+
+Using the null hypothesis, the p-value can be calculated using the chi-squared distribution with 1 degree of freedom.
+
+$$p = P(X^2(1) > Q)$$
+
+::: column-margin
+**NOTE**: This use of the chi-squared distribution assumes that the censoring is independent of the group.
+:::
+
+::: column-margin
+**NOTE**: The degrees of freedom for the chi-squared distribution is 1 because we are comparing two groups. If we were comparing more than two groups, the degrees of freedom would be the number of groups minus 1. 
+:::
+
+Thankfully **R** has a built-in function to perform the log-rank test. The `survdiff` function in the `survival` package can be used to perform the log-rank test. The `survdiff` function requires a `Surv` object as input. It will then perform the log-rank test and return the test statistic and p-value.
+
+::: column-margin
+**NOTE**: The **log-rank test** is a non-parametric test. This means that it does not assume that the data is normally distributed.
+:::
+
+The code below runs the log-rank test on the `ninja` data set to compare the survival of male and female competitors.
+
+```{r}
+ninja_km_diff <- survdiff(Surv(obstacle_number,
+                               censor) ~ sex, data = ninja)
+```
+
+::: {.callout-note title="Exercise 6: Comparing Survival vs. Expected"}
+Use the code below to see the results of the `survdiff` function
+
+```{r}
+ninja_km_diff
+```
+
+a.  How many **female competitors** are in the data set? How many **fell**? How many were **expected** to fall (round to the nearest whole number)?
+
+b.  Did **more or less** male competitors fall than expected?
+
+c.  What is the **p-value** of the test? What does this mean?
+:::
+
+## Other Nonparametric Tests
+
+Although the `survdiff` function uses the most common test for comparing Kaplan-Meier curves, there are a variety of other methods that can be used. These other methods developed because of the **log rank test's** greatest weakness: It weights all time points equally even though there are fewer people at risk later than at the beginning. These methods are all similar to a standard log-rank test but attempt to weight time points in order to detect differences better throughout time as opposed to the end, which is where the log-rank test finds most of its differences. The ratio of the observed and expected number of deaths is calculated in a similar manner but with weights applied as seen below:
+
+$$Q = \frac{[\sum_{i=1}^m w_i(d_0i - \hat{e}_{0i})]^2}{\sum_{i=1}^m w_i^2\hat{v}_{0i}}$$
+
+Below some of the other methods that can be used are broken down, with their weighting and purpose explained:
+
+-   Wilcoxon (Gehan-Breslow) Test: This test gives more weight to early time points based on the number of individuals at risk. Its weighting is: $$w_i = n_i$$
+
+-   Tarone-Ware Test: This test gives more weight to time points with more individuals at risk, but less heavily than the Gehan-Breslow test. Its weighting is: $$w_i = \sqrt{n_i}$$
+
+-   Peto-Prentice Test: This test also gives more weight to earlier time points, but not as much as the Gehan-Breslow test. Its weighting is:
+
+$$w_i = \tilde{S}(t_{(i)})$$ where $$\tilde{S}(t_{(i)}) = \prod_{t_{(j)}<t} \left(1 - \frac{d_j}{n_j}\right)$$
+
+-   Fleming-Harrington Test: This test allows the user to chose $\rho$ and $q$ values to weight the time points. If $\rho$ is larger it will weight the earlier time points more heavily, and if $q$ is larger it will weight the later time points more heavily. Its weighting is:
+
+$$w_i = [\tilde{S}(t_{(i-1)})]^{\rho}[1 - \tilde{S}(t_{(i-1)})]^q$$ where $$\tilde{S}(t_{(i- 1)}) = \text{Kaplan-Meier Estimate at time } t_{i-1}$$
+
+Thankfully the `surv_pvalue` function in the `survminer` package can be used to calculate the p-value for all of these tests by changing the `method` argument. See the table below for the different method arguments to use:
+
+| Test                   | Method Argument             |
+|------------------------|-----------------------------|
+| Log Rank Test          | Default- no argument needed |
+| Wilcoxon/Gehan-Breslow | method = "n"                |
+| Tarone-Ware            | method = "TW"               |
+| Peto-Prentice          | method = "PP"               |
+| Fleming-Harrington     | method = "FH"               |
+
+The `surv_pvalue` function does need a `survfit` object as input. We can use the `ninja_km_gender` object created earlier to check the p-values for the different methods.
+
+::: {.callout-note title="Exercise 7: Log-Rank Tests"}
+Run the code below to see the p-values for the different methods.
+
+```{r, eval=FALSE}
+surv_pvalue(ninja_km_gender) #log rank
+surv_pvalue(ninja_km_gender, method = "n") #Gehan Breslow (generalized Wilcoxon)
+surv_pvalue(ninja_km_gender, method = "TW") #tarone-ware
+surv_pvalue(ninja_km_gender, method = "PP") #Peto-Prentice
+surv_pvalue(ninja_km_gender, method = "FH") #Fleming-Harrington
+```
+
+a.  Using $\alpha = 0.05$, do all of the tests lead to the same conclusion? If so what is the conclusion? If not which ones agree and which ones do not?
+
+b.  Which **test** had the **smallest p-value**? 
+
+c.  Which **test** had the **largest p-value**?
+
+d. Based off of the **p-values** for the different tests, would you conclude that the difference between the genders is most likely more significant at the beginning or end of the course?
+
+:::
+
+# More Practice
+
+Read in the [anw_2023_stage1](anw_2023_stage1.csv) data to complete the following problems.
+
+::: {.callout-note title="Do It Yourself"}
+::: column-margin
+The winner of the 2023 American Ninja Warrior competition was Vance Walker. Walker won \$1 million for his victory.
+
+![Vance Walker](VanceWalker.jpg)
+
+Image Source: [NBC](https://www.nbc.com/nbc-insider/who-won-american-ninja-warrior-season-15)
+:::
+
+::: {.callout-note title="Challenge 1: Cleaning Data"}
+```{r, include=FALSE, echo=FALSE}
+anw_2023_stage1 <- read_csv("anw_2023_stage1.csv") |> 
+  filter(row_number() != max(row_number())) |> 
+  mutate(censor = ifelse(cause == "Fall", 1, 0))
+```
+
+a.  There is **one** ninja in the dataset who did a second run. **Find and remove** this second run from the data.
+
+b.  Why should this run be removed? (Hint: Think knowledge gained)
+
+c.  Add a variable called `censor` to the dataset that is a 0 if time ran out or the ninja completed the course, but is a 1 otherwise.
+:::
+
+::: column-margin
+**Fun Fact**: Thread the Needle, the 8th obstacle on the 2021 Finals Stage 1 course, saw the highest failure rate of any obstacle. It had not previously been used on the Finals Stage 1 courses.
+
+![Thread the Needle](Thread_the_Needle.png) Image Source: [Sasukepedia](https://sasukepedia.fandom.com/wiki/Thread_the_Needle)
+:::
+
+::: {.callout-note title="Challenge 2: Fitting KM"}
+```{r, include=FALSE, echo=FALSE}
+anw_km <- survfit(Surv(obstacle_number, 
+                        censor)~ 1, data = anw_2023_stage1)
+quantile(anw_km)
+summary(anw_km)
+distinct(anw_2023_stage1, obstacle, obstacle_number)
+```
+
+a.  Use the `survfit` function to find the Kaplan-Meier estimates
+
+b.  How many competitors were **at risk** at the **fifth** obstacle?
+
+c.  What is the **survival estimate** that a ninja survives past the **seventh** obstacle?
+
+d.  What is the **median** number of obstacles that a ninja survives on the course?
+:::
+
+::: column-margin
+Click [here](https://www.tandfonline.com/doi/full/10.1080/17498430.2018.1450055) to read more about Edward Kaplan and Paul Meier's work and how it has impacted the field of Statistics, particularly in regards to biostatistics.
+:::
+
+::: {.callout-note title="Challenge 3: Comparing Groups"}
+```{r, include=FALSE, echo=FALSE}
+anw_km_diff <- survdiff(Surv(obstacle_number,
+                             censor) ~ sex, data = anw_2023_stage1)
+anw_km_diff
+
+anw_km_gender <- survfit(Surv(obstacle_number,
+                              censor)~ sex, data = anw_2023_stage1)
+
+ggsurvplot(anw_km_gender, data = anw_2023_stage1, 
+           pval = TRUE, conf.int = TRUE)
+
+summary(anw_km_gender)
+quantile(anw_km_gender)
+```
+
+a.  Fit a `survdiff` model to compare the survival of males and females as well as another `survfit` model to find the Kaplan-Meier estimates for each group
+
+b.  What is the **test-static value** of the log-rank test?
+
+c.  What is your **conclusion** about the survival of males and females. Why?
+
+d.  Make a **plot** of the Kaplan-Meier estimates, showing the confidence intervals for each group.
+
+e.  Is it more likely that a female survives past the **fourth obstacle** or that a male survives past all **eight obstacles**?
+
+f.  Assume that the **null hypothesis** is that the true survival rate of surviving the first **4 obstacles** is equal for males and females. \n The **alternative hypothesis** is that the true survival rates are different. \n Based on **95% confidence intervals**, is it correct to say that the true mean of survival rate for males to survive past the **fourth obstacle** is **different** than the true mean of for females to survive past the **fourth obstacle**? Explain your answer.
+:::
+:::

@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jonathan Lieb">
+<meta name="dcterms.date" content="2024-07-22">
+<meta name="description" content="Exploring Survival Analysis using the Kaplan-Meier method with American Ninja Warrior data.">
+
+<title>Baylor APU SCORE Module Preprint Repository - American Ninja Warrior - Kaplan-Meier Survival Analyis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-JVDQHPRYT1"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-JVDQHPRYT1', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Baylor APU SCORE Module Preprint Repository</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../by-statsds-topic.html" aria-current="page"> 
+<span class="menu-text">Modules By Topic</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://data.scorenetwork.org/"> 
+<span class="menu-text">Data Repository</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../anw/kaplan_meier/index.html">Anw</a></li><li class="breadcrumb-item"><a href="../../anw/kaplan_meier/index.html">American Ninja Warrior - Kaplan-Meier Survival Analyis</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../by-statsds-topic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modules By Topic</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Anw</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../anw/kaplan_meier/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">American Ninja Warrior - Kaplan-Meier Survival Analyis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+ <span class="menu-text">Golf</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_gir/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scheffler Greens in Regulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_masters/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scoring Average Confidence Intervals</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+ <span class="menu-text">Mma</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../mma/mma_chisquare/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MMA Fight Decisions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+ <span class="menu-text">Tennis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../tennis/tennis_sampsize/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tennis Sample Size</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">Volleyball</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../volleyball/ncaa_d1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Volleyball - Women’s NCAA Division I</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#welcome-video" id="toc-welcome-video" class="nav-link active" data-scroll-target="#welcome-video">Welcome video</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#getting-started-american-ninja-warrior-data" id="toc-getting-started-american-ninja-warrior-data" class="nav-link" data-scroll-target="#getting-started-american-ninja-warrior-data">Getting started: American Ninja Warrior data</a>
+  <ul class="collapse">
+  <li><a href="#terms-to-know" id="toc-terms-to-know" class="nav-link" data-scroll-target="#terms-to-know">Terms to know</a></li>
+  <li><a href="#variable-descriptions" id="toc-variable-descriptions" class="nav-link" data-scroll-target="#variable-descriptions">Variable Descriptions</a></li>
+  <li><a href="#points-of-confusion" id="toc-points-of-confusion" class="nav-link" data-scroll-target="#points-of-confusion">Points of Confusion</a></li>
+  </ul></li>
+  <li><a href="#kaplan-meier-survival-analysis" id="toc-kaplan-meier-survival-analysis" class="nav-link" data-scroll-target="#kaplan-meier-survival-analysis">Kaplan-Meier Survival Analysis</a>
+  <ul class="collapse">
+  <li><a href="#censored-data" id="toc-censored-data" class="nav-link" data-scroll-target="#censored-data">Censored Data</a></li>
+  <li><a href="#calculating-survival-probabilities" id="toc-calculating-survival-probabilities" class="nav-link" data-scroll-target="#calculating-survival-probabilities">Calculating Survival Probabilities</a></li>
+  <li><a href="#kaplan-meier-estimator-manual-calculation" id="toc-kaplan-meier-estimator-manual-calculation" class="nav-link" data-scroll-target="#kaplan-meier-estimator-manual-calculation">Kaplan-Meier Estimator Manual Calculation</a></li>
+  <li><a href="#using-r-to-calculate-the-kaplan-meier-estimator" id="toc-using-r-to-calculate-the-kaplan-meier-estimator" class="nav-link" data-scroll-target="#using-r-to-calculate-the-kaplan-meier-estimator">Using R to Calculate the Kaplan-Meier Estimator</a></li>
+  </ul></li>
+  <li><a href="#kaplan-meier-estimator-by-groups" id="toc-kaplan-meier-estimator-by-groups" class="nav-link" data-scroll-target="#kaplan-meier-estimator-by-groups">Kaplan-Meier Estimator by Groups</a>
+  <ul class="collapse">
+  <li><a href="#the-log-rank-test" id="toc-the-log-rank-test" class="nav-link" data-scroll-target="#the-log-rank-test">The Log-Rank Test</a></li>
+  <li><a href="#other-nonparametric-tests" id="toc-other-nonparametric-tests" class="nav-link" data-scroll-target="#other-nonparametric-tests">Other Nonparametric Tests</a></li>
+  </ul></li>
+  <li><a href="#more-practice" id="toc-more-practice" class="nav-link" data-scroll-target="#more-practice">More Practice</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../anw/kaplan_meier/index.html">Anw</a></li><li class="breadcrumb-item"><a href="../../anw/kaplan_meier/index.html">American Ninja Warrior - Kaplan-Meier Survival Analyis</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">American Ninja Warrior - Kaplan-Meier Survival Analyis</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Kaplan-Meier</div>
+    <div class="quarto-category">Log Rank test</div>
+    <div class="quarto-category">Nonparametric tests</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Exploring Survival Analysis using the Kaplan-Meier method with American Ninja Warrior data.
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jonathan Lieb <a href="mailto:jonathan_lieb1@baylor.edu" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Baylor University
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 22, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Facilitation notes">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Facilitation notes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>This module would be suitable for an in-class lab or take-home assignment in an intermediate statistics course.</p></li>
+<li><p>It assumes a familiarity with the RStudio Environment and R programming language.</p></li>
+<li><p>Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.</p>
+<ul>
+<li><a href="anw_2021_stage1.csv" download="">data</a></li>
+<li><a href="student_template.qmd">Student Quarto template</a></li>
+</ul></li>
+<li><p><a href="https://posit.cloud/">Posit Cloud</a> (via an Instructor account) or <a href="https://classroom.github.com">Github classroom</a> are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<section id="welcome-video" class="level1">
+<h1>Welcome video</h1>
+<iframe width="560" height="315" src="" title="placeholder">
+</iframe>
+</section>
+<section id="introduction" class="level1 page-columns page-full">
+<h1>Introduction</h1>
+<p>In this module, you will explore American Ninja Warrior data from the 2021 stage 1 finals through the lens of <strong>survival analysis</strong>. Survival analysis is a statistical method used to analyze the time until an event of interest occurs (often this event is death). In this case, the obstacles will be our time, and the event of interest will be <strong>DEATH</strong> (we’re calling failing off an obstacle death).</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>American Ninja Warrior Logo <img src="American_Ninja_Warrior_Logo.jpg" class="img-fluid"></p>
+<p>Imagage Source <a href="https://commons.wikimedia.org/wiki/File:American_Ninja_Warrior_Logo.jpg">Wikimedia</a></p>
+</div></div><p>One of the simplest methods for survival analysis is the <strong>Kaplan-Meier method</strong>. This method estimates the survival function, which is the probability that a subject survives past a certain time. The Kaplan-Meier method is non-parametric, meaning it makes no assumptions about the distribution of the survival times. It is a step function that decreases at each event time.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Learning Objectives">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this module you should be able to:</p>
+<ul>
+<li><p>Load data into R</p></li>
+<li><p>Calculate Survival Estimates using the Kaplan-Meier method</p></li>
+<li><p>Censor data</p></li>
+<li><p>Make Survival Probability Plots</p></li>
+<li><p>Compare Survival Curves for different groups</p></li>
+<li><p>Perform the Log Rank Test</p></li>
+<li><p>Perform and Intepret Results from other Nonparametric tests</p></li>
+</ul>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<br>
+<br>
+<br>
+</p>
+<p><strong>NOTE</strong>: <strong>R</strong> is the name of the programming language itself and <strong>RStudio</strong> is a convenient interface. To throw even more lingo in, you may be accessing RStudio through a web-based version called <strong>Posit Cloud</strong>. But R is the programming language you are learning :)</p>
+</div></div><div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research Question">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research Question
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>During this lab we will explore the following research questions:</p>
+<ul>
+<li>What is the probability of a competitor surviving past a certain obstacle?</li>
+<li>How do conditional probabilities of survival change as the competitor progresses through the course?</li>
+<li>Do survival probabilities differ based on sex?</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="getting-started-american-ninja-warrior-data" class="level1 page-columns page-full">
+<h1>Getting started: American Ninja Warrior data</h1>
+<p>The first step to any analysis in R is to <strong>load necessary packages and data</strong>.</p>
+<p>Running the following code will load the <code>tidyverse</code>, <code>survival</code>, and <code>survminer</code> packages and the <code>anw_2021_stage1</code> data we will be using in this lab.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: As you follow along in the lab, you should run each corresponding code chunk in your .qmd document. To “Run” a code chunk, you can press the green “Play” button in the top right corner of the code chunk in your .qmd. You can also place your cursor anywhere in the line(s) of code you want to run and press “command + return” (Mac) or “Ctrl + Enter” (Windows).</p>
+</div><div class="">
+<p><strong>TIP</strong>: If you get an error while attempting to load the library or data, you may need to install the package or check the file path. You can install packages using the <code>install.packages()</code> function in R. Once you have installed a package, you can load it into your R environment using the <code>library()</code> function. If that is not the issue, you may need to check the file path to ensure the data is in the correct location.</p>
+</div></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survminer)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load Data</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ninja <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"anw_2021_stage1.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can use the <code>glimpse()</code> function to get a quick look at our <code>ninja</code> data. The dimensions of the dataset, the variable names, and the first few observations are displayed.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(ninja)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 69
+Columns: 5
+$ name            &lt;chr&gt; "Meagan Martin", "DeShawn Harris", "Heather Weissinger…
+$ sex             &lt;chr&gt; "F", "M", "F", "M", "F", "F", "M", "M", "M", "F", "F",…
+$ obstacle        &lt;chr&gt; "Slide Surfer", "Slide Surfer", "Swinging Blades", "Sw…
+$ obstacle_number &lt;dbl&gt; 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, …
+$ cause           &lt;chr&gt; "Fall", "Fall", "Fall", "Fall", "Fall", "Fall", "Fall"…</code></pre>
+</div>
+</div>
+<p>Use the <code>head()</code> function to view the first few rows of the dataset better.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ninja)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 5
+  name               sex   obstacle        obstacle_number cause
+  &lt;chr&gt;              &lt;chr&gt; &lt;chr&gt;                     &lt;dbl&gt; &lt;chr&gt;
+1 Meagan Martin      F     Slide Surfer                  1 Fall 
+2 DeShawn Harris     M     Slide Surfer                  1 Fall 
+3 Heather Weissinger F     Swinging Blades               2 Fall 
+4 Cam Baumgartner    M     Swinging Blades               2 Fall 
+5 Brittney Durant    F     Swinging Blades               2 Fall 
+6 Casey Rothschild   F     Swinging Blades               2 Fall </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 1: Data Structure">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1: Data Structure
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>How many <strong>observations</strong> are in the dataset?</p></li>
+<li><p>How many <strong>variables</strong> are in the dataset?</p></li>
+<li><p>Which <strong>variable</strong> should be used as the time variable in the survival analysis?</p></li>
+</ol>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<strong>TIP:</strong> Type your answers to each exercise in the .qmd document.<br>
+</p>
+</div></div><section id="terms-to-know" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="terms-to-know">Terms to know</h2>
+<p>Before proceeding with the survival analysis, let’s make sure we understand American Ninja Warrior and some of it’s vocabulary to help us climb our way through this lab.</p>
+<section id="how-does-american-ninja-warrior-work" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="how-does-american-ninja-warrior-work">How does American Ninja Warrior work?</h4>
+<p>American Ninja Warrior is an NBC competition show where participants attempt to complete a series of <strong>obstacle courses</strong> of increasing difficulty. In a single <strong>obstacle course</strong>, the competitors must complete a series of obstacles in a row. If they fail an <strong>obstacle</strong> (usually this happens when they fall into the water below), they are eliminated from the competition. The competitors also have a time limit to complete the course. The competitors are ranked based on how far they get in the course and how quickly they complete it.</p>
+<p>Most of the obstacles are designed to test the competitors’ upper body strength. Some obstacles require balance and agility though.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>The warped wall is arguably the most famous, although now least difficult, obstacle on an American Ninja Warrior course. The warped wall is a curved wall that competitors must run up and grab the top of. The warped wall is on every course and is often the final obstacle, although this is not the case on the Finals courses.</p>
+<p>The warped wall was previously 14 feet and is now 14.5 feet tall. They have even had a 18 foot warped wall on the show.</p>
+<p>Warped Wall <img src="warped_wall.png" class="img-fluid"></p>
+<p>Image Source: <a href="https://www.americanninjawarriornation.com/2019/4/11/18306334/warped-wall-evolution-as-the-ninjas-get-better-the-obstacles-get-harder">SB Nation</a></p>
+</div></div><p>The obstacles in American Ninja Warrior are all given names. For example, the famed <strong>Warped Wall</strong> is a curved wall that competitors must run up and grab the top of. The <strong>Salmon Ladder</strong> is a series of rungs that competitors must move up by jumping and pulling themselves up.</p>
+<p>Watch Enzo Wilson complete the American Ninja Warrior course at the 2021 Finals Stage 1 (Season 13) in the video below.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/kYXFjANBHl4" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Key Terms
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><strong>Obstacle</strong>: A challenge that competitors must complete to move on in the competition.</p></li>
+<li><p><strong>Course</strong>: A series of obstacles that competitors must complete in a row. A typical course has 6-10 obstacles.</p></li>
+<li><p><strong>Stage</strong>: A round of the competition. The competition starts with Stage 1 and progresses to Stage 4.</p></li>
+<li><p><strong>Time Limit</strong>: The amount of time competitors have to complete the course, often between 2-4 minutes.</p></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="variable-descriptions" class="level2">
+<h2 class="anchored" data-anchor-id="variable-descriptions">Variable Descriptions</h2>
+<p>The <code>ninja</code> data you’ll be analyzing in this lab provides the individual run information for each ninja in the 2021 Finals Stage 1 (Season 13). The data includes the ninja’s name, their sex, the obstacle they failed on, and the cause of that failure.</p>
+<details>
+<summary>
+<b>Variable Descriptions</b>
+</summary>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 73%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>name</code></td>
+<td>Name of the American Ninja Warrior</td>
+</tr>
+<tr class="even">
+<td><code>sex</code></td>
+<td>Sex of the American Ninja Warrior (M/F)</td>
+</tr>
+<tr class="odd">
+<td><code>obstacle</code></td>
+<td>The name of the obstacle the ninja failed on</td>
+</tr>
+<tr class="even">
+<td><code>obstacle_number</code></td>
+<td>The obstacles’ place in the run</td>
+</tr>
+<tr class="odd">
+<td><code>cause</code></td>
+<td>What caused the ninja to fail (Fall/Time/Complete)</td>
+</tr>
+</tbody>
+</table>
+</details>
+</section>
+<section id="points-of-confusion" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="points-of-confusion">Points of Confusion</h2>
+<p>Use the following code to create a table of the obstacle names and their corresponding obstacle numbers. This will help you understand the order of the obstacles in the course.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ninja <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(obstacle, obstacle_number)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   obstacle        obstacle_number
+   &lt;chr&gt;                     &lt;dbl&gt;
+ 1 Slide Surfer                  1
+ 2 Swinging Blades               2
+ 3 Double Dipper                 3
+ 4 Jumping Spider                4
+ 5 Tire Run                      5
+ 6 Dipping Birds                 7
+ 7 The High Road                 8
+ 8 Fly Hooks                     8
+ 9 Cargo Net                     9
+10 Complete                     10</code></pre>
+</div>
+</div>
+<p>It can be seen quickly that there is no obstacle number 6 in the data and that there are 2 obstacles with number 8. Both of these appear confusing at first, but they have logical explanations.</p>
+<p>The missing obstacle number 6 is due to the fact that no ninja failed on obstacle 6. Some quick research tells us that obstacle 6 was the <strong>warped wall</strong>.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Read about the 2021 Stage 1 Split Decision <a href="https://www.americanninjawarriornation.com/2021/9/21/22686483/american-ninja-warrior-season-13-2021-national-finals-stage-one-split-decision">here</a>.</p>
+</div></div><p>The duplicate obstacle number 8 is due to the fact that Stage One of the 2021 Finals allowed a <strong>split-decision</strong>. This means that competitors could choose between two different obstacles for obstacle 8.</p>
+<p>Another important thing to note is that <strong>obstacle 10</strong> is not really an obstacle, but rather the <strong>end of the course</strong>.</p>
+<p>Lastly, one competitor <strong>Joe Moravsky</strong> ran the course twice (falling the first time and completing it the second time). This is because he was the <strong>Safety Pass Winner</strong> from the previous round. The Safety Pass allows a competitor to run the course again if they fail the first time. This poses some questions about how to handle this observation. We could</p>
+<ol type="a">
+<li><p>Include both runs in the analysis, treating them as separate observations.</p></li>
+<li><p>Include only the first run in the analysis.</p></li>
+<li><p>Include only the second run in the analysis.</p></li>
+</ol>
+<p>If we include the second run in the analysis, we are neglecting the fact that Joe Moravsky had already attempted the course once and may have learned from his mistakes.</p>
+<p>If we include the first run in the analysis, an argument could be made that Moravsky only failed the first time because he knew he had a second chance.</p>
+<p>In most survival analysis situations, an individual would not be capable of participating twice from the beginning (after all if death were truly the event of interest, it would be safe to say there is no second chance). Therefore, we will only include the first run in the analysis.</p>
+<p>Run the code below to remove the second run from the data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ninja <span class="ot">&lt;-</span> ninja <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name <span class="sc">!=</span> <span class="st">"Joe Moravsky (Safety Pass)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that we’ve cleared some of the muddiness, let’s move on to the fun stuff!</p>
+</section>
+</section>
+<section id="kaplan-meier-survival-analysis" class="level1 page-columns page-full">
+<h1>Kaplan-Meier Survival Analysis</h1>
+<section id="censored-data" class="level2">
+<h2 class="anchored" data-anchor-id="censored-data">Censored Data</h2>
+<p>In survival analysis, we often have need to <strong>censor data</strong>. Censored data occurs when the <strong>event of interest</strong> has not occurred for some of the observations. In our case, the event of interest is the failure of a competitor on an obstacle. If a competitor completes the course, we do not know which obstacle they would have failed on. Additionally if the time limit is reached, we do not know which obstacle the competitor would have failed on, although we do know that they didn’t fail on any of the ones they completed before time was up. Both of these situations are examples of <strong>censored data</strong>.</p>
+<p>Use the code below to create a new column called <code>censor</code> in the <code>ninja</code> data that is a binary indicator of whether or not the observation should be censored. This column will be used to indicate whether the data is censored or not.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Makes a column called censor that is 1 if the competitor failed and 0 if they completed the course or ran out of time</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>ninja <span class="ot">&lt;-</span> ninja <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">censor =</span> <span class="fu">if_else</span>(cause <span class="sc">%in%</span>  <span class="fu">c</span>(<span class="st">"Complete"</span>, <span class="st">"Time"</span>), <span class="dv">0</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="calculating-survival-probabilities" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="calculating-survival-probabilities">Calculating Survival Probabilities</h2>
+<p>The Kaplan-Meier estimator uses information from all of the observations in the data and considers survival to a certain point in time as a series of steps defined at the observed survival times.</p>
+<p>In order to calculate the probability of surviving past a certain point in time (past a certain obstacle in this case), the conditional probability of surviving past that point given that the competitor has survived up to that point must be calculated first.</p>
+<p>The formula for the conditional probability of surviving past a point in time (<span class="math inline">\(t_i\)</span>) given that the competitor has survived up to that point in time(<span class="math inline">\(t_{i-1}\)</span>) is:</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>Note</strong>: This function could also be written as <span class="math inline">\(P(T &gt; t_i | T \geq t_{i-1}) = \frac{n_i - d_i}{n_i}\)</span></p>
+</div></div><p><span class="math inline">\(P(T \geq t_i | T \geq t_{i-1}) = 1- \frac{d_i}{n_i}\)</span></p>
+<p>Where:</p>
+<ul>
+<li><p><span class="math inline">\(d_i\)</span> is the number of competitors that failed at time <span class="math inline">\(t_i\)</span></p></li>
+<li><p><span class="math inline">\(n_i\)</span> is the number of competitors that were at risk at time <span class="math inline">\(t_i\)</span></p></li>
+</ul>
+<p>The Kaplan-Meier estimator is the product of the conditional probabilities of surviving past each point in time up through that point in time.</p>
+<p><span class="math inline">\(\hat{S}(t) = \prod_{t_i \leq t} (1 - \frac{d_i}{n_i})\)</span></p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>Note</strong>: Censored data does not count in the at risk competitors</p>
+</div></div><p>where <span class="math inline">\(n_i = n_{i-1} - d_{i-1} - c_{i-1}\)</span></p>
+<p>For example if we have this data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting a seed for reproducibility</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating fake data</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>fake_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">obstacle_number =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">4</span><span class="sc">:</span><span class="dv">5</span>), <span class="at">censor =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">25</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fake_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  obstacle_number censor
+            &lt;int&gt;  &lt;dbl&gt;
+1               5      0
+2               5      0
+3               3      1
+4               4      0
+5               3      1
+6               2      1</code></pre>
+</div>
+</div>
+<p>And we wanted to calculate the Kaplan-Meier estimate of surviving past obstacle 2 we would need to find the following probabilities:</p>
+<p><span class="math inline">\(P(T &gt; 1 | T &gt; 0) = P(T &gt; 1) =  1 - \frac{\text{number of competitors that failed at obstacle 1}}{\text{number of competitors that attempted obstacle 1}}\)</span></p>
+<p><span class="math inline">\(P(T &gt; 2 | T &gt; 1) = 1 - \frac{\text{number of competitors that failed at obstacle 2}}{\text{number of competitors that attempted obstacle 2}}\)</span></p>
+<p>The following code calculates the first two probabilities:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fake_data_summary <span class="ot">&lt;-</span> fake_data <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(obstacle_number <span class="sc">&lt;=</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(obstacle_number) <span class="sc">|&gt;</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">fails =</span> <span class="fu">sum</span>(censor <span class="sc">==</span> <span class="dv">1</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">at_risk =</span> <span class="dv">25</span> <span class="sc">-</span> <span class="fu">cumsum</span>(fails),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">cond_prob =</span> <span class="dv">1</span> <span class="sc">-</span> fails<span class="sc">/</span>at_risk)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>fake_data_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 4
+  obstacle_number fails at_risk cond_prob
+            &lt;int&gt; &lt;int&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+1               1     4      21     0.810
+2               2     3      18     0.833</code></pre>
+</div>
+</div>
+<p>We would then need to multiply these two probabilities together to get the Kaplan-Meier estimate of surviving past obstacle 2.</p>
+<p><span class="math inline">\(P(T &gt; 2) = P(T &gt; 1) * P(T &gt; 2 | T &gt; 1)\)</span></p>
+<p>The following code calculates the Kaplan-Meier estimate of surviving past obstacle 2:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>kaplan_meier <span class="ot">&lt;-</span> fake_data_summary <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">kaplan_meier =</span> <span class="fu">prod</span>(cond_prob))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The Kaplan-Meier estimate of surviving past obstacle 2 in this fake example is 0.6746032.</p>
+</section>
+<section id="kaplan-meier-estimator-manual-calculation" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="kaplan-meier-estimator-manual-calculation">Kaplan-Meier Estimator Manual Calculation</h2>
+<p>The <code>ninja</code> data frame contains information about individual competitors in the ninja competition. We will need to summarize the data to calculate the Kaplan-Meier estimator manually.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 2: Manual Calculation of Kaplan-Meier Estimator">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2: Manual Calculation of Kaplan-Meier Estimator
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this exercise you will calculate the Kaplan-Meier estimator of surviving past each obstacle in the ninja competition step-by-step.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Part 1: Number of Events">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Part 1: Number of Events
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The first step is to calculate the number of competitors that failed and the number of competitors that were censored at each point in time. These are the <span class="math inline">\(d_i\)</span> and <span class="math inline">\(c_i\)</span> values needed to calculate the conditional probability of surviving past each point in time.</p>
+<p>Use the following code to sum the number of competitors that failed and the number of competitors that were censored at each obstacle.</p>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ninja_summary <span class="ot">&lt;-</span> ninja <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="at">obstacle =</span> obstacle_number) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">fails =</span> <span class="fu">sum</span>(cause <span class="sc">==</span> <span class="st">"Fall"</span>),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">censored =</span> <span class="fu">sum</span>(cause <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Complete"</span>, <span class="st">"Time"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="a">
+<li><p>At which <strong>obstacle</strong> did the most competitors fail?</p></li>
+<li><p>At which <strong>obstacle</strong> were the most competitors censored (not including obstacle 10 which is completion)?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Part 2: At Risk Competitors">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Part 2: At Risk Competitors
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The second step is to calculate the number of competitors at risk at each point in time. This is the <span class="math inline">\(n_i\)</span> value needed to calculate the conditional probability of surviving past each point in time.</p>
+<p>Use the following code to calculate the number of competitors at risk at each point in time from the <code>ninja_summary</code> data frame.</p>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ninja_summary <span class="ot">&lt;-</span> ninja_summary <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">attempts =</span> <span class="dv">69</span> <span class="sc">-</span> <span class="fu">lag</span>(<span class="fu">cumsum</span>(fails), <span class="at">default =</span> <span class="dv">0</span>) <span class="sc">-</span> <span class="fu">cumsum</span>(censored))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="a">
+<li><p>Which <strong>obstacle</strong> had the most competitors at risk?</p></li>
+<li><p>Why don’t <strong>censored</strong> competitors contribute to the number of competitors at risk at the obstacle?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Part 3: Conditional Survival Probability">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Part 3: Conditional Survival Probability
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The third step is to calculate the conditional probability of survival at each point in time. This is the <span class="math inline">\(P(T \geq t_i | T \geq t_{i-1})\)</span> value needed to calculate the Kaplan-Meier estimator and is calculated as <span class="math inline">\(1 - \frac{d_i}{n_i}\)</span>.</p>
+<ol type="a">
+<li>Use the <code>ninja_summary</code> data frame to calculate the probability that someone survives each obstacle. Do this using the <code>mutate</code> function to create a new column called <code>surv_prob</code>. Survival probability is 1 minus the number of competitors that failed divided by the number of competitors at risk. <strong>Save this data frame as <code>ninja_summary</code></strong>.</li>
+</ol>
+
+<ol start="2" type="a">
+<li><p>What <strong>percentage</strong> of at-risk competitors <strong>survived</strong> the first obstacle?</p></li>
+<li><p>What <strong>percentage</strong> of at-risk competitors <strong>failed</strong> the fifth obstacle?</p></li>
+<li><p>Which obstacle had the <strong>highest</strong> conditional <strong>fail</strong> probability?</p></li>
+<li><p>Did <strong>obstacle 2</strong> or <strong>obstacle 7</strong> have a higher conditional <strong>survival</strong> rate?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Part 4: Kaplan-Meier">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Part 4: Kaplan-Meier
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The final step is to calculate the Kaplan-Meier estimator of surviving past each point in time (<span class="math inline">\(\hat{S}(t)\)</span>) This is calculated as the product of the conditional probabilities of surviving past each point in time up through the desired point in time (<span class="math inline">\(\prod_{i=1}^{t} P(T \geq t_i | T \geq t_{i-1})\)</span>).</p>
+<p>Use the following code to calculate the Kaplan-Meier estimator manually by multiplying the conditional probabilities of surviving past each point in time up through the desired point in time.</p>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ninja_summary <span class="ot">&lt;-</span> ninja_summary <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">km =</span> <span class="fu">cumprod</span>(surv_prob))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="a">
+<li><p>What is the Kaplan-Meier estimate for surviving past the <strong>first obstacle</strong>?</p></li>
+<li><p>What is the Kaplan-Meier estimate for surviving past first <strong>five obstacles</strong>?</p></li>
+<li><p>What is the farthest obstacle that for which the Kaplan-Meier estimator has more <strong>50%</strong> of competitors surviving?</p></li>
+</ol>
+</div>
+</div>
+<section id="plotting-the-kaplan-meier-estimator" class="level4">
+<h4 class="anchored" data-anchor-id="plotting-the-kaplan-meier-estimator">Plotting the Kaplan-Meier Estimator</h4>
+<p>We will now use <code>ggplot2</code> to plot the Kaplan-Meier estimator for the ninja competitors. The Kaplan-Meier estimator is a step function, so we will use <code>geom_step</code> to plot the estimator. We will also use <code>geom_point</code> to plot the points where the estimator changes.</p>
+
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Part 5: Plotting the Kaplan-Meier Estimator">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Part 5: Plotting the Kaplan-Meier Estimator
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+<ol type="a">
+<li><p>Use the <code>ninja_summary</code> data frame in conjunction with <code>ggplot2</code>’s <code>geom_step</code> and <code>geom_point</code> to plot the Kaplan-Meier estimator for the ninja competitors.</p></li>
+<li><p>Comment on the plot.</p></li>
+<li><p>What do you notice about where the lowest point on the plot is in regard to <strong>survival probability</strong>? Does <strong>survival probability</strong> reach zero? Why or why not?</p></li>
+</ol>
+</div>
+</div>
+</section>
+</div>
+</div><div class="no-row-height column-margin column-container"><div class="callout-margin-content">
+<p><br><br><br><br><br><br><br> <strong>Note</strong>: The censored column is the number of competitors that were censored at each obstacle. The only reason that this number is not 0 at any obstacle that is not number 10 (completed) is because some competitors ran out of time on that obstacle.</p>
+</div><div class="callout-margin-content">
+<p><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+<p><strong>Note</strong>: The <code>lag</code> function shifts the <code>cumsum</code> of the <code>fails</code> column down one row. The <code>default = 0</code> argument fills in the first row with 0. This is necessary to help calculate the number of competitors at risk at each obstacle. Note that the <code>lag</code> function is not used in conjunction with the <code>cumsum</code>function for the <code>censored</code> column.</p>
+</div><div class="callout-margin-content">
+<p><br><br><br><br><br><br><br><br><br><br> <strong>TIP</strong>: You can pipe the data frame into the <code>mutate</code> function to create a new column.</p>
+<p><strong>TIP</strong>: The <code>mutate</code> function works like so: <code>data_frame |&gt; mutate(new_column = calculation)</code></p>
+</div><div class="callout-margin-content">
+<p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> <strong>Note</strong>: The <code>cumprod</code> function calculates the cumulative product of the values given to it.</p>
+</div><div class="callout-margin-content">
+<p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> Type <code>?geom_step</code>, <code>?geom_point</code>, or <code>?ggplot</code> in the console to learn more about these functions.</p>
+</div><div class="callout-margin-content">
+<p><strong>TIP</strong>: Remember that you can add the <code>+</code> operator to continue adding layers to the plot like seen below</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(your_data, <span class="fu">aes</span>(<span class="at">x =</span> time_var, <span class="at">y =</span> kaplan_meier_var)) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_step</span>() <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>TIP</strong>: You can also add labels to the plot using the <code>labs</code> function like seen below</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(your_data, <span class="fu">aes</span>(<span class="at">x =</span> time_var, <span class="at">y =</span> kaplan_meier_var)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_step</span>() <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Your Title"</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X Axis Label"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Y Axis Label"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div></div>
+</section>
+<section id="using-r-to-calculate-the-kaplan-meier-estimator" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="using-r-to-calculate-the-kaplan-meier-estimator">Using R to Calculate the Kaplan-Meier Estimator</h2>
+<p>Phew! That was a lot of tedious work to calculate and plot the Kaplan-Meier estimator manually. Luckily, there is a much easier way to calculate the Kaplan-Meier estimator using R.</p>
+<p>The <code>survival</code> package in R provides a function called <code>survfit</code> that can be used to calculate the Kaplan-Meier estimator. The <code>survfit</code> function requires a <code>Surv</code> object as input. The <code>Surv</code> object is created using the <code>Surv</code> function, which requires two arguments:</p>
+<ol type="1">
+<li><p>The time to event data. The time to event data is the time at which the event occurred or the time at which the individual was censored. <strong>In our case this is the <code>obstacle_number</code> in our <code>ninja</code> data.</strong></p></li>
+<li><p>The event status. The event status is a binary variable that indicates whether the event occurred or the individual was censored. The event status is coded as 1 if the event occurred and 0 if the individual was censored. <strong>This is contained in the <code>censor</code> column of the <code>ninja</code> data.</strong></p></li>
+</ol>
+<p>Below a survfit model is created for the <code>ninja</code> dataset and the results are stored in the <code>ninja_km</code> object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ninja_km <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(obstacle_number, censor) <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> ninja)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 3: Kaplan-Meier Estimates and Interpretation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 3: Kaplan-Meier Estimates and Interpretation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use <code>summary(ninja_km)</code> to view a summary of the Kaplan-Meier estimator.</p>
+<ol type="a">
+<li>Do the values in the <strong>survival</strong> column match the values you calculated manually?</li>
+</ol>
+
+<p>The output also shows the <strong>95% confidence intervals</strong>.</p>
+<ol start="2" type="a">
+<li><p>Which <strong>obstacle number</strong> is the first point in time where a survival rate of <strong>less than .5</strong> falls within the <strong>95% confidence interval</strong>?</p></li>
+<li><p>What do you notice about the <strong>standard error</strong> as the time increases?</p></li>
+</ol>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"><div class="callout-margin-content">
+<p>The computations for calculating the Confidence Interval for the K-M Estimate are fairly complex. The method most commonly used is called the <strong>log-log survival function</strong> and was proposed by Kalbfleisch and Prentice (2002). This function is computed by <span class="math inline">\(ln(-ln[\hat{S}(t)])\)</span> with variance derived from the delta method and calculated by <span class="math display">\[
+\frac{1}{[ln(\hat{S}(t))]^2}\sum_{t_i\leq{t}}\frac{d_i}{n_i(n_i - d_i)}
+\]</span>.</p>
+<p>The endpoints for the confidence interval for the <strong>log-log survival function</strong> are therefore found by <span class="math inline">\(ln(-ln[\hat{S}(t)]) \pm Z_{1-\alpha / 2} SE [ln(-ln[\hat{S}(t)]) ]\)</span></p>
+<p>And the endpoints expressed by the computer and seen in the summary are <span class="math inline">\(exp[-exp(\hat{c}_u)] \text{ and } exp[-exp(\hat{c}_l)]\)</span></p>
+</div></div><section id="quartile-interpretation" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="quartile-interpretation">Quartile Interpretation</h4>
+<p>The three quartiles are common statistics to look at when doing a survival analysis. The interpretations of these are as follows:</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>Note</strong>: If the data is uncensored the estimate is just the median of the data. If the data is censored, the KM estimate is used to find these by finding the time at which it drops below the percentile</p>
+</div></div><ol type="1">
+<li><p><strong>25th Percentile</strong>- 75% of the people survive past this point in time</p></li>
+<li><p><strong>Median</strong>- 50% of the people will survive past this time</p></li>
+<li><p><strong>75th Percentile</strong>- 25% survive past this time</p></li>
+</ol>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 4: Interpreting Quartiles">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 4: Interpreting Quartiles
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the results from <code>quantile(ninja_km)</code> to answer the following questions</p>
+<ol type="a">
+<li><p>What is the <strong>earliest time</strong> that the confidence intervals imply that the true mean of surviving past that time could be <strong>75%</strong>? What is the <strong>latest</strong> time?</p></li>
+<li><p>What is the <strong>interpretation</strong> of the NA values in the 75th percentile columns?</p></li>
+<li><p>What is the earliest <strong>time</strong> (within the 95% confidence interval) at which the true survival rate suggests <strong>50%</strong> of the competitors would fail on or before?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="plotting-with-r" class="level4">
+<h4 class="anchored" data-anchor-id="plotting-with-r">Plotting with R</h4>
+<p>After fitting a Kaplan-Meier model, we can use the <code>ggsurvplot</code> function from the <code>survminer</code> package to plot the Kaplan-Meier estimator. The <code>ggsurvplot</code> function requires the Kaplan-Meier model as input.</p>
+<p>Below is an example of how easy it is to plot the Kaplan-Meier estimator using R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(ninja_km,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="kaplan-meier-estimator-by-groups" class="level1 page-columns page-full">
+<h1>Kaplan-Meier Estimator by Groups</h1>
+<p>Sometimes we may want to compare the survival probabilities of different groups of individuals. For example, we may want to compare survival probabilities based on age, gender, treatment group, or a variety of other factors.</p>
+<p>In our data set, we have a variable called <code>sex</code> that indicates the gender of the competitor. We can use this variable to compare the survival probabilities for males and females.</p>
+<p>The Kaplan-Meier estimator can be calculated for different groups of individuals quite easily in <strong>R</strong>. We simply have to add the variable <code>sex</code> to our function in the model to do this.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ninja_km_gender <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(obstacle_number, </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                                censor)<span class="sc">~</span> sex, <span class="at">data =</span> ninja)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A plot can be created to help us compare these groups.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>Fun Fact</strong>: Jesse Labreck was the only woman to complete the 2021 American Ninja Warrior Stage 1 Finals Course.</p>
+<p>You can watch her incredible run below </p><div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/8KIED3eCNUs" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div><p></p>
+</div></div><div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsurvplot</span>(ninja_km_gender,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 5: Kaplan-Meier Estimates by Group">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 5: Kaplan-Meier Estimates by Group
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Which <code>sex</code> group has a higher survival probability for most of the time points?</p></li>
+<li><p>Which <code>sex</code> has a wider confidence interval throughout the time points?</p></li>
+<li><p>Explain why your answer to <strong>b</strong> might be the case.</p></li>
+</ol>
+</div>
+</div>
+<section id="the-log-rank-test" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="the-log-rank-test">The Log-Rank Test</h2>
+<p>The Log-Rank Test is a statistical test used to compare the survival probabilities of two or more groups. The test is used to determine if there is a statistically significant difference between the survival probabilities of the groups.</p>
+<p>The hypotheses for our log-rank test are as follows:</p>
+<ul>
+<li><span class="math inline">\(H_0: S_M(t) = S_F(t)\)</span> for all <span class="math inline">\(t\)</span></li>
+<li><span class="math inline">\(H_a: S_M(t) \neq S_F(t)\)</span> for at least one <span class="math inline">\(t\)</span></li>
+</ul>
+<p>where <span class="math inline">\(S_M(t)\)</span> is the survival probability for males at time <span class="math inline">\(t\)</span> and <span class="math inline">\(S_F(t)\)</span> is the survival probability for females at time <span class="math inline">\(t\)</span>.</p>
+<p>When comparing two groups like this, we can calculate the <strong>expected</strong> number of deaths in each group. Below is the formula for calculating the number of expected deaths for group 0 at time <span class="math inline">\(t_i\)</span>:</p>
+<p><span class="math display">\[\hat{e}_{0i} = \frac{n_{0i}d_i}{n_i}\]</span></p>
+<p>where <span class="math inline">\(n_{0i}\)</span> is the number of individuals at risk in group 0 at time <span class="math inline">\(t_i\)</span>, <span class="math inline">\(d_i\)</span> is the total number of deaths at time <span class="math inline">\(t_i\)</span>, and <span class="math inline">\(n_i\)</span> is the total number of individuals at risk at time <span class="math inline">\(t_i\)</span>.</p>
+<p>The <strong>variance</strong> estimator is drawn from the hypergeometric distribution. The formula for the variance of the number of deaths in group 0 at time <span class="math inline">\(t_i\)</span> is:</p>
+<p><span class="math display">\[\hat{v}_{0i} = \frac{n_{0i}n_{1i}d_i(n_i - d_i)}{n_i^2(n_i - 1)}\]</span></p>
+<p>where <span class="math inline">\(n_{0i}\)</span> is the number of individuals at risk in group 0 at time <span class="math inline">\(t_i\)</span>, <span class="math inline">\(n_{1i}\)</span> is the number of individuals at risk in group 1 at time <span class="math inline">\(t_i\)</span>, <span class="math inline">\(d_i\)</span> is the total number of deaths at time <span class="math inline">\(t_i\)</span>, and <span class="math inline">\(n_i\)</span> is the total number of individuals at risk at time <span class="math inline">\(t_i\)</span>.</p>
+<p>The <strong>test statistic</strong> is calculated as the square of the sum of the differences between the observed and expected number of deaths for the group divided by the sum of the variance of the number of deaths for the group at each time point. The formula for the test statistic is as follows:</p>
+<p><span class="math display">\[Q = \frac{[\sum_{i=1}^m (d_{0i} - \hat{e}_{0i})]^2}{\sum_{i=1}^m \hat{v}_{0i}}\]</span></p>
+<p>Using the null hypothesis, the p-value can be calculated using the chi-squared distribution with 1 degree of freedom.</p>
+<p><span class="math display">\[p = P(X^2(1) &gt; Q)\]</span></p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>NOTE</strong>: This use of the chi-squared distribution assumes that the censoring is independent of the group.</p>
+</div><div class="">
+<p><strong>NOTE</strong>: The degrees of freedom for the chi-squared distribution is 1 because we are comparing two groups. If we were comparing more than two groups, the degrees of freedom would be the number of groups minus 1.</p>
+</div></div>
+<p>Thankfully <strong>R</strong> has a built-in function to perform the log-rank test. The <code>survdiff</code> function in the <code>survival</code> package can be used to perform the log-rank test. The <code>survdiff</code> function requires a <code>Surv</code> object as input. It will then perform the log-rank test and return the test statistic and p-value.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>NOTE</strong>: The <strong>log-rank test</strong> is a non-parametric test. This means that it does not assume that the data is normally distributed.</p>
+</div></div><p>The code below runs the log-rank test on the <code>ninja</code> data set to compare the survival of male and female competitors.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ninja_km_diff <span class="ot">&lt;-</span> <span class="fu">survdiff</span>(<span class="fu">Surv</span>(obstacle_number,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                               censor) <span class="sc">~</span> sex, <span class="at">data =</span> ninja)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 6: Comparing Survival vs. Expected">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 6: Comparing Survival vs.&nbsp;Expected
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the code below to see the results of the <code>survdiff</code> function</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ninja_km_diff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+survdiff(formula = Surv(obstacle_number, censor) ~ sex, data = ninja)
+
+       N Observed Expected (O-E)^2/E (O-E)^2/V
+sex=F 12       10     4.19      8.07      10.3
+sex=M 56       27    32.81      1.03      10.3
+
+ Chisq= 10.3  on 1 degrees of freedom, p= 0.001 </code></pre>
+</div>
+</div>
+<ol type="a">
+<li><p>How many <strong>female competitors</strong> are in the data set? How many <strong>fell</strong>? How many were <strong>expected</strong> to fall (round to the nearest whole number)?</p></li>
+<li><p>Did <strong>more or less</strong> male competitors fall than expected?</p></li>
+<li><p>What is the <strong>p-value</strong> of the test? What does this mean?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="other-nonparametric-tests" class="level2">
+<h2 class="anchored" data-anchor-id="other-nonparametric-tests">Other Nonparametric Tests</h2>
+<p>Although the <code>survdiff</code> function uses the most common test for comparing Kaplan-Meier curves, there are a variety of other methods that can be used. These other methods developed because of the <strong>log rank test’s</strong> greatest weakness: It weights all time points equally even though there are fewer people at risk later than at the beginning. These methods are all similar to a standard log-rank test but attempt to weight time points in order to detect differences better throughout time as opposed to the end, which is where the log-rank test finds most of its differences. The ratio of the observed and expected number of deaths is calculated in a similar manner but with weights applied as seen below:</p>
+<p><span class="math display">\[Q = \frac{[\sum_{i=1}^m w_i(d_0i - \hat{e}_{0i})]^2}{\sum_{i=1}^m w_i^2\hat{v}_{0i}}\]</span></p>
+<p>Below some of the other methods that can be used are broken down, with their weighting and purpose explained:</p>
+<ul>
+<li><p>Wilcoxon (Gehan-Breslow) Test: This test gives more weight to early time points based on the number of individuals at risk. Its weighting is: <span class="math display">\[w_i = n_i\]</span></p></li>
+<li><p>Tarone-Ware Test: This test gives more weight to time points with more individuals at risk, but less heavily than the Gehan-Breslow test. Its weighting is: <span class="math display">\[w_i = \sqrt{n_i}\]</span></p></li>
+<li><p>Peto-Prentice Test: This test also gives more weight to earlier time points, but not as much as the Gehan-Breslow test. Its weighting is:</p></li>
+</ul>
+<p><span class="math display">\[w_i = \tilde{S}(t_{(i)})\]</span> where <span class="math display">\[\tilde{S}(t_{(i)}) = \prod_{t_{(j)}&lt;t} \left(1 - \frac{d_j}{n_j}\right)\]</span></p>
+<ul>
+<li>Fleming-Harrington Test: This test allows the user to chose <span class="math inline">\(\rho\)</span> and <span class="math inline">\(q\)</span> values to weight the time points. If <span class="math inline">\(\rho\)</span> is larger it will weight the earlier time points more heavily, and if <span class="math inline">\(q\)</span> is larger it will weight the later time points more heavily. Its weighting is:</li>
+</ul>
+<p><span class="math display">\[w_i = [\tilde{S}(t_{(i-1)})]^{\rho}[1 - \tilde{S}(t_{(i-1)})]^q\]</span> where <span class="math display">\[\tilde{S}(t_{(i- 1)}) = \text{Kaplan-Meier Estimate at time } t_{i-1}\]</span></p>
+<p>Thankfully the <code>surv_pvalue</code> function in the <code>survminer</code> package can be used to calculate the p-value for all of these tests by changing the <code>method</code> argument. See the table below for the different method arguments to use:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Test</th>
+<th>Method Argument</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Log Rank Test</td>
+<td>Default- no argument needed</td>
+</tr>
+<tr class="even">
+<td>Wilcoxon/Gehan-Breslow</td>
+<td>method = “n”</td>
+</tr>
+<tr class="odd">
+<td>Tarone-Ware</td>
+<td>method = “TW”</td>
+</tr>
+<tr class="even">
+<td>Peto-Prentice</td>
+<td>method = “PP”</td>
+</tr>
+<tr class="odd">
+<td>Fleming-Harrington</td>
+<td>method = “FH”</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>surv_pvalue</code> function does need a <code>survfit</code> object as input. We can use the <code>ninja_km_gender</code> object created earlier to check the p-values for the different methods.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 7: Log-Rank Tests">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 7: Log-Rank Tests
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Run the code below to see the p-values for the different methods.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">surv_pvalue</span>(ninja_km_gender) <span class="co">#log rank</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">surv_pvalue</span>(ninja_km_gender, <span class="at">method =</span> <span class="st">"n"</span>) <span class="co">#Gehan Breslow (generalized Wilcoxon)</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">surv_pvalue</span>(ninja_km_gender, <span class="at">method =</span> <span class="st">"TW"</span>) <span class="co">#tarone-ware</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">surv_pvalue</span>(ninja_km_gender, <span class="at">method =</span> <span class="st">"PP"</span>) <span class="co">#Peto-Prentice</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">surv_pvalue</span>(ninja_km_gender, <span class="at">method =</span> <span class="st">"FH"</span>) <span class="co">#Fleming-Harrington</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol type="a">
+<li><p>Using <span class="math inline">\(\alpha = 0.05\)</span>, do all of the tests lead to the same conclusion? If so what is the conclusion? If not which ones agree and which ones do not?</p></li>
+<li><p>Which <strong>test</strong> had the <strong>smallest p-value</strong>?</p></li>
+<li><p>Which <strong>test</strong> had the <strong>largest p-value</strong>?</p></li>
+<li><p>Based off of the <strong>p-values</strong> for the different tests, would you conclude that the difference between the genders is most likely more significant at the beginning or end of the course?</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="more-practice" class="level1 page-columns page-full">
+<h1>More Practice</h1>
+<p>Read in the <a href="anw_2023_stage1.csv">anw_2023_stage1</a> data to complete the following problems.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Do It Yourself">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Do It Yourself
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Challenge 1: Cleaning Data">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Challenge 1: Cleaning Data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>There is <strong>one</strong> ninja in the dataset who did a second run. <strong>Find and remove</strong> this second run from the data.</p></li>
+<li><p>Why should this run be removed? (Hint: Think knowledge gained)</p></li>
+<li><p>Add a variable called <code>censor</code> to the dataset that is a 0 if time ran out or the ninja completed the course, but is a 1 otherwise.</p></li>
+</ol>
+</div>
+</div>
+
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Challenge 2: Fitting KM">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Challenge 2: Fitting KM
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Use the <code>survfit</code> function to find the Kaplan-Meier estimates</p></li>
+<li><p>How many competitors were <strong>at risk</strong> at the <strong>fifth</strong> obstacle?</p></li>
+<li><p>What is the <strong>survival estimate</strong> that a ninja survives past the <strong>seventh</strong> obstacle?</p></li>
+<li><p>What is the <strong>median</strong> number of obstacles that a ninja survives on the course?</p></li>
+</ol>
+</div>
+</div>
+
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Challenge 3: Comparing Groups">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Challenge 3: Comparing Groups
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Fit a <code>survdiff</code> model to compare the survival of males and females as well as another <code>survfit</code> model to find the Kaplan-Meier estimates for each group</p></li>
+<li><p>What is the <strong>test-static value</strong> of the log-rank test?</p></li>
+<li><p>What is your <strong>conclusion</strong> about the survival of males and females. Why?</p></li>
+<li><p>Make a <strong>plot</strong> of the Kaplan-Meier estimates, showing the confidence intervals for each group.</p></li>
+<li><p>Is it more likely that a female survives past the <strong>fourth obstacle</strong> or that a male survives past all <strong>eight obstacles</strong>?</p></li>
+<li><p>Assume that the <strong>null hypothesis</strong> is that the true survival rate of surviving the first <strong>4 obstacles</strong> is equal for males and females. The <strong>alternative hypothesis</strong> is that the true survival rates are different. Based on <strong>95% confidence intervals</strong>, is it correct to say that the true mean of survival rate for males to survive past the <strong>fourth obstacle</strong> is <strong>different</strong> than the true mean of for females to survive past the <strong>fourth obstacle</strong>? Explain your answer.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="no-row-height column-margin column-container"><div class="callout-margin-content">
+<p>The winner of the 2023 American Ninja Warrior competition was Vance Walker. Walker won $1 million for his victory.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="VanceWalker.jpg" class="img-fluid figure-img"></p>
+<figcaption>Vance Walker</figcaption>
+</figure>
+</div>
+<p>Image Source: <a href="https://www.nbc.com/nbc-insider/who-won-american-ninja-warrior-season-15">NBC</a></p>
+</div><div class="callout-margin-content">
+<p><strong>Fun Fact</strong>: Thread the Needle, the 8th obstacle on the 2021 Finals Stage 1 course, saw the highest failure rate of any obstacle. It had not previously been used on the Finals Stage 1 courses.</p>
+<p><img src="Thread_the_Needle.png" class="img-fluid" alt="Thread the Needle"> Image Source: <a href="https://sasukepedia.fandom.com/wiki/Thread_the_Needle">Sasukepedia</a></p>
+</div><div class="callout-margin-content">
+<p>Click <a href="https://www.tandfonline.com/doi/full/10.1080/17498430.2018.1450055">here</a> to read more about Edward Kaplan and Paul Meier’s work and how it has impacted the field of Statistics, particularly in regards to biostatistics.</p>
+</div></div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Maintained by Katie Fitzgerald <br> We use cookies to track usage statistics to help measure impact of the materials for authors. Please consider allowing tracking cookies.</p>
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Manage cookies</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

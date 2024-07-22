@@ -20,7 +20,7 @@ categories:
 editor_options:
   chunk_output_type: console
 callout-icon: false
-embed-resources: true
+# embed-resources: true
 ---
 
 ::: {.callout-note collapse="true" title="Facilitation notes" appearance="minimal"}
@@ -47,9 +47,9 @@ embed-resources: true
 In this module, you will be exploring the concept of single mean confidence intervals using data from the 2023 Masters Tournament as well as single mean tests. The Masters is considered to be one of the greatest and most selective tournaments in the world of golf. Only the best current players or previous winners are allowed in. The winner of the Masters gets to wear the famed "Green Jacket" and return to play any year they would like at the Masters. The course The Masters is played at, Augusta National, is one of the most beautiful and challenging courses in the world. The course is known for its fast greens and tight fairways. The Masters is the first major of the year and is played in early April. The tournament is played over four days. After 2 days, the top 50 players and ties make the cut and play the final two days. 
 
 ::: column-margin
-Scottie Scheffler after recieving the famed "Green Jacket"
+Scottie Scheffler after winning the 2023 Masters Tournament.
 
-![](scheffler_green_jacket.jpg)
+![](masters_leaderboard.jpg)
 Image Source: [The PGA](https://www.pga.com/story/masters-green-jacket-history-and-facts)
 
 :::

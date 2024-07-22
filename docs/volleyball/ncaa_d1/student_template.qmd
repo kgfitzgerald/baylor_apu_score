@@ -28,98 +28,101 @@ glimpse(volleyball)
 
 ## Exercise 1
 
-a. YOUR ANSWER HERE
+a.  YOUR ANSWER HERE
 
-b. YOUR ANSWER HERE
+b.  YOUR ANSWER HERE
 
-c. YOUR ANSWER HERE
+c.  YOUR ANSWER HERE
 
-d. YOUR ANSWER HERE
+d.  YOUR ANSWER HERE
 
-e. YOUR ANSWER HERE
+e.  YOUR ANSWER HERE
 
 ## Exercise 2
 
-a. YOUR ANSWER HERE
+a.  YOUR ANSWER HERE
 
-b. YOUR ANSWER HERE
+b.  YOUR ANSWER HERE
 
-c. YOUR ANSWER HERE
+c.  YOUR ANSWER HERE
 
-d. YOUR ANSWER HERE
+d.  YOUR ANSWER HERE
 
-e. YOUR ANSWER HERE
+e.  YOUR ANSWER HERE
 
-f. YOUR ANSWER HERE
+f.  YOUR ANSWER HERE
 
 # One numeric variable
 
-
 ## Exercise 3
 
-a. 
+a.  
 
 ```{r}
 # your code here - remove the hashtag! 
 ```
 
-b. YOUR ANSWER HERE
+b.  YOUR ANSWER HERE
 
-c. YOUR ANSWER HERE
+c.  YOUR ANSWER HERE
 
 ## Exercise 4
 
-a. 
+a.  
+
 ```{r}
 #your code here - remove the hashtag! 
 ```
 
-b. YOUR ANSWER HERE 
+b.  YOUR ANSWER HERE
 
 c.  
+
 ```{r}
 #your code here - remove the hashtag! 
 ```
 
-d. YOUR ANSWER HERE
+d.  YOUR ANSWER HERE
 
-e. YOUR ANSWER HERE
+e.  YOUR ANSWER HERE
 
 ## Exercise 5
 
-a. YOUR ANSWER HERE
+a.  YOUR ANSWER HERE
 
-b. YOUR ANSWER HERE
+b.  YOUR ANSWER HERE
 
-c. YOUR ANSWER HERE
+c.  YOUR ANSWER HERE
 
-d. YOUR ANSWER HERE
+d.  YOUR ANSWER HERE
 
 ## Exercise 6
 
-a. 
+a.  
+
 ```{r}
 # your code here - remove the hashtag! 
 ```
 
-b. YOUR ANSWER HERE
+b.  YOUR ANSWER HERE
 
 # Two numeric variables
 
 ## Exercise 7
 
-a. 
+a.  
+
 ```{r}
 # your code here - remove the hashtag! 
 ```
 
-b. YOUR ANSWER HERE
+b.  YOUR ANSWER HERE
 
 # Two categorical variables
 
 ## Exercise 8
 
-a. 
+a.  
 
 ```{r}
 # your code here - remove the hashtag! 
@@ -127,16 +130,16 @@ a.
 # your code here - remove the hashtag! 
 ```
 
+b.  YOUR ANSWER HERE
 
-b. YOUR ANSWER HERE
-
-c. YOUR ANSWER HERE
+c.  YOUR ANSWER HERE
 
 # One numeric & one categorical variable
 
 ## Exercise 9
 
-a. 
+a.  
+
 ```{r}
 # your code here - remove the hashtag!
 
@@ -145,23 +148,23 @@ a.
 # your code here - remove the hashtag!
 ```
 
-b. YOUR ANSWER HERE
+b.  YOUR ANSWER HERE
 
-c. YOUR ANSWER HERE
+c.  YOUR ANSWER HERE
 
 # More than two variables
 
 ## Exercise 10
 
-a. 
+a.  
 
 ```{r}
 # your code here - remove the hashtag!
 ```
 
-b. YOUR ANSWER HERE
+b.  YOUR ANSWER HERE
 
-c. YOUR ANSWER HERE
+c.  YOUR ANSWER HERE
 
 ## Exercise 11
 

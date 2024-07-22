@@ -21,7 +21,7 @@ categories:
 editor_options:
   chunk_output_type: console
 callout-icon: false
-embed-resources: true
+# embed-resources: true
 ---
 
 ::: {.callout-note collapse="true" title="Facilitation notes" appearance="minimal"}
