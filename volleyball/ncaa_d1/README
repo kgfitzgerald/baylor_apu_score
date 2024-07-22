@@ -1,0 +1,14 @@
+NOTE: This module is best viewed as a rendered html. A pre-print version is available here: https://kgfitzgerald.github.io/baylor_apu_score/volleyball/ncaa_d1/. You can also render the html locally by first opening volleyball_ncaa_d1.Rproj to launch RStudio, then open index.qmd and click "Render".
+
+This repository contains files for a SCORE module on NCAA Division I Volleyball. 
+
+index.qmd: primary Quarto document that renders the Module itself (including facilitation notes and student instructions).
+
+student_template.qmd: Quarto file to be provided to students, where they will type their code and answers
+
+volleyball_ncaa_div1_2022_23_clean.csv: minorly adapted version of dataset obtained from SCORE network https://data.scorenetwork.org/volleyball/volleyball_ncaa_team_stats.html. Cleaned variable names slightly and created new variable winning_season to be used in analysis.
+
+rstudio.png & scoreboard.png are image files called in the .qmd
+
+styles.css: adjusts html viewing layout for index.qmd
+

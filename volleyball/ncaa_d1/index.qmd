@@ -12,7 +12,7 @@ author:
   - name: Joseph Hsieh
     affiliation:
       - ref: apu
-  - name: Dat Tran
+  - name: Tuan Dat Tran
     affiliation:
       - ref: apu
 date: May 30, 2024
@@ -26,17 +26,18 @@ description: Exploring volleyball statistics through visualization
 categories:
   - Variable types
   - ggplot basics
+  - Exploratory Data Analysis (EDA)
   - Histograms
   - Bar plots (simple & stacked)
   - Scatterplots
   - Ridge plots
-  - Side-by-side boxplots
+  - Boxplots
 editor_options:
   chunk_output_type: console
 callout-icon: false
 ---
 
-::: {.callout-note collapse="true" title="Facilitation notes" appearance="minimal"}
+::: {.callout-note collapse="true" title="Methods/Facilitation notes" appearance="minimal"}
 + This module would be suitable for an in-class lab or take-home assignment in an introductory statistics course. 
 
 + It assumes a basic familiarity with the RStudio Environment has already been covered, but no prior programming experiences is expected.
@@ -49,20 +50,20 @@ callout-icon: false
 + [Posit Cloud](https://posit.cloud/) (via an Instructor account) or [Github classroom](https://classroom.github.com) are good options for disseminating files to students, but simply uploading files to your university's course management system works, too.
 :::
 
-# Welcome video
-
-<iframe width="560" height="315" src title="placeholder">
-
-</iframe>
-
 # Introduction
 
 In this module, you will be analyzing data from the NCAA Division I Women's Volleyball season in 2022-3. The goal of this module is to help you explore data through visualization and to deepen your understanding of variable types (e.g. categorical, numerical). Data comes in many different forms, and an important part of being a good analyst is knowing what visualizations and analyses are appropriate and will provide insight into the data you have.
+
+::: column-margin
+This data was originally curated by [Jack Fay, A.J. Dykstra, and Ivan Ramler](https://data.scorenetwork.org/volleyball/volleyball_ncaa_team_stats.html).
+:::
 
 ::: {.callout-note title="Learning Objectives" appearance="minimal"}
 By the end of this module, you will be able to:
 
 -   Read (import) a dataset into your RStudio Environment
+
+-   Identify variable types and determine appropriate visualizations for investigating your data
 
 -   Use R to visualize the following types of variables:
 
@@ -134,6 +135,10 @@ library(ggridges)
 volleyball <- read_csv("volleyball_ncaa_div1_2022_23_clean.csv") #loads data
 ```
 
+```{r setup, include = FALSE}
+theme_set(theme_minimal())
+```
+
 We can use the `glimpse()` function to get a quick look (errr.. glimpse) at our `volleyball` data. The `glimpse` code provides the number of observations (Rows) and the number of variables (Columns) in the dataset. The “Rows” and “Columns” are referred to as the **dimensions** of the dataset. It also shows us the names of the variables (`team`, `conference`, ..., `winning_season`) and the first few observations for each variable (e.g. the first three teams in the dataset are Lafayette, Deleware St., and Yale).
 
 ```{r}
@@ -201,12 +206,12 @@ Image source: [BoxOut Sports](https://boxoutsports.com/graphics/volleyball/final
 ::: {.callout-important}
 
 #### Volleyball "stats" that might occur during any given play
--   An [**ace**](https://youtu.be/iijvUf5xkkU?si=IeNP8aA_I7d21mh0) is a serve that directly results in a point (the opponent does not successfully return the serve). 
+-   An [**ace**](https://youtu.be/mrUlR6d7SIM?feature=shared&t=42) is a serve that directly results in a point (the opponent does not successfully return the serve). 
 -   An **attack** is on offensive play where a player strategically hits the ball over the net using an overhead motion 
--   A [**kill**](https://youtu.be/tUzcjhn-4NI?si=pgT8qmxIKMbRBWWz) is when an attack results in a point for the attacking team (the opposing team doesn't "dig" or successfully return the ball)
--   An [**assist**](https://youtu.be/1mngzX6Kj5Y?si=idFLgtZfDjVDOGmK&t=29) is recorded when a player passes or sets the ball to a teammate who attacks the ball for a kill. 
-- A [**block**](https://youtu.be/zysWNW_jW5I?si=2n7-_T16TKogPLG6) is a defensive play at the net when a player successfully blocks the ball from an opponent's attack, sending it back down into the opponent's court, directly resulting in a point.
-- A [**dig**](https://youtu.be/Av-mL-STW4o?si=hPKS2GDExEPdGwDc) is a defensive play when a player successfully passes the ball from an attack and keeps it in play
+-   A [**kill**](https://youtu.be/m8hD5M1hGK0?feature=shared) is when an attack results in a point for the attacking team (the opposing team doesn't "dig" or successfully return the ball)
+-   An [**assist**](https://youtu.be/9dudLsvv5MA?feature=shared&t=123) is recorded when a player passes or sets the ball to a teammate who attacks the ball for a kill. This is often done by a **setter** and is the 2nd touch of a play (after the pass, before the hit).
+- A [**block**](https://youtu.be/hdGKPN5_5Pw?feature=shared&t=71) is a defensive play at the net when a player successfully blocks the ball from an opponent's attack, sending it back down into the opponent's court, directly resulting in a point.
+- A [**dig**](https://youtu.be/TUaKtfeqOj8?feature=shared&t=47) is a defensive play when a player successfully passes the ball from an attack and keeps it in play
 
 :::
 
@@ -225,7 +230,7 @@ The `volleyball` data you'll be analyzing in this lab provides season-level team
 | `aces_per_set` | the average amount of balls served that directly lead to a point (not including errors by the opponent) per set  |
 | `assists_per_set` | the average amount of sets, passes, or digs to a teammate that directly result in a kill per set |
 | `team_attacks_per_set` | the average amount of times the ball is sent to the other team’s court from an overhead motion per set |
-| `blocks-per_set` | the average amount of times the ball is blocked from being hit on to the teams side per set |
+| `blocks_per_set` | the average amount of times the ball is blocked from being hit on to the teams side per set |
 | `digs_per_set` | average amount of times the ball is passed by a player successfully after an opponents attack per set |
 | `hitting_pctg` | total team kills minus team hitting errors all divided by total attempts |
 | `kills_per_set` | average amount of hits that directly result in a point per set |
@@ -241,9 +246,8 @@ You saw that `glimpse()` is one way to get a quick look at your data. Often, you
 
 ::: column-margin :::
 \
-**TIP:** Recall that RStudio is split into four quadrants: Source (upper left), **Environment** (upper right), **Console** (bottom left), and Files/Plots/Packages/Help/Viewer (bottom right)
-
-[INSERT ANNOTATED IMAGE HERE??]
+**TIP:** Recall that RStudio is split into four quadrants: Source (upper left), **Environment** (upper right), **Console** (bottom left), and Files / Plots / Packages / Help / Viewer (bottom right)
+![](rstudio.png)
 :::
 
 1. type `View(volleyball)` in your **Console** and then click return/Enter on your keyboard. 
@@ -289,7 +293,7 @@ How many kills are typically scored per set?
 
 :::
 
-Because `kills_per_set`is a **numeric variable**, it is appropriate to visualize it using a **histogram** We can create a histogram of number of kills per set with the following code:
+Because `kills_per_set`is a **numeric variable**, it is appropriate to visualize it using a **histogram**. We can create a histogram of number of kills per set with the following code:
 
 
 ```{r, warning = FALSE, message = FALSE}
@@ -298,7 +302,7 @@ ggplot(volleyball, aes(x = kills_per_set)) +
 ```
 
 ::: column-margin :::
-**TIP**: Your code must refer to datasets and variable names *exactly* as they are appear in your Environment/data. If, for example, we instead had saved the `volleyball` data as `vball` and the variable name was `Kills_per_set` (with a capital `K`), the first line of plotting code would instead need to be `ggplot(vball, aes(x = Kills_per_set))`. It's usually a good idea to open your data in your Environment and/or run `glimpse()` on your data to verify the exact names. 
+**TIP**: Your code must refer to datasets and variable names *exactly* as they appear in your Environment/data. If, for example, we instead had saved the `volleyball` data as `vball` and the variable name was `Kills_per_set` (with a capital `K`), the first line of plotting code would instead need to be `ggplot(vball, aes(x = Kills_per_set))`. It's usually a good idea to open your data in your Environment and/or run `glimpse()` on your data to verify the exact names. 
 :::
 
 ::: column-margin :::
@@ -376,15 +380,18 @@ ggplot(volleyball, aes(x = aces_per_set)) +
   geom_histogram(color = "white") -> h3
 
 ggplot(volleyball, aes(x = kills_per_set)) +
-  geom_boxplot() -> b1
+  geom_boxplot() +
+  theme(axis.text.y = element_blank()) -> b1
 
 ggplot(volleyball, aes(x = blocks_per_set)) +
-  geom_boxplot() -> b2
+  geom_boxplot() +
+  theme(axis.text.y = element_blank()) -> b2
 
 ggplot(volleyball, aes(x = aces_per_set)) +
-  geom_boxplot() -> b3
+  geom_boxplot() +
+  theme(axis.text.y = element_blank()) -> b3
 
-plot_grid(h1, h2, h3, b1, b2, b3)
+plot_grid(h1, h2, h3, b1, b2, b3, align = 'v', axis = 'l')
 ```
 
 ::: {.callout-note  title="Exercise 5"}
@@ -579,7 +586,7 @@ ggplot(volleyball, aes(x = hitting_pctg, y = opp_hitting_pctg,
 ```
 
 ::: column-margin
-**Note:** the third layer here `scale_color_gradient()` is not strictly necessary. It simply reverse the order of the color scale so that larger numbers are darker and smaller numbers are lighter, which tends to align better with viewer's intuition. 
+**Note:** the third layer here `scale_color_gradient()` is not strictly necessary. It simply reverses the order of the color scale so that larger numbers are darker and smaller numbers are lighter, which tends to align better with viewer's intuition. 
 :::
 
 ::: column-margin
@@ -599,7 +606,7 @@ ggplot(volleyball, aes(x = hitting_pctg, y = opp_hitting_pctg,
 
 a. Copy, paste the code above to recreate the visualization in your document. 
 
-b. What are the variables being displayed in the visualization above? What type of variables are they?
+b. What are the variables being displayed in the visualization above? What types of variables are they?
 
 c. What insight can be gleaned from the above visualizations? Comment on 2 things the visualizations reveal about NCAA volleyball teams. 
 
@@ -616,7 +623,7 @@ To get started, you should always ask yourself a series of questions:
 
 1. what variable(s) in my dataset are relevant for answering the research question?
 2. what type of variable is each one?
-3. what type of visualization is appropriate for the type(s) and number of variables you have
+3. what type of visualization is appropriate for the type(s) and number of variables I have?
 
 In the following exercises, once you determine the appropriate visualization for your question, you should copy, paste, tweak code from the appropriate section of this lab to visually investigate the research question. 
 
@@ -664,6 +671,21 @@ c. The name of the "best" team isn't visible in your visualization, but in Exerc
 
 :::
 
+# Wrap-up / reflection
+
+::: {.callout-note  title="Exercise 15"}
+
+Now that you've explored the `volleyball` data, spend a few minutes reflecting on your learning by responding to the following questions:
+
+a. What were the main statistical concepts covered in this assignment?
+
+b. What's one piece of insight you gleaned from the data? 
+
+c. What's one thing you understand better after completing these exercises?
+
+d. What exercise(s) gave you the most trouble? What was difficult about them/where did you get stuck?
+
+:::
 
 # BONUS practice
 
