@@ -145,6 +145,8 @@ d.  YOUR ANSWER HERE
 
 e.  YOUR ANSWER HERE
 
+f.  YOUR ANSWER HERE
+
 ## Challenge 3: Confidence Interval Knowledge Check
 
 ```{r}

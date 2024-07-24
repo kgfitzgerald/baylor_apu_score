@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jonathan Lieb">
+<meta name="dcterms.date" content="2024-07-24">
+<meta name="description" content="Exploring Single Mean Confidence Intervals with Golf Data">
+
+<title>Baylor APU SCORE Module Preprint Repository - PGA - Scoring Average Confidence Intervals (No R)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-JVDQHPRYT1"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-JVDQHPRYT1', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Baylor APU SCORE Module Preprint Repository</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../by-statsds-topic.html" aria-current="page"> 
+<span class="menu-text">Modules By Topic</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://data.scorenetwork.org/"> 
+<span class="menu-text">Data Repository</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../golf/pga_gir/index.html">Golf</a></li><li class="breadcrumb-item"><a href="../../golf/pga_masters_nor/index.html">PGA - Scoring Average Confidence Intervals (No R)</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../by-statsds-topic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modules By Topic</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">Anw</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../anw/kaplan_meier/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">American Ninja Warrior - Kaplan-Meier Survival Analyis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Golf</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_gir/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scheffler Greens in Regulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_masters/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scoring Average Confidence Intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_masters_nor/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">PGA - Scoring Average Confidence Intervals (No R)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+ <span class="menu-text">Mma</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../mma/mma_chisquare/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MMA Fight Decisions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+ <span class="menu-text">Tennis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../tennis/tennis_sampsize/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tennis Sample Size</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">Volleyball</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../volleyball/ncaa_d1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Volleyball - Women’s NCAA Division I</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#welcome-video" id="toc-welcome-video" class="nav-link active" data-scroll-target="#welcome-video">Welcome video</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#getting-started-2023-masters-data" id="toc-getting-started-2023-masters-data" class="nav-link" data-scroll-target="#getting-started-2023-masters-data">Getting started: 2023 Masters Data</a>
+  <ul class="collapse">
+  <li><a href="#terms-to-know" id="toc-terms-to-know" class="nav-link" data-scroll-target="#terms-to-know">Terms to know</a></li>
+  </ul></li>
+  <li><a href="#single-mean-confidence-intervals" id="toc-single-mean-confidence-intervals" class="nav-link" data-scroll-target="#single-mean-confidence-intervals">Single Mean Confidence Intervals</a>
+  <ul class="collapse">
+  <li><a href="#t-interval-for-single-means" id="toc-t-interval-for-single-means" class="nav-link" data-scroll-target="#t-interval-for-single-means">t-interval for single means</a></li>
+  <li><a href="#z-interval-for-single-means" id="toc-z-interval-for-single-means" class="nav-link" data-scroll-target="#z-interval-for-single-means">z-interval for single means</a></li>
+  </ul></li>
+  <li><a href="#hypothesis-testing-with-single-mean-confidence-intervals" id="toc-hypothesis-testing-with-single-mean-confidence-intervals" class="nav-link" data-scroll-target="#hypothesis-testing-with-single-mean-confidence-intervals">Hypothesis Testing with Single Mean Confidence Intervals</a>
+  <ul class="collapse">
+  <li><a href="#test-statistics" id="toc-test-statistics" class="nav-link" data-scroll-target="#test-statistics">Test Statistics</a></li>
+  <li><a href="#to-reject-or-fail-to-reject" id="toc-to-reject-or-fail-to-reject" class="nav-link" data-scroll-target="#to-reject-or-fail-to-reject">To Reject or Fail to Reject</a></li>
+  <li><a href="#hypothesis-testing-example" id="toc-hypothesis-testing-example" class="nav-link" data-scroll-target="#hypothesis-testing-example">Hypothesis testing example</a></li>
+  <li><a href="#hypothesizing-par-as-the-population-mean" id="toc-hypothesizing-par-as-the-population-mean" class="nav-link" data-scroll-target="#hypothesizing-par-as-the-population-mean">Hypothesizing Par as the Population Mean</a></li>
+  </ul></li>
+  <li><a href="#more-practice" id="toc-more-practice" class="nav-link" data-scroll-target="#more-practice">More practice</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../golf/pga_gir/index.html">Golf</a></li><li class="breadcrumb-item"><a href="../../golf/pga_masters_nor/index.html">PGA - Scoring Average Confidence Intervals (No R)</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">PGA - Scoring Average Confidence Intervals (No R)</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Single Mean Confidence Intervals</div>
+    <div class="quarto-category">Single Mean Hypothesis Testing</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Exploring Single Mean Confidence Intervals with Golf Data
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jonathan Lieb <a href="mailto:jonathan_lieb1@baylor.edu" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Baylor University
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 24, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Facilitation notes">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Facilitation notes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>This module would be suitable for an in-class lab or take-home assignment in an introductory statistics course.</p></li>
+<li><p>The data used to create this module and a student answer template can be downloaded from the following links:</p>
+<ul>
+<li><a href="masters_2023.csv">data</a></li>
+<li><a href="student_template.pdf">Student Answer template</a></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+<section id="welcome-video" class="level1">
+<h1>Welcome video</h1>
+<iframe width="560" height="315" src="" title="placeholder">
+</iframe>
+</section>
+<section id="introduction" class="level1 page-columns page-full">
+<h1>Introduction</h1>
+<p>In this module, you will be exploring the concepts of single mean confidence intervals and single mean hypothesis tests using data from the 2023 Masters Tournament. The Masters is considered to be one of the greatest and most selective tournaments in the world of golf. Only the best current players or previous winners are allowed in. The winner of the Masters gets to wear the famed “Green Jacket” and return to play any year they would like at the Masters. The course the Masters is played at, Augusta National, is one of the most beautiful and challenging courses in the world. The course is known for its fast greens and tight fairways. The Masters is the first major of the year and is played in early April. The tournament is played over four days. After 2 days, the top 50 players and ties make the cut and play the final two days.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Scottie Scheffler after winning the 2023 Masters Tournament.</p>
+<p><img src="masters_leaderboard.jpg" class="img-fluid"> Image Source: <a href="https://www.pga.com/story/masters-green-jacket-history-and-facts">The PGA</a></p>
+</div><div class="">
+<p>View the course at Augusta National <a href="https://www.masters.com/en_US/course/index.html">here</a></p>
+</div></div>
+<p>As mentioned before, only the best players and previous winners can compete in the tournament. With that being said, the Masters is one of the few tournaments that players from the newly created LIV golf tour can play in, although they are mostly qualifying because of their past performances at the Masters before they joined LIV golf. This leads to a mixture of regular PGA professionals, LIV professionals, Amateurs, and Seniors playing in the Masters in 2023.</p>
+<p>The focus for this module is confidence intervals and hypothesis testing for the true mean scores for different groups of players at Augusta National.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Learning Objectives">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this module, you will be able to:</p>
+<ul>
+<li><p>Make single mean confidence intervals</p></li>
+<li><p>Perform a hypothesis test for a single mean</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research Questions">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research Questions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>During this lab, you’ll investigate the following research questions:</p>
+<ul>
+<li>What are the confidence intervals for scoring for different groups of players at the 2023 Masters Tournament?</li>
+<li>Is the true mean for different groups of players at the 2023 Masters different than par?</li>
+<li>Is the true scoring average for amateurs greater than par at Augusta National?</li>
+<li>How do sample size and confidence level affect the width of a confidence interval?</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="getting-started-2023-masters-data" class="level1 page-columns page-full">
+<h1>Getting started: 2023 Masters Data</h1>
+<p>The data for this lab comes from the 2023 Masters tournament. The data includes the name of golfer, the round of the tournament, the score the round, and the tour that they usually play on.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Data Description">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Data Description
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>player</code></td>
+<td>Golfer’s name</td>
+</tr>
+<tr class="even">
+<td><code>round</code></td>
+<td>Round of the tournament</td>
+</tr>
+<tr class="odd">
+<td><code>score</code></td>
+<td>Score for the 18-hole course</td>
+</tr>
+<tr class="even">
+<td><code>tour</code></td>
+<td>The tour the player generally competes on</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<section id="terms-to-know" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="terms-to-know">Terms to know</h2>
+<p>Before proceeding with the analysis, let’s make sure we know some important golf terminology that will help us master this lab.</p>
+<section id="golf-terminology" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="golf-terminology">Golf Terminology</h4>
+<ul>
+<li><strong>Par</strong> in golf is the amount of strokes that a good golfer is expected to take to get the ball in the hole.
+<ul>
+<li>Each <strong>hole</strong> in golf has its own <strong>par</strong>. There are <strong>par 3</strong> holes, <strong>par 4</strong> holes, and <strong>par 5</strong> holes.</li>
+<li>There are 18 holes on a golf course and the <strong>pars</strong> of each of these holes sums to <strong>par for the course</strong>, also known the <strong>course par</strong>.</li>
+</ul></li>
+<li>A <strong>round</strong> in golf is when a golfer plays the full set of 18 holes on the course.
+<ul>
+<li>In most professional golf tournaments, all golfers play <strong>2 rounds</strong>, the best golfers are selected and those golfers play 2 more rounds for a total of <strong>4 rounds</strong>.</li>
+</ul></li>
+</ul>
+<div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Types of Golf Tours
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>In golf there are a few <strong>tours</strong>, better thought of as leagues, that golfers regularly compete in</p>
+<ul>
+<li>The <strong>PGA</strong>, or “Professional Golf Association”, has long been considered the preeminant golfing tour, hosting most tournaments and containing the most skilled members.</li>
+<li>The <strong>LIV</strong> tour is a Saudi-backed alternative to the PGA that was played its first season in 2022. <strong>LIV</strong> is the Roman numeral for 54 and is related to the fact that <strong>LIV</strong> tournaments only allow 54 players and only play 54 holes, compared to the normal PGA 72 holes.</li>
+<li>The <strong>PGA Tour Champions</strong> is a branch off of the PGA tour for players 50 or older. It used to be called the “Senior PGA Tour” until 2003, when it began being called the <strong>Champions</strong> tour</li>
+<li>An <strong>amateur</strong> is a golfer who is not yet a professional. They are not allowed to win money in professional golf tournaments. Most <strong>amateurs</strong> are college golfers.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>PGA vs.&nbsp;LIV</p>
+<p><img src="pga-logo.png" class="img-fluid"></p>
+<p>vs</p>
+<p><img src="liv_logo.png" class="img-fluid"></p>
+<p>Images Source: <a href="https://www.pgatour.com/">PGA</a> and <a href="https://www.livgolf.com/">LIV</a></p>
+<p>Click <a href="https://www.si.com/golf/news/timeline-liv-golf-how-pga-tour-adapted">here</a> to read about LIV golf’s founding and its continued impact on the PGA tour.</p>
+</div></div></section>
+</section>
+</section>
+<section id="single-mean-confidence-intervals" class="level1 page-columns page-full">
+<h1>Single Mean Confidence Intervals</h1>
+<p>Single Mean confidence intervals give a range of numbers that we can feel confident that the true population mean falls between.</p>
+<p>There are two different ways of calculating the confidence interval for a single mean.</p>
+<section id="t-interval-for-single-means" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="t-interval-for-single-means">t-interval for single means</h2>
+<p>A t-distribution is used for calculating a single mean confidence interval if the sample size is small (rule of thumb: less than 30) and the population standard deviation is unknown.</p>
+<p>The formula for calculating a CI using this method is shown below: <span class="math display">\[CI = \bar{X} \pm t_{\alpha/2, df} \times \frac{S}{\sqrt{n}}\]</span></p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Click <a href="https://www.scribbr.com/statistics/t-distribution/">here</a> to learn more about the t-distribution and play around with t-distribution graphs.</p>
+</div></div><p>Where <span class="math inline">\(\bar{X}\)</span> is the sample mean,</p>
+<p><span class="math inline">\(t_{\alpha/2, df}\)</span> is the critical value for the t-distribution with <span class="math inline">\(df = n-1\)</span>,</p>
+<p><span class="math inline">\(S\)</span> is the sample standard deviation,</p>
+<p>and <span class="math inline">\(n\)</span> is the sample size.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>NOTE</strong>: The t-distribution changes based on the degrees of freedom, approaching the normal distribution as the degrees of freedom increase.</p>
+</div></div><p>The critical value for the t-distribution is determined by the confidence level and the degrees of freedom. This is calculated by finding the value of <span class="math inline">\(t_{\alpha/2, df}\)</span> such that the area under the t-distribution curve (with that specific degrees of freedom) between <span class="math inline">\(-t_{\alpha/2, df}\)</span> and <span class="math inline">\(t_{\alpha/2, df}\)</span> is equal to the confidence level.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>These critical values can be found using t-tables like the one below:</p>
+<p><img src="t-table.png" class="img-fluid"></p>
+<p>For a 95% confidence interval, our Type I error rate is <span class="math inline">\(\alpha = 0.05\)</span>. Since confidence intervals are two-tailed, we split this <span class="math inline">\(\alpha\)</span> in half, half in the left tail and half in the right tail. This means that we are looking for <span class="math inline">\(t_{.025, df}\)</span> or <span class="math inline">\(t_{.975, df}\)</span>.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>NOTE</strong>: A <strong>Type I</strong> error is when we reject the null hypothesis when it is actually true. This is also known as a false positive.</p>
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 1: t-distribution confidence intervals">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1: t-distribution confidence intervals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The table below shows summary data for the first round of the 2023 Masters tournament for amateur golfers. The critical value is for a 90% confidence interval with 6 degrees of freedom.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 14%">
+<col style="width: 31%">
+<col style="width: 14%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sample</th>
+<th style="text-align: right;">Sample Mean</th>
+<th style="text-align: right;">Sample Standard Deviation</th>
+<th style="text-align: right;">Sample Size</th>
+<th style="text-align: right;">Critical Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Amateurs Round 1</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">3.21455</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1.94318</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Use the formula for creating a <strong>confidence interval</strong> using the t-distribution to calculate the upper and lower limits of a confidence interval for the true mean of amateur scoring using the amateurs in the first round as our sample. Use a 90% confidence interval (<span class="math inline">\(\alpha = .1\)</span>).</p>
+<ol type="a">
+<li><p>What is the <strong>lower</strong> bound of the confidence interval?</p></li>
+<li><p>What is the <strong>upper</strong> bound of the confidence interval?</p></li>
+<li><p>What is the <strong>interpretation</strong> of this confidence interval?</p></li>
+</ol>
+
+
+<p>Repeat this process with a 99% confidence interval (<span class="math inline">\(\alpha = .01\)</span>).</p>
+<ol start="4" type="a">
+<li><p>What is the new <strong>lower</strong> bound of the confidence interval?</p></li>
+<li><p>What is the new <strong>upper</strong> bound of the confidence interval?</p></li>
+<li><p>Is this <strong>99% confidence interval</strong> larger, smaller, or the same as <strong>90% confidence interval</strong>?</p></li>
+<li><p>When thinking about your anwer to <strong>f</strong>, what do you think could explain this?</p></li>
+</ol>
+</div>
+</div><div class="no-row-height column-margin column-container"><div class="callout-margin-content">
+<p><strong>TIP</strong>: When interpreting a confidence interval do <strong>not</strong> say “there is a 90% chance that the true mean is between the lower and upper bounds”. Instead, say “we are 90% confident that the true mean is between the lower and upper bounds”.</p>
+</div><div class="callout-margin-content">
+<p><strong>TIP</strong>: The t-table from earlier in the lesson will need to be used to find the critical value for the t-distribution for a 99% confidence interval with 6 degrees of freedom.</p>
+</div></div>
+</section>
+<section id="z-interval-for-single-means" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="z-interval-for-single-means">z-interval for single means</h2>
+<p>A standard normal distribution (also known as a z-distribution) is used to calculate the confidence interval for a single mean if the sample size is large enough (greater than 30) or the population standard deviation is known. The first case is common as oftentimes samples are greater than 30. The second case is rare because it is uncommon to know the population standard deviation but not the population mean.</p>
+<p>The formula for the confidence interval for a single mean using the z-distribution is very similar to that of the t-distribution</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Click <a href="https://www.scribbr.com/statistics/standard-normal-distribution/">here</a> for more information about the standard normal distribution.</p>
+</div></div><p><span class="math inline">\(CI = \bar{X} \pm Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}\)</span></p>
+<p>Where <span class="math inline">\(\bar{X}\)</span> is once again the sample mean, <span class="math inline">\(Z_{\alpha/2}\)</span> is the critical value for the standard normal distribution at the specified confidence level, <span class="math inline">\({\sigma}\)</span> is the population standard deviation, and <span class="math inline">\(n\)</span> is the sample size.</p>
+<p>The reasoning behind why we can use the standard normal distribution when the sample is greater than 30 even if the population standard deviation is unknown is found in the <a href="https://www.scribbr.com/statistics/central-limit-theorem/">Central Limit Theorem</a>, which says that as the sample size increases, the sampling distribution of the sample mean approaches a normal distribution. This means that when the sample size is greater than 30 we can use the sample standard deviation to estimate the population standard deviation and create a confidence interval as seen below</p>
+<p><span class="math inline">\(CI = \bar{X} \pm Z_{\alpha/2} \times \frac{S}{\sqrt{n}}\)</span></p>
+<p>Once again the critical value for the z-distribution is the value of <span class="math inline">\(Z_{\alpha/2}\)</span> such that the area under the standard normal distribution curve between <span class="math inline">\(-Z_{\alpha/2}\)</span> and <span class="math inline">\(Z_{\alpha/2}\)</span> is equal to the confidence level.</p>
+<p>The critical values for the z-distribution can be found using a z-table such as the one below. All values in the table are the area under the curve to the left of the z-score.</p>
+<p><img src="z-table.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 2: z-distribution confidence intervals">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2: z-distribution confidence intervals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The table below shows summary data for the first round of the 2023 Masters Tournament for PGA professional golfers. The critical value is for a 95% confidence interval.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 35%">
+<col style="width: 15%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sample</th>
+<th style="text-align: right;">Sample Mean</th>
+<th style="text-align: right;">Standard Deviation Estimate</th>
+<th style="text-align: right;">Sample Size</th>
+<th style="text-align: right;">Critical Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PGA Round 1</td>
+<td style="text-align: right;">71.54545</td>
+<td style="text-align: right;">3.023477</td>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">1.959964</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Use the formula for creating a confidence interval using the standard normal distribution to calculate the upper and lower limits of a confidence interval for the true mean of PGA professional scoring at Augusta using the PGA pros in the first round as our sample. Use a 95% confidence interval (<span class="math inline">\(\alpha = .05\)</span>).</p>
+<ol type="a">
+<li><p>Why can we use the <strong>standard normal distribution</strong> to calculate this confidence interval?</p></li>
+<li><p>What is the <strong>confidence interval</strong> for the true mean of scoring for PGA professionals at Augusta National?</p></li>
+<li><p>What is the <strong>interpretation</strong> of this confidence interval?</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="hypothesis-testing-with-single-mean-confidence-intervals" class="level1 page-columns page-full">
+<h1>Hypothesis Testing with Single Mean Confidence Intervals</h1>
+<p>Hypothesis testing is a method used to determine if a claim about a population parameter is true or not. In this section, we will perform the most common type of hypothesis test, a single mean test. The null hypothesis (<span class="math inline">\(H_0\)</span>) is that the population mean is equal to a specific value, and the alternative hypothesis (<span class="math inline">\(H_a\)</span>) is that the population mean is not equal to that value, greater than that value, or less than that value.</p>
+<p>Null Hypothesis: <span class="math inline">\(H_0: \mu = \mu_0\)</span></p>
+<p>Alternative Hypothesis Options:</p>
+<p><span class="math inline">\(H_a: \mu \neq \mu_0\)</span> or</p>
+<p><span class="math inline">\(H_a: \mu &gt; \mu_0\)</span> or</p>
+<p><span class="math inline">\(H_a: \mu &lt; \mu_0\)</span></p>
+<section id="test-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="test-statistics">Test Statistics</h2>
+<p>Like confidence intervals, we have two different tests for hypothesis testing for the population mean. Remember that if the population standard deviation is unknown and the sample size is less than 30, we use the t-distribution. If the population standard deviation is known or the sample size is greater than 30, we use the standard normal distribution.</p>
+<p>Each of these distributions have their own tests, the t-test and the z-test. This means that we have different test statistics to calculate depending on the situation.</p>
+<section id="t-test" class="level4">
+<h4 class="anchored" data-anchor-id="t-test">t-test</h4>
+<p>The t-test statistic is calculated using the formula:</p>
+<p><span class="math display">\[t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}}\]</span></p>
+<p>where <span class="math inline">\(\bar{x}\)</span> is the sample mean, <span class="math inline">\(\mu_0\)</span> is the hypothesized population mean, <span class="math inline">\(s\)</span> is the sample standard deviation, and <span class="math inline">\(n\)</span> is the sample size.</p>
+</section>
+<section id="z-test" class="level4">
+<h4 class="anchored" data-anchor-id="z-test">z-test</h4>
+<p>The z-test statistic is calculated using the formula:</p>
+<p><span class="math display">\[z = \frac{\bar{x} - \mu_0}{\frac{\sigma}{\sqrt{n}}}\]</span></p>
+<p>where <span class="math inline">\(\bar{x}\)</span> is the sample mean, <span class="math inline">\(\mu_0\)</span> is the hypothesized population mean, <span class="math inline">\(\sigma\)</span> is the population standard deviation, and <span class="math inline">\(n\)</span> is the sample size.</p>
+</section>
+</section>
+<section id="to-reject-or-fail-to-reject" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="to-reject-or-fail-to-reject">To Reject or Fail to Reject</h2>
+<p>There are two ways to make a decision about the null hypothesis.</p>
+<p><strong>Method 1</strong>: <strong>Critical values</strong>, along with <strong>test statistics</strong>, can be used to determine if the <strong>hypothesized population mean</strong> is within the <strong>confidence interval</strong> for the true mean.</p>
+<p>A <strong>critical value</strong> is a value that separates the rejection region from the non-rejection region. The rejection region is the area where the null hypothesis is rejected. The non-rejection region is the area where the null hypothesis is not rejected. The critical value is determined by the significance level (<span class="math inline">\(\alpha\)</span>) and the degrees of freedom (if it is a t-test). The critical value is compared to the test statistic to determine if the null hypothesis should be rejected. If the test statistic is within the non-rejection region, the null hypothesis is not rejected. If the test statistic is within the rejection region, the null hypothesis is rejected and the alternative hypothesis is accepted.</p>
+<p>Below is an example of using critical values and a test-statistic for a z-test with a 95% confidence level (two-sided). The critical value is 1.96. This means that if the test statistic is greater than 1.96 or less than -1.96, the null hypothesis is rejected. The blue represents the non-rejection region and the red the rejection region. Since the Test Statistic for this hypothetical example is 1.1 (less than 1.96 and greater than -1.96), we fail to reject the null hypothesis.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This method corresponds directly to the related confidence intervals produced for the sample data.</p>
+<p>If the hypothesized population mean is within the confidence interval, we fail to reject the null hypothesis. If the hypothesized population mean is not within the confidence interval, the null hypothesis is rejected and the alternative hypothesis is accepted.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>Note</strong>: We can say that there is significant evidence to accept the alternative hypothesis if the null hypothesis is rejected. However, it should never be said that we accept the null hypothesis. We can only fail to reject it.</p>
+</div></div><p><strong>Method 2</strong>: The second method is to use a p-value. The p-value is the probability of observing a test statistic as extreme as the one calculated from the sample data given that the null hypothesis is true. The p-value is compared to the significance level (<span class="math inline">\(\alpha\)</span>) to determine if the null hypothesis should be rejected. If the p-value is less than <span class="math inline">\(\alpha\)</span>, the null hypothesis is rejected. If the p-value is greater than <span class="math inline">\(\alpha\)</span>, the null hypothesis is not rejected.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>NOTE</strong>: Our <strong>alternative hypothesis</strong> determines whether we are looking for the probability that the test statistic is greater than or less than the observed value.</p>
+<ul>
+<li><p>For a <strong>two-sided test</strong>, the p-value is the probability that the test statistic is greater than the observed value or less than the negative of the observed value. Find the area in one of the tails and double it.</p></li>
+<li><p>For a <strong>left-tailed test</strong> (<span class="math inline">\(H_a: \mu &lt; \mu_0\)</span>), the p-value is the probability that the test statistic is less than the observed value.</p></li>
+<li><p>For a <strong>right-tailed test</strong> (<span class="math inline">\(H_a: \mu &gt; \mu_0\)</span>), the p-value is the probability that the test statistic is greater than the observed value.</p></li>
+</ul>
+</div></div><p>For example, if the p-value for a single mean hypothesis test is 0.03 and the significance level is 0.05, the null hypothesis is rejected because the p-value is less than the significance level.</p>
+</section>
+<section id="hypothesis-testing-example" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="hypothesis-testing-example">Hypothesis testing example</h2>
+<p>Suppose we have a sample of data with the following values: 10, 20, 30, 40, 50, 60, 70, 80, 90, 100. We want to test if the true mean of the population is not equal to 50. Alpha is 0.05. Our hypotheses are as follows:</p>
+<ul>
+<li>Null Hypothesis (<span class="math inline">\(H_0\)</span>): <span class="math inline">\(\mu = 50\)</span></li>
+<li>Alternative Hypothesis (<span class="math inline">\(H_1\)</span>): <span class="math inline">\(\mu \neq 50\)</span></li>
+</ul>
+<p>We can use the t-test to test this hypothesis. We start by finding the sample mean and sample standard deviation. The sample mean is 55 and the sample standard deviation is 30.2765. The degrees of freedom are 9. The critical value for a 95% two-sided confidence t-interval with 9 degrees of freedom is <span class="math inline">\(\pm 2.262157\)</span>.</p>
+<p>The test statistic can be calculated as follows:</p>
+<p><span class="math display">\[t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}}\]</span> <span class="math display">\[t = \frac{55 - 50}{\frac{30.2765}{\sqrt{10}}}\]</span> <span class="math display">\[t = 0.522\]</span> Since the test statistic is between the two critical values, there is not enough evidence to reject the null hypothesis and conclude that the true mean is not equal to 50.</p>
+<p>The p-value for this example could be calculated by finding the area under the curve to the left of -0.522 and to the right of 0.522. The p-value would be the sum of these two areas. By looking at the t-table, it can be seen that the sum of these two areas would be well greater than .5, which is greater than .05. Therefore, the null hypothesis would not be rejected.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>NOTE</strong>: Since this is a two-sided test you could simply find the probability that the test statistic is greater than 0.522 and multiply by 2. This would give you the <strong>p-value</strong>.</p>
+</div></div></section>
+<section id="hypothesizing-par-as-the-population-mean" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="hypothesizing-par-as-the-population-mean">Hypothesizing Par as the Population Mean</h2>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Augusta National is breathtakingly beautiful, but if golfers get distracted by the scenic views, tall pines, bunkers, water, and azaleas may catch their balls.</p>
+<p>The 13th hole at Augusta National <img src="augusta_13.jpg" class="img-fluid"></p>
+<p>Image Source: <a href="https://golf.com/news/pros-on-new-masters-13th-hole/">Golf.com</a></p>
+</div></div><p>In golf par is considered to be the number of strokes a good golfer is expected to take. The par for the course at Augusta National is 72. It is known that Augusta National is a tougher than usual course, but we would like to test if that is the case for different groups of golfers.</p>
+<p>Our null hypothesis will generally be that the true mean of the group is equal to 72.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 3: t-test for single mean hypothesis testing">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 3: t-test for single mean hypothesis testing
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+<p>Amateurs, who are not yet professional golfers, are generally expected to score higher than professionals. We would like to test if the mean of amateur scoring is above par at Augusta National</p>
+<ol type="a">
+<li><p>What is the <strong>null hypothesis</strong> for this test?</p></li>
+<li><p>What is the <strong>alternative hypothesis</strong> for this test?</p></li>
+</ol>
+<p>Perform a single mean hypothesis test to see if the mean of amateur scoring is greater than 72 using the amateur round 1 score sample from earlier in the lesson. The summary of the sample is as follows:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sample</th>
+<th style="text-align: right;">Sample Mean</th>
+<th style="text-align: right;">Sample Standard Deviation</th>
+<th style="text-align: right;">Sample Size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Amateurs Round 1</td>
+<td style="text-align: right;">71.54545</td>
+<td style="text-align: right;">3.21455</td>
+<td style="text-align: right;">7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol start="3" type="a">
+<li><p>What is the <strong>critical value</strong> for this test?</p></li>
+<li><p>What is the <strong>test statistic</strong>?</p></li>
+<li><p>What is the <strong>p-value</strong>?</p></li>
+<li><p>Based on the p-value and the test statistic to critical value comparison, is there statistically significant evidence that the mean of amateur scoring at Augusta National is greater than 72?</p></li>
+</ol>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"><div class="callout-margin-content">
+<p>Amateurs generally struggle in the Masters, but in 2023 Sam Bennett, a Texas A&amp;M student, made the cut and finished 16th. However, due to his amateur status, he was not eligible to win money and missed out on $261,000.</p>
+<p>Sam Bennett <img src="sam_bennett.png" class="img-fluid"></p>
+<p>Image Source: <a href="https://www.sportico.com/personalities/athletes/2024/sam-bennett-2023-masters-off-course-earnings-1234774995/">Sportico</a></p>
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 4: z-test for single mean hypothesis testing">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 4: z-test for single mean hypothesis testing
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>PGA professionals would generally average somewhere around par. We would like to test if the mean of PGA professional scoring is not equal to 72 at Augusta National.</p>
+<ol type="a">
+<li><p>What is the <strong>null hypothesis</strong> for this test?</p></li>
+<li><p>What is the <strong>alternative hypothesis</strong> for this test?</p></li>
+</ol>
+<p>Perform a single mean hypothesis test using the PGA Round 1 sample from earlier. The summary of that sample is displayed below.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sample</th>
+<th style="text-align: right;">Sample Mean</th>
+<th style="text-align: right;">Sample Standard Deviation</th>
+<th style="text-align: right;">Sample Size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PGA Round 1</td>
+<td style="text-align: right;">71.54545</td>
+<td style="text-align: right;">3.21455</td>
+<td style="text-align: right;">7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol start="3" type="a">
+<li><p>What is the <strong>critical value</strong> for this test?</p></li>
+<li><p>What is the <strong>test statistic</strong>?</p></li>
+<li><p>What is the <strong>p-value</strong>?</p></li>
+<li><p>What is your <strong>conclusion</strong>?</p></li>
+<li><p>Explain your answer to part <strong>d</strong>.</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="more-practice" class="level1 page-columns page-full">
+<h1>More practice</h1>
+<p>If you would like more practice with confidence intervals and hypothesis testing, try the following exercises.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Challenge 1: Critical Values Knowledge Check">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Challenge 1: Critical Values Knowledge Check
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+<p>Below is summary data from a sample of LIV golfers from round 3 of the 2023 Masters Tournament.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sample</th>
+<th style="text-align: right;">Sample Mean</th>
+<th style="text-align: right;">Sample Standard Deviation</th>
+<th style="text-align: right;">Sample Size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">LIV Round 3</td>
+<td style="text-align: right;">74.33333</td>
+<td style="text-align: right;">1.922751</td>
+<td style="text-align: right;">12</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol type="a">
+<li><p>What is the degrees of freedom for a single mean hypothesis test for the above sample of Augusta National scores?</p></li>
+<li><p>Which of the following is the correct formula for the test statistic for a single mean hypothesis test for the above sample?</p></li>
+</ol>
+<ol type="1">
+<li><span class="math inline">\(t = \frac{\bar{X} - \mu_0}{\frac{S}{\sqrt{n}}}\)</span></li>
+<li><span class="math inline">\(z = \frac{\bar{X} - \mu_0}{\frac{\sigma}{\sqrt{n}}}\)</span></li>
+</ol>
+<ol start="3" type="a">
+<li><p>Assume that the alternate hypothesis is that the true mean of scoring for LIV golfers at Augusta is greater than 72. Use the correct formula from part <strong>b</strong> to calculate the test statistic for the above sample manually. What is the value of the <strong>test statistic</strong>?</p></li>
+<li><p>Assuming <span class="math inline">\(\alpha = 0.05\)</span>, what is the <strong>critical value</strong> for the above sample?</p></li>
+<li><p>Based on the test statistic and critical value, what is your <strong>conclusion</strong>?</p></li>
+</ol>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"><div class="callout-margin-content">
+<p><strong>Fun fact</strong>: In the 2023 Masters Tournament, the average score for LIV golfers was just slightly worse (72.91) than the average score for PGA golfers (72.55). However, the average score for amateurs (74.56) and seniors (76.31) was significantly higher.</p>
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Challenge 2: P-Value Knowledge check">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Challenge 2: P-Value Knowledge check
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Answer the following questions based on the sample of Augusta National scores below.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sample</th>
+<th style="text-align: right;">Sample Mean</th>
+<th style="text-align: right;">Sample Standard Deviation</th>
+<th style="text-align: right;">Sample Size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PGA Round 4</td>
+<td style="text-align: right;">72.89744</td>
+<td style="text-align: right;">3.385689</td>
+<td style="text-align: right;">39</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol type="a">
+<li><p>Use the proper method to test if the mean of the sample is equal to 72. What is the <strong>p-value</strong>?</p></li>
+<li><p>Based on the p-value, what would be your <strong>conclusion</strong> if <span class="math inline">\(\alpha = 0.01\)</span>?</p></li>
+<li><p>Based on the p-value, what would be your <strong>conclusion</strong> if <span class="math inline">\(\alpha = 0.05\)</span>?</p></li>
+<li><p>Based on the p-value, what would be your <strong>conclusion</strong> if <span class="math inline">\(\alpha = 0.10\)</span>?</p></li>
+<li><p>Based on the p-value, what would be your <strong>conclusion</strong> if <span class="math inline">\(\alpha = 0.20\)</span>?</p></li>
+<li><p>What is wrong with doing multiple hypothesis tests with different <span class="math inline">\(\alpha\)</span> values that you choose after the fact?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Challenge 3: Confidence Intervals Knowledge Check">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Challenge 3: Confidence Intervals Knowledge Check
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Answer the following questions based on the 2 samples of Augusta National scores below.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 16%">
+<col style="width: 38%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sample</th>
+<th style="text-align: right;">Sample Mean</th>
+<th style="text-align: right;">Standard Deviation Estimate</th>
+<th style="text-align: right;">Sample Size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">S1: Amateur Round 2</td>
+<td style="text-align: right;">74.00000</td>
+<td style="text-align: right;">2.886751</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">S2: PGA Rounds 2 &amp; 4</td>
+<td style="text-align: right;">72.26364</td>
+<td style="text-align: right;">2.985215</td>
+<td style="text-align: right;">110</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol type="a">
+<li><p>Which of the above samples (sample 1 or sample 2) would you expect to have a <strong>wider confidence interval</strong> for the mean? Why?</p></li>
+<li><p>How does the <strong>sample size</strong> affect the width of the confidence interval?</p></li>
+<li><p>Using sample 2, if confidence intervals were made for confidence levels of 90%, 95%, and 99%, which confidence interval would be the <strong>widest</strong>?</p></li>
+<li><p>What is the <strong>relationship</strong> between the confidence level and the width of the confidence interval?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Challenge 4: z vs t (large sample size)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Challenge 4: z vs t (large sample size)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You have the following sample of Augusta National scores below. Answer the following questions based on the sample.</p>
+
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sample</th>
+<th style="text-align: right;">Sample Mean</th>
+<th style="text-align: right;">Sample Standard Deviation</th>
+<th style="text-align: right;">Sample Size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PGA Rounds 1 &amp; 2</td>
+<td style="text-align: right;">72.26364</td>
+<td style="text-align: right;">2.985215</td>
+<td style="text-align: right;">110</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ol type="a">
+<li><p>Create a <strong>95% confidence interval</strong> for the mean of the sample using a z-interval. What is the <strong>confidence interval</strong>?</p></li>
+<li><p>Create a <strong>95% confidence interval</strong> for the mean of the sample using a t-interval. What is the <strong>confidence interval</strong>?</p></li>
+<li><p>Which of the above confidence intervals is <strong>wider</strong>?</p></li>
+<li><p>Based on your answer to the above question, would you say a t-distribution has <strong>heavier</strong> or <strong>lighter</strong> tailed than a z-distribution?</p></li>
+<li><p>Is the difference in the <strong>confidence intervals</strong> in this problem likely to change a result in a hypothesis test? Why or why not?</p></li>
+</ol>
+</div>
+</div>
+
+
+<div class="no-row-height column-margin column-container"><div class="callout-margin-content">
+<p><strong>Think on it</strong>: The average score for the first 2 rounds of the 2023 Masters Tournament was 72.8, while the average score for the last 2 rounds was 73.22. This is interesting because only the top players make it to the last 2 rounds, so you would expect the scores to be lower. What could have changed so that the best players are now scoring worse?</p>
+</div></div></section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Maintained by Katie Fitzgerald <br> We use cookies to track usage statistics to help measure impact of the materials for authors. Please consider allowing tracking cookies.</p>
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Manage cookies</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

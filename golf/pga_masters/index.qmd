@@ -44,7 +44,7 @@ callout-icon: false
 
 # Introduction
 
-In this module, you will be exploring the concept of single mean confidence intervals using data from the 2023 Masters Tournament as well as single mean tests. The Masters is considered to be one of the greatest and most selective tournaments in the world of golf. Only the best current players or previous winners are allowed in. The winner of the Masters gets to wear the famed "Green Jacket" and return to play any year they would like at the Masters. The course The Masters is played at, Augusta National, is one of the most beautiful and challenging courses in the world. The course is known for its fast greens and tight fairways. The Masters is the first major of the year and is played in early April. The tournament is played over four days. After 2 days, the top 50 players and ties make the cut and play the final two days. 
+In this module, you will be exploring the concepts of single mean confidence intervals and single mean hypothesis tests using data from the 2023 Masters tournament. The Masters is considered to be one of the greatest and most selective tournaments in the world of golf. Only the best current players or previous winners are allowed in. The winner of the Masters gets to wear the famed "Green Jacket" and return to play any year they would like at the Masters. The course the Masters is played at, Augusta National, is one of the most beautiful and challenging courses in the world. The course is known for its fast greens and tight fairways. The Masters is the first major of the year and is played in early April. The tournament is played over four days. After 2 days, the top 50 players and ties make the cut and play the final two days. 
 
 ::: column-margin
 Scottie Scheffler after winning the 2023 Masters Tournament.
@@ -64,7 +64,7 @@ View the course at Augusta National [here](https://www.masters.com/en_US/course/
 As mentioned before, only the best players and previous winners can compete in the tournament, With that being said, the Masters is one of the few tournaments that players from the newly created LIV golf tour can play in, although they are mostly qualifying because of their past performances at the Masters before they joined LIV golf. This leads to a mixture of regular PGA professionals, LIV professionals, Amateurs, and Seniors playing in the Masters in 2023. 
 
 
-The focus for this module is confidence intervals and hypothesis testing for the scores for different groups of players at the 2023 Masters. 
+The focus for this module is confidence intervals and hypothesis testing for the true mean scores for different groups of players at Augusta National. 
 
 ::: {.callout-note title="Learning Objectives" appearance="minimal"}
 By the end of this module, you will be able to:
@@ -82,7 +82,7 @@ By the end of this module, you will be able to:
 \
 \
 
-**NOTE**: **R** is the name of the programming language itself and **RStudio** is a convenient interface. To throw even more lingo in, you may be accessing RStudio through a web-based version called **Posit Cloud**. But R is the programming language you are learning
+**NOTE**: **R** is the name of the programming language itself and **RStudio** is a convenient interface. You may be accessing RStudio through a web-based version called **Posit Cloud**. But R is the programming language you are using. 
 :::
 
 
@@ -90,9 +90,9 @@ By the end of this module, you will be able to:
 
 During this lab, you'll investigate the following research questions:
 
-+ What are the confidence intervals for scoring for different groups of players at the 2023 Masters Tournament?
++ What are the confidence intervals for true scoring for different groups of players at the 2023 Masters Tournament?
 + Is the true mean for different groups of players at The 2023 Masters different than par?
-+ Are Amateurs scores greater than Par at Augusta National?
++ Is the true mean of amateur scoring greater than par at Augusta National?
 + How do sample size and confidence level affect the width of a confidence interval?
 
 :::
@@ -152,8 +152,8 @@ c. Which **variable** will be used for computing a single mean confidence interv
 Before proceeding with the analysis, let's make sure we know some important golf terminology that will help us master this lab.
 
 #### Golf Terminology
--   **Par** in golf is the amount of strokes that a good golfer is expected to get the ball in the hole with.
-    - Each **hole** in golf has its own **par**. There are **Par 3** holes, **Par 4** holes, and **Par 5** holes. 
+-   **Par** in golf is the amount of strokes that a good golfer is expected to take to get the ball in the hole.
+    - Each **hole** in golf has its own **par**. There are **par 3** holes, **par 4** holes, and **par 5** holes. 
     - There are 18 holes on a golf course and the **pars** of each of these holes sums to **par for the course**, also known the **course par**. 
 -   A **round** in golf is when a golfer plays the full set of 18 holes on the course.
     - In most professional golf tournaments, all golfers play **2 rounds**, the best golfers are selected and those golfers play 2 more rounds for a total of **4 rounds**.
@@ -165,8 +165,8 @@ Before proceeding with the analysis, let's make sure we know some important golf
 - In golf there are a few **tours**, better thought of as leagues, that golfers regularly compete in
 
      -  The **PGA**, or "Professional Golf Association", has long been considered the preeminant golfing tour, hosting most tournaments and containing the most skilled members.
-     - The **LIV** Tour is a Saudi-backed alternative to the PGA that was formed in 2022. **LIV** is the Roman numeral for 54 and is related to the fact that **LIV** tournaments only allow 54 players and only play 54 holes, compared to the normal PGA 72 holes.
-     - The **PGA Tour Champions** Tour is a branch off of the PGA tour for players 50 or older. It used to be called the "Senior PGA Tour" until 2003, when it began being called the **Champions** tour
+     - The **LIV** tour is a Saudi-backed alternative to the PGA that began playing tournaments in 2022. **LIV** is the Roman numeral for 54 and is related to the fact that **LIV** tournaments only allow 54 players and only play 54 holes, compared to the normal PGA 72 holes.
+     - The **PGA Tour Champions** is a branch off of the PGA tour for players 50 or older. It used to be called the "Senior PGA Tour" until 2003, when it began being called the **Champions** tour
      - An **amateur** is a golfer who is not yet a professional. They are not allowed to win money in professional golf tournaments. Most **amateurs** are college golfers. 
 
 :::
@@ -204,7 +204,7 @@ The `masters_2023` data you'll be analyzing in this lab provides scores for each
 
 # Single Mean Confidence Intervals
 
-Single Mean confidence intervals give a range of numbers that the we can feel confident that the true population mean falls between. 
+Single mean confidence intervals give a range of numbers that the we can feel confident that the true population mean falls between. 
 
 There are two different ways of calculating the confidence interval for a single mean. 
 
@@ -740,7 +740,7 @@ d. Based on the p-value, what would be your **conclusion** if $\alpha = 0.10$?
 
 e. Based on the p-value, what would be your **conclusion** if $\alpha = 0.20$?
 
-e. What is wrong with doing multiple hypothesis tests with different $\alpha$ values that you choose after the fact?
+f. What is wrong with doing multiple hypothesis tests with different $\alpha$ values that you choose after the fact?
 
 :::
 
