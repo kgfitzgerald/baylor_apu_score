@@ -80,8 +80,8 @@ By the end of this module, you will be able to:
 
 During this lab, you'll investigate the following research questions:
 
-+ What is the probability that Scottie Scheffler hits the green in regulation in 2023 from different lies?
-+ What is the confidence interval for the probability that Scottie Scheffler hits the green in regulation in 2023 from different lies?
++ What is the sample probability that Scottie Scheffler hits the green in regulation from different lies?
++ What is the confidence interval for the true probability that Scottie Scheffler hits the green in regulation from different lies?
 + Is there a significant difference in the probability that Scottie Scheffler hits the green in regulation in 2023 from different lies?
 
 :::
@@ -306,32 +306,34 @@ d. What is the estimated value of the **lower limit** of the confidence interval
 
 :::
 
-## Using `binom.test` to Calculate Confidence Intervals 
+## Using `prop.test` to Calculate Confidence Intervals 
 
-In R the `binom.test()` function can be used to calculate confidence intervals for proportions. The `binom.test()` function takes the number of successes and the total number of trials as arguments and returns a confidence interval for the proportion.
+In R the `prop.test()` function can be used to calculate confidence intervals for proportions. The `prop.test()` function takes the number of successes and the total number of trials as arguments and returns a confidence interval for the proportion.
 
 ::: column-margin
 
-**TIP**: You can type `?binom.test` in the R console to get more information about the `binom.test()` function, including which arguments it takes and what it returns.
+**TIP**: You can type `?prop.test` in the R console to get more information about the `prop.test()` function, including which arguments it takes and what it returns.
+
+**TIP**: Throughout this lesson, we will set the `correct` argument to `FALSE` in the `prop.test()` function. This is because the `correct` argument is used to apply a continuity correction to the confidence interval, which we will not be using in this lesson.
 
 :::
 
-Below is an example of how to use the `binom.test()` function to calculate a 95% confidence interval for data where the number of successes is 60 and the total number of trials is 100. If `$conf.int` is added to the end of the `binom.test()` function, the function will return only the confidence interval and confidence level.
+Below is an example of how to use the `prop.test()` function to calculate a 95% confidence interval for data where the number of successes is 60 and the total number of trials is 100. If `$conf.int` is added to the end of the `prop.test()` function, the function will return only the confidence interval and confidence level.
 
 ```{r}
-binom.test(60, 100, conf.level = .95)
-binom.test(60, 100, conf.level = .95)$conf.int
+prop.test(60, 100, conf.level = .95, correct = FALSE)
+prop.test(60, 100, conf.level = .95, correct = FALSE)$conf.int
 ```
 
 ::: column-margin
 
-**TIP**: The `$` operator is used to access a specific element of a list in R. In this case, the `conf.int` element of the list returned by the `binom.test()` function contains the confidence interval.
+**TIP**: The `$` operator is used to access a specific element of a list in R. In this case, the `conf.int` element of the list returned by the `prop.test()` function contains the confidence interval.
 
 :::
 
 ::: {.callout-note title="Exercise 4: Using R Functions for Confidence Intervals"}
 
-Use the `binom.test()` function to calculate a **95% confidence interval** for the proportion of greens hit in regulation by Scottie Scheffler from the **bunker**.
+Use the `prop.test()` function to calculate a **95% confidence interval** for the proportion of greens hit in regulation by Scottie Scheffler from the **bunker**.
 
 a. What is the value of the **lower limit** of the confidence interval for the bunker cut?
 
@@ -390,19 +392,29 @@ There are two common ways to determine the significance of the test:
 
 The first method compares the **test statistic** to the **critical value**. The critical value is the value that separates the rejection region from the non-rejection region. If the test statistic is in the rejection region, the null hypothesis is rejected. This also corresponds to the confidence intervals given for true probability of success. If the hypothesized value of the population proportion is within the confidence interval, the null hypothesis is not rejected. If it is outside the confidence interval, the null hypothesis is rejected.
 
+::: column-margin
+**TIP**: Critical values can be found very easily in **R** using the `qnorm()` function. For example, `qnorm(.975)` will return the critical value for a 95% confidence interval (two sided test).
+
+If the test is right-tailed (greater than), the critical value is found using `qnorm(.95)` for a 95% confidence interval. If the test is left-tailed (less than), the critical value is found using `qnorm(.05)` for a 95% confidence interval.
+
+:::
+
+
 The **p-value** is the most common way to determine the significance of the test. The **p-value** is the probability of observing a test statistic as extreme as the one calculated from the sample data, assuming the null hypothesis is true. If the **p-value** is less than the significance level, the null hypothesis is rejected. 
 
 
 #### Hypothesis Testing in R
 
-Hypothesis testing for proportions can also be done in **R** using the `binom.test()` function. Seen below is an example where it is being tested if the true proportion of successes is different than .7. The first test shows the results if the sample proportion had 60 out of 100 successes and the second test shows the results if the sample proportion had 70 out of 100 successes. Both tests are done using an $\alpha$ level of 0.05.
+Hypothesis testing for proportions can also be done in **R** using the `prop.test()` function. Seen below is an example where it is being tested if the true proportion of successes is different than .7. The first test shows the results if the sample proportion had 60 out of 100 successes and the second test shows the results if the sample proportion had 70 out of 100 successes. Both tests are done using an $\alpha$ level of 0.05.
 
 ```{r}
-binom.test(60, 100, p = .7, conf.level = .95)
-binom.test(70, 100, p = .7, conf.level = .95)
+prop.test(60, 100, p = .7, conf.level = .95, correct = FALSE)
+prop.test(70, 100, p = .7, conf.level = .95, correct = FALSE)
 ```
 
-The p-value of the test is returned in the output of the `binom.test()` function. For the first test, the p-value is `r round(binom.test(60, 100, p = .7)$p.value, 3)` and for the second test, the p-value is 1. Since the p-value of the first test is less than the significance level of 0.05, the null hypothesis is rejected. Since the p-value for the second test is greater than the significance level of 0.05, we fail to reject the null hypothesis.
+The test statistic is returned in the output of `prop.test()` as `X-squared`. This is the square of the z-value. For the first test the test statistic is `r round(sqrt(prop.test(60, 100, p = .7, correct = F)$statistic), 3)`, and for the second test the test statistic is `r round(sqrt(prop.test(70, 100, p = .7, correct = F)$statistic), 3)`. For a 95% confidence level for a two-sided test, the critical value is 1.96. If the test statistic is greater than 1.96 or less than -1.96, the null hypothesis is rejected. Since the test statistic for the first test is less than -1.96, the null hypothesis is rejected. Since the test statistic for the second test is between -1.96 and 1.96, the null hypothesis is not rejected.
+
+The p-value of the test is returned in the output of the `prop.test()` function. For the first test, the p-value is `r round(prop.test(60, 100, p = .7, correct = F)$p.value, 3)` and for the second test, the p-value is 1. Since the p-value of the first test is less than the significance level of 0.05, the null hypothesis is rejected. Since the p-value for the second test is greater than the significance level of 0.05, we fail to reject the null hypothesis.
 
 #### Drawing Conclusions
 
@@ -427,7 +439,7 @@ You set up a hypothesis test with the following hypotheses:
 
 ::: {.callout-note title="Exercise 5: Confidence Intervals for Hypothesis Testing"}
 
-Use the `binom.test()` function to test the hypothesis that the true proportion of greens hit in regulation by Scottie Scheffler from the fairway is not 0.75. $\alpha = 0.05$.
+Use the `prop.test()` function to test the hypothesis that the true proportion of greens hit in regulation by Scottie Scheffler from the fairway is not 0.75. $\alpha = 0.05$. Set `correct = FALSE`.
 
 a. What is the **p-value** of the test?
 
@@ -473,8 +485,7 @@ The pooled proportion is calculated as:
 
 $$\hat{p} = \frac{x_1 + x_2}{n_1 + n_2}$$
 
-However, R has a function that can do this for you.
-The `prop.test()` function in R can be used to compare two proportions. The `prop.test()` function takes the number of successes and the total number of trials for each sample as arguments and returns a p-value for the comparison. Use the argument `correct = FALSE` in the function to get the correct results. The `prop.test()` function will list the test statistic as an X-squared value, which is the square of the Z-score. The p-value stays the same as listed in the output.
+Once again the `prop.test()` function in R can help us out. The `prop.test()` function can the number of successes and the total number of trials for each sample as arguments and return a p-value for the comparison. Use the argument `correct = FALSE` in the function to get the correct results. Remember that the `prop.test()` function will list the test statistic as an X-squared value, which is the square of the z-score. The p-value stays the same as listed in the output.
 
 ::: column-margin
 
@@ -482,21 +493,19 @@ The `prop.test()` function in R can be used to compare two proportions. The `pro
 
 **NOTE**: `prop.test` can take the form `prop.test(c(x1, x2), c(n1, n2))` where `x1` and `x2` are the number of successes in each sample and `n1` and `n2` are the total number of trials in each sample.
 
-**NOTE**: The confidence level can be adjusted using the `conf.level` argument and the type of alternative hypothesis can be adjusted using the `alternative` argument.
-
 :::
 
 Below is an example of how the `prop.test()` function could be used to compare two proportions (10/100 and 20/100) at the 95% confidence level with a two-sided alternative hypothesis: 
 
 ::: column-margin
 
-**NOTE**: If we were using the test statistic to compare the critical value, we would have to take the square root of the X-squared value to get the Z-score (the Z-Score is our test statistic).
+**NOTE**: If we were using the test statistic to compare the critical value, we would have to take the square root of the X-squared value to get the z-score (the z-Score is our test statistic).
 
 ```{r}
 sqrt(3.9216)
 ```
 
-The Z-score would then be compared to the critical value for the desired confidence level. Since we know that the critical values for a two-sided test at the 95% confidence level are -1.96 and 1.96, we can see that the Z-score of $\pm 1.98$ falls in the rejection region.
+The z-score would then be compared to the critical value for the desired confidence level. Since we know that the critical values for a two-sided test at the 95% confidence level are -1.96 and 1.96, we can see that the z-score of $\pm 1.98$ falls in the rejection region.
 
 :::
 
@@ -532,13 +541,13 @@ Use the `prop.test()` function to compare the proportion of greens hit in regula
 
 **TIP**: The alternative hypothesis can be set to `'greater'`, `'less'`, or `'two.sided'` using the `alternative` argument in the `prop.test()` function.
 
-**TIP**: Remember that the test statistic is **Z** which is the square root of the X-squared value output by the `prop.test()` function.
+**TIP**: Remember that the test statistic is **z** which is the square root of the X-squared value output by the `prop.test()` function.
 
 :::
 
 a. What is the value of the **test statistic**?
 
-b. What are the **critical values** for the test?
+b. What is the **critical value** for the test?
 
 c. Is the **test statistic** in the **rejection region**?
 
@@ -593,70 +602,72 @@ mcilroy_2023 <- filter(pga_girs, player == "Rory McIlroy", year == 2023)
 
 1. Compare Scottie Scheffler's approach shots in 2023 to Rory McIlroy's approach shots in 2023. 
 
-    a. Use the `prop.test()` function to compare the proportion of greens hit in regulation by Scottie Scheffler from the **fairway** to the proportion of greens hit in regulation by Rory McIlroy from the **fairway**. Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway by Scottie Scheffler is greater than the proportion of greens hit in regulation from the fairway by Rory McIlroy. Use the **95% confidence level**. Set **correct = FALSE**.
+a. Use the `prop.test()` function to compare the proportion of greens hit in regulation by Scottie Scheffler from the **fairway** to the proportion of greens hit in regulation by Rory McIlroy from the **fairway**. Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway by Scottie Scheffler is greater than the proportion of greens hit in regulation from the fairway by Rory McIlroy. Use the **95% confidence level**. Set **correct = FALSE**.
     
-    b. How big is the **difference** in the sample proportion of greens hit in regulation from the fairway between Scottie Scheffler and Rory McIlroy (round to the nearest hundreth)?
+b. How big is the **difference** in the sample proportion of greens hit in regulation from the fairway between Scottie Scheffler and Rory McIlroy (round to the nearest hundreth)?
     
-    c. Is Scottie Scheffler statistically better than Rory McIlroy at hitting greens in regulation from the fairway? Explain your answer.
+c. Is there enough evidence to conclude that Scottie Scheffler is better at hitting greens in regulation from the fairway than Rory McIlroy? Explain your answer.
 
-    d. Compare the proportion of greens hit in regulation by Scottie Scheffler from the **bunker** to the proportion of greens hit in regulation by Rory McIlroy from the **bunker**. Make the alternative hypothesis that the proportion of greens hit in regulation from the bunker by Scottie Scheffler is greater than the proportion of greens hit in regulation from the bunker by Rory McIlroy. Use the **95% confidence level**. Set **correct = FALSE**.
+d. Compare the proportion of greens hit in regulation by Scottie Scheffler from the **bunker** to the proportion of greens hit in regulation by Rory McIlroy from the **bunker**. Make the alternative hypothesis that the proportion of greens hit in regulation from the bunker by Scottie Scheffler is greater than the proportion of greens hit in regulation from the bunker by Rory McIlroy. Use the **95% confidence level**. Set **correct = FALSE**.
     
-    e. How big is the **difference** in the sample proportion of greens hit in regulation from the bunker between Scottie Scheffler and Rory McIlroy (round to the nearest hundreth)?
+e. How big is the **difference** in the sample proportion of greens hit in regulation from the bunker between Scottie Scheffler and Rory McIlroy (round to the nearest hundreth)?
     
-    f. What is your **conclusion** about Scheffler's and McIlroy's approaches from the bunker?
+f. What is your **conclusion** about Scheffler's and McIlroy's approaches from the bunker?
     
-    g. Explain why it might be more difficult to find a significant difference in the proportion of greens hit in regulation from the bunker compared to the fairway, even if the difference in the sample proportions from the bunker is larger than the difference from the fairway.
+g. Explain why it might be more difficult to find a significant difference in the proportion of greens hit in regulation from the bunker compared to the fairway, even if the difference in the sample proportions from the bunker is larger than the difference from the fairway.
     
 
 :::
 
 ::: {.callout-note title="Challenge 2: Past Comparisons"}
 
-2. Scottie Scheffler skyrocketed up the world golf rankings from 2019-2023. His world golf ranking went from 66 to 31 to 12 to 2 and finally to number 1 (at the end of each season respectively). Take a look at whether Scottie Scheffler's Greens in Regulation from different cuts improved during his climb to the top. Filter the `pga_girs` dataset to only include data from Scottie Scheffler in 2019, 2020, 2021, 2022, and 2023. 
+2. Scottie Scheffler skyrocketed up the world golf rankings from 2019-2023. His world golf ranking went from 66 to 31 to 12 to 2 and finally to number 1 (at the end of each season respectively). Take a look at whether Scottie Scheffler's Greens in Regulation from different cuts improved during his climb to the top. Filter the `pga_girs` dataset to only include data from Scottie Scheffler. 
+
+::: column-margin
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+Below is a graph of Scottie Scheffler's rapid climb up the world golf rankings from the end of 2019 to the end of 2023.
+
+![](scheffler_wgr.jpg)
+
+Image Source: [Official World Golf Rankings](https://www.owgr.com/ranking-graph?minYear=2020&maxYear=2024&player=18417)
+
+:::
     
-    a. Use filter, mutate, and arrange to calculate Scheffler's GIR from the fairway each season. Which season is it the highest?
+a. Use filter, mutate, and arrange to calculate Scheffler's GIR from the fairway each season. Which season is it the highest?
     
-    b. Which season is it the lowest?
+b. Which season is it the lowest?
     
-    c. Use the `prop.test()` function to compare the proportion of greens hit in regulation by Scottie Scheffler from the **fairway** in 2019 to the proportion of greens hit in regulation by Scottie Scheffler from the **fairway** in 2020 Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2019 is less than the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2020. Use the **95% confidence level**. Set **correct = FALSE**.
-    
-    d. Use the `prop.test()` function to compare the proportion of greens hit in regulation by Scottie Scheffler from the **Other** cut in 2021 to the proportion of greens hit in regulation by Scottie Scheffler from the **Other** cut in 2022. Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2021 is less than the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2022. Use the **95% confidence level**. Set **correct = FALSE**.
+c. Use the `prop.test()` function to compare the proportion of greens hit in regulation by Scottie Scheffler from the **fairway** in 2020 to the proportion of greens hit in regulation by Scottie Scheffler from the **fairway** in 2021 Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2020 is less than the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2021. Use the **95% confidence level**. Set **correct = FALSE**.
+
+d. Use the `prop.test()` function to compare the proportion of greens hit in regulation by Scottie Scheffler from the **Other** cut in 2021 to the proportion of greens hit in regulation by Scottie Scheffler from the **Other** cut in 2022. Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2021 is less than the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2022. Use the **95% confidence level**. Set **correct = FALSE**.
     
 :::
     
-<!-- ::: column-margin -->
-
-<!-- When **correct = TRUE** on the `prop.test()` function, a continuity correction is applied to the test statistic. This correction is used to make the discrete data more continuous. It also generally makes the test more conservative. The formula for the test statistic is below: -->
-
-
-<!-- $$ -->
-<!-- X^2 = (\frac{\left|\hat{p}_1 - \hat{p}_2\right| - .5(\frac{1}{n_1} + \frac{1}{n_2})}{\sqrt{\hat{p}(1-\hat{p}(\frac{1}{n_1} + \frac{1}{n_2}}})^2  -->
-<!-- $$ -->
-
-<!-- ::: -->
-
 :::column-margin
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
 **HINT**: Use the code below to filter the data:
 
 ```{r}
 top_bunker_players <- pga_girs |> 
-  filter(cut == "Bunker", holes >= 25, year == 2023) |> 
+  filter(cut == "Bunker", holes < 25, year == 2023) |> 
   mutate(gir = greens / holes) |>
-  arrange(desc(gir))
+  arrange(desc(gir)) |> 
+  slice(1, n())
 ```
 
 :::
 
 ::: {.callout-note title="Challenge 3: Changing Conditions"}
 
-3. Find the best and worst bunker players in 2023 who took more than 25 approach shots from the bunker.
+3. Find the best and worst bunker players in 2023 who took less than 25 approach shots from the bunker.
 
-    a. Test the hypothesis that the proportion of greens hit in regulation from the bunker by the best bunker player is greater than the proportion of greens hit in regulation from the bunker by the worst bunker player. Use the **90% confidence level**. Set **correct = FALSE**.
+a. Test the hypothesis that the proportion of greens hit in regulation from the bunker by the best bunker player is greater than the proportion of greens hit in regulation from the bunker by the worst bunker player. Use the **90% confidence level**. Set **correct = FALSE**.
     
-    b. Test the hypothesis that the proportion of greens hit in regulation from the fairway by the best bunker player is greater than the proportion of greens hit in regulation from the fairway by the worst bunker player. Use the **99% confidence level**. Set **correct = FALSE**.
+b. Test the hypothesis that the proportion of greens hit in regulation from the fairway by the best bunker player is greater than the proportion of greens hit in regulation from the fairway by the worst bunker player. Use the **99% confidence level**. Set **correct = FALSE**.
     
-    c. Do you get differing results when you change the confidence level? If yes, explain why.
+c. Do you get differing results when you change the confidence level? If yes, explain why.
 :::
 
 
