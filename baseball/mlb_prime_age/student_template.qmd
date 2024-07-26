@@ -36,8 +36,6 @@ head(batter_stats)
 
 ```
 
-# One numeric variable
-
 ## Exercise 3
 
 ```{r}
