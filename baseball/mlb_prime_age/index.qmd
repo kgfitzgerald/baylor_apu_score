@@ -386,7 +386,7 @@ Write a paragraph summarizing your findings about the prime age of batters and p
 
 # FOR FUN
 
-You can investigate an individual player's WAR trajectory over time using the app below. If you're curious, you can see the R code that built the app here and even try making your own! 
+You can investigate an individual player's WAR trajectory over time using the app below. If you're curious, you can see the R code that built the Shiny app [here](https://github.com/kgfitzgerald/baylor_apu_score/blob/main/baseball/mlb_prime_age/app.R) and even try making your own! 
 
 ```{r, echo = FALSE}
 knitr::include_app("https://kgfitz.shinyapps.io/Baseball_WAR/",
