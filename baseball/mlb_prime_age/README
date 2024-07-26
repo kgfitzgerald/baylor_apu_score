@@ -14,5 +14,5 @@ pitcher_stats.csv: cleaned version of data originally pulled in May 2024 using t
 
 styles.css: adjusts html viewing layout for index.qmd
 
-baseball_WAR_shiny_app folder contains files that produce the Shiny app embedded at the end of the module. App hosted at https://kgfitz.shinyapps.io/Baseball_WAR/
+app.R: contains files that produce the Shiny app embedded at the end of the module. App hosted at https://kgfitz.shinyapps.io/Baseball_WAR/
 
