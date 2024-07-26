@@ -18,8 +18,8 @@ editor_options:
 ```{r, message = FALSE}
 library(tidyverse)
 
-batter_stats <- read_rds("batter_stats.rds")
-pitcher_stats <- read_rds("pitcher_stats.rds")
+batter_stats <- read_csv("batter_stats.csv")
+pitcher_stats <- read_csv("pitcher_stats.csv")
 ```
 
 ```{r}

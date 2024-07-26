@@ -72,8 +72,8 @@ We'll get started by loading necessary packages and datasets.
 ```{r, message= FALSE, warning = FALSE}
 library(tidyverse)
 
-batter_stats <- read_rds("batter_stats.rds")
-pitcher_stats <- read_rds("pitcher_stats.rds")
+batter_stats <- read_csv("batter_stats.csv")
+pitcher_stats <- read_csv("pitcher_stats.csv")
 ```
 
 ## Data
