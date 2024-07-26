@@ -24,9 +24,9 @@ toc: true
 toc-location: left
 description: Exploring the prime age of MLB players
 categories:
-  - data wrangling
-  - dplyr basics
-  - tidyverse
+  - Data wrangling
+  - Dplyr basics
+  - Tidyverse
 editor_options:
   chunk_output_type: console
 callout-icon: false
