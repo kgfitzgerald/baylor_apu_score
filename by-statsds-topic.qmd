@@ -4,5 +4,6 @@ listing:
   categories: true
   contents:
     - "*/*.qmd"
+    - "!*/*_index.qmd"
     - "!*/*student_template.qmd"
 ---

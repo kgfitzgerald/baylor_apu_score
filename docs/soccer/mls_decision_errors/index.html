@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jonathan Lieb">
+<meta name="dcterms.date" content="2024-07-30">
+<meta name="description" content="Exploring types of decision errors">
+
+<title>Baylor APU SCORE Module Preprint Repository - MLS - Types of Decision Errors</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-JVDQHPRYT1"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-JVDQHPRYT1', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Baylor APU SCORE Module Preprint Repository</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../by-statsds-topic.html" aria-current="page"> 
+<span class="menu-text">Modules By Topic</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://data.scorenetwork.org/"> 
+<span class="menu-text">Data Repository</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../soccer/mls_decision_errors/index.html">Soccer</a></li><li class="breadcrumb-item"><a href="../../soccer/mls_decision_errors/index.html">MLS - Types of Decision Errors</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../by-statsds-topic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modules By Topic</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">Anw</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../anw/kaplan_meier/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">American Ninja Warrior - Kaplan-Meier Survival Analyis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+ <span class="menu-text">Golf</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_gir/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scheffler Greens in Regulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_gir_nor/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scheffler Greens in Regulation (No R)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_masters/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scoring Average Confidence Intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_masters_nor/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scoring Average Confidence Intervals (No R)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false">
+ <span class="menu-text">Mma</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../mma/mma_chisquare/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MMA Fight Decisions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Soccer</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../soccer/mls_decision_errors/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">MLS - Types of Decision Errors</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">Tennis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../tennis/tennis_sampsize/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tennis Sample Size</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
+ <span class="menu-text">Volleyball</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../volleyball/ncaa_d1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Volleyball - Women’s NCAA Division I</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#welcome-video" id="toc-welcome-video" class="nav-link active" data-scroll-target="#welcome-video">Welcome video</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#terms-to-know" id="toc-terms-to-know" class="nav-link" data-scroll-target="#terms-to-know">Terms to Know</a></li>
+  <li><a href="#hypothesis-testing" id="toc-hypothesis-testing" class="nav-link" data-scroll-target="#hypothesis-testing">Hypothesis Testing</a></li>
+  <li><a href="#type-i-errors" id="toc-type-i-errors" class="nav-link" data-scroll-target="#type-i-errors">Type I Errors</a></li>
+  <li><a href="#type-ii-errors" id="toc-type-ii-errors" class="nav-link" data-scroll-target="#type-ii-errors">Type II Errors</a></li>
+  <li><a href="#relationship-between-type-i-and-type-ii-errors" id="toc-relationship-between-type-i-and-type-ii-errors" class="nav-link" data-scroll-target="#relationship-between-type-i-and-type-ii-errors">Relationship between Type I and Type II Errors</a>
+  <ul class="collapse">
+  <li><a href="#whats-worse-type-i-or-type-ii-errors" id="toc-whats-worse-type-i-or-type-ii-errors" class="nav-link" data-scroll-target="#whats-worse-type-i-or-type-ii-errors">What’s Worse: Type I or Type II Errors?</a></li>
+  </ul></li>
+  <li><a href="#results-of-the-hypothesis-test" id="toc-results-of-the-hypothesis-test" class="nav-link" data-scroll-target="#results-of-the-hypothesis-test">Results of the Hypothesis Test</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../soccer/mls_decision_errors/index.html">Soccer</a></li><li class="breadcrumb-item"><a href="../../soccer/mls_decision_errors/index.html">MLS - Types of Decision Errors</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">MLS - Types of Decision Errors</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Decision Errors</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Exploring types of decision errors
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jonathan Lieb <a href="mailto:jonathan_lieb1@baylor.edu" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Baylor University
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 30, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Facilitation notes">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Facilitation notes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>This module would be suitable for an in-class lab or take-home assignment in an introductory statistics course.</p></li>
+<li><p>The data used to create this module can be downloaded <a href="training_facilities.csv">here</a></p></li>
+<li><p>A student template for answers can be downloaded <a href="student_template.pdf">here</a></p></li>
+</ul>
+</div>
+</div>
+</div>
+<section id="welcome-video" class="level1">
+<h1>Welcome video</h1>
+<iframe width="560" height="315" src="" title="placeholder">
+</iframe>
+</section>
+<section id="introduction" class="level1 page-columns page-full">
+<h1>Introduction</h1>
+<p>In this module, we will explore the concept of decision errors in hypothesis testing. We will use MLS (Major League Soccer) training facility data to explore Type I and Type II errors.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Inter Miami CF opened a $40 million training facility in 2020. It sprawls over 25 acres and includes 7 fields.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="miami_facility.jpg" class="img-fluid figure-img"></p>
+<figcaption>Inter Miami CF Training Facility</figcaption>
+</figure>
+</div>
+<p>Image Source: <a href="https://www.intermiamicf.com/club/facilities/training-center">Inter Miami CF</a></p>
+</div></div><p>In the last decade (2014-2023) more than half of all MLS teams opened new training facilities, and several more clubs have plans to build new facilities soon. These cutting edge facilities are designed to provide players with the best possible environment to train and develop, hopefully translating to better performance on the field.</p>
+<p>Do these new, state-of-the-art facilities lead to better performance on the field though? What are some potential consequences of claiming they make a difference when they don’t? What are some potential consequences of claiming they don’t make a difference when they do?</p>
+<p>We will explore these questions and more as we kick off our exploration of hypothesis testing and decision errors. For our purposes we will consider any team with a training facility that opened in 2014 or later to have a new training facility and any team with a training facility that opened before 2014 to have an old training facility.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Learning Objectives">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this module, you should be able to:</p>
+<ul>
+<li><p>Understand the basic concepts of hypothesis testing</p></li>
+<li><p>Define Type I errors</p></li>
+<li><p>Define Type II errors</p></li>
+<li><p>Explain the relationship between Type I and Type II errors</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="terms-to-know" class="level1 page-columns page-full">
+<h1>Terms to Know</h1>
+<div class="callout callout-style-default callout-important no-icon callout-titled" title="Soccer Vocab">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Soccer Vocab
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+<p>Let’s knock out some soccer terminology before we head into hypothesis testing and decision errors.</p>
+<ul>
+<li><p><strong>MLS</strong>: Major League Soccer. The top professional soccer league in the United States and Canada.</p></li>
+<li><p><strong>Match</strong>: A soccer game</p></li>
+<li><p><strong>Points per Match Played</strong>: The average number of points a team earns per match played. In MLS, a team earns 3 points for a win, 1 point for a draw, and 0 points for a loss. This is <strong>not</strong> the amount of goals scored per match.</p></li>
+<li><p><strong>Training Facility</strong>: A facility where a team practices and trains. These facilities can include fields, gyms, locker rooms, and more. Often these teams share facilities with other teams in the organization.</p></li>
+<li><p><strong>Table</strong>: The standings in a league. Teams are ranked by the number of points they have earned. The team with the most points is at the top of the table.</p></li>
+</ul>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"><div class="callout-margin-content">
+<p><strong>ON THE RISE</strong> The MLS is rapidly expanding. Since 2015, 10 new teams have joined the league. The league now has 29 teams with a 30th, San Diego, set to join in 2025.</p>
+<p>Ratings, attendance, and revenue have all increased dramatically over the last decade.</p>
+<p><img src="mls_logo.png" class="img-fluid"> Image Source: <a href="https://en.wikipedia.org/wiki/Major_League_Soccer">Wikipedia</a></p>
+</div></div></section>
+<section id="hypothesis-testing" class="level1 page-columns page-full">
+<h1>Hypothesis Testing</h1>
+<p>Before we can kick off our exploration of decision errors, we need to understand the basics of hypothesis testing.</p>
+<p>Hypothesis testing, a method used to make decisions about a population parameter based on sample data, is a foundational concept in statistics. The decision is made by comparing the sample data results to a null hypothesis. The null hypothesis is generally a statement that there is no effect or no difference than what is assumed to be the true. An alternative hypothesis is a statement that there is an effect or a difference. A hypothesis test can be done for one sample, two sample, or many samples.</p>
+<section id="null-and-alternative-hypotheses" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="null-and-alternative-hypotheses">Null and Alternative Hypotheses</h4>
+<p>The null hypothesis is generally denoted by <span class="math inline">\(H_0\)</span> and the alternative hypothesis is generally denoted by <span class="math inline">\(H_a\)</span>. For one sample tests, the null hypothesis is often that the population parameter is equal to a specific value. For example <span class="math inline">\(H_0 : \mu = \mu_0\)</span>. For multiple sample tests, the null hypothesis often states that there is no difference between the groups. For example <span class="math inline">\(H_0: \mu_{1} = \mu_{2} = ... = \mu_{n}\)</span>.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>NOTE</strong>: All examples in this section are using the population mean (<span class="math inline">\(\mu\)</span>) as the parameter of interest. Any population parameter can be tested using hypothesis testing. Other common parameters include the population proportion (<span class="math inline">\(p\)</span>) and the population variance (<span class="math inline">\(\sigma^2\)</span>).</p>
+<p>An example of a hypothesis test using proportions is shown below:</p>
+<p><span class="math display">\[H_0: p = p_0\]</span></p>
+<p><span class="math display">\[H_a: p \neq p_0\]</span></p>
+<p>Where <span class="math inline">\(p\)</span> is the population proportion and <span class="math inline">\(p_0\)</span> is the assumed population proportion.</p>
+</div></div><p>The alternative hypothesis is a statement that there is an effect or a difference. For a one sample test, the alternative hypothesis is generally that the population parameter is not equal to, greater than, or less than a specific value. For example, <span class="math inline">\(H_a: \mu \neq \mu_0\)</span>, <span class="math inline">\(H_a: \mu &gt; \mu_0\)</span>, or <span class="math inline">\(H_a: \mu &lt; \mu_0\)</span>. For a multi-sample test, the alternative hypothesis is generally that there is a difference between the groups. <span class="math inline">\(H_a: \text{ At least one } \mu_i \text{ is different}\)</span>.</p>
+</section>
+<section id="setting-up-a-hypothesis-test" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="setting-up-a-hypothesis-test">Setting up a Hypothesis Test</h4>
+<p>Let’s set up a hypothesis test to determine if a new training facility leads to better performance on the field. We will use points per match played as our measure of performance. The null hypothesis is that there is no difference in points per match played between teams with new training facilities and teams without new training facilities. The alternative hypothesis is that the teams with new training facilities have a higher points per match played than teams without new training facilities.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>Fun Fact</strong>: The top team in the MLS in 2023, FC Cincinnati, averaged 2.03 points per match. They opened a new training facility in 2019.</p>
+<p><br> The graph below show the points per match played in 2023 for teams with new training facilities and teams without new training facilities.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div><p><span class="math display">\[H_0: \mu_{new} = \mu_{old}\]</span></p>
+<p><span class="math display">\[H_a: \mu_{new} \ge \mu_{old}\]</span></p>
+<p>Where <span class="math inline">\(\mu_{new}\)</span> is the population mean points per match played for teams with new training facilities and <span class="math inline">\(\mu_{old}\)</span> is the population mean points per match played for teams without new training facilities.</p>
+</section>
+<section id="significane-level-and-decisions-in-hypothesis-testing" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="significane-level-and-decisions-in-hypothesis-testing">Significane Level and Decisions in Hypothesis Testing</h4>
+<p>In hypothesis testing, we make a decision to either reject the null hypothesis or fail to reject the null hypothesis. We make this decision based on the sample data and the <strong>significance level</strong>. The <strong>significance level</strong> is the probability of making a Type I error, which we will expand on soon. The significance level is denoted by <strong><span class="math inline">\(\alpha\)</span></strong>. We often use the probability of observing the sample data given that the null hypothesis is true, called the <strong>p-value</strong>, to make our decision. If the <strong>p-value</strong> is less than the significance level, we reject the null hypothesis. If the <strong>p-value</strong> is greater than the significance level, we fail to reject the null hypothesis.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Click <a href="https://towardsdatascience.com/a-simple-interpretation-of-p-values-34db3777d907">here</a> to read more about p-values and significance levels.</p>
+</div></div><p>These decisions can be either correct or incorrect. A correct decision occurs when we reject the null hypothesis when the null hypothesis is false or when we fail to reject the null hypothesis when the null hypothesis is true. An incorrect decision occurs when we reject the null hypothesis when the null hypothesis is true or when we fail to reject the null hypothesis when the null hypothesis is false.</p>
+<p>All the possible outcomes of a hypothesis test are shown in the table below.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(H_0\)</span> is True</th>
+<th><span class="math inline">\(H_0\)</span> is False</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Do not reject <span class="math inline">\(H_0\)</span></td>
+<td>Correct Decision</td>
+<td>Type II Error</td>
+</tr>
+<tr class="even">
+<td>Reject <span class="math inline">\(H_0\)</span></td>
+<td>Type I Error</td>
+<td>Correct Decision</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="type-i-errors" class="level1 page-columns page-full">
+<h1>Type I Errors</h1>
+<p>A Type I error occurs when we reject a true null hypothesis. In other words, we conclude that there is an effect when there is no effect. Type I errors are also known as false positives. The probability of making a Type I error is denoted by <span class="math inline">\(\alpha\)</span> and is also known as the significance level. <strong>We control the likelihood of making a Type I error</strong> by setting the significance level.</p>
+<p>When we construct a 95% confidence interval, we set the significance level to 0.05. This indicates that there is a 5% chance of making a Type I error. <span class="math inline">\(\alpha = 0.05\)</span> is the most common significance level used in hypothesis testing.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>Quote</strong>: <em>“For in fact no scientific worker has a fixed level of significance at which from year to year, and in all circumstances, he rejects hypotheses; he rather gives his mind to each particular case in the light of his evidence and his ideas”</em> - Ronald Fisher</p>
+<p>Keep in mind that the significance level can be adjusted based on the context of the hypothesis test and what type of error is more costly. Alphas of 0.05 or 0.01 are not the end-all-be-all significance levels.</p>
+</div></div><p>In our example of the new training facilities, a Type I error would occur if we conclude that teams with new training facilities have a higher points per match played than teams without new training facilities, when there truly is no difference in points per match played between the two groups.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 1: Type I Errors">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1: Type I Errors
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>What are some potential consequences of making a Type I error in the context of the new training facilities?</p></li>
+<li><p>Would a Type I error in this context have greater consequences for the team’s finances or the team’s performance?</p></li>
+<li><p>If alpha = 0.05, what is the percent chance that there is no difference in points per match played between the two groups given that we accept the alternative hypothesis of greater points per match played for teams with new training facilities?</p></li>
+<li><p>If alpha = 0.01, what is the percent chance of making a Type I error, given we reject the null hypothesis?</p></li>
+<li><p>If alpha = 0.01, what is the likelihood of making a Type I error if we fail to reject the null hypothesis?</p></li>
+<li><p>Is there a best significance level to always use in hypothesis testing? Why or why not?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="type-ii-errors" class="level1 page-columns page-full">
+<h1>Type II Errors</h1>
+<p>A Type II error occurs when we fail to reject a false null hypothesis. We conclude that there is no effect when there is an effect. Type II errors are also known as false negatives. The probability of making a Type II error is denoted by <span class="math inline">\(\beta\)</span>. The value of beta is determined by the power of the test, which is the probability of correctly rejecting a false null hypothesis. Often we want power to be at least 0.80. This means that we want the probability of making a Type II error to be less than 0.20.</p>
+<p><span class="math display">\[\beta = 1 - \text{Power}\]</span> The power of a test depends on the sample size, the effect size, and the significance level. As a general rule, increasing the sample size, increasing the effect size, and decreasing the significance level will increase the power of a test. The full calculations for power are beyond the scope of this lesson.</p>
+<p>In our example of the new training facilities, a Type II error would occur if we conclude that there is no difference in points per match played between teams with new training facilities and teams without new training facilities, when in reality teams with new training facilities have a higher points per match played than teams without new training facilities.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>The effect size of our test for comparing points per match played between teams with new training facilities and teams without new training facilities is found using <a href="https://resources.nu.edu/statsresources/cohensd">Cohens-d</a> and the power is then calculated using more advanced statistical methods.</p>
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 2: Type II Errors">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2: Type II Errors
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>What are some potential consequences of making a Type II error in the context of the new training facilities?</p></li>
+<li><p>Would a Type II error in this context have greater consequences for the team’s finances or the team’s performance?</p></li>
+</ol>
+<p>Power can sometimes be hard to come by with small samples in hypothesis testing. For example, using the points per match played in 2023 for teams with new training facilities and teams without new training facilities we have 17 teams with new training facilities and 12 teams without new training facilities. With these sample sizes, the samples’ effect size, and an <span class="math inline">\(\alpha = 0.5\)</span>, we have a power of 0.46269.</p>
+<ol start="3" type="a">
+<li><p>What is the probability of making a Type II error in this instance, given we fail to reject the null hypothesis?</p></li>
+<li><p>What is the probability of making a Type II error in this instance, given we reject the null hypothesis?</p></li>
+<li><p>What could be done to increase the power of the test?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="relationship-between-type-i-and-type-ii-errors" class="level1">
+<h1>Relationship between Type I and Type II Errors</h1>
+<p>There is a trade-off between Type I and Type II errors. If we decrease the probability of making a Type I error, we increase the probability of making a Type II error. If we increase the probability of making a Type I error, we decrease the probability of making a Type II error. This means that we need to carefully consider the consequences of each type of error when designing a hypothesis test.</p>
+<p>In our example of the new training facilities, if we increase the significance level from 0.05 to 0.10, our power increases from 0.463 to 0.596. This means that we are more likely to detect a difference in points per match played between teams with new training facilities and teams without new training facilities. However, we are also twice as likely to make a Type I error than previously.</p>
+<p>Below is a plot showing this trade-off between Type I and Type II errors in our example of the new training facilities.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the plot above it can be seen that we never have as much power as we would like for any reasonable Type I error rate.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 3: Relationship between Type I and Type II Errors">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 3: Relationship between Type I and Type II Errors
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Does sample size affect the probability of making a Type I or Type II error?</p></li>
+<li><p>Does changing the significance level affect the probability of making a Type I or Type II error?</p></li>
+<li><p>If we perform a test at the 0.01 significance level and another test at the 0.05 significance level, which test is more likely to result in a Type I error? Which test is more likely to result in a Type II error?</p></li>
+</ol>
+</div>
+</div>
+<section id="whats-worse-type-i-or-type-ii-errors" class="level2">
+<h2 class="anchored" data-anchor-id="whats-worse-type-i-or-type-ii-errors">What’s Worse: Type I or Type II Errors?</h2>
+<p>The answer to this question depends on the context of the hypothesis test. In some cases, a Type I error is more serious than a Type II error. In other cases, a Type II error is more serious than a Type I error. Below are two examples related to injuries in sports.</p>
+<section id="example-where-type-i-error-is-more-serious-than-type-ii-error" class="level4">
+<h4 class="anchored" data-anchor-id="example-where-type-i-error-is-more-serious-than-type-ii-error">Example where Type I error is more serious than Type II error</h4>
+<p>Assume that a new recovery method is being tested for athletes with muscle injuries. This method claims to help athletes recover faster from their injuries. The null hypothesis is that the new recovery method takes the same amount of time as traditional recovery methods. The alternative hypothesis is that the new recovery method is faster than traditional recovery methods.</p>
+<p>A Type I error in this context would claim that the new recovery method is effective, when in reality it is not. This could result in athletes using the new recovery method and potentially worsening their injuries by returning to play too soon. A Type II error in this context would be when the new recovery method is assumed to be ineffective when it is actually effective. This would result in athletes continuing to recover following traditional recovery timelines.</p>
+<p>The risk of more serious injuries and more setbacks in the injury recovery process appears to be more serious than the risk of athletes continuing to follow standard recovery timelines. Therefore, in this context, a Type I error is more serious than a Type II error.</p>
+</section>
+<section id="example-where-type-ii-error-is-more-serious-than-type-i-error" class="level4">
+<h4 class="anchored" data-anchor-id="example-where-type-ii-error-is-more-serious-than-type-i-error">Example where Type II error is more serious than Type I error</h4>
+<p>An example of a Type II error being more serious than a Type I error can be seen in the context of concussion protocols in sports. A player takes a hard hit to the head during a game. Team physicians run quick tests on the player. The null hypothesis is that the player performs equal on the test to an uninjured player and therefore does not have a concussion, while the alternative hypothesis is that the player performs worse and therefore has a concussion.</p>
+<p>A Type I error would assume a player has a concussion when they do not. This could result in the player being taken out of the game unnecessarily, but would not have long term consequences for their health and safety. A Type II error in this context would incorrectly assume a player was fine after a head injury, when they in fact have a concussion. This could result in the player continuing to play when they should not, potentially leading to serious long-term brain damage.</p>
+<p>The risk of serious long term brain damage from a concussion is much greater concern than the risk of a player being taken out of a game unnecessarily. Therefore, in this context, a Type II error is more serious than a Type I error.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 4: Consequences of Errors">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 4: Consequences of Errors
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Answer the following questions in the context of the new training facilities:</p>
+<ol type="a">
+<li><p>Which type of error would be more likely to hurt/fail to help the performance of the team?</p></li>
+<li><p>Which type of error would be more costly financially?</p></li>
+<li><p>Which type of error do you think is more serious in this context: Type I or Type II?</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="results-of-the-hypothesis-test" class="level1 page-columns page-full">
+<h1>Results of the Hypothesis Test</h1>
+<p>Using our example of the new training facilities, we can perform a hypothesis test to determine if there is a difference in points per match played between teams with new training facilities and teams without new training facilities. Results of different hypothesis tests with different significance levels and power are shown below. The p-value of the test is 0.03524.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>The test used to produce these results is a two-sample t-test for the means of two independent samples. For more information on tests like this click <a href="https://www.itl.nist.gov/div898/handbook/eda/section3/eda353.htm">here</a>.</p>
+</div></div><table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 25%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 20%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Test NO.</th>
+<th>Significance Level</th>
+<th>Power</th>
+<th>Decision</th>
+<th>Possible Error</th>
+<th>Possible Error Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>0.05</td>
+<td>0.463</td>
+<td>Reject Null Hypothesis</td>
+<td>Type I Error</td>
+<td>0.05</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>0.10</td>
+<td>0.596</td>
+<td>Reject Null Hypothesis</td>
+<td>Type I Error</td>
+<td>0.10</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>0.01</td>
+<td>0.224</td>
+<td>Fail to Reject Null Hypothesis</td>
+<td>Type II Error</td>
+<td>0.776</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 5: Results of the Hypothesis Test">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 5: Results of the Hypothesis Test
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>Which hypothesis test results in a decision that has the highest chance of being an error?</p></li>
+<li><p>Which hypothesis test has the greatest chance of producing a Type I error?</p></li>
+<li><p>Which hypothesis test has the greatest chance of making a Type II error?</p></li>
+<li><p>If you were advising a team owner on whether to invest in new training facilities, what would you recommend?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level1 page-columns page-full">
+<h1>Conclusion</h1>
+<p>In this lesson, we learned about Type I and Type II errors in hypothesis testing. We learned that a Type I error is a false positive, and the rate is controlled by the significance level of the test. We learned that a Type II error is a false negative, and the rate is controlled by the power of the test. There is a trade-off between Type I and Type II errors, and the consequences of each type of error depend on the context of the hypothesis test.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>Fun Fact</strong>: The Seattle Sounders have clearly bought into the idea that new training facilities will help them win more games. Their new facility opened in 2024 and part of its weight room is shown below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="sounders_facility.jpg" class="img-fluid figure-img"></p>
+<figcaption>Seattle Sounders Training Facility</figcaption>
+</figure>
+</div>
+<p>Image Source: <a href="https://www.seattletimes.com/sports/sounders/sounders-unveil-new-state-of-the-art-training-facility-heres-a-first-look/">Seattle Times</a></p>
+</div></div><p>Errors in hypothesis testing can have serious consequences, so it is important to carefully consider the significance level and power of the test when designing a hypothesis test. Increasing the sample size is the most effective way to make our hypothesis test more powerful. Just remember, when performing and interpreting hypothesis tests there is always a chance of making an error, and it is important to consider the consequences of each type of error before beginning.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Maintained by Katie Fitzgerald <br> We use cookies to track usage statistics to help measure impact of the materials for authors. Please consider allowing tracking cookies.</p>
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Manage cookies</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
