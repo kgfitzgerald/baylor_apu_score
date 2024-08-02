@@ -124,7 +124,7 @@ library(DescTools)
 mma <- read_csv("mma.csv") #loads data
 ```
 
-We can use the `glimpse()` function to get a quick look (errr.. glimpse) at our `mma` data. The `glimpse` code provides the number of observations (Rows) and the number of variables (Columns) in the dataset. The “Rows” and “Columns” are referred to as the **dimensions** of the dataset. It also shows us the names of the variables (`date`, `day`, ..., `p2_team`) and the first few observations for each variable (e.g. the first two fights in the dataset took place on October 9, 2010 and October 5, 2019).
+We can use the `glimpse()` function to get a quick look (errr.. glimpse) at our `mma` data. The `glimpse` code provides the number of observations (Rows) and the number of variables (Columns) in the dataset. The “Rows” and “Columns” are referred to as the **dimensions** of the dataset. It also shows us the names of the variables (`date`, `month`, ..., `wtClass`) and the first few observations for each variable (e.g. the first two fights in the dataset took place on December 4, 2010 and May 15, 2010).
 
 ```{r}
 glimpse(mma)
@@ -286,7 +286,7 @@ The chi-square test is a test used to determine if there is a significant associ
 - $H_0:$  there is no assocation between the two variables (null hypothesis)
 - $H_a:$  there is an assocation between the two variables (alternative hypothesis)
 
-We will use the MMA data to explore the test and determine if, since the year 2020, fighter weight class and the decision of a fight are associated. In order to perform the analyis we will produce a "contingency table" displaying the data (*note: To perform a chi-square test in many software packages, it is often not necessary to format the data into a contingency table. Many packages can take data from a standard rectangular data table and pass it through a chi-square function.*). Additionally, it we will illustrate how to present the data in a more visual format.  
+We will use the MMA data to explore the test and determine if, since the year 2020, fighter weight class and the decision of a fight are associated. In order to perform the analyis we will produce a "contingency table" displaying the data (*note: To perform a chi-square test in many software packages, it is often not necessary to format the data into a contingency table. Many packages can take data from a standard rectangular data table and pass it through a chi-square function.*). Additionally, we will illustrate how to present the data in a more visual format.  
 
 
 # Chi-square Test Example
@@ -404,8 +404,8 @@ b. Which weight class appears more likely to have a KO/TKO/Submission?  Does thi
 
 We first write the hypotheses presented earlier for our example:
 
-- $H_0:$  there is no assocation between weight class and whether the fight ended in with a decision or not (null hypothesis)
-- $H_a:$  there is an assocation between weight class and whether the fight ended in with a decision or not (alternative hypothesis)
+- $H_0:$  there is no assocation between weight class and whether the fight ended in a decision or not (null hypothesis)
+- $H_a:$  there is an assocation between weight class and whether the fight ended in a decision or not (alternative hypothesis)
 
 The command "chisq.test" with the two variables as inputs performs the Chi-square test.
 
