@@ -42,7 +42,7 @@ In this module, we will explore the concept of decision errors in hypothesis tes
 ::: column-margin
 Inter Miami CF opened a $40 million training facility in 2020. It sprawls over 25 acres and includes 7 fields. The field is adjacent to their home stadium and can be seen in the background of the image below.
 
-![Chase Stadium](https://upload.wikimedia.org/wikipedia/commons/0/06/Inter_Miami_vs_New_England_Revolution_by_cornfield948_%2820220410085018%29.jpg)
+![Chase Stadium](Chase_Stadium.jpg)
 
 Image Source: <a href="https://commons.wikimedia.org/wiki/File:Inter_Miami_vs_New_England_Revolution_by_cornfield948_(20220410085018).jpg">Cornfield948</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons
 
@@ -85,7 +85,7 @@ New teams like St. Louis City SC have helped fuel the MLS's growth. St. Louis Ci
 
 Ratings, attendance, and revenue have all increased dramatically over the last decade. 
 
-![St. Louis City SC Logo](https://upload.wikimedia.org/wikipedia/commons/1/18/St._Louis_City_SC_logo.png)
+![St. Louis City SC Logo](St._Louis_City_SC_Logo.png)
 
 Image Source: <a href="https://commons.wikimedia.org/wiki/File:St._Louis_City_SC_logo.png">IagoQnsi</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons
 :::
@@ -391,7 +391,7 @@ In this lesson, we learned about Type I and Type II errors in hypothesis testing
 
 **Fun Fact**: The Seattle Sounders have clearly bought into the idea that new training facilities will help them win more games. Their new facility opened in 2024 and they bid farewell to the old Starfire Training Facility depicted below.
 
-![Starfire Training Facility](https://upload.wikimedia.org/wikipedia/commons/a/a7/Starfire_Sports_Complex_-_stadium_field_01.jpg)
+![Starfire Training Facility](Starfire_Sports_Complex.jpg)
 
 Image Source: <a href="https://commons.wikimedia.org/wiki/File:Starfire_Sports_Complex_-_stadium_field_01.jpg">Joe Mabel</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, via Wikimedia Commons
 :::

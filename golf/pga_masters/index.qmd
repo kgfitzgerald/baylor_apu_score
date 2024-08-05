@@ -47,7 +47,7 @@ callout-icon: false
 In this module, you will be exploring the concepts of single mean confidence intervals and single mean hypothesis tests using data from the 2023 Masters tournament. The Masters is considered to be one of the greatest and most selective tournaments in the world of golf. Only the best current players or previous winners are allowed in. The winner of the Masters gets to wear the famed "Green Jacket" and return to play any year they would like at the Masters. The course the Masters is played at, Augusta National, is one of the most beautiful and challenging courses in the world. The course is known for its fast greens and tight fairways. The Masters is the first major of the year and is played in early April. The tournament is played over four days. After 2 days, the top 50 players and ties make the cut and play the final two days. 
 
 ::: column-margin
-![Master's Leaderboard](https://upload.wikimedia.org/wikipedia/commons/0/09/Augusta_National_Leaderboard_%2817071936729%29.jpg)
+![Master's Leaderboard](Augusta_Leaderboard.jpg)
 
 Image Source: <a href="https://commons.wikimedia.org/wiki/File:Augusta_National_Leaderboard_(17071936729).jpg">Ryan Schreiber</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>, via Wikimedia Commons
 :::

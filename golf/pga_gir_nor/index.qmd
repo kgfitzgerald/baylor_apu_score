@@ -45,7 +45,7 @@ In this module, you will be exploring the concept of confidence intervals for pr
 
 ::: column-margin
 
-![Scottie Scheffler](https://upload.wikimedia.org/wikipedia/commons/8/8a/Scottie_Scheffler_2023_02.png)
+![Scottie Scheffler](Scottie_Scheffler.png)
 
 Image Source: <a href="https://commons.wikimedia.org/wiki/File:Scottie_Scheffler_2023_02.png">Titleist</a>, <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>, via Wikimedia Commons
 
@@ -511,7 +511,7 @@ Scottie Scheffler is not the only great golfer on the PGA Tour. In this part of 
 
 Rory McIlroy is one of the most popular and best golfers on the PGA Tour. He has won multiple major championships. He is known for his long drives and his picturesque swing.
 
-![Rory McIlroy](https://upload.wikimedia.org/wikipedia/commons/1/1b/Rory_McIlroy_finishes_long_iron_stroke.jpg)
+![Rory McIlroy](Rory_McIlroy.jpg)
 
 Image Source: <a href="https://commons.wikimedia.org/wiki/File:Rory_McIlroy_finishes_long_iron_stroke.jpg">TourProGolfClubs</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>, via Wikimedia Commons
 
