@@ -48,9 +48,9 @@ callout-icon: false
 In this module, you will explore American Ninja Warrior data from the 2021 stage 1 finals through the lens of **survival analysis**. Survival analysis is a statistical method used to analyze the time until an event of interest occurs (often this event is death). In this case, the obstacles will be our time, and the event of interest will be **DEATH** (we're calling failing off an obstacle death).
 
 ::: column-margin
-<!-- American Ninja Warrior Logo ![](American_Ninja_Warrior_Logo.jpg) -->
+American Ninja Warrior Logo ![](American_Ninja_Warrior_Logo.jpg)
 
-<!-- Imagage Source [Wikimedia](https://commons.wikimedia.org/wiki/File:American_Ninja_Warrior_Logo.jpg) -->
+Image Source [Wikimedia](https://commons.wikimedia.org/wiki/File:American_Ninja_Warrior_Logo.jpg), Public Domain
 :::
 
 One of the simplest methods for survival analysis is the **Kaplan-Meier method**. This method estimates the survival function, which is the probability that a subject survives past a certain time. The Kaplan-Meier method is non-parametric, meaning it makes no assumptions about the distribution of the survival times. It is a step function that decreases at each event time.
@@ -154,9 +154,10 @@ The warped wall is arguably the most famous, although now least difficult, obsta
 
 The warped wall was previously 14 feet and is now 14.5 feet tall. They have even had a 18 foot warped wall on the show.
 
-<!-- Warped Wall ![](warped_wall.png) -->
+![Warped Wall ](https://upload.wikimedia.org/wikipedia/commons/1/10/American_Ninja_Warrior_city_finals_course_Indianapolis_2016.jpg)
 
-<!-- Image Source: [SB Nation](https://www.americanninjawarriornation.com/2019/4/11/18306334/warped-wall-evolution-as-the-ninjas-get-better-the-obstacles-get-harder) -->
+Image Source: <a href="https://commons.wikimedia.org/wiki/File:American_Ninja_Warrior_city_finals_course_Indianapolis_2016.jpg">Dustin Batt</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0">CC BY-SA 2.0</a>, via Wikimedia Commons
+
 :::
 
 The obstacles in American Ninja Warrior are all given names. For example, the famed **Warped Wall** is a curved wall that competitors must run up and grab the top of. The **Salmon Ladder** is a series of rungs that competitors must move up by jumping and pulling themselves up.
@@ -698,11 +699,7 @@ Read in the [anw_2023_stage1](anw_2023_stage1.csv) data to complete the followin
 
 ::: {.callout-note title="Do It Yourself"}
 ::: column-margin
-The winner of the 2023 American Ninja Warrior competition was Vance Walker. Walker won \$1 million for his victory.
-
-<!-- ![Vance Walker](VanceWalker.jpg) -->
-
-<!-- Image Source: [NBC](https://www.nbc.com/nbc-insider/who-won-american-ninja-warrior-season-15) -->
+The winner of the 2023 American Ninja Warrior competition was Vance Walker. Walker won $1 million for his victory.
 :::
 
 ::: {.callout-note title="Challenge 1: Cleaning Data"}
@@ -721,8 +718,6 @@ c.  Add a variable called `censor` to the dataset that is a 0 if time ran out or
 
 ::: column-margin
 **Fun Fact**: Thread the Needle, the 8th obstacle on the 2021 Finals Stage 1 course, saw the highest failure rate of any obstacle. It had not previously been used on the Finals Stage 1 courses.
-
-<!-- ![Thread the Needle](Thread_the_Needle.png) Image Source: [Sasukepedia](https://sasukepedia.fandom.com/wiki/Thread_the_Needle) -->
 :::
 
 ::: {.callout-note title="Challenge 2: Fitting KM"}

@@ -45,9 +45,9 @@ In this module, you will be exploring the concept of confidence intervals for pr
 
 ::: column-margin
 
-Scottie Scheffler
-<!-- ![](Scheffler_image.jpg) -->
-<!-- Image source: [Official World Golf Rankings](https://www.owgr.com/playerprofile/scottie-scheffler-18417) -->
+![Scottie Scheffler](https://upload.wikimedia.org/wikipedia/commons/8/8a/Scottie_Scheffler_2023_02.png)
+
+Image Source: <a href="https://commons.wikimedia.org/wiki/File:Scottie_Scheffler_2023_02.png">Titleist</a>, <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>, via Wikimedia Commons
 
 :::
 
@@ -109,21 +109,31 @@ Before proceeding with the analysis, let's make sure we know some golf terminolo
 
 ::: column-margin
 Are greens in regulation important to scoring? Check out the table below to see how greens in regulation and lower handicaps go hand and hand 
-<!-- ![](gir_by_handicap.png) -->
-<!-- Image source: [The Range by The Grint](https://thegrint.com/range/2013/03/golf-tips-gir/) -->
+
+|Handicap | GIR %|
+|--- | ---|
+|0| 64%| 
+|0-5| 47%|
+|5-10| 36%|
+|10-15| 27%|
+|15-20| 20%|
+|20-25| 12%|
+|25-30| 10%|
+|30+| 6%|
+
+Data Source: [The Range by The Grint](https://thegrint.com/range/2013/03/golf-tips-gir/)
 :::
 
 ::: column-margin
-A par 3 hole should take 1 shot to reach the green in regulation
-<!-- ![](tanglewood_hole5.jpg) -->
+A Par 3 hole should take 1 shot to reach the green in regulation
+![](tanglewood_hole5.jpg)
 
-A par 4 hole should take 2 shots to reach the green in regulation
-<!-- ![](tanglewood_hole1.jpg) -->
+A Par 4 hole should take 2 shots to reach the green in regulation
+![](tanglewood_hole1.jpg)
 
-A par 5 hole should take 3 shots to reach the green in regulation
-<!-- ![](tanglewood_hole2.jpg) -->
-<!-- Images source: [Tanglewood Golf Course](https://www.tanglewoodfulton.com/golf-course/hole-by-hole-layout) -->
-
+A Par 5 hole should take 3 shots to reach the green in regulation
+![](tanglewood_hole2.jpg)
+Images source: [Tanglewood Golf Course](https://www.tanglewoodfulton.com/golf-course/hole-by-hole-layout), Public Domain
 :::
 
 #### Lie Terminology
@@ -501,9 +511,9 @@ Scottie Scheffler is not the only great golfer on the PGA Tour. In this part of 
 
 Rory McIlroy is one of the most popular and best golfers on the PGA Tour. He has won multiple major championships. He is known for his long drives and his picturesque swing.
 
-Rory McIlroy
-<!-- ![](McIlroy_image.jpg) -->
-<!-- Image Source: [Official World Golf Rankings](https://www.owgr.com/playerprofile/rory-mcilroy-10091) -->
+![Rory McIlroy](https://upload.wikimedia.org/wikipedia/commons/1/1b/Rory_McIlroy_finishes_long_iron_stroke.jpg)
+
+Image Source: <a href="https://commons.wikimedia.org/wiki/File:Rory_McIlroy_finishes_long_iron_stroke.jpg">TourProGolfClubs</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>, via Wikimedia Commons
 
 :::
 
@@ -552,9 +562,19 @@ g. Explain why it might be more difficult to find a significant difference in th
 
 Below is a graph of Scottie Scheffler's rapid climb up the world golf rankings from the end of 2019 to the end of 2023.
 
-<!-- ![](scheffler_wgr.jpg) -->
-
-<!-- Image Source: [Official World Golf Rankings](https://www.owgr.com/ranking-graph?minYear=2020&maxYear=2024&player=18417) -->
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+tibble(
+  year = c(2019, 2020, 2021, 2022, 2023),
+  rank = c(66, 31, 12, 2, 1)
+) |> 
+  ggplot(aes(x = year, y = rank)) +
+  geom_line(type = "dashed", color = "purple") +
+  theme_dark()+
+  labs(title = "Scottie Scheffler's World Golf Rankings",
+       x = "Year",
+       y = "OWGR")+
+  scale_y_reverse()
+```
 
 :::
 

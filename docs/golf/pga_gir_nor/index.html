@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -278,12 +278,29 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
- <span class="menu-text">Tennis</span></a>
+ <span class="menu-text">Soccer</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../soccer/mls_decision_errors/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MLS - Types of Decision Errors</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
+ <span class="menu-text">Tennis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../tennis/tennis_sampsize/index.html" class="sidebar-item-text sidebar-link">
@@ -294,13 +311,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false">
  <span class="menu-text">Volleyball</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../volleyball/ncaa_d1/index.html" class="sidebar-item-text sidebar-link">
@@ -420,7 +437,13 @@ Facilitation notes
 <p>In this module, you will be exploring the concept of confidence intervals for proportions through the lens of golf. Specifically, you will be analyzing the 2023 greens in regulation data for Scottie Scheffler. Scottie Scheffler was the number 1 ranked golfer in the world and the PGA Tour Player of the Year in 2023.</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p>Scottie Scheffler <img src="Scheffler_image.jpg" class="img-fluid"> Image source: <a href="https://www.owgr.com/playerprofile/scottie-scheffler-18417">Official World Golf Rankings</a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Scottie_Scheffler_2023_02.png" class="img-fluid figure-img"></p>
+<figcaption>Scottie Scheffler</figcaption>
+</figure>
+</div>
+<p>Image Source: <a href="https://commons.wikimedia.org/wiki/File:Scottie_Scheffler_2023_02.png">Titleist</a>, <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>, via Wikimedia Commons</p>
 </div></div><div class="callout callout-style-simple callout-note no-icon callout-titled" title="Learning Objectives">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -470,7 +493,7 @@ Research Questions
 <p>All data for the lab is from the <a href="https://www.pgatour.com/stats.html">PGA TOUR’s Website</a></p>
 </div></div><div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">player</th>
@@ -519,7 +542,7 @@ Variable Descriptions
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 12%">
 <col style="width: 87%">
@@ -561,11 +584,54 @@ Variable Descriptions
 <p>Before proceeding with the analysis, let’s make sure we know some golf terminology that will help us putt-putt our way through this lab.</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p>Are greens in regulation important to scoring? Check out the table below to see how greens in regulation and lower handicaps go hand and hand <img src="gir_by_handicap.png" class="img-fluid"> Image source: <a href="https://thegrint.com/range/2013/03/golf-tips-gir/">The Range by The Grint</a></p>
+<p>Are greens in regulation important to scoring? Check out the table below to see how greens in regulation and lower handicaps go hand and hand</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Handicap</th>
+<th>GIR %</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>64%</td>
+</tr>
+<tr class="even">
+<td>0-5</td>
+<td>47%</td>
+</tr>
+<tr class="odd">
+<td>5-10</td>
+<td>36%</td>
+</tr>
+<tr class="even">
+<td>10-15</td>
+<td>27%</td>
+</tr>
+<tr class="odd">
+<td>15-20</td>
+<td>20%</td>
+</tr>
+<tr class="even">
+<td>20-25</td>
+<td>12%</td>
+</tr>
+<tr class="odd">
+<td>25-30</td>
+<td>10%</td>
+</tr>
+<tr class="even">
+<td>30+</td>
+<td>6%</td>
+</tr>
+</tbody>
+</table>
+<p>Data Source: <a href="https://thegrint.com/range/2013/03/golf-tips-gir/">The Range by The Grint</a></p>
 </div><div class="">
-<p>A par 3 hole should take 1 shot to reach the green in regulation <img src="tanglewood_hole5.jpg" class="img-fluid"></p>
-<p>A par 4 hole should take 2 shots to reach the green in regulation <img src="tanglewood_hole1.jpg" class="img-fluid"></p>
-<p>A par 5 hole should take 3 shots to reach the green in regulation <img src="tanglewood_hole2.jpg" class="img-fluid"> Images source: <a href="https://www.tanglewoodfulton.com/golf-course/hole-by-hole-layout">Tanglewood Golf Course</a></p>
+<p>A Par 3 hole should take 1 shot to reach the green in regulation <img src="tanglewood_hole5.jpg" class="img-fluid"></p>
+<p>A Par 4 hole should take 2 shots to reach the green in regulation <img src="tanglewood_hole1.jpg" class="img-fluid"></p>
+<p>A Par 5 hole should take 3 shots to reach the green in regulation <img src="tanglewood_hole2.jpg" class="img-fluid"> Images source: <a href="https://www.tanglewoodfulton.com/golf-course/hole-by-hole-layout">Tanglewood Golf Course</a>, Public Domain</p>
 </div></div>
 <section id="lie-terminology" class="level4">
 <h4 class="anchored" data-anchor-id="lie-terminology">Lie Terminology</h4>
@@ -618,7 +684,7 @@ Exercise 1: Sample Proportions
 <p>Using the data below calculate the sample proportion of greens hit in regulation by Scottie Scheffler from different lies.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">player</th>
@@ -687,7 +753,7 @@ Exercise 1: Sample Proportions
 <p><strong>TIP</strong>: The z-score for a 95% confidence interval is approximately 1.96. You can use this value to calculate the confidence interval for the proportion of greens hit in regulation by Scottie Scheffler from the fairway.</p>
 </div><div class="">
 <p>Some common Confidence Intervals (two-sided) and their corresponding z-scores are:</p>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Confidence Interval</th>
@@ -736,7 +802,7 @@ Exercise 2: Probability Confidence Intervals
 <p>Use the numbers from the data below to calculate a <strong>95% confidence interval</strong> for the proportion of greens hit in regulation by Scottie Scheffler from the fairway.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">player</th>
@@ -779,7 +845,7 @@ Exercise 3: Probability Confidence Intervals- Part 2
 <p>Calculate a <strong>95% confidence interval</strong> for the proportion of greens hit in regulation by Scottie Scheffler from the <strong>bunker</strong>.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">player</th>
@@ -1014,7 +1080,7 @@ Challenge 1: Two Player Comparison
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">player</th>
@@ -1098,7 +1164,7 @@ Challenge 2: Past Comparisons
 
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">player</th>
@@ -1221,7 +1287,7 @@ Challenge 3: Changing Conditions
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">player</th>
@@ -1264,14 +1330,27 @@ Challenge 3: Changing Conditions
 </div>
 </div><div class="no-row-height column-margin column-container"><div class="callout-margin-content">
 <p>Rory McIlroy is one of the most popular and best golfers on the PGA Tour. He has won multiple major championships. He is known for his long drives and his picturesque swing.</p>
-<p>Rory McIlroy <img src="McIlroy_image.jpg" class="img-fluid"> Image Source: <a href="https://www.owgr.com/playerprofile/rory-mcilroy-10091">Official World Golf Rankings</a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Rory_McIlroy_finishes_long_iron_stroke.jpg" class="img-fluid figure-img"></p>
+<figcaption>Rory McIlroy</figcaption>
+</figure>
+</div>
+<p>Image Source: <a href="https://commons.wikimedia.org/wiki/File:Rory_McIlroy_finishes_long_iron_stroke.jpg">TourProGolfClubs</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>, via Wikimedia Commons</p>
 </div><div class="callout-margin-content">
 
 </div><div class="callout-margin-content">
 <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
 <p>Below is a graph of Scottie Scheffler’s rapid climb up the world golf rankings from the end of 2019 to the end of 2023.</p>
-<p><img src="scheffler_wgr.jpg" class="img-fluid"></p>
-<p>Image Source: <a href="https://www.owgr.com/ranking-graph?minYear=2020&amp;maxYear=2024&amp;player=18417">Official World Golf Rankings</a></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </div><div class="callout-margin-content">
 
 </div></div>

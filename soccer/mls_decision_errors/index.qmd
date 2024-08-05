@@ -40,11 +40,12 @@ callout-icon: false
 In this module, we will explore the concept of decision errors in hypothesis testing. We will use MLS (Major League Soccer) training facility data to explore Type I and Type II errors. 
 
 ::: column-margin
-Inter Miami CF opened a $40 million training facility in 2020. It sprawls over 25 acres and includes 7 fields. 
+Inter Miami CF opened a $40 million training facility in 2020. It sprawls over 25 acres and includes 7 fields. The field is adjacent to their home stadium and can be seen in the background of the image below.
 
-<!-- ![Inter Miami CF Training Facility](miami_facility.jpg) -->
+![Chase Stadium](https://upload.wikimedia.org/wikipedia/commons/0/06/Inter_Miami_vs_New_England_Revolution_by_cornfield948_%2820220410085018%29.jpg)
 
-<!-- Image Source: [Inter Miami CF](https://www.intermiamicf.com/club/facilities/training-center) -->
+Image Source: <a href="https://commons.wikimedia.org/wiki/File:Inter_Miami_vs_New_England_Revolution_by_cornfield948_(20220410085018).jpg">Cornfield948</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons
+
 :::
 
 In the last decade (2014-2023) more than half of all MLS teams opened new training facilities, and several more clubs have plans to build new facilities soon. These cutting edge facilities are designed to provide players with the best possible environment to train and develop, hopefully translating to better performance on the field.
@@ -80,12 +81,13 @@ training_facilities <- read_csv("training_facilities.csv")
 
 ::: column-margin
 **ON THE RISE**
-The MLS is rapidly expanding. Since 2015, 10 new teams have joined the league. The league now has 29 teams with a 30th, San Diego, set to join in 2025.
+New teams like St. Louis City SC have helped fuel the MLS's growth. St. Louis City SC joined the league in 2023 and has already made a splash.
 
-Ratings, attendance, and revenue have all increased dramatically over the last decade.
+Ratings, attendance, and revenue have all increased dramatically over the last decade. 
 
-<!-- ![](mls_logo.png) -->
-<!-- Image Source: [Wikipedia](https://en.wikipedia.org/wiki/Major_League_Soccer) -->
+![St. Louis City SC Logo](https://upload.wikimedia.org/wikipedia/commons/1/18/St._Louis_City_SC_logo.png)
+
+Image Source: <a href="https://commons.wikimedia.org/wiki/File:St._Louis_City_SC_logo.png">IagoQnsi</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons
 :::
 
 Let's knock out some soccer terminology before we head into hypothesis testing and decision errors.
@@ -387,11 +389,11 @@ In this lesson, we learned about Type I and Type II errors in hypothesis testing
 
 ::: column-margin
 
-**Fun Fact**: The Seattle Sounders have clearly bought into the idea that new training facilities will help them win more games. Their new facility opened in 2024 and part of its weight room is shown below. 
+**Fun Fact**: The Seattle Sounders have clearly bought into the idea that new training facilities will help them win more games. Their new facility opened in 2024 and they bid farewell to the old Starfire Training Facility depicted below.
 
-<!-- ![Seattle Sounders Training Facility](sounders_facility.jpg) -->
+![Starfire Training Facility](https://upload.wikimedia.org/wikipedia/commons/a/a7/Starfire_Sports_Complex_-_stadium_field_01.jpg)
 
-<!-- Image Source: [Seattle Times](https://www.seattletimes.com/sports/sounders/sounders-unveil-new-state-of-the-art-training-facility-heres-a-first-look/) -->
+Image Source: <a href="https://commons.wikimedia.org/wiki/File:Starfire_Sports_Complex_-_stadium_field_01.jpg">Joe Mabel</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, via Wikimedia Commons
 :::
 
 Errors in hypothesis testing can have serious consequences, so it is important to carefully consider the significance level and power of the test when designing a hypothesis test. Increasing the sample size is the most effective way to make our hypothesis test more powerful. Just remember, when performing and interpreting hypothesis tests there is always a chance of making an error, and it is important to consider the consequences of each type of error before beginning.
