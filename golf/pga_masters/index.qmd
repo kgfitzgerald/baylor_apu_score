@@ -49,8 +49,8 @@ In this module, you will be exploring the concepts of single mean confidence int
 ::: column-margin
 Scottie Scheffler after winning the 2023 Masters Tournament.
 
-![](masters_leaderboard.jpg)
-Image Source: [The PGA](https://www.pga.com/story/masters-green-jacket-history-and-facts)
+<!-- ![](masters_leaderboard.jpg) -->
+<!-- Image Source: [The PGA](https://www.pga.com/story/masters-green-jacket-history-and-facts) -->
 
 :::
 
@@ -175,13 +175,13 @@ Before proceeding with the analysis, let's make sure we know some important golf
 
 PGA vs. LIV
 
-![](pga-logo.png)
+<!-- ![](pga-logo.png) -->
 
 vs
 
-![](liv_logo.png)
+<!-- ![](liv_logo.png) -->
 
-Images Source: [PGA](https://www.pgatour.com/) and [LIV](https://www.livgolf.com/)
+<!-- Images Source: [PGA](https://www.pgatour.com/) and [LIV](https://www.livgolf.com/) -->
 
 Click [here](https://www.si.com/golf/news/timeline-liv-golf-how-pga-tour-adapted) to read about LIV golf's founding and its continued impact on the PGA tour.
 
@@ -592,9 +592,9 @@ As can be seen in the output of the code above, the p-value is 0.61, which is mu
 Augusta National is breathtakingly beautiful, but if golfers get distracted by the scenic views, tall pines, bunkers, water, and azaleas may catch their balls. 
 
 The 13th hole at Augusta National
-![](augusta_13.jpg)
+<!-- ![](augusta_13.jpg) -->
 
-Image Source: [Golf.com](https://golf.com/news/pros-on-new-masters-13th-hole/)
+<!-- Image Source: [Golf.com](https://golf.com/news/pros-on-new-masters-13th-hole/) -->
 
 :::
 
@@ -610,9 +610,9 @@ Our null hypothesis will generally be that the mean of the group is equal to 72.
 Amateurs generally struggle in the Masters, but in 2023 Sam Bennett, a Texas A&M student, made the cut and finished 16th. However, due to his amateur status, he was not eligible to win money and missed out on $261,000. 
 
 Sam Bennett
-![](sam_bennett.png)
+<!-- ![](sam_bennett.png) -->
 
-Image Source: [Sportico](https://www.sportico.com/personalities/athletes/2024/sam-bennett-2023-masters-off-course-earnings-1234774995/)
+<!-- Image Source: [Sportico](https://www.sportico.com/personalities/athletes/2024/sam-bennett-2023-masters-off-course-earnings-1234774995/) -->
 
 :::
 

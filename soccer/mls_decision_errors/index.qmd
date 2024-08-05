@@ -42,9 +42,9 @@ In this module, we will explore the concept of decision errors in hypothesis tes
 ::: column-margin
 Inter Miami CF opened a $40 million training facility in 2020. It sprawls over 25 acres and includes 7 fields. 
 
-![Inter Miami CF Training Facility](miami_facility.jpg)
+<!-- ![Inter Miami CF Training Facility](miami_facility.jpg) -->
 
-Image Source: [Inter Miami CF](https://www.intermiamicf.com/club/facilities/training-center)
+<!-- Image Source: [Inter Miami CF](https://www.intermiamicf.com/club/facilities/training-center) -->
 :::
 
 In the last decade (2014-2023) more than half of all MLS teams opened new training facilities, and several more clubs have plans to build new facilities soon. These cutting edge facilities are designed to provide players with the best possible environment to train and develop, hopefully translating to better performance on the field.
@@ -84,8 +84,8 @@ The MLS is rapidly expanding. Since 2015, 10 new teams have joined the league. T
 
 Ratings, attendance, and revenue have all increased dramatically over the last decade.
 
-![](mls_logo.png)
-Image Source: [Wikipedia](https://en.wikipedia.org/wiki/Major_League_Soccer)
+<!-- ![](mls_logo.png) -->
+<!-- Image Source: [Wikipedia](https://en.wikipedia.org/wiki/Major_League_Soccer) -->
 :::
 
 Let's knock out some soccer terminology before we head into hypothesis testing and decision errors.
@@ -389,9 +389,9 @@ In this lesson, we learned about Type I and Type II errors in hypothesis testing
 
 **Fun Fact**: The Seattle Sounders have clearly bought into the idea that new training facilities will help them win more games. Their new facility opened in 2024 and part of its weight room is shown below. 
 
-![Seattle Sounders Training Facility](sounders_facility.jpg)
+<!-- ![Seattle Sounders Training Facility](sounders_facility.jpg) -->
 
-Image Source: [Seattle Times](https://www.seattletimes.com/sports/sounders/sounders-unveil-new-state-of-the-art-training-facility-heres-a-first-look/)
+<!-- Image Source: [Seattle Times](https://www.seattletimes.com/sports/sounders/sounders-unveil-new-state-of-the-art-training-facility-heres-a-first-look/) -->
 :::
 
 Errors in hypothesis testing can have serious consequences, so it is important to carefully consider the significance level and power of the test when designing a hypothesis test. Increasing the sample size is the most effective way to make our hypothesis test more powerful. Just remember, when performing and interpreting hypothesis tests there is always a chance of making an error, and it is important to consider the consequences of each type of error before beginning.

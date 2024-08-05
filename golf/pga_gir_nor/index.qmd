@@ -46,8 +46,8 @@ In this module, you will be exploring the concept of confidence intervals for pr
 ::: column-margin
 
 Scottie Scheffler
-![](Scheffler_image.jpg)
-Image source: [Official World Golf Rankings](https://www.owgr.com/playerprofile/scottie-scheffler-18417)
+<!-- ![](Scheffler_image.jpg) -->
+<!-- Image source: [Official World Golf Rankings](https://www.owgr.com/playerprofile/scottie-scheffler-18417) -->
 
 :::
 
@@ -109,20 +109,20 @@ Before proceeding with the analysis, let's make sure we know some golf terminolo
 
 ::: column-margin
 Are greens in regulation important to scoring? Check out the table below to see how greens in regulation and lower handicaps go hand and hand 
-![](gir_by_handicap.png)
-Image source: [The Range by The Grint](https://thegrint.com/range/2013/03/golf-tips-gir/)
+<!-- ![](gir_by_handicap.png) -->
+<!-- Image source: [The Range by The Grint](https://thegrint.com/range/2013/03/golf-tips-gir/) -->
 :::
 
 ::: column-margin
 A par 3 hole should take 1 shot to reach the green in regulation
-![](tanglewood_hole5.jpg)
+<!-- ![](tanglewood_hole5.jpg) -->
 
 A par 4 hole should take 2 shots to reach the green in regulation
-![](tanglewood_hole1.jpg)
+<!-- ![](tanglewood_hole1.jpg) -->
 
 A par 5 hole should take 3 shots to reach the green in regulation
-![](tanglewood_hole2.jpg)
-Images source: [Tanglewood Golf Course](https://www.tanglewoodfulton.com/golf-course/hole-by-hole-layout)
+<!-- ![](tanglewood_hole2.jpg) -->
+<!-- Images source: [Tanglewood Golf Course](https://www.tanglewoodfulton.com/golf-course/hole-by-hole-layout) -->
 
 :::
 
@@ -502,8 +502,8 @@ Scottie Scheffler is not the only great golfer on the PGA Tour. In this part of 
 Rory McIlroy is one of the most popular and best golfers on the PGA Tour. He has won multiple major championships. He is known for his long drives and his picturesque swing.
 
 Rory McIlroy
-![](McIlroy_image.jpg)
-Image Source: [Official World Golf Rankings](https://www.owgr.com/playerprofile/rory-mcilroy-10091)
+<!-- ![](McIlroy_image.jpg) -->
+<!-- Image Source: [Official World Golf Rankings](https://www.owgr.com/playerprofile/rory-mcilroy-10091) -->
 
 :::
 
@@ -552,9 +552,9 @@ g. Explain why it might be more difficult to find a significant difference in th
 
 Below is a graph of Scottie Scheffler's rapid climb up the world golf rankings from the end of 2019 to the end of 2023.
 
-![](scheffler_wgr.jpg)
+<!-- ![](scheffler_wgr.jpg) -->
 
-Image Source: [Official World Golf Rankings](https://www.owgr.com/ranking-graph?minYear=2020&maxYear=2024&player=18417)
+<!-- Image Source: [Official World Golf Rankings](https://www.owgr.com/ranking-graph?minYear=2020&maxYear=2024&player=18417) -->
 
 :::
 
