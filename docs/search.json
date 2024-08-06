@@ -4,7 +4,7 @@
     "href": "by-statsds-topic.html",
     "title": "Modules By Topic",
     "section": "",
-    "text": "American Ninja Warrior - Kaplan-Meier Survival Analyis\n\n\n\n\n\n\nKaplan-Meier\n\n\nLog Rank test\n\n\nNonparametric tests\n\n\n\nExploring Survival Analysis using the Kaplan-Meier method with American Ninja Warrior data.\n\n\n\n\n\nJul 22, 2024\n\n\nJonathan Lieb\n\n\n\n\n\n\n\n\n\n\n\n\nMLS - Types of Decision Errors\n\n\n\n\n\n\nDecision Errors\n\n\n\nExploring types of decision errors\n\n\n\n\n\nJul 30, 2024\n\n\nJonathan Lieb\n\n\n\n\n\n\n\n\n\n\n\n\nMMA Fight Decisions\n\n\n\n\n\n\nVariable types\n\n\nChi-square test (2x2)\n\n\nFisher Exact test\n\n\nChi-square test (rxc)\n\n\nMosaic plots\n\n\n\nExploring MMA fight decisions by weight category\n\n\n\n\n\nJul 1, 2024\n\n\nRodney X. Sturdivant, Ph.D., Ian Young, Joshua Patrick, Ph.D., Connor Bryson\n\n\n\n\n\n\n\n\n\n\n\n\nPGA - Scheffler Greens in Regulation\n\n\n\n\n\n\nConfidence Intervals\n\n\nBinomial Tests\n\n\nComparing Two Proportions\n\n\n\nExploring Probability Confidence Intervals with Golf Data\n\n\n\n\n\nJul 18, 2024\n\n\nJonathan Lieb\n\n\n\n\n\n\n\n\n\n\n\n\nPGA - Scheffler Greens in Regulation (No R)\n\n\n\n\n\n\nSample Proportions\n\n\nSingle Proportion Confidence Intervals\n\n\nComparing Two Proportions\n\n\n\nExploring Probability Confidence Intervals with Golf Data\n\n\n\n\n\nJul 26, 2024\n\n\nJonathan Lieb\n\n\n\n\n\n\n\n\n\n\n\n\nPGA - Scoring Average Confidence Intervals\n\n\n\n\n\n\nSingle Mean Confidence Intervals\n\n\nSingle Mean Hypothesis Testing\n\n\n\nExploring Single Mean Confidence Intervals with Golf Data\n\n\n\n\n\nJul 18, 2024\n\n\nJonathan Lieb\n\n\n\n\n\n\n\n\n\n\n\n\nPGA - Scoring Average Confidence Intervals (No R)\n\n\n\n\n\n\nSingle Mean Confidence Intervals\n\n\nSingle Mean Hypothesis Testing\n\n\n\nExploring Single Mean Confidence Intervals with Golf Data\n\n\n\n\n\nJul 24, 2024\n\n\nJonathan Lieb\n\n\n\n\n\n\n\n\n\n\n\n\nTennis Sample Size\n\n\n\n\n\n\nSample size\n\n\nPower\n\n\nIndependent two sample t-test\n\n\nIndependent two sample test of proportions\n\n\nHypotheses testing\n\n\nTypes of errors\n\n\n\nComputing sample size for studies involving tennis\n\n\n\n\n\nJul 1, 2024\n\n\nRodney X. Sturdivant, Ph.D.\n\n\n\n\n\n\n\n\n\n\n\n\nVolleyball - Women’s NCAA Division I\n\n\n\n\n\n\nVariable types\n\n\nggplot basics\n\n\nExploratory Data Analysis (EDA)\n\n\nHistograms\n\n\nBar plots (simple & stacked)\n\n\nScatterplots\n\n\nRidge plots\n\n\nBoxplots\n\n\n\nExploring volleyball statistics through visualization\n\n\n\n\n\nMay 30, 2024\n\n\nKatie Fitzgerald, Jazmine Gurrola, Joseph Hsieh, Tuan Dat Tran\n\n\n\n\n\n\n\n\n\n\n\n\nWhat’s the prime age of an MLB player?\n\n\n\n\n\n\nData wrangling\n\n\nDplyr basics\n\n\nTidyverse\n\n\n\nExploring the prime age of MLB players\n\n\n\n\n\nJul 26, 2024\n\n\nJazmine Gurrola, Joseph Hsieh, Dat Tran, Katie Fitzgerald\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items",
+    "text": "American Ninja Warrior - Kaplan-Meier Survival Analyis\n\n\n\n\n\n\nKaplan-Meier\n\n\nLog Rank test\n\n\nNonparametric tests\n\n\n\nExploring Survival Analysis using the Kaplan-Meier method with American Ninja Warrior data.\n\n\n\n\n\nJul 22, 2024\n\n\nJonathan Lieb\n\n\n\n\n\n\n\n\n\n\n\n\nMLB Injuries - Introductory Time Series Analysis\n\n\n\n\n\n\nTime series plots\n\n\nTime series decomposition\n\n\nResidual analysis\n\n\nSimple forecasting\n\n\n\nExploring MLB injury data through time series analysis and forecasting.\n\n\n\n\n\nAug 6, 2024\n\n\nJonathan Lieb\n\n\n\n\n\n\n\n\n\n\n\n\nMLS - Types of Decision Errors\n\n\n\n\n\n\nDecision Errors\n\n\n\nExploring types of decision errors\n\n\n\n\n\nJul 30, 2024\n\n\nJonathan Lieb\n\n\n\n\n\n\n\n\n\n\n\n\nMMA Fight Decisions\n\n\n\n\n\n\nVariable types\n\n\nChi-square test (2x2)\n\n\nFisher Exact test\n\n\nChi-square test (rxc)\n\n\nMosaic plots\n\n\n\nExploring MMA fight decisions by weight category\n\n\n\n\n\nJul 1, 2024\n\n\nRodney X. Sturdivant, Ph.D., Ian Young, Joshua Patrick, Ph.D., Connor Bryson\n\n\n\n\n\n\n\n\n\n\n\n\nPGA - Scheffler Greens in Regulation\n\n\n\n\n\n\nConfidence Intervals\n\n\nBinomial Tests\n\n\nComparing Two Proportions\n\n\n\nExploring Probability Confidence Intervals with Golf Data\n\n\n\n\n\nJul 18, 2024\n\n\nJonathan Lieb\n\n\n\n\n\n\n\n\n\n\n\n\nPGA - Scheffler Greens in Regulation (No R)\n\n\n\n\n\n\nSample Proportions\n\n\nSingle Proportion Confidence Intervals\n\n\nComparing Two Proportions\n\n\n\nExploring Probability Confidence Intervals with Golf Data\n\n\n\n\n\nJul 26, 2024\n\n\nJonathan Lieb\n\n\n\n\n\n\n\n\n\n\n\n\nPGA - Scoring Average Confidence Intervals\n\n\n\n\n\n\nSingle Mean Confidence Intervals\n\n\nSingle Mean Hypothesis Testing\n\n\n\nExploring Single Mean Confidence Intervals with Golf Data\n\n\n\n\n\nJul 18, 2024\n\n\nJonathan Lieb\n\n\n\n\n\n\n\n\n\n\n\n\nPGA - Scoring Average Confidence Intervals (No R)\n\n\n\n\n\n\nSingle Mean Confidence Intervals\n\n\nSingle Mean Hypothesis Testing\n\n\n\nExploring Single Mean Confidence Intervals with Golf Data\n\n\n\n\n\nJul 24, 2024\n\n\nJonathan Lieb\n\n\n\n\n\n\n\n\n\n\n\n\nTennis Sample Size\n\n\n\n\n\n\nSample size\n\n\nPower\n\n\nIndependent two sample t-test\n\n\nIndependent two sample test of proportions\n\n\nHypotheses testing\n\n\nTypes of errors\n\n\n\nComputing sample size for studies involving tennis\n\n\n\n\n\nJul 1, 2024\n\n\nRodney X. Sturdivant, Ph.D.\n\n\n\n\n\n\n\n\n\n\n\n\nVolleyball - Women’s NCAA Division I\n\n\n\n\n\n\nVariable types\n\n\nggplot basics\n\n\nExploratory Data Analysis (EDA)\n\n\nHistograms\n\n\nBar plots (simple & stacked)\n\n\nScatterplots\n\n\nRidge plots\n\n\nBoxplots\n\n\n\nExploring volleyball statistics through visualization\n\n\n\n\n\nMay 30, 2024\n\n\nKatie Fitzgerald, Jazmine Gurrola, Joseph Hsieh, Tuan Dat Tran\n\n\n\n\n\n\n\n\n\n\n\n\nWhat’s the prime age of an MLB player?\n\n\n\n\n\n\nData wrangling\n\n\nDplyr basics\n\n\nTidyverse\n\n\n\nExploring the prime age of MLB players\n\n\n\n\n\nJul 26, 2024\n\n\nJazmine Gurrola, Joseph Hsieh, Dat Tran, Katie Fitzgerald\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items",
     "crumbs": [
       "Home",
       "Modules By Topic"
@@ -927,6 +927,114 @@
       "Home",
       "Soccer",
       "MLS - Types of Decision Errors"
+    ]
+  },
+  {
+    "objectID": "baseball/mlb_injuries/index.html",
+    "href": "baseball/mlb_injuries/index.html",
+    "title": "MLB Injuries - Introductory Time Series Analysis",
+    "section": "",
+    "text": "Facilitation notes\n\n\n\n\n\n\nThis module would be suitable for an in-class lab or take-home assignment in an intermediate statistics course.\nIt assumes a familiarity with the RStudio Environment and R programming language.\nStudents should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.\n\nMonthly Injury Data\nTommy John Surgeries Data\nStudent Quarto template\n\nPosit Cloud (via an Instructor account) or Github classroom are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.\nThe data for the mlb_injuries_monthly.csv file was derived from data found on prosportstransactions.com\nThe data for the tj_surgeries_mlb_milb.csv file was derived from data accumulated by @MLBPlayerAnalys over many years",
+    "crumbs": [
+      "Home",
+      "Baseball",
+      "MLB Injuries - Introductory Time Series Analysis"
+    ]
+  },
+  {
+    "objectID": "baseball/mlb_injuries/index.html#classical-decomposition",
+    "href": "baseball/mlb_injuries/index.html#classical-decomposition",
+    "title": "MLB Injuries - Introductory Time Series Analysis",
+    "section": "Classical Decomposition",
+    "text": "Classical Decomposition\nThere are two common methods for decomposing time series data: classical decomposition and STL decomposition. In this module we will focus on classical decomposition.\nClassical decomposition (additive) has four main steps:\n\nComputing a trend-cycle component (\\(T_t\\)) using a moving average. A moving average is a technique for smoothing time series data by averaging the values of neighboring points. This helps to remove short-term fluctuations and highlight longer-term trends.\nComputing a series without the trend-cycle component (\\(y_t - T_t\\)).\nEstimating the seasonal component (\\(S_t\\)) by averaging the values from the detrended series for the season.\nComputing the remainder component (\\(R_t\\)) by subtracting the trend-cycle and seasonal components from the original series. \\(R_t = y_t - T_t - S_t\\)\n\nWe can use the classical_decomposition function inside of the model() function to decompose our time series data.\n\ninjuries |&gt; \n  model(classical_decomposition(Count)) |&gt;\n  components() |&gt;\n  autoplot() +\n  labs(title = \"Classical Additive Decomposition of Monthly MLB Injury Counts\")\n\n\n\n\n\n\n\n\nClassical multiplicative decomposition works similarly to the additive decomposition, but with a few key differences.\n\nThe detrended series is computed as \\(y_t / T_t\\) instead of \\(y_t - T_t\\).\nThe seasonal component is estimated as \\(S_t = y_t / T_t\\) instead of \\(y_t - T_t\\).\nThe remainder component is computed as \\(R_t = y_t / (T_t \\times S_t)\\) instead of \\(y_t - T_t - S_t\\).\n\n\n\nNOTE: Ideally, after doing a decomposition, the remainder component should be white noise.\nClassical multiplicative decomposition can be used by setting the type argument to \"multiplicative\" in the classical_decomposition() function.",
+    "crumbs": [
+      "Home",
+      "Baseball",
+      "MLB Injuries - Introductory Time Series Analysis"
+    ]
+  },
+  {
+    "objectID": "baseball/mlb_injuries/index.html#stl-decomposition",
+    "href": "baseball/mlb_injuries/index.html#stl-decomposition",
+    "title": "MLB Injuries - Introductory Time Series Analysis",
+    "section": "STL Decomposition",
+    "text": "STL Decomposition\nSeasonal and Trend decomposition using Loess (STL) is a more advanced method for decomposing time series data. It is more flexible than classical decomposition and can handle any type of seasonality, not just monthly or quarterly. It also allows the user to control the length of the smoothing window for the trend-cycle. Lastly, it is more robust to outliers so that they do not affect the trend and seasonal estimates as much.\nBelow is an example of how to use the STL() function to decompose the time series data.\n\ninjuries |&gt; \n  model(STL(Count ~ trend(window = 21)+ \n            season(window = \"periodic\"),\n            robust = TRUE)) |&gt;\n  components() |&gt;\n  autoplot() +\n  labs(title = \"STL Additive Decomposition of Monthly MLB Injury Counts\")\n\n\n\n\n\n\n\n\n\n\nTIP: The window argument in the trend() function controls the length of the smoothing window for the trend-cycle. The larger the window, the smoother the trend. This value should always be an odd number. trend(window = 21) is a common choice for monthly data.\nTIP: The window argument in the season() function controls how many years the seasonal component should be estimated over. The default value is 11. When the seasonal window is set to periodic season(window = \"periodic\"), it is the equivalent setting the window to all of the data. When periodic is used, the seasonal component is assumed to be the same each year. The seasonal window argument should always be an odd number or “periodic”.\n\n\n\n\n\n\nExercise 3: Changing Decomposition Types\n\n\n\n\n\nCreate a classical multiplicative decomposition of the monthly MLB injury counts. How do the components differ from the additive decomposition? Which decomposition method’s remainder component looks more like white noise (classical additive or classical multiplicative)?\nCreate an STL decomposition of the monthly MLB injury counts with a shorter length for the trend smoothing window. How does the decomposition change with a shorter trend smoothing window? Particularly, how does the trend component change?\n\n\n\n\nNOTE: You can actually forecast with decomposition as well. If you’d like to learn more about this click here",
+    "crumbs": [
+      "Home",
+      "Baseball",
+      "MLB Injuries - Introductory Time Series Analysis"
+    ]
+  },
+  {
+    "objectID": "baseball/mlb_injuries/index.html#the-mean-method",
+    "href": "baseball/mlb_injuries/index.html#the-mean-method",
+    "title": "MLB Injuries - Introductory Time Series Analysis",
+    "section": "The Mean Method",
+    "text": "The Mean Method\nAn extremely simple method for forecasting is the mean method. This method forecasts the next observation as the average of all the observations in the training data. This method will produce a flat forecast that is equal to the mean of the training data. The mean method is useful when the data doesn’t have a trend or seasonality.",
+    "crumbs": [
+      "Home",
+      "Baseball",
+      "MLB Injuries - Introductory Time Series Analysis"
+    ]
+  },
+  {
+    "objectID": "baseball/mlb_injuries/index.html#the-naive-method",
+    "href": "baseball/mlb_injuries/index.html#the-naive-method",
+    "title": "MLB Injuries - Introductory Time Series Analysis",
+    "section": "The Naive Method",
+    "text": "The Naive Method\nThe naive method is another simple forecasting method. It forecasts the next observation as the value of the last observation in the training data. This method will produce a flat forecast that is equal to the last observation in the training data. The naive method is useful when the data appears to be random.",
+    "crumbs": [
+      "Home",
+      "Baseball",
+      "MLB Injuries - Introductory Time Series Analysis"
+    ]
+  },
+  {
+    "objectID": "baseball/mlb_injuries/index.html#seasonal-naive-method",
+    "href": "baseball/mlb_injuries/index.html#seasonal-naive-method",
+    "title": "MLB Injuries - Introductory Time Series Analysis",
+    "section": "Seasonal Naive Method",
+    "text": "Seasonal Naive Method\nThe seasonal naive method is similar to the naive method, but it forecasts the next observation as the value from the same season in the previous year. This method will produce a repeating pattern of forecasts that are equal to the observations from the same season in the previous year. (Basically forever repeating the last year’s pattern). The seasonal naive method is useful when the data has a strong seasonal pattern but no trend.",
+    "crumbs": [
+      "Home",
+      "Baseball",
+      "MLB Injuries - Introductory Time Series Analysis"
+    ]
+  },
+  {
+    "objectID": "baseball/mlb_injuries/index.html#drift-method",
+    "href": "baseball/mlb_injuries/index.html#drift-method",
+    "title": "MLB Injuries - Introductory Time Series Analysis",
+    "section": "Drift Method",
+    "text": "Drift Method\nThe drift method is a simple forecasting method that assumes a linear trend in the data. It forecasts the next observation as the value of the last observation plus the average change between observations. This method will produce a forecast that will continue on a linear trend from the first observation and through the last observation in the training data. The drift method is useful when the data has a linear trend but no seasonality.\n\n\n\n\n\n\nExercise 4: Basic Forecasting Methods\n\n\n\n\n\n\n\n\n\n\n\n\n\nWhich of the above time series plots would be best forecasted using the mean method?\nWhich of the above time series plots would be best forecasted using the seasonal naive method?\nWhich of the above time series plots would be best forecasted using the drift method?\n\nUse the following plots of the monthly MLB injury counts and forecasts to answer the following questions.\n\n\n\n\n\n\n\n\n\n\nAfter looking at the forecasts from the mean, naive, seasonal naive, and drift methods for the MLB injury data, which method appears to be the best forecast?\nWhich ones appear to be the worst forecasts?\nWhat is one major issue seen in all of the forecasts in regards to their prediction intervals?",
+    "crumbs": [
+      "Home",
+      "Baseball",
+      "MLB Injuries - Introductory Time Series Analysis"
+    ]
+  },
+  {
+    "objectID": "baseball/mlb_injuries/index.html#residuals",
+    "href": "baseball/mlb_injuries/index.html#residuals",
+    "title": "MLB Injuries - Introductory Time Series Analysis",
+    "section": "Residuals",
+    "text": "Residuals\nChecking the residuals of a model is one of the most effective ways to see how well the model is performing. Residuals are the differences between the observed values and the values predicted by the model. \\(e_t = y_t - \\hat{y}_t\\)\n\n\nIt is important to note that when we are talking about residuals in this module that we are referring to the innovation residuals. Most of the time innovation residuals are the same as regular residuals, such as with our seasonal naive model. Innovation residuals are the residuals that are left over after accounting for changes made to the data such as transformations or differencing. These residuals are the ones that are used to check the model assumptions and to evaluate the model’s performance.\nThere are 3 main things to look at when evaluating residuals:\n\nDo the residuals appear to be white noise? Remember that white noise has a mean of 0, constant variance, and shows no obvious patterns. This can be checked by looking at a time plot of the residuals.\nAre the residuals normally distributed? This can be checked by looking at a histogram of the residuals or by using a normal probability plot.\nAre the residuals uncorrelated? This can be checked by looking at the ACF plot of the residuals. There are also statistical tests that can be used to check for autocorrelation in the residuals such as the Ljung-Box test. We can use the Box.test() function in R to perform this test.\n\n\n\nThe formula for the test statistic for a Ljung-Box test is:\n\\[Q^{*} = T(T+2) \\sum_{k=1}^{l} \\frac{r^2_k}{T-k}\\]\nwhere:\n\n\\(T\\) is the number of observations\n\\(l\\) is the max number of lags\n\\(r_k\\) is the sample autocorrelation at lag \\(k\\)\n\nThe null hypothesis for the Ljung-Box test is that the data is not distinguishable from white noise. If the p-value is less than the significance level, we reject the null hypothesis and conclude that the data is autocorrelated.\nThankfully there is a very easy way to check all of these at once in R using the gg_tsresiduals() function.\n\n\n\n\n\n\nExercise 5: Residuals Analysis\n\n\n\nBelow is code that will create a time plot, histogram, and ACF plot of the residuals from the seasonal naive method.\n\nsnaive_mod &lt;- injuries |&gt;\n  model(SNAIVE(Count ~ lag('year')))\n  \nsnaive_mod |&gt; \n  gg_tsresiduals()\n\n\n\n\n\n\n\n\n\nDo the residuals appear to be white noise?\nWhat stands out about the time plot of the residuals?\nDoes the histogram of the residuals appear to be normally distributed?\nAre the residuals uncorrelated? What lag(s) show the most significant autocorrelation and what could this mean for the model?",
+    "crumbs": [
+      "Home",
+      "Baseball",
+      "MLB Injuries - Introductory Time Series Analysis"
+    ]
+  },
+  {
+    "objectID": "baseball/mlb_injuries/index.html#testing-and-training-for-point-estimate-evaluations",
+    "href": "baseball/mlb_injuries/index.html#testing-and-training-for-point-estimate-evaluations",
+    "title": "MLB Injuries - Introductory Time Series Analysis",
+    "section": "Testing and Training for Point Estimate Evaluations",
+    "text": "Testing and Training for Point Estimate Evaluations\nIf you want to evaluate the point estimates of a model, you can use a testing and training split. This involves training the model on the first part of the data and then testing the model on the second part of the data. This allows you to see how well the model can forecast future observations.\nFor this example, we will split the data into a training set that contains the first 75% of the data and a testing set that contains the last 25% of the data. This means we will train the models on the data from January 2000 to December 2017 and test the models on the data from January 2018 to December 2023.\n\n\nTIP: 75-25 is a common split for training and testing data, but you can use any split that makes sense for your data. Generally the more data you have, the less percentage you need for testing. Other common splits are 70-30 or 80-20.\n\ntraining &lt;- injuries |&gt; filter(year(Month) &lt; 2018)\ntesting &lt;- injuries |&gt; filter(year(Month) &gt;= 2018)\n\nNow that we have our training and testing data, we can fit the models to the training data and then forecast the testing data.\n\ninjury_fit &lt;- training |&gt; \n  model(mean = MEAN(Count),\n        naive = NAIVE(Count),\n        snaive = SNAIVE(Count ~ lag('year')),\n        drift = RW(Count ~ drift()))\n\ninjury_forecasts &lt;- injury_fit |&gt; \n  forecast(new_data = testing)\n\n\n\nTIP: You can fit multiple models at once by using the model() function as seen in the code to the left. The values to the left of the = are the names we are giving to the models and the values to the right of the = are the models we are fitting to the data.\nTIP: When using the forecast() function, you can specify the new data you want to forecast by using the new_data argument. In this case, we are forecasting for the testing data.\nLet’s visualize the forecasts from the training data and compare them to the testing data.\n\ninjury_forecasts |&gt;\n  autoplot(injuries, level = NULL) +\n  labs(title = \"Forecasting Methods for Monthly MLB Injury Counts\")+\n  guides(color = guide_legend(title = \"Forecast\"))\n\n\n\n\n\n\n\n\nThe seasonal naive method certainly appears to be the best forecast.\nWe can also evaluate these models using the accuracy() function. This function calculates a variety of accuracy measures for the forecasts, including the mean absolute error, root mean squared error, mean absolute percentage error, and more.\n\nThe mean absolute error (MAE) is the average of the absolute errors between the forecasts and the actual values. It is a measure of the average magnitude of the errors in the forecasts. We want this value to be as close to 0 as possible.\n\n\nThe formula for the mean absolute error is: \\[\\text{MAE} = \\frac{1}{n} \\sum_{i=1}^{n} | y_i - \\hat{y}_i |\\] where \\(y_i\\) is the actual value and \\(\\hat{y}_i\\) is the forecasted value.\n\nThe root mean squared error (RMSE) is the square root of the average of the squared errors between the forecasts and the actual values. It is a measure of the standard deviation of the errors in the forecasts. We want this value to be as close to 0 as possible.\n\n\nThe formula for the root mean squared error is: \\[\\text{RMSE} = \\sqrt{\\frac{1}{n} \\sum_{i=1}^{n} (y_i - \\hat{y}_i)^2}\\] Where \\(y_i\\) is the actual value and \\(\\hat{y}_i\\) is the forecasted value.\n\nThe mean absolute percentage error (MAPE) is the average of the absolute percentage errors between the forecasts and the actual values. It is a measure of the accuracy of the forecasts. We want this value to be as close to 0 as possible.\n\n\nThe formula for the mean absolute percentage error is: \\[\\text{MAPE} = \\frac{100}{n} \\sum_{i=1}^{n} \\left| \\frac{y_i - \\hat{y}_i}{y_i} \\right|\\] where \\(y_i\\) is the actual value and \\(\\hat{y}_i\\) is the forecasted value.\n\nThe code below displays the accuracy measures for the forecasts.\n\naccuracy(injury_forecasts, testing)\n\n# A tibble: 4 × 10\n  .model .type    ME  RMSE   MAE   MPE  MAPE  MASE RMSSE  ACF1\n  &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 drift  Test   86.0 122.   86.0  -Inf   Inf   NaN   NaN 0.698\n2 mean   Test   38.7  94.9  79.1  -Inf   Inf   NaN   NaN 0.698\n3 naive  Test   86.0 122.   86.0   100   100   NaN   NaN 0.698\n4 snaive Test   14.3  58.4  34.5  -Inf   Inf   NaN   NaN 0.424\n\n\nThis confirms that the seasonal naive method is the best forecast, as it has the lowest MAE and RMSE values. The MAPE is shown at -Inf to Inf because some of the actual values are 0, which causes the percentage error to be infinite.",
+    "crumbs": [
+      "Home",
+      "Baseball",
+      "MLB Injuries - Introductory Time Series Analysis"
     ]
   }
 ]
