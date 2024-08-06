@@ -31,10 +31,16 @@ callout-icon: false
 
 -   Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd.
 
-    -   <a href="anw_2021_stage1.csv" download>data</a>
+    -   <a href="anw_2021_stage1.csv" download>2021 Stage 1 Finals Data</a>
+    -   <a href="anw_2023_stage1.csv" download>2023 Stage 1 Finals Data</a>
     -   [Student Quarto template](student_template.qmd)
 
 -   [Posit Cloud](https://posit.cloud/) (via an Instructor account) or [Github classroom](https://classroom.github.com) are good options for disseminating files to students, but simply uploading files to your university's course management system works, too.
+
+-   The `anw_2021_stage1.csv` data is derived largely from [americanninjawarriornation.com](https://www.americanninjawarriornation.com/2021/8/30/22639995/american-ninja-warrior-season-13-2021-full-results-from-the-national-finals-stage-one). Additional columns such as `sex` were individually researched and added to the data.
+
+-   The `anw_2023_stage1.csv` data is derived largely from [sasukepedia](https://sasukepedia.fandom.com/wiki/American_Ninja_Warrior_15#Results_11). 
+
 :::
 
 # Welcome video
@@ -771,3 +777,9 @@ e.  Is it more likely that a female survives past the **fourth obstacle** or tha
 f.  Assume that the **null hypothesis** is that the true survival rate of surviving the first **4 obstacles** is equal for males and females. \n The **alternative hypothesis** is that the true survival rates are different. \n Based on **95% confidence intervals**, is it correct to say that the true mean of survival rate for males to survive past the **fourth obstacle** is **different** than the true mean of for females to survive past the **fourth obstacle**? Explain your answer.
 :::
 :::
+
+# Conclusion 
+
+In this module, you have learned about the Kaplan-Meier estimator, which is used to estimate the survival function. The importance of censoring was discussed, and you learned how to calculate the Kaplan-Meier estimates. You also learned how to compare survival curves using the log-rank test and how to interpret the results.
+
+The Kaplan-Meier estimates for American Ninja Warrior competitors helped us see the likelihood that a competitor survives past a certain number of obstacles in the Finals. Survival curves and nonparametric tests for different genders of American Ninja Warrior competitors helped us see that there is a significant difference in the survival rates of males and females. 

@@ -251,6 +251,12 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../baseball/mlb_injuries/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MLB Injuries - Introductory Time Series Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../baseball/mlb_prime_age/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">What’s the prime age of an MLB player?</span></a>
   </div>
@@ -384,6 +390,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#comparing-two-proportions" id="toc-comparing-two-proportions" class="nav-link" data-scroll-target="#comparing-two-proportions">Comparing Two Proportions</a></li>
   <li><a href="#more-practice" id="toc-more-practice" class="nav-link" data-scroll-target="#more-practice">More Practice</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
 </nav>
@@ -399,7 +406,7 @@ window.Quarto = {
 <h1 class="title">PGA - Scheffler Greens in Regulation</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Confidence Intervals</div>
-    <div class="quarto-category">Binomial Tests</div>
+    <div class="quarto-category">Single Proportion Hypothesis Testing</div>
     <div class="quarto-category">Comparing Two Proportions</div>
   </div>
   </div>
@@ -459,10 +466,12 @@ Facilitation notes
 <li><p>It assumes a basic familiarity with the RStudio Environment has already been covered, but no prior programming experiences is expected.</p></li>
 <li><p>Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.</p>
 <ul>
-<li><a href="scheffler_2023.csv">data</a></li>
+<li><a href="scheffler_2023.csv">Scottie Scheffler Data</a></li>
+<li><a href="pga_girs.csv">All PGA Data</a></li>
 <li><a href="student_template.qmd">Student Quarto template</a></li>
 </ul></li>
 <li><p><a href="https://posit.cloud/">Posit Cloud</a> (via an Instructor account) or <a href="https://classroom.github.com">Github classroom</a> are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.</p></li>
+<li><p>The data for the lab is derived from the <a href="https://www.pgatour.com/stats">PGA TOUR’s Website</a>. The <code>scheffler_2023.csv</code> data is merely a subset of the <code>pga_girs.csv</code> data.</p></li>
 </ul>
 </div>
 </div>
@@ -1232,6 +1241,11 @@ Challenge 3: Changing Conditions
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>, <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div></div>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>In this module you have learned how to form confidence intervals, conduct hypothesis tests, and compare proportions in R. You also learned how to interpret the results of these tests and intervals correctly. The affects of sample size and confidence level were also looked at in this module.</p>
+<p>With the golf data we determined that Scottie Scheffler is better at hitting greens in regulation from the fairway than not in the fairway. We also saw that at times the difference in the sample proportions of greens hit in regulation between golfers or cuts was not significant enough to reject the claim that they are equal. We also saw that the confidence level can affect the results of a hypothesis test.</p>
 
 
 </section>

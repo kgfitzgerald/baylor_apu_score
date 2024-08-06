@@ -251,6 +251,12 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../baseball/mlb_injuries/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MLB Injuries - Introductory Time Series Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../baseball/mlb_prime_age/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">What’s the prime age of an MLB player?</span></a>
   </div>
@@ -387,6 +393,7 @@ window.Quarto = {
   <li><a href="#other-nonparametric-tests" id="toc-other-nonparametric-tests" class="nav-link" data-scroll-target="#other-nonparametric-tests">Other Nonparametric Tests</a></li>
   </ul></li>
   <li><a href="#more-practice" id="toc-more-practice" class="nav-link" data-scroll-target="#more-practice">More Practice</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
 </nav>
@@ -462,10 +469,13 @@ Facilitation notes
 <li><p>It assumes a familiarity with the RStudio Environment and R programming language.</p></li>
 <li><p>Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.</p>
 <ul>
-<li><a href="anw_2021_stage1.csv" download="">data</a></li>
+<li><a href="anw_2021_stage1.csv" download="">2021 Stage 1 Finals Data</a></li>
+<li><a href="anw_2023_stage1.csv" download="">2023 Stage 1 Finals Data</a></li>
 <li><a href="student_template.qmd">Student Quarto template</a></li>
 </ul></li>
 <li><p><a href="https://posit.cloud/">Posit Cloud</a> (via an Instructor account) or <a href="https://classroom.github.com">Github classroom</a> are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.</p></li>
+<li><p>The <code>anw_2021_stage1.csv</code> data is derived largely from <a href="https://www.americanninjawarriornation.com/2021/8/30/22639995/american-ninja-warrior-season-13-2021-full-results-from-the-national-finals-stage-one">americanninjawarriornation.com</a>. Additional columns such as <code>sex</code> were individually researched and added to the data.</p></li>
+<li><p>The <code>anw_2023_stage1.csv</code> data is derived largely from <a href="https://sasukepedia.fandom.com/wiki/American_Ninja_Warrior_15#Results_11">sasukepedia</a>.</p></li>
 </ul>
 </div>
 </div>
@@ -1332,6 +1342,11 @@ Challenge 3: Comparing Groups
 </div><div class="callout-margin-content">
 <p>Click <a href="https://www.tandfonline.com/doi/full/10.1080/17498430.2018.1450055">here</a> to read more about Edward Kaplan and Paul Meier’s work and how it has impacted the field of Statistics, particularly in regards to biostatistics.</p>
 </div></div>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>In this module, you have learned about the Kaplan-Meier estimator, which is used to estimate the survival function. The importance of censoring was discussed, and you learned how to calculate the Kaplan-Meier estimates. You also learned how to compare survival curves using the log-rank test and how to interpret the results.</p>
+<p>The Kaplan-Meier estimates for American Ninja Warrior competitors helped us see the likelihood that a competitor survives past a certain number of obstacles in the Finals. Survival curves and nonparametric tests for different genders of American Ninja Warrior competitors helped us see that there is a significant difference in the survival rates of males and females.</p>
 
 
 </section>

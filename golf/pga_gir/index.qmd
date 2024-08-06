@@ -16,7 +16,7 @@ toc-location: left
 description: Exploring Probability Confidence Intervals with Golf Data
 categories:
   - Confidence Intervals
-  - Binomial Tests
+  - Single Proportion Hypothesis Testing
   - Comparing Two Proportions
 editor_options:
   chunk_output_type: console
@@ -31,10 +31,13 @@ callout-icon: false
 
 + Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd. 
   
-  + [data](scheffler_2023.csv)
+  + [Scottie Scheffler Data](scheffler_2023.csv)
+  + [All PGA Data](pga_girs.csv)
   + [Student Quarto template](student_template.qmd)
 
 + [Posit Cloud](https://posit.cloud/) (via an Instructor account) or [Github classroom](https://classroom.github.com) are good options for disseminating files to students, but simply uploading files to your university's course management system works, too.
+
++ The data for the lab is derived from the [PGA TOUR's Website](https://www.pgatour.com/stats). The `scheffler_2023.csv` data is merely a subset of the `pga_girs.csv` data.
 :::
 
 # Welcome video
@@ -693,3 +696,9 @@ c. Do you get differing results when you change the confidence level? If yes, ex
 
 
 :::
+
+# Conclusion
+
+In this module you have learned how to form confidence intervals, conduct hypothesis tests, and compare proportions in R. You also learned how to interpret the results of these tests and intervals correctly. The affects of sample size and confidence level were also looked at in this module.
+
+With the golf data we determined that Scottie Scheffler is better at hitting greens in regulation from the fairway than not in the fairway. We also saw that at times the difference in the sample proportions of greens hit in regulation between golfers or cuts was not significant enough to reject the claim that they are equal. We also saw that the confidence level can affect the results of a hypothesis test. 

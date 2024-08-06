@@ -27,6 +27,8 @@ callout-icon: false
 + The data used to create this module can be downloaded [here](training_facilities.csv)
 
 + A student template for answers can be downloaded [here](student_template.pdf)
+
++ Much of the data for the module was derived from an [MLS article](https://www.mlssoccer.com/news/facts-figures-and-images-every-mls-training-facility) and [fbref.com](https://fbref.com/en/comps/22/2023/2023-Major-League-Soccer-Stats#all_league_summary). The rest of the data concerning the opening of training facilities was individually researched.
 :::
 
 # Welcome video

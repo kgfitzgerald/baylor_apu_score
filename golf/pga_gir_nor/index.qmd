@@ -28,8 +28,11 @@ callout-icon: false
 
 + The data used for this lab and an answer template can be downloaded below.
   
-  + [data](scheffler_2023.csv)
-  + [Student Quarto template](student_template.pdf)
+  + [Scottie Scheffler Data](scheffler_2023.csv)
+  + [All PGA Data](pga_girs.csv)
+  + [Student Quarto template](student_template.qmd)
+
++ The data for the lab is derived from the [PGA TOUR's Website](https://www.pgatour.com/stats). The `scheffler_2023.csv` data is merely a subset of the `pga_girs.csv` data.
 
 :::
 

@@ -29,6 +29,8 @@ callout-icon: false
   
   + [data](masters_2023.csv)
   + [Student Answer template](student_template.pdf)
+  
++ The data for this module is derived largely from the [ESPN website](https://www.espn.com/golf/leaderboard/_/tournamentId/401465508). However, the tours were manually added to the data based on the what they played on in 2023 at the time of the Masters.
 :::
 
 # Welcome video
