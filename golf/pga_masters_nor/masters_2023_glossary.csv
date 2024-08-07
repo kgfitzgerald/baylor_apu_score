@@ -1,0 +1,5 @@
+﻿Variable,Description
+player,Name of the golfer
+round,"Round of the tournament (1,2,3,4)"
+score,Golfer's score for the round
+tour,"Tour that the player was regularly playing on at the time of the 2023 Masters (""PGA"", ""LIV"", ""Amateur"", ""Senior"")"
