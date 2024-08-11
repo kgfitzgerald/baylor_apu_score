@@ -70,6 +70,14 @@ By the end of this module, you should be able to:
 
 :::
 
+::: {.callout-important title="Research Questions" collapse="true"}
+
+-   What could be a consequence of claiming that new training facilities lead to better performance on the field when they don't?
+-   What could be a consequence of claiming that new training facilities don't lead to better performance on the field when they do?
+-   What type of error is worse to make?
+
+:::
+
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 library(tidyverse)
