@@ -769,7 +769,7 @@ f. What is the 95% prediction interval for the number of Tommy John surgeries in
 
 # Conclusion
 
-In this module you have learned how to visualize time series data. You have also learned how the number of injuries in the MLB have changed over time. We have looked at how the injuries in the MLB change based on the month of the season, seeing higher rates shortly after the season starts and at the end of the season. Major outliers in the number of injuries were noted during and directly after the COVID-19 pandemic. Lastly, you looked at different forecasting methods to predict the number of injuries in the MLB and made forecasts for the next three years.
+In this module you have learned how to visualize time series data. You have also learned how the number of injuries in the MLB have changed over time. We have looked at how the injuries in the MLB change based on the month of the season, seeing higher rates shortly after the season starts and at the end of the season. Major outliers in the number of injuries were noted during and directly after the COVID-19 pandemic. Lastly, you looked at different forecasting methods - mean, drift, naive, and seasonal naive- to forecast the number of injuries in the MLB. Performance metrics and residual plots were used to determine the best model. A seasonal naive model was the best of the simple models we looked at, since it was able to capture the seasonality in the monthly data.
 
 Additionally, you have learned about increases in Tommy John surgeries among baseball players and have now performed a simple time series analysis all by yourself. 
 

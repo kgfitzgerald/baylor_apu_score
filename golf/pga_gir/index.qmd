@@ -699,6 +699,6 @@ c. Do you get differing results when you change the confidence level? If yes, ex
 
 # Conclusion
 
-In this module you have learned how to form confidence intervals, conduct hypothesis tests, and compare proportions in R. You also learned how to interpret the results of these tests and intervals correctly. The affects of sample size and confidence level were also looked at in this module.
+In this module you have learned how to form confidence intervals, conduct hypothesis tests, and compare proportions in R. You also learned how to interpret the results of these intervals and tests correctly. The effects of sample size and confidence level were also looked at in this module.
 
-With the golf data we determined that Scottie Scheffler is better at hitting greens in regulation from the fairway than not in the fairway. We also saw that at times the difference in the sample proportions of greens hit in regulation between golfers or cuts was not significant enough to reject the claim that they are equal. We also saw that the confidence level can affect the results of a hypothesis test. 
+With the golf data we determined that Scottie Scheffler is better at hitting greens in regulation from the fairway than not in the fairway. We also saw that at times the difference in the sample proportions of greens hit in regulation between golfers or cuts was not significant enough to reject the claim that they are equal. When performing multiple tests at different significance levels, we sometimes got different results, proving the importance of choosing a significance level before conducting a test.

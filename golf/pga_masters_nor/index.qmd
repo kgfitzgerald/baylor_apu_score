@@ -685,3 +685,9 @@ d. Based on your answer to the above question, would you say a t-distribution ha
 e. Is the difference in the **confidence intervals** in this problem likely to change a result in a hypothesis test? Why or why not?
 
 :::
+
+# Conclusion
+
+In this module you have learned about single mean confidence intervals and single mean hypothesis tests. You have learned when to use a z-distribution and when to use a t-distribution. How to interpret p-values and confidence intervals was also covered.
+
+With the Masters scoring data, you were able to calculate confidence intervals and test hypotheses about the mean score of different groups of golfers. We saw that in order to form confidence intervals for groups such as amateurs and seniors, we needed to use the t-distribution due to the small sample sizes. With larger sample sizes, such as the PGA golfers, we were able to use the z-distribution. These confidence intervals gave us a range of plausible values for the true mean score of each group. We also tested hypotheses about the mean scoring averages for PGA, LIV, and amateur golfers. We were able to make conclusions about the mean score of each group (whether or not that group's mean was greater than or not equal to par) based on the test statistic and critical values or p-values.
