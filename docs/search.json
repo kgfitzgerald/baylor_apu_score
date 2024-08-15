@@ -76,5 +76,281 @@
     "title": "Baylor-APU SCORE Module Pre-print Repository",
     "section": "",
     "text": "This page contains education materials for the SCORE Network that were created by faculty and students from the Department of Statistical Science at Baylor University and the Department of Mathematics, Physics, & Statistics at Azusa Pacific University.\nThe SCORE Network Module Repository enables you to search for modules by either sport (along the left), or you can browse by statistics and data science topic.\nPlease note that these material have not yet completed the required pedagogical and industry peer reviews to become a published module on the SCORE Network. However, instructors are still welcome to use these materials if they are so inclined.\nThe development of the SCORE with Data network is funded by the National Science Foundation (award 2142705).\nContributing and/or Joining the SCORE Network\n\nIf you are interested in contributing to and/or joining the SCORE Network, please check out https://scorenetwork.org/index.html.\nIf you are interested in creating a page similar to this to host your own “in development modules”, please feel free to copy the Github repository this page was derived from: https://github.com/iramler/slu_score_preprints."
+  },
+  {
+    "objectID": "mma/mma_chisquare/index.html",
+    "href": "mma/mma_chisquare/index.html",
+    "title": "MMA Fight Decisions",
+    "section": "",
+    "text": "Facilitation notes\n\n\n\n\n\n\nThis module would be suitable for an in-class lab or take-home assignment in an introductory statistics course.\nIt assumes a basic familiarity with the RStudio Environment has already been covered, but no prior programming experiences is expected.\nStudents should be provided with the following data file (.csv) and Quarto document (.qmd) to produce tests/visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.\n\ndata\nStudent Quarto template\n\nPosit Cloud (via an Instructor account) or Github classroom are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.",
+    "crumbs": [
+      "Home",
+      "Mma",
+      "MMA Fight Decisions"
+    ]
+  },
+  {
+    "objectID": "mma/mma_chisquare/index.html#mma-lingo",
+    "href": "mma/mma_chisquare/index.html#mma-lingo",
+    "title": "MMA Fight Decisions",
+    "section": "MMA lingo",
+    "text": "MMA lingo\nBefore proceeding with any analysis, let’s make sure we know some MMA lingo in order to understand what information is contained in each variable (column) in our dataset.\n\nThe basics\n\nFighters are in different weight classes and may only fight in their own class or higher weight classes.\n\nThere are 8 classes for men and 4 for women.\n\nFights consist of rounds (typically 3).\nFights may end early due to:\n\nA submission: one fighter “taps out” or concedes.\nKnock out (KO) or Technical knock out (TKO) (the referee stops the fight).\n\nIf a fight is not stopped early, then the winner is determined by judges (known as a decision).\n\nThe decision could be unanimous (U) if all judges agree, or split (S) if not all judges agree.\n\nChampionship fights are those which determine who is the champion of a given weight class.\n\n\n\nTotally new to MMA? See this site: INTRODUCTION TO MMA\n\n\n\n\n\n\nWeight Classes in the mma data set\n\n\n\n\nCurrently there are 12 UFC weight classes. From lightest to heaviest:\n\nStrawweight 115 lb, Flyweight 125 lb, Bantamweight 135 lb, Featherweight 145 lb, Lightweight 155 lb, Super lightweight 165 lb, Welterweight 170 lb, Super welterweight 175 lb, Middleweight 185 lb, Super middleweight 195 lb, Light heavyweight 205 lb, Cruiserweight 225 lb, Heavyweight 265 lb, Super heavyweight\n\n\nOur mma data set includes fights from only 9 of the 12 classes.\nThe original data listed both fighter weight classes\n\nFor some fights the fighters were from different weight classes\nWe assumed the fight weight class was the heavier class of the two fighters.\n\nThree additional weight classes are listed in the data:\n\nAtomweight: a class recognized by some fight organizations for women that is lighter (105 lbs) than the 12 classes.\nCatchweight: fights that don’t follow traditional weight classes, often agree to in contracts between fighters.\nOpen Weight: unofficial weight class that allow fighters of different sizes to compete against each other with no weight limit.",
+    "crumbs": [
+      "Home",
+      "Mma",
+      "MMA Fight Decisions"
+    ]
+  },
+  {
+    "objectID": "mma/mma_chisquare/index.html#variable-descriptions",
+    "href": "mma/mma_chisquare/index.html#variable-descriptions",
+    "title": "MMA Fight Decisions",
+    "section": "Variable descriptions",
+    "text": "Variable descriptions\nThe data used for the following examples is MMA fight data. The data is a SAMPLE of fights from 1991 to 2023 (not all fights in that period). In addition to data about the fight generally (date, name of event, whether it was a “championship” fight etc) data is provided for each fighter participating in the fight (columns starting with p1 are the first fighter and p2 the second).\n\n\n\n\n\n\n\n\n\nVariable\nDefinition\nExample_Values\n\n\n\n\ndate\ndate of the event (mdy)\n10/12/2023\n\n\nmonth\nmonth of the event\n10\n\n\nyear\nyear of the event\n2023\n\n\nevent\nname of the event\nUFC 1: The Beginning\n\n\nchampionship\nis the event a championship event\nTRUE/FALSE\n\n\ndecision\nfight result\nTKO (Injury)\n\n\ndecision_group\naggregated groups of decision variable\nKO/TKO\n\n\nround\nhow many rounds the fight lasted\n3\n\n\ntime\ntime the fight ended\n4:42\n\n\np1_result\nresult of the fight for fighter 1(2)\nW\n\n\np1_id\na unique ID for fighter 1(2)\n2354059\n\n\np1_name\nfull name of fighter 1(2)\nShamrock, Ken\n\n\np1_country\nhome country of fighter 1(2)\nUSA\n\n\np1_sex\nsex of fighter 1(2)\nM\n\n\nwtClass\naggregated groups of Weight Class\nHeavyweight",
+    "crumbs": [
+      "Home",
+      "Mma",
+      "MMA Fight Decisions"
+    ]
+  },
+  {
+    "objectID": "mma/mma_chisquare/index.html#viewing-your-data",
+    "href": "mma/mma_chisquare/index.html#viewing-your-data",
+    "title": "MMA Fight Decisions",
+    "section": "Viewing your data",
+    "text": "Viewing your data\nYou saw that glimpse() is one way to get a quick look at your data. Often, you’ll want to view your whole dataset. There are two ways to do this:\n\n\n\nTIP: Recall that RStudio is split into four quadrants: Source (upper left), Environment (upper right), Console (bottom left), and Files/Plots/Packages/Help/Viewer (bottom right)\n\ntype View(mma) in your Console and then click return/Enter on your keyboard.\nOR, in your Environment tab, double click the name of the dataset you want to view.\n\nThis will open up your data in a new viewer tab so that you can view it like a spreadsheet (like Google Sheets or Excel*). Once open, you can sort the data by clicking on a column.\n\n\n*Unlike Google Sheets or Excel, however, you won’t be able to edit the data directly in the spreadsheet.\n\n\n\n\n\n\nExercise 2\n\n\n\nView the mma data and sort it appropriately to answer the following questions:\n\nWhat was the latest fight date in the data set?\nWhat was the event of the fight(s) on this date?\nHow many fights took place at this event?\nHow many of these fights ended with a KO or TKO?\nWhich fighters one the fights ending in KO or TKO?\nWhat weight class were the fighters who won by KO or TKO?\n\n\n\n\n\nTIP: When viewing the data, clicking on a column once will sort the data according to that variable in ascending order; clicking twice will sort in descending order.",
+    "crumbs": [
+      "Home",
+      "Mma",
+      "MMA Fight Decisions"
+    ]
+  },
+  {
+    "objectID": "mma/mma_chisquare/index.html#preparing-the-data",
+    "href": "mma/mma_chisquare/index.html#preparing-the-data",
+    "title": "MMA Fight Decisions",
+    "section": "Preparing the data",
+    "text": "Preparing the data\nWe first select the variables of interest, and “filter” the data to the categories we wish to compare and the years of interest.\n\n# Select, filter, and prepare relevant data for analysis\ndata1 &lt;- mma |&gt; \n  select(year, wtClass, decision_group) |&gt; \n  filter(year &gt;= 2020) |&gt;\n  filter(wtClass == \"Middleweight\" | wtClass == \"Heavyweight\") |&gt; \n  mutate(decision = if_else(decision_group == \"Decision\", \"Decision\",\n                            \"KO/TKO/Submission\"))\n\n\n\nTIP: in logical expressions, a double equal sign is used “==”.\n\nTIP: in logical expressions, “|” is “OR”\n\nTIP: mutate is a dplyr function that allows us to create new variables.\n\nTIP: if_else returns the first value listed (“Decision”) if the logical expression is true, otherwise it returns the second value listed (“KO/TKO/Submission”)\n\n\n\nView the “data1” data frame and confirm that you understand what the code produced.",
+    "crumbs": [
+      "Home",
+      "Mma",
+      "MMA Fight Decisions"
+    ]
+  },
+  {
+    "objectID": "mma/mma_chisquare/index.html#visualizing-the-data-the-contingency-table",
+    "href": "mma/mma_chisquare/index.html#visualizing-the-data-the-contingency-table",
+    "title": "MMA Fight Decisions",
+    "section": "Visualizing the data: the contingency table",
+    "text": "Visualizing the data: the contingency table\nA contingency table rows (r) are categories of the first variable and columns (c) those of the second variable. The “r x c” table cells are the counts for each combination of categories. In our example, both variables have two categories so we have a “2x2” contingency table:\n\ntable(data1$wtClass, data1$decision )\n\n              \n               Decision KO/TKO/Submission\n  Heavyweight       241               570\n  Middleweight      164               334\n\n\n\n\nTIP: select the variable from “data1” using a “$” followed by the name of the variable.\nWe see that among the heavyweight fights, 241 ended with a decision.\nThe R package “DescTools” we loaded includes a function that will add percentages (by row, column, or total) as well as the totals for rows/columns (known as “margins”) to the table.\n\nPercTable(data1$wtClass, data1$decision, rfrq = \"010\",\n                     margins = c(1,2))\n\n                                                         \n                       Decision   KO/TKO/Submission   Sum\n                                                         \nHeavyweight    freq         241                 570   811\n               p.row      29.7%               70.3%     .\n                                                         \nMiddleweight   freq         164                 334   498\n               p.row      32.9%               67.1%     .\n                                                         \nSum            freq         405                 904 1'309\n               p.row      30.9%               69.1%     .\n                                                         \n\n\n\n\nTIP: the rfrq option identifies which percentages to display. A “1” in the second position as in our example adds row percentages. Changing the first position to “1” would give total percentages and to the third position column percentages.\n\nTIP: we provide a vector, c(), with values 1 (row) and 2 (column) of which margins to add to the table. If we input c(1) we would get only the row totals.\n\nWe added row percentages; notice that the percentages total to 100% for each row of the table, including for the column totals row.\n\n\n\n\n\n\nExercise 3\n\n\n\nUse the contingency tables to answer the following questions:\n\nHow many middleweight fights are included in the sample?\nHow many middleweight fights ended with a KO/TKO/Submission? What percentage of middleweight fights in the sample does this represent?\nWhich weight class had a higher percentage of fights ending in KO/TKO/Submission?\nBased on the contingency table, does there appear to be a meaningful association between weight class and how the fight ended? In other words, is the proportion of fights ending in decision a lot different in the two weight classes?",
+    "crumbs": [
+      "Home",
+      "Mma",
+      "MMA Fight Decisions"
+    ]
+  },
+  {
+    "objectID": "mma/mma_chisquare/index.html#visualizing-the-data-mosaic-plot",
+    "href": "mma/mma_chisquare/index.html#visualizing-the-data-mosaic-plot",
+    "title": "MMA Fight Decisions",
+    "section": "Visualizing the data: Mosaic plot",
+    "text": "Visualizing the data: Mosaic plot\nA Mosaic plot visualizes the contingency table using rectangles with widths proportional to the counts for each category or combination of categories.\n\nlibrary(ggmosaic)\nggplot(data1) + \n  geom_mosaic(aes(x = product(wtClass, decision), fill = wtClass)) +\n  xlab('Decision')\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExercise 4\n\n\n\nUse the Mosaic plot to answer the following questions (use the contingency table to assist!):\n\nAre there more fights ending in decision or in KO/TKO/Submission in the data set (how do you know this from the Mosaic plot)?\nWhich weight class appears more likely to have a KO/TKO/Submission? Does this seem to be a big difference between the weight classes?",
+    "crumbs": [
+      "Home",
+      "Mma",
+      "MMA Fight Decisions"
+    ]
+  },
+  {
+    "objectID": "mma/mma_chisquare/index.html#conducting-the-chi-square-test",
+    "href": "mma/mma_chisquare/index.html#conducting-the-chi-square-test",
+    "title": "MMA Fight Decisions",
+    "section": "Conducting the Chi-square test",
+    "text": "Conducting the Chi-square test\nWe first write the hypotheses presented earlier for our example:\n\n\\(H_0:\\) there is no assocation between weight class and whether the fight ended in a decision or not (null hypothesis)\n\\(H_a:\\) there is an assocation between weight class and whether the fight ended in a decision or not (alternative hypothesis)\n\nThe command “chisq.test” with the two variables as inputs performs the Chi-square test.\n\nwt_decision.chisq &lt;- chisq.test(data1$wtClass, data1$decision)\n\n\n\nTIP: save the test results into an object (here named “wt_decision.chisq”) in order to later extract all information produced.\n\nObserved counts\nWe first confirm that the test has the correct data by extracting the “observed” values. These should be the same as in the contingency table.\n\nwt_decision.chisq$observed\n\n              data1$decision\ndata1$wtClass  Decision KO/TKO/Submission\n  Heavyweight       241               570\n  Middleweight      164               334\n\n\n\n\nExpected counts\nWe next extract the “expected” values computed in order to perform the test. These are values that would be observed if the sample perfectly matched the proportions suggested in the null hypothesis - exactly the same proportions in the two decision categories for each weight class category (and vice versa). You will explore this in the next exercise.\n\nwt_decision.chisq$expected\n\n              data1$decision\ndata1$wtClass  Decision KO/TKO/Submission\n  Heavyweight  250.9206          560.0794\n  Middleweight 154.0794          343.9206\n\n\n\n\n\n\n\n\nExercise 5\n\n\n\nUse the table of expected counts to answer the following questions:\n\nCompute the marginal expected counts (i.e. the total expected in rows and columns. How do these values compare to the marginal observed counts shown in the contingency table?\nCompute the row percentages for the expected table. What do you notice about these percentages? Which row percentages from the contingency table presented earlier do they match? How does confirm the expected counts are based on the null hypothesis?\nHow do the expected counts compare to the observed counts?\n\n\n\n\n\n\n\n\n\nComputing Expected Counts\n\n\n\nA simple method to compute the expected count for each cell is the following formula:\n\\(E = (r \\times c) / n\\)\nWhere r is the row total, c the column total, and n the grand total for the entire sample.\nFor fun, use this formula to compute the expected counts for one of the cells in our contingency table!\n\n\n\n\n\n\n\n\nChi-square test assumption\n\n\n\nThe chi-square test is not valid if expected counts are too small. A general rule of thumb is that they should be greater than or equal to 5.\nIn our example, the expected counts are all well above 5. We will explore this issue further in our next example.\n\n\n\n\nTest results\nThe observed counts are unlikely to exactly match the expected (this is a sample). However, if the null hypothesis is true we would anticipate the reasonably close agreement. The Chi-square test statistic, \\(X^2\\), measures how well they agree as:\n\\[X^2 = \\sum \\frac{(O-E)^2}{E}\\] In this expression, the \\(\\sum\\) symbol means “sum” or add. The terms added involve the observed (O) and expected (E) counts. In our case, there are 4 such quantities (one for each cell of the tables). For example, for the first cell (row 1, column 1) the quantity computed is:\n\\[\\frac{(241-250.9206)^2}{250.9206} = 0.39\\]\nWe calculate in similar fashion for the other three cells, and then sum (add) the four values. The resulting value, 1.3462, is given in the output from the test “X-squared”.\n\nwt_decision.chisq\n\n\n    Pearson's Chi-squared test with Yates' continuity correction\n\ndata:  data1$wtClass and data1$decision\nX-squared = 1.3462, df = 1, p-value = 0.2459\n\n\nIf the observed perfectly matches the expected in all cells the \\(X^2\\) value would be 0. Of course, that is unlikely. However, if the null hypothesis is true, a smaller value is more likely. But how small is reasonable? Put another way, how large a value - reflecting big differences in the observed and expected - would make us question whether the null hypothesis is true?\nWe answer this question, statistically, by calculating the probability of obtaining a value of \\(X^2\\) of 1.3462 (our observed value) or greater assuming the null hypothesis is true. If the null hypothesis is true, the distribution of possible \\(X^2\\) values follows a \\(\\chi^2\\) (“Chi-squared”) distribution. There is one parameter for this distribution, known as the “degrees of freedom” (df). For an r x c contingency table:\n\\[df = (r -1) \\times (c-1)\\]\nSince \\(r = c = 2\\) in our example, \\(df = (2-1) \\times (2-1) = 1\\).\nWith the distribution defined, we can compute the probability. The output from R gives us the result as the p-value of 0.2459. If the null hypothesis is true, we have a probability of roughly 0.25 of obtaining observed/expected differences as great as observed in our sample.\nTypically, the null hypothesis is “rejected” if the p-value is pretty small. A common cutoff is 0.05. Since our value is not that small, we cannot reject the null hypothesis.\n\n\n\n\n\n\nIMPORTANT SUMMARY: Chi-square test conclusion\n\n\n\nWe lack evidence to conclude weight class is associated with whether a decision is needed for the fight.\n\n\n\n\n\n\n\n\nExercise 6\n\n\n\nThe conclusion from the Chi-square test is that the sample does not provide enough evidence to say weight class is assocated with the decision type. How does this result compare to your intuition from looking at tables and plots earlier?",
+    "crumbs": [
+      "Home",
+      "Mma",
+      "MMA Fight Decisions"
+    ]
+  },
+  {
+    "objectID": "mma/mma_chisquare/index.html#chi-square-test",
+    "href": "mma/mma_chisquare/index.html#chi-square-test",
+    "title": "MMA Fight Decisions",
+    "section": "Chi-square Test",
+    "text": "Chi-square Test\nWe can proceed with the Chi-square test. However, notice that R responds with a warning message. The test results are still produced and in this case we again cannot conclude evidence of an association (p = 0.1851). Notice the degrees of freedom for this example. With 4 weight class categories, we have \\((4-1)\\times(2-1) = 3\\) degrees of freedom for the test.\n\nwt_decision2.chisq &lt;- chisq.test(data2$wtClass, data2$decision)\n\nWarning in chisq.test(data2$wtClass, data2$decision): Chi-squared approximation\nmay be incorrect\n\nwt_decision2.chisq \n\n\n    Pearson's Chi-squared test\n\ndata:  data2$wtClass and data2$decision\nX-squared = 4.8241, df = 3, p-value = 0.1851\n\n\nThe warning message is due to the assumption about expected cell counts. These values are well below the rule of thumb of five for both categories in the atomweight and strawweight classes.\n\nwt_decision2.chisq$expected\n\n              data2$decision\ndata2$wtClass   Decision KO/TKO/Submission\n  Atomweight   0.4848485         0.5151515\n  Bantamweight 7.2727273         7.7272727\n  Flyweight    7.7575758         8.2424242\n  Strawweight  0.4848485         0.5151515",
+    "crumbs": [
+      "Home",
+      "Mma",
+      "MMA Fight Decisions"
+    ]
+  },
+  {
+    "objectID": "mma/mma_chisquare/index.html#fisher-exact-test",
+    "href": "mma/mma_chisquare/index.html#fisher-exact-test",
+    "title": "MMA Fight Decisions",
+    "section": "Fisher Exact Test",
+    "text": "Fisher Exact Test\nWhen the assumption for the Chi-square test is not met, all is not lost! We can instead compute the p-value “exactly” using probability theory (the “hypergeometric” distribution is used, but we will omit the details).\nThe Fisher’s Exact Test assumes the row and column totals are fixed, then calculates the probability of a particular set of cell counts, then figures out all possible tables that could be constructed given the fixed totals, and calculates probabilities for each of these tables. The test determines which of these tables are extreme or more extreme than the table observed, and sums up the probabilities for the table seen and the more extreme tables to get the p-value.\nThe hypotheses for this test are the same as for the Chi-square test:\n\\(H_0\\): Weight class and the fight decision are not associated.\n\\(H_a\\): Weight class and the fight decision are associated.\nThe command is changed to “fisher.test”, but the general format of the command and output is unchanged.\n\nwt_decision2.fisher &lt;- fisher.test(data2$wtClass, data2$decision)\nwt_decision2.fisher\n\n\n    Fisher's Exact Test for Count Data\n\ndata:  data2$wtClass and data2$decision\np-value = 0.09378\nalternative hypothesis: two.sided\n\n\nThe test returned a p-value of 0.09378. Our conclusion then after performing a Fisher’s Exact Test is again we do not have evidence to suggest that weight class and fight decision are associated (p = 0.09). In other words, we fail to reject our null hypothesis.\nNotice that the p-value is changed by a fair amount in this example even though the conclusion is unchanged. The issue with the Chi-square assumption had an impact on the calculation in this case.\n\n\n\n\n\n\nFisher Exact Test issues\n\n\n\nThe Fisher Exact test requires a great deal of computation. Every possible table of counts must be formed. For larger tables, this computation (even with the advances in computing power) might not alway be feasible.\nChi-square tests notoriously lack “power” (they may not produce statistically significant results even when there is an association). The exact test power is often even lower. In fact, in some situations with small samples there is no chance the test could lead to rejecting the null hypothesis!",
+    "crumbs": [
+      "Home",
+      "Mma",
+      "MMA Fight Decisions"
+    ]
+  },
+  {
+    "objectID": "mma/mma_chisquare/index.html#examining-the-sample",
+    "href": "mma/mma_chisquare/index.html#examining-the-sample",
+    "title": "MMA Fight Decisions",
+    "section": "Examining the Sample",
+    "text": "Examining the Sample\nBelow we select a larger sample of years and weight classes, and produce the output shown in previous examples. Use the output to answer the questions in the exercise.\n\n# Select, filter, and prepare relevant data for analysis\ndata3 &lt;- mma |&gt; \n  filter(year &gt;= 2020) |&gt;\n  filter(wtClass %in% c(\"Strawweight\", \"Flyweight\",\n                              \"Bantamweight\", \"Welterweight\",\n                              \"Middleweight\", \"Heavyweight\"))  |&gt; select(year, wtClass, decision_group) |&gt; \n  mutate(decision = if_else(decision_group == \"Decision\",\n                            \"Decision\",\n                            \"KO/TKO/Submission\"))\n\n\ntable(data3$wtClass, data3$decision)\n\n              \n               Decision KO/TKO/Submission\n  Bantamweight      302               350\n  Flyweight         248               263\n  Heavyweight       241               570\n  Middleweight      164               334\n  Strawweight       123                80\n  Welterweight      270               440\n\n\n\nlibrary(ggmosaic)\nggplot(data3) + \n  geom_mosaic(aes(x = product(wtClass, decision), fill = wtClass)) +\n  xlab('Decision')\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nExercise 7\n\n\n\n\nWhat is the research question for the data selected?\nWhat are the degrees of freedom that will be used in a Chi-square test with this sample?\nDo you think the Chi-square test assumption will be a concern with this data? Explain.\nDoes the data seem to suggest an association? Explain.",
+    "crumbs": [
+      "Home",
+      "Mma",
+      "MMA Fight Decisions"
+    ]
+  },
+  {
+    "objectID": "mma/mma_chisquare/index.html#conducting-the-test",
+    "href": "mma/mma_chisquare/index.html#conducting-the-test",
+    "title": "MMA Fight Decisions",
+    "section": "Conducting the Test",
+    "text": "Conducting the Test\nAgain, we provide output from a test. Use this to answer the exercise questions.\n\ncase1.chisq &lt;- chisq.test(data3$wtClass, data3$decision)\ncase1.chisq$expected\n\n              data3$decision\ndata3$wtClass   Decision KO/TKO/Submission\n  Bantamweight 259.64431          392.3557\n  Flyweight    203.49424          307.5058\n  Heavyweight  322.96248          488.0375\n  Middleweight 198.31728          299.6827\n  Strawweight   80.84018          122.1598\n  Welterweight 282.74151          427.2585\n\ncase1.chisq\n\n\n    Pearson's Chi-squared test\n\ndata:  data3$wtClass and data3$decision\nX-squared = 109.58, df = 5, p-value &lt; 2.2e-16\n\n\n\n\n\n\n\n\nExercise 8\n\n\n\n\nWhat hypotheses for the test?\nWhat are your conclusions based on the test?\nIs the test appropriate (assumptions met) or is another test required?",
+    "crumbs": [
+      "Home",
+      "Mma",
+      "MMA Fight Decisions"
+    ]
+  },
+  {
+    "objectID": "mma/mma_chisquare/index.html#examining-the-results",
+    "href": "mma/mma_chisquare/index.html#examining-the-results",
+    "title": "MMA Fight Decisions",
+    "section": "Examining the Results",
+    "text": "Examining the Results\nThe statistically significant results from the test in this case study beg some questions.\n\n\nWhich weight classes and which decision groups differ?\n\n\nWe achieved statistical significance, but perhaps this is simply do to the very large sample size. Is there practical significance?\n\n\nWe can do an informal inspection of the observed and expected values (and also consider the visualization). We have already produced the observed (contingency) and expected tables. We add the row percentages below.\n\nPercTable(data3$wtClass, data3$decision, rfrq = \"010\",\n                     margins = c(1,2))\n\n                                                         \n                       Decision   KO/TKO/Submission   Sum\n                                                         \nBantamweight   freq         302                 350   652\n               p.row      46.3%               53.7%     .\n                                                         \nFlyweight      freq         248                 263   511\n               p.row      48.5%               51.5%     .\n                                                         \nHeavyweight    freq         241                 570   811\n               p.row      29.7%               70.3%     .\n                                                         \nMiddleweight   freq         164                 334   498\n               p.row      32.9%               67.1%     .\n                                                         \nStrawweight    freq         123                  80   203\n               p.row      60.6%               39.4%     .\n                                                         \nWelterweight   freq         270                 440   710\n               p.row      38.0%               62.0%     .\n                                                         \nSum            freq       1'348               2'037 3'385\n               p.row      39.8%               60.2%     .\n                                                         \n\n\n\n\n\n\n\n\nExercise 9\n\n\n\n\nWhat categories are different and likely led to the statistically signficant result?\nHow easy is it to identify the important differences in observed and expected values (consider this question in a table with more than two decision categories!)?\n\n\n\n\nResiduals\nWhen we have a high number of rows and columns it is difficult to see if there are practical differences between certain cells. This may be achievable with a 2x2 table, but is much more difficult with larger tables. To help with this problem, we can calculate the Pearson standardized residuals which help identify cells we should investigate.\nThe formula for the Pearson residuals is:\n\\[\\frac{(O-E)}{\\sqrt(E)}\\]\nNotice this is the square root of the “contribution” of each cell to the overall test statistic \\(X^2\\). Essentially, the formula identifies cells that have large differences between observed and expected (the \\((O-E)\\) in the formula) but “standardizes” these differences (the \\(sqrt(E)\\) in the formula).\nOne way to think about the standardization is to consider a simple example. Suppose we have two cells with \\(O-E = 2\\). However, one cell has an expected count of 10 and the other an expected count of 1,000. In the first case, the \\(O-E\\) difference is 20% of the expected value. In the second, it is only 0.2% which is actually a small amount. The standardization basically puts these on the same scale.\nStandardized residuals roughly follow a “normal distribution” which means we would expect approximately 95% of the values to between -2 and 2 and 99% between -3 and 3. Thus, values outside these ranges are somewhat unusual and cells that may contribute to a statistical association.\nWe can output the residuals from the Chi-square test in similar fashion to the expected counts:\n\ncase1.chisq$residuals\n\n              data3$decision\ndata3$wtClass    Decision KO/TKO/Submission\n  Bantamweight  2.6285868        -2.1383153\n  Flyweight     3.1198964        -2.5379882\n  Heavyweight  -4.5607794         3.7101246\n  Middleweight -2.4368714         1.9823578\n  Strawweight   4.6890531        -3.8144733\n  Welterweight -0.7577501         0.6164182\n\n\n\n\n\n\n\n\nExercise 10\n\n\n\n\nBased on the residuals what categories are different and likely led to the statistically signficant result?\nConsidering the categories you identified, do the differences seem practically meaningful? Explain.",
+    "crumbs": [
+      "Home",
+      "Mma",
+      "MMA Fight Decisions"
+    ]
+  },
+  {
+    "objectID": "tennis/tennis_sampsize/index.html",
+    "href": "tennis/tennis_sampsize/index.html",
+    "title": "Tennis Sample Size",
+    "section": "",
+    "text": "Facilitation notes\n\n\n\n\n\n\nThis module would be suitable for an in-class lab or take-home assignment in an introductory statistics course.\nIt assumes a basic familiarity with the RStudio Environment has already been covered, but no prior programming experiences is expected.\nStudents should be provided with the following data file (.csv) and Quarto document (.qmd) to produce tests/visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.\n\ndata\nStudent Quarto template\n\nPosit Cloud (via an Instructor account) or Github classroom are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.",
+    "crumbs": [
+      "Home",
+      "Tennis",
+      "Tennis Sample Size"
+    ]
+  },
+  {
+    "objectID": "tennis/tennis_sampsize/index.html#tennis-data-overview",
+    "href": "tennis/tennis_sampsize/index.html#tennis-data-overview",
+    "title": "Tennis Sample Size",
+    "section": "Tennis Data Overview",
+    "text": "Tennis Data Overview\nBefore proceeding with any analysis, let’s make sure we understand what information is contained for key variables (column) in our dataset.\nThe data set is from the 2023 Men’s Singles Wimbledon Championships, perhaps the most important tennis tournament each year.\n\n\n\n\n\n\nBasic Features of the Wimbledon 2023 data\n\n\n\n\nWimbledon is a single elimination tournament\n\nRound 1 begins with 128 players; 64 matches are played with the 64 winning players advancing to the second round.\nSubsequent rounds are played until two players reach the final; the winner of this final round is the Wimbledon Champion\n\nOur tennis data set includes all matches after the second round.\nThe data provides information for every point played in the matches\n\nEach row represents a point\nPoints are ordered within each match from the first to last point\n\n\n\n\n\n\nTotally new to Tennis? See this site: INTRODUCTION TO TENNIS SCORING\n\nFor more information about Wimbledon: Wimbledon Official Site",
+    "crumbs": [
+      "Home",
+      "Tennis",
+      "Tennis Sample Size"
+    ]
+  },
+  {
+    "objectID": "tennis/tennis_sampsize/index.html#variable-descriptions",
+    "href": "tennis/tennis_sampsize/index.html#variable-descriptions",
+    "title": "Tennis Sample Size",
+    "section": "Variable descriptions",
+    "text": "Variable descriptions\nWe will actually only use a few columns for this module, but the full description of the data is provided. Some variables have data for both players with columns with labels starting “p1” for player 1 and “p2” for player two. We define these for player 1, but the definitions hold for the corresponding player 2 variables.\n\n\n\n\n\n\n\n\n\nVariable\nDefinition\n\n\n\n\nmatch_id\nmatch identification\n\n\nplayer1\nfirst and last name of the first player\n\n\nplayer2\nfirst and last name of the second player\n\n\nelapsed_time\ntime elapsed since start of first point to start of current point (H:MM:SS)\n\n\nset_no\nset number in match\n\n\ngame_no\ngame number in set\n\n\npoint_no\npoint number in game\n\n\np1_sets\nsets won by player 1\n\n\np1_games\ngames won by player 1 in current set\n\n\np1_score\nplayer 1's score within current game\n\n\nserver\nserver of the point\n\n\nserve_no\nfirst or second serve\n\n\npoint_victor\nwinner of the point\n\n\np1_points_won\nnumber of points won by player 1 in match\n\n\ngame_victor\na player won a game this point\n\n\nset_victor\na player won a set this point\n\n\np1_ace\nplayer 1 hit an untouchable winning serve\n\n\np1_winner\nplayer 1 hit an untouchable winning shot\n\n\nwinner_shot_type\ncategory of untouchable shot\n\n\np1_double_fault\nplayer 1 missed both serves and lost the point\n\n\np1_unf_err\nplayer 1 made an unforced error\n\n\np1_net_pt\nplayer 1 made it to the net\n\n\np1_net_pt_won\nplayer 1 won the point while at the net\n\n\np1_break_pt\nplayer 1 has an opportunity to win a game player 2 is serving\n\n\np1_break_pt_won\nplayer 1 won the game player 2 is serving\n\n\np1_break_pt_missed\nplayer 1 missed an opportunity to win a game player 2 is serving\n\n\np1_distance_run\nplayer 1's distance ran during point (meters)\n\n\nrally_count\nnumber of shots during the point\n\n\nspeed_mph\nspeed of serve (miles per hour; mph)\n\n\nserve_width\ndirection of serve\n\n\nserve_depth\ndepth of serve\n\n\nreturn_depth\ndepth of return",
+    "crumbs": [
+      "Home",
+      "Tennis",
+      "Tennis Sample Size"
+    ]
+  },
+  {
+    "objectID": "tennis/tennis_sampsize/index.html#viewing-your-data",
+    "href": "tennis/tennis_sampsize/index.html#viewing-your-data",
+    "title": "Tennis Sample Size",
+    "section": "Viewing your data",
+    "text": "Viewing your data\nYou saw that glimpse() is one way to get a quick look at your data. Often, you’ll want to view your whole dataset. There are two ways to do this:\n\n\n\nTIP: Recall that RStudio is split into four quadrants: Source (upper left), Environment (upper right), Console (bottom left), and Files/Plots/Packages/Help/Viewer (bottom right)\n\ntype View(tennis) in your Console and then click return/Enter on your keyboard.\nOR, in your Environment tab, double click the name of the dataset you want to view.\n\nThis will open up your data in a new viewer tab so that you can view it like a spreadsheet (like Google Sheets or Excel*). Once open, you can sort the data by clicking on a column.\n\n\n*Unlike Google Sheets or Excel, however, you won’t be able to edit the data directly in the spreadsheet.\n\n\n\n\n\n\nExercise 1\n\n\n\nView the tennis data and sort it appropriately to answer the following questions:\n\nWe will be interested in the distances run. Which variables in the data set contain this data? What are example values (and units) for this data? What are the smallest and largest values?\nThe second research question involves the percentage of points won on the first serve. What variables provide information related to this question? What type of variables are they and what are the possible values for each?\n\n\n\n\n\n\nTIP: Type your answers to each exercise in the .qmd document.\n\n\n\n\n\n\nTIP: When viewing the data, clicking on a column once will sort the data according to that variable in ascending order; clicking twice will sort in descending order.",
+    "crumbs": [
+      "Home",
+      "Tennis",
+      "Tennis Sample Size"
+    ]
+  },
+  {
+    "objectID": "tennis/tennis_sampsize/index.html#why-does-sample-size-matter",
+    "href": "tennis/tennis_sampsize/index.html#why-does-sample-size-matter",
+    "title": "Tennis Sample Size",
+    "section": "Why does sample size matter",
+    "text": "Why does sample size matter\nThere are several things that drive the need for sample size calculations. One is resources. Often it is costly - financially, time, difficulty in getting data - to conduct an experiment so we wish to do so efficiently, with the smallest sample possible. The second is that we want a sample size that will ensure we can get meaningful results from our study. The last thing anyone wants after spending time and money on research is for the results to be inconclusive.\n\nTypes of errors\nTwo types of errors can occur with a statistical hypotheses test.\n\nType I error: the null hypothesis is true but we reject it.\nType II error: the null hypothesis is false but we fail to reject it.\n\n\n\n\n\n\n\nImportant\n\n\n\nThe errors are a trade off - if we improve one, the other is worse.\n\n\n\n\n\n\n\n\nExercise 2\n\n\n\nFor our proposed study of a method to improve first serve perentage:\n\nWhat would it mean to have a Type I error?\nWhat would it mean to have a Type II error?\nIs one error “worse” than the other in this case? Explain.\n\n\n\n\n\nBalancing the errors\nOur goal is to maintain reasonably small chances of both types of errors. The Type I error is typically handled by specifying the probability we make such an error in our hypothesis testing procedure. This probability is usually referred to as \\(\\alpha\\) (“alpha”) and set to a low value. Most typically we use \\(\\alpha = 0.05\\). The Type II error, on the other hand, is NOT specified in the testing. This is where sample size can play a role.\nReturning to our example, suppose we collect a sample and the first serve percentage without the training is 50% and after the training it is 75%. Using an \\(\\alpha = 0.05\\) value, however, we do not reject the null hypothesis. We cannot conclude the sample provides evidence of improvement…even though it seems like a rather positive effect!\nOur sample was from two games with 4 first serves each…a very small sample. The problem is that with such a small sample we lack power to detect a difference even if it exists. Power is defined as:\n\\[Power = 1 - \\beta\\] Where \\(\\beta\\) is the Type II error rate. Thus, we controlled Type I error but our Type II error rate may be too high!\nSmall samples lead to large uncertainty about the estimates. Consider the 50% estimate for without training. That was based on 2 of 4 successful serves. However, if only one of the serves had been different (say one more success) that percentage would change by 25%!\n\n\n\n\n\n\nImportant\n\n\n\nA study that has too small of a sample size to detect a meaningful effect is said to be under powered. The Type II error rate is very high.\n\n\nWe thus want a sample large enough that it will reject the null hypothesis when there is a true effect. Generally speaking, resource constraints lead to trying to find the smallest sample size that has adequate power to do so. There is little danger of getting “too large” a sample. You might wonder, though, if resources permit why not just get a super large sample. That would give very high power!\nThe problem with a very large sample is that there is power to detect very, very small effects. For example, suppose we get a sample of millions of serves. The result is 50% success without the training and 50.1% with the training. The gigantic sample could lead to rejecting the null hypothesis, thus concluding there is evidence of difference due to the training.\nThe sample size gives us great precision in these estimates…and, after, all technically they are different. However, clearly the effect is not really a difference that any tennis play would care about enough to hire you as their trainer.\n\n\n\n\n\n\nImportant\n\n\n\nA study that has too large of a sample size to detect a meaningful effect is said to be over powered. The Type II error rate is so low that meaningless effects are said to be significant.",
+    "crumbs": [
+      "Home",
+      "Tennis",
+      "Tennis Sample Size"
+    ]
+  },
+  {
+    "objectID": "tennis/tennis_sampsize/index.html#factors-impacting-sample-size-power",
+    "href": "tennis/tennis_sampsize/index.html#factors-impacting-sample-size-power",
+    "title": "Tennis Sample Size",
+    "section": "Factors impacting sample size (power)",
+    "text": "Factors impacting sample size (power)\nIn order to determine the sample size that gets us into the “sweet spot” (not in the sense of hitting a tennis ball) there are four factors that are important in some form for all “power” calculations:\n\nThe sample size (or power)\n\n\nnote that sometimes we use the power and compute sample size, and sometimes the reverse. If power is used typical choices are \\(0.8\\) or \\(0.9\\) (meaning \\(\\beta = 0.2\\) or \\(\\beta = 0.1\\) Type II error rates).\n\n\nYour chosen Type I error rate\n\n\nTypically we use \\(\\alpha = 0.05\\).\n\n\nThe amount of variability in the data.\n\n\nVariability impacts the precision of estimates.\n\n\nHow big of a difference (or how strong of an association) you believe exists and is meaningful.\n\nItems 3 and 4 must be estimated in some fashion which is often a challenge for sample size calculation. They are often combined and referred to as an “effect size”. There are various measures of effect size in different settings with rules of thumb for what constitues small, medium, etc. effect sizes that are then used to compute the desired sample size.",
+    "crumbs": [
+      "Home",
+      "Tennis",
+      "Tennis Sample Size"
+    ]
+  },
+  {
+    "objectID": "tennis/tennis_sampsize/index.html#estimating-the-parameters",
+    "href": "tennis/tennis_sampsize/index.html#estimating-the-parameters",
+    "title": "Tennis Sample Size",
+    "section": "Estimating the Parameters",
+    "text": "Estimating the Parameters\nWith the statistical method defined we are then ready to determine the parameter values we will use to perform our sample size computations. We will compute sample size for a desired power, and set the first two parameters to typical values:\n\nPower = \\(0.8\\)\n\\(\\alpha = 0.05\\)\n\nThe variability is often estimated from pilot or previous data, or using information from previous studies. We will use our Wimbledon 2023 data. We can compute the standard deviations (sd) for player one run distances and also for player two run distances:\n\nsd(tennis$p1_distance_run)\n\n[1] 13.49286\n\nsd(tennis$p2_distance_run)\n\n[1] 13.60765\n\n\nBoth are similar and around 13.5 meters/point. So, we will choose this value:\n\nsd = 13.5 meters/point (estimated variability)\n\nThe final value we need is the value of the difference in run distance that we would consider meaningful. The mean values for the run distances in the Wimbledon data are:\n\nmean(tennis$p1_distance_run)\n\n[1] 14.00231\n\nmean(tennis$p2_distance_run)\n\n[1] 13.86924\n\n\nBoth are around 14 meters/point. What would represent a meaningful increase for the distance run on clay?\nOne tool that could help is to consider effect size. Cohen (1988) offers some advice. A metric known as Cohen’s D is one measure and is defined:\n\\[D = \\frac{\\mu_2 - \\mu_1}{sd}\\] where the sd is of the difference in means. If the average distance on clay increases by one standard deviation, then \\(D = 1\\). In other words, Cohen’s D is the increase in terms of the standard deviation. If \\(D = 0.5\\) that would be an increase of half of a standard deviation,\nAn increase of 1 standard deviation (13.5 meters/point) seems large as it would nearly double the average run per point.\nThe R package “effectsize” contains a function to provide an interpretation of Cohen’s D values. We provide interpretation for the one standard deviation increase (13.5 meters/point) and for smaller increases of 0.5 and 0.25 standard deviations.\n\ninterpret_cohens_d(1)\n\n[1] \"large\"\n(Rules: cohen1988)\n\ninterpret_cohens_d(0.5)\n\n[1] \"medium\"\n(Rules: cohen1988)\n\ninterpret_cohens_d(0.25)\n\n[1] \"small\"\n(Rules: cohen1988)\n\n\nWe will opt for a “medium” effect size using the \\(D = 0.5\\) value. That would be an increase of one half of a standard deviation: \\(0.5 \\times 13.5 = 6.75\\).\n\nDifference in means (delta) = 6.75.",
+    "crumbs": [
+      "Home",
+      "Tennis",
+      "Tennis Sample Size"
+    ]
+  },
+  {
+    "objectID": "tennis/tennis_sampsize/index.html#computing-the-sample-size",
+    "href": "tennis/tennis_sampsize/index.html#computing-the-sample-size",
+    "title": "Tennis Sample Size",
+    "section": "Computing the Sample Size",
+    "text": "Computing the Sample Size\nThe R command “power.t.test” computes the sample size (or power). We compute sample size by leaving the parameter “n” as “NULL” (note that NULL is the default so we did not need to explicitly specify in running the commmand). We must specify the power in this case; alternatively we could give a value of “n” and make the power NULL to compute power.\nOther values are shown below.\nNote that the type is “two.sample” because we are comparing two sample means.\nThe alternative is “one.sided” because we hypothesized and increase (&gt;) in distance run on clay courts. A \\(\\ne\\) alternative hypothesis would be “two.sided”.\n\npower.t.test(n = NULL, \n             delta = 6.76, \n             sd = 13.5, \n             sig.level = 0.05,\n             power = 0.8,\n             type = c(\"two.sample\"),\n             alternative = c(\"one.sided\")\n             )\n\n\n     Two-sample t test power calculation \n\n              n = 50.00462\n          delta = 6.76\n             sd = 13.5\n      sig.level = 0.05\n          power = 0.8\n    alternative = one.sided\n\nNOTE: n is number in *each* group\n\n\nThe value returned is n = 50.00462 which is the number per group (so points observed on each of the two court surfaces). We always round up to ensure adequate power so we will need n = 51 points per court surface to conduct our study.\n\n\n\n\n\n\nExercise 3\n\n\n\nIn the next exercises, we will examine how various parameters impact the required sample size. Let’s look first at the impact of power.\n\nRerun the sample size calculation increasing the desired power to 0.9. What sample size is required?\nRerun the sample size calculation decreasing the desired power to 0.7. What sample size is required?\nDoes increasing the power impact the required sample size? Why?\n\n\n\n\n\nTIP: copy the command in our example and change the parameters as needed to complete each exercise.\n\n\n\n\n\n\nExercise 4\n\n\n\nImpact of (alpha). Return to a power of 0.8 for this exercise.\n\nRerun the sample size calculation decreasing the desired alpha to 0.01. What sample size is required?\nRerun the sample size calculation increasing the desired alpha to 0.1. What sample size is required?\nHow does changing the allowable Type I error impact the required sample size? Why?\n\n\n\n\n\n\n\n\n\nExercise 5\n\n\n\nImpact of variability, sd. Return to a power of 0.8 and alpha of 0.05\n\nIncrease the sd to 15. What sample size is required?\nIncrease the sd to 10. What sample size is required?\nHow does the estimated variability in the data impact the required sample size? Why?\n\n\n\n\n\n\n\n\n\nExercise 6\n\n\n\nImpact of size of the difference, delta. Return to a power of 0.8, alpha of 0.05, and sd of 13.5.\n\nWhat value of delta leads to a small effect of D = 0.25 standard deviation increase?\nWhat value of delta produces a large effect of D = 1 sd increase?\nFind the sample size for the delta values computed in a and b.\nHow does the effect size impact the required sample size? Why?\n\n\n\n\n\n\n\n\n\nExercise 7\n\n\n\nComputing power instead of sample size. Use the original values in the example (delta = 6.75, sd = 13.5, alpha = 0.05). We computed a sample size of 51 to achieve power of 0.8 in the example.\n\nModify the command by setting power to “NULL” and the sample size to n = 51. Does the computed power exceed 0.8?\nWhat is the power if n = 50 (recall we rounded up)?",
+    "crumbs": [
+      "Home",
+      "Tennis",
+      "Tennis Sample Size"
+    ]
+  },
+  {
+    "objectID": "tennis/tennis_sampsize/index.html#estimating-the-parameters-1",
+    "href": "tennis/tennis_sampsize/index.html#estimating-the-parameters-1",
+    "title": "Tennis Sample Size",
+    "section": "Estimating the Parameters",
+    "text": "Estimating the Parameters\nWe will again compute sample size for a desired power, and set the first two parameters to typical values:\n\nPower = \\(0.8\\)\n\\(\\alpha = 0.05\\)\n\nThe third parameter, estimate of variability, is not needed for the two sample proportions test. The reason is that the variance for a proportion is actually a function of the proportion. This comes from the variance for a binary (0 or 1) variable which is modeled using the Binomial (Bernoulli) distribution. If the true proportion is p, then the variance is:\n\\[p \\times (1-p)\\]\nSo, once we provide a hypothesized value for p, then the variance can be computed!\nThe fourth parameter is again the difference we would consider meaningful. We can use our data to get an estimate for the proportion of points won on grass for a first serve.\nWe first get the percentage for player one. The “filter” function allows us to select only first serve data (“serve_no ==1”) when player one is serving (“server == 1”). We then obtain the table with percentages of which player won the point.\n\np1serve1 &lt;- tennis |&gt; filter(serve_no == 1 & server == 1)\nPercTable(p1serve1$point_victor)\n\n               \n    freq   perc\n               \n1  1'728  76.6%\n2    529  23.4%\n\n\nSince player 1 is the server in this reduced data set, we see that the server wins 76.6% of the points.\nWe can repeat this for player two (below) and find a similar percentage of 74.3%.\n\np2serve1 &lt;- tennis |&gt; filter(serve_no == 1 & server == 2)\nPercTable(p2serve1$point_victor)\n\n               \n    freq   perc\n               \n1    616  25.7%\n2  1'784  74.3%\n\n\nWe select a reasonable percentage then for Wimbledon (grass) of 75%. The question is what would be a noteworthy difference in winning percentage on clay.\nWe can again consider effect size, and R package “pwr” provides a function “ES.h” that computes an effect size based on two proportions known as Cohen’s H (Cohen, 1988). The rules of thumb for this value are the same as for Cohen’s D, so we can again use the “interpret_cohens_d” function once we obtain a value.\nLet’s see what the effect size is if the percentage won on clay is only 50%:\n\nprop_effect &lt;- ES.h(0.75, 0.5)\nprop_effect\n\n[1] 0.5235988\n\ninterpret_cohens_d(prop_effect)\n\n[1] \"medium\"\n(Rules: cohen1988)\n\n\nThe result is a “medium” effect, but practically that seems like an unlikely change. Even though clay might reduce the serve advantage, it still probably exists. Let’s consider reducing the advantage to 65%:\n\nprop_effect &lt;- ES.h(0.75, 0.65)\nprop_effect\n\n[1] 0.2189061\n\ninterpret_cohens_d(prop_effect)\n\n[1] \"small\"\n(Rules: cohen1988)\n\n\nThis is a small effect size, but practically certainly meaningful so we will use this in our calculations:\n\nDifference in proportions: 0.1 (from 0.75 to 0.65)",
+    "crumbs": [
+      "Home",
+      "Tennis",
+      "Tennis Sample Size"
+    ]
+  },
+  {
+    "objectID": "tennis/tennis_sampsize/index.html#computing-the-sample-size-1",
+    "href": "tennis/tennis_sampsize/index.html#computing-the-sample-size-1",
+    "title": "Tennis Sample Size",
+    "section": "Computing the Sample Size",
+    "text": "Computing the Sample Size\nThe command for proportions is “power.prop.test”. For difference in proportions, we actually input the two proportions rather than the delta. As we will see in the exercises, this matters as the estimate of the variance is based on the hypothesized proportion. The rest of the options are similar to those for the two sample t-test.\n\npower.prop.test(n = NULL, \n                p1 = 0.75, \n                p2 = 0.65, \n                sig.level = 0.05, \n                power = 0.8,\n                alternative = \"one.sided\")\n\n\n     Two-sample comparison of proportions power calculation \n\n              n = 258.619\n             p1 = 0.75\n             p2 = 0.65\n      sig.level = 0.05\n          power = 0.8\n    alternative = one.sided\n\nNOTE: n is number in *each* group\n\n\nThe value returned is n = 258.619 per group so we will need n = 259 points per court surface to conduct this second study.\n\n\n\n\n\n\nExercise 8\n\n\n\nAs mentioned in the example, the hypothesized proportion impacts the estimate of the variance. We explore this impact in this exercise.\n\nModify the sample size calculation so that the effect is still 0.1 but based on 70% for p1 and 60% for p2. What is the resulting sample size? How does this compare to the sample size in the example using 75% and 60%?\nThe variance estimate is related to the value \\(p \\times (1-p)\\). What is this value if p = 0.75? What is the value when p = 0.7? Which variance is larger?\nBased on the results from part b, and from your exploration of the role of variability in sample size calculations for the two sample t-test, explain the change in sample size in part a.\n\n\n\n\n\n\n\n\n\nExercise 9\n\n\n\nFormulate an additional question that involves two sample means using variables available in the data set and compute sample size in similar fashion to example 1.\n\n\n\n\n\n\n\n\nExercise 10\n\n\n\nFormulate an additional question that involves two sample proportions using variables available in the data set and compute sample size in similar fashion to example 2.",
+    "crumbs": [
+      "Home",
+      "Tennis",
+      "Tennis Sample Size"
+    ]
   }
 ]
