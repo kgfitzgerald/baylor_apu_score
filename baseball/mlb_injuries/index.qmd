@@ -1,0 +1,777 @@
+---
+title: "MLB Injuries - Introductory Time Series Analysis"
+author:
+  - name: Jonathan Lieb
+    email: jonathan_lieb1@baylor.edu
+    affiliation:
+      - id: bay
+        name: Baylor University
+date: August 6, 2024
+format:
+  html:
+    grid:
+      margin-width: 350px
+toc: true
+toc-location: left
+description: Exploring MLB injury data through time series analysis and forecasting.
+categories:
+  - Time series plots
+  - Time series decomposition
+  - Residual analysis
+  - Simple forecasting
+editor_options:
+  chunk_output_type: console
+callout-icon: false
+---
+
+::: {.callout-note collapse="true" title="Facilitation notes" appearance="minimal"}
+-   This module would be suitable for an in-class lab or take-home assignment in an intermediate statistics course.
+
+-   It assumes a familiarity with the RStudio Environment and R programming language.
+
+-   Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd.
+
+    -   <a href="mlb_injuries_monthly.csv" download>Monthly Injury Data</a>
+    -   <a href="tj_surgeries_mlb_milb.csv" download>Tommy John Surgeries Data</a>
+    -   [Student Quarto template](student_template.qmd)
+
+-   [Posit Cloud](https://posit.cloud/) (via an Instructor account) or [Github classroom](https://classroom.github.com) are good options for disseminating files to students, but simply uploading files to your university's course management system works, too.
+
+-   The data for the `mlb_injuries_monthly.csv` file was derived from data found on [prosportstransactions.com](https://www.prosportstransactions.com/baseball/Search/SearchResults.php?Player=&Team=&BeginDate=2000-01-01&EndDate=2023-12-31&DLChkBx=yes&submit=Search) 
+
+-   The data for the `tj_surgeries_mlb_milb.csv` file was derived from data accumulated by [@MLBPlayerAnalys](https://docs.google.com/spreadsheets/d/1gQujXQQGOVNaiuwSN680Hq-FDVsCwvN-3AazykOBON0/edit?gid=0#gid=0) over many years
+:::
+
+# Welcome video
+
+<iframe width="560" height="315" src title="placeholder">
+
+</iframe>
+
+# Introduction
+
+In this module, you will explore Major League Baseball (MLB) injury data through time series analysis and forecasting. The dataset contains monthly injury counts from 2000 to 2023. You will learn how to create time series plots, decompose time series data, and forecast future injury counts.
+
+::: column-margin
+Coming off of COVID-19 breaks, the MLB saw a rash of injuries in the shortened 2020 season and the 2021 season.
+
+In the image below Washington Nationals star shortstop Trea Turner attempts to shake off a hit-by-pitch injury in the 9th inning of a game against the Atlanta Braves April 26th, 2021.
+![](Trea_Turner_hbp.png)
+
+Image source: <a href="https://commons.wikimedia.org/wiki/File:Trea_Turner_hit_by_pitch_in_9th_inning_from_Nationals_vs._Braves_at_Nationals_Park,_April_6th,_2021_(All-Pro_Reels_Photography)_(51101815218).png">All-Pro Reels from District of Columbia, USA</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0">CC BY-SA 2.0</a>, via Wikimedia Commons
+:::
+
+Injuries significantly impact a team's performance and can be costly to the organization. Despite the rise of analytics and specialized training for players, MLB injuries feel as though they are happening more and more frequently. Are injuries on the rise in the MLB? Are there certain months where injuries are more prevalent? Are future amounts of injuries predictable? Let's dig into the data and find out!
+
+::: {.callout-note title="Learning Objectives" appearance="minimal"}
+By the end of this module you should be able to:
+
+-   Create time series plots in R
+
+-   Identify trends, seasonality, cycles, and outliers in time series data
+
+-   Check for autocorrelation in time series data
+
+-   Decompose time series data into trend, seasonal, and residual components
+
+-   Interpret residual plots to assess model fit
+
+-   Split time series data into training and test sets to evaluate forecasting models
+
+-   Use basic forecasting techniques to predict future injury counts
+
+-   Assess the accuracy of forecasts
+:::
+
+::: column-margin
+\
+\
+\
+\
+
+**NOTE**: Time series analysis is a powerful tool for understanding trends and patterns in data. It is used in many fields, including finance, economics, and epidemiology. In this module, we will focus on time series analysis in the context of MLB injuries. 
+:::
+
+::: {.callout-caution collapse="true" title="Research Question"}
+During this lab we will explore the following research questions:
+
+-   What are the trends in MLB injuries over time?
+-   Are there seasonal patterns in MLB injuries?
+-   Can we forecast future injury counts?
+:::
+
+# Getting started: MLB Injury data
+
+We will begin our time series analysis by loading the MLB injury data. The dataset contains monthly injury counts from 2000 to 2023.
+
+Run the following code chunk to load the necessary libraries and the MLB injury data. In this code chunk the data is also converted to a tsibble object, which is a time series object that includes a time index and one or more columns of data. This makes it easier to work with time series data in R.
+
+```{r, warning=FALSE, message=FALSE}
+library(fpp3)
+library(tidyverse)
+library(patchwork)
+
+injuries <- read_csv("mlb_injuries_monthly.csv") |> 
+  mutate(Month = yearmonth(Month)) |> 
+  as_tsibble(index = Month)
+```
+
+
+::: column-margin
+**TIP**: As you follow along in the lab, you should run each corresponding code chunk in your .qmd document. 
+:::
+
+::: column-margin
+**TIP**: You will most likely need to install the `fpp3` package to complete this lab. You can install it by running the following code chunk:
+```{r, eval = FALSE}
+install.packages("fpp3")
+```
+
+:::
+
+By using the glimpse function as shown below, we can see structure of the `injuries` data. The `Month` column contains the date of each observation, and the `Count` column contains the number of players sent to the injured list each month.
+
+```{r}
+glimpse(injuries)
+```
+
+<details>
+
+<summary><b>Variable Descriptions</b></summary>
+
+| Variable          | Description                                        |
+|-------------------|----------------------------------------------------|
+| `Month`            | The month and year                |
+| `Count`             | The number of players sent to the IL that month            |
+
+</details>
+
+::: {.callout-important}
+#### Terms to Know
+
+Before proceeding with the time series analysis, let's make sure we understand some baseball tidbits that will help us save our analysis.
+
+**What is the Injured List (IL)?**
+The injured list (IL) is a list of players who are unable to play due to injury. When a player is placed on the IL, they are not eligible to play in games for a specified period, usually 10, 15, or 60 days. The IL is used to manage player injuries and ensure that teams have enough healthy players to compete. Players on the IL do not count against the team's active roster limit. 
+
+::: column-margin
+Click [here](https://www.mlb.com/glossary/injuries/10-day-injured-list) to learn more about the 10-day Injured List in Major League Baseball. Other types of ILs can also be found on the site.
+:::
+
+For this lab, we will only be analyzing the number of players sent to the IL each month to understand trends and patterns in MLB injuries over time. We will not be looking at types of injuries, the severity of injuries, or the impact of injuries on team performance. 
+
+**When is the MLB season?**
+The MLB season typically runs from late March to September, with the playoffs taking place in October. The regular season consists of 162 games for each team, with games played almost every day. The season is divided into two halves, with the All-Star Game (teams get almost a full week off for the All-Star break) taking place in July. Spring training takes place in February and March. 
+
+:::
+
+# Visualizing Time Series Data
+
+The first step in any time series analysis is to visualize the data. This helps us understand the underlying patterns and trends in the data. There are four major things that we are looking for when we check our time series visualizations:
+
+1. **Trend**: A long-term increase or decrease in the data.
+
+2. **Seasonality**: Repeating patterns based on a specific time period.
+
+3. **Cyclicity**: Repeating patterns that are not based on a specific time period.
+
+4. **Outliers**: Unusual data points that do not fit the normal pattern.
+
+We will create a time series plot of the monthly injury counts to see how the number of injuries has changed over time. 
+
+::: column-margin
+**TIP**: The `autoplot()` function is a convenient way to create time series plots in R. It automatically selects an appropriate plot type based on the data provided.
+:::
+
+```{r}
+autoplot(injuries, Count) +
+  labs(title = "Monthly MLB Injury Counts",
+       x = "Year",
+       y = "Number of Injuries")
+```
+
+::: {.callout-note title="Exercise 1: Interpreting a Time Series Plot"}
+
+a. What is the general **trend** in MLB injuries over time? Are injuries increasing, decreasing, or staying relatively constant?
+
+b. Is there a point in time where the **trend** appears to change? If so, when and how does it change? 
+
+c. Does there appear to be any **seasonality** in the data? If so which months have the highest injury counts and which months have the lowest injury counts?
+
+d. Are there obvious non-seasonal **cycles** in the data? If so, what might explain them?
+
+e. Are there any obvious **outliers** in the data (Are there obvious breaks or deviations from the normal trends and patterns)? If so, when do they occur and what might explain them?
+
+:::
+
+# Autocorrelation
+
+**Autocorrelation** is a measure of the **linear relationship** between lagged values of a time series. It can be used to help determine if there is trend or seasonality, as well as what time the seasonality is occurring at. If the autocorrelation is high for a particular lag, it suggests that the value at that lag is directly related to the value at the current time point. If a value is significantly negative, it suggests that the value at that lag is inversely related to the value at the current time point. 
+
+::: column-margin
+**TIP**: Lag is the number of time periods that separate the current observation from the previous observation. For example, a lag of 1 means that the current observation is compared to the previous observation, a lag of 2 means that the current observation is compared to the observation two time periods ago, and so on.
+:::
+
+For example if there are high autocorrelations at lags 1, 2, and 3, it suggests that there is a **trend** in the data, since the value at time t is related to the values at times t-1, t-2, and t-3.
+
+If the autocorrelation is high at multiples of a particular lag, such as lag 12, 24, 36, ..., it could suggest that the data has a monthly **seasonal** pattern. If the data was based on daily observations, a high autocorrelation at lag 7 would suggest a **weekly** pattern.
+
+If the autocorrelation is not significant at most of the lags, with none of the autocorrelations greatly exceeding the significance bounds, it suggests that the data is **white noise**. For a **white noise** series, we would expect the autocorrelations to be close to zero for all lags and the variation to be random.
+
+::: column-margin
+**NOTE**: When performing hypothesis tests we set an alpha level, which is the probability of rejecting the null hypothesis when it is true. The default alpha level is 0.05, which means we have a 5% chance of rejecting the null hypothesis when it is true. When we do multiple tests, such as in an autocorrelation plot, the probability of making at least one Type I error (false positive) increases and can be written as $1 - (1 - \alpha)^n$, where $n$ is the number of tests. If you conduct 20 tests, the probability of making at least one Type I error is $1 - (1 - 0.05)^{20} = 0.64$. This helps us understand that a significant result in one of the lags may be due to chance, and the time series may still be white noise.
+:::
+ 
+We can look at an autocorrelation plot using the `ACF()` function.
+
+```{r}
+injuries |> 
+  ACF(Count) |> 
+  autoplot() +
+  labs(title = "Autocorrelation of Monthly MLB Injury Counts",
+       x = "Lag",
+       y = "Autocorrelation")
+```
+
+::: {.callout-note title="Exercise 2: Autocorrelation Plots"}
+
+a. Does the autocorrelation plot suggest any **trends** in the data? What point(s) in the plot suggest this?
+
+b. Does the autocorrelation plot suggest any **seasonal** patterns in the data? What point(s) in the plot suggest this?
+
+c. Does the autocorrelation plot suggest that the data is **white noise**? Why or why not?
+
+:::
+
+# Decomposition
+
+Oftentimes when performing a time series analysis we want to **decompose** the data into its **trend**, **seasonal**, and **random** components to see each part individually. 
+
+**Additive Decomposition** is a decomposition into these three components where the observed data is the sum of the trend, seasonal, and random components.
+
+$$y_t = T_t + S_t + R_t$$
+
+::: column-margin
+Speaking of breaking things down, when looking at injured players by team it can be found that since 2000 the Dodgers have had the most players sent to the injured list with 625. On the opposite end of the spectrum the White Sox have had the fewest players sent to the injured list with 371. 
+
+
+Joe Crede of the Chicago White Sox is hit by a pitch during a game in 2006. The White Sox have had the fewest injuries since 2000.
+
+![](Joe_Crede.jpg)
+
+Image Source: <a href="https://commons.wikimedia.org/wiki/File:Hit_by_pitch_joe_crede.JPG">User SecondPrint Productions (Original version)  User Mattingly23 (Crop)</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>, via Wikimedia Commons
+
+:::
+
+
+Where:
+
+-   $y_t$ is the observed data at time $t$
+-   $T_t$ is the trend component at time $t$
+-   $S_t$ is the seasonal component at time $t$
+-   $R_t$ is the random component at time $t$
+
+This method is useful when the seasonal variation around the trend-cycle doesn't change as the level of the series changes.
+
+However, if the seasonal variation increases as the level of the series increases, then **multiplicative decomposition** is more appropriate. In this case, the observed data is the product of the trend, seasonal, and random components.
+
+$$y_t = T_t \times S_t \times R_t$$
+
+## Classical Decomposition
+
+There are two common methods for decomposing time series data: **classical decomposition** and **STL decomposition**. In this module we will focus on classical decomposition.
+
+**Classical decomposition** (additive) has four main steps:
+
+1. Computing a trend-cycle component ($T_t$) using a moving average. A moving average is a technique for smoothing time series data by averaging the values of neighboring points. This helps to remove short-term fluctuations and highlight longer-term trends.
+
+2. Computing a series without the trend-cycle component ($y_t - T_t$).
+
+3. Estimating the seasonal component ($S_t$) by averaging the values from the detrended series for the season. 
+
+4. Computing the remainder component ($R_t$) by subtracting the trend-cycle and seasonal components from the original series. $R_t = y_t - T_t - S_t$
+
+We can use the `classical_decomposition` function inside of the `model()` function to decompose our time series data.
+
+```{r, warning=FALSE, message=FALSE}
+injuries |> 
+  model(classical_decomposition(Count)) |>
+  components() |>
+  autoplot() +
+  labs(title = "Classical Additive Decomposition of Monthly MLB Injury Counts")
+```
+
+Classical multiplicative decomposition works similarly to the additive decomposition, but with a few key differences.
+
+-   The detrended series is computed as $y_t / T_t$ instead of $y_t - T_t$.
+
+-   The seasonal component is estimated as $S_t = y_t / T_t$ instead of $y_t - T_t$. 
+
+-   The remainder component is computed as $R_t = y_t / (T_t \times S_t)$ instead of $y_t - T_t - S_t$.
+
+::: column-margin
+**NOTE**: Ideally, after doing a decomposition, the remainder component should be **white noise**. 
+:::
+
+Classical multiplicative decomposition can be used by setting the `type` argument to `"multiplicative"` in the `classical_decomposition()` function.
+
+## STL Decomposition
+
+Seasonal and Trend decomposition using Loess (STL) is a more advanced method for decomposing time series data. It is more flexible than classical decomposition and can handle any type of seasonality, not just monthly or quarterly. It also allows the user to control the length of the smoothing window for the trend-cycle. Lastly, it is more robust to outliers so that they do not affect the trend and seasonal estimates as much.
+
+Below is an example of how to use the `STL()` function to decompose the time series data.
+
+```{r}
+injuries |> 
+  model(STL(Count ~ trend(window = 21)+ 
+            season(window = "periodic"),
+            robust = TRUE)) |>
+  components() |>
+  autoplot() +
+  labs(title = "STL Additive Decomposition of Monthly MLB Injury Counts")
+```
+
+::: column-margin
+
+**TIP**: The `window` argument in the `trend()` function controls the length of the smoothing window for the trend-cycle. The larger the window, the smoother the trend. This value should always be an odd number. `trend(window = 21)` is a common choice for monthly data.
+
+**TIP**: The `window` argument in the `season()` function controls how many years the seasonal component should be estimated over. The default value is 11. When the seasonal window is set to periodic `season(window = "periodic")`, it is the equivalent setting the window to all of the data. When `periodic` is used, the seasonal component is assumed to be the same each year. The seasonal window argument should always be an odd number or "periodic".
+
+:::
+
+::: {.callout-note title="Exercise 3: Changing Decomposition Types"}
+
+::: column-margin
+**NOTE**: You can actually forecast with decomposition as well. If you'd like to learn more about this click [here](https://otexts.com/fpp3/forecasting-decomposition.html)
+:::
+
+a. Create a classical **multiplicative** decomposition of the monthly MLB injury counts. How do the components differ from the additive decomposition? Which decomposition method's remainder component looks more like **white noise** (classical additive or classical multiplicative)?
+
+b. Create an STL decomposition of the monthly MLB injury counts with a shorter length for the trend smoothing window. How does the decomposition change with a shorter trend smoothing window? Particularly, how does the trend component change?
+
+:::
+
+# Basic Forecasting Methods
+
+Now that we've explored the data and decomposed it into its components to better understand the patterns in the data, we'll move on to forecasting. There are many methods for forecasting time series data, but we'll focus on some basic methods in this section. 
+
+## The Mean Method
+
+An extremely simple method for forecasting is the **mean method**. This method forecasts the next observation as the average of all the observations in the training data. This method will produce a flat forecast that is equal to the mean of the training data. The mean method is useful when the data doesn't have a trend or seasonality.
+
+## The Naive Method
+
+The **naive method** is another simple forecasting method. It forecasts the next observation as the value of the last observation in the training data. This method will produce a flat forecast that is equal to the last observation in the training data. The naive method is useful when the data appears to be random.
+
+## Seasonal Naive Method
+
+The **seasonal naive method** is similar to the naive method, but it forecasts the next observation as the value from the same season in the previous year. This method will produce a repeating pattern of forecasts that are equal to the observations from the same season in the previous year. (Basically forever repeating the last year's pattern). The seasonal naive method is useful when the data has a strong seasonal pattern but no trend.
+
+## Drift Method
+
+The drift method is a simple forecasting method that assumes a linear trend in the data. It forecasts the next observation as the value of the last observation plus the average change between observations. This method will produce a forecast that will continue on a linear trend from the first observation and through the last observation in the training data. The drift method is useful when the data has a linear trend but no seasonality.
+
+::: {.callout-note title="Exercise 4: Basic Forecasting Methods"}
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# create fake data for time series plots that would be best mean method, naive method, seasonal naive method, and drift method
+set.seed(123)
+mean_data <- tibble(
+  date = seq.Date(from = as.Date("2021-01-01"), by = "month", length.out = 36),
+  value = 25 + rnorm(mean = 15, sd = 5, n = 36)
+)
+p1 <- ggplot(mean_data, aes(x = date, y = value)) +
+  geom_line() +
+  labs(title = "Time Series 2")
+
+snaive_data <- tibble(
+  date = seq.Date(from = as.Date("2021-01-01"), by = "month", length.out = 36),
+  value = rep(c(25, 30, 35, 27), 9) + rnorm(mean = 0, sd = 1, n = 36)
+)
+p2 <- ggplot(snaive_data, aes(x = date, y = value)) +
+  geom_line() +
+  labs(title = "Time Series 1")
+
+drift_data <- tibble(
+  date = seq.Date(from = as.Date("2021-01-01"), by = "month", length.out = 36),
+  value = seq(25, 60, length.out = 36) + rnorm(mean = 0, sd = 1, n = 36)
+)
+p3 <- ggplot(drift_data, aes(x = date, y = value)) +
+  geom_line() +
+  labs(title = "Time Series 3")
+p2 / p1 / p3
+```
+
+a. Which of the above time series plots would be best forecasted using the mean method?
+
+b. Which of the above time series plots would be best forecasted using the seasonal naive method?
+
+c. Which of the above time series plots would be best forecasted using the drift method?
+
+Use the following plots of the monthly MLB injury counts and forecasts to answer the following questions.
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+p1 <- injuries |> 
+  model(MEAN(Count)) |> 
+  forecast(h = 12) |> 
+  autoplot(injuries) +
+  labs(title = "Mean Method")+
+  theme(legend.position = "none")
+p2 <- injuries |> 
+  model(NAIVE(Count)) |> 
+  forecast(h = 12) |>
+  autoplot(injuries) +
+  labs(title = "Naive Method")+
+  theme(legend.position = "none")
+p3 <- injuries |>
+  model(SNAIVE(Count ~ lag('year'))) |> 
+  forecast(h = 12) |>
+  autoplot(injuries)+
+  labs(title = "Seasonal Naive Method")+
+  theme(legend.position = "none")
+p4 <- injuries |>
+  model(RW(Count ~ drift())) |> 
+  forecast(h = 12) |>
+  autoplot(injuries)+
+  labs(title = "Drift Method")+
+  theme(legend.position = "none")
+((p1 + p2) / (p3 + p4 + theme(legend.position = "bottom"))) + plot_annotation(title = "Basic Forecasting Methods for Monthly MLB Injury Counts")
+```
+
+d. After looking at the forecasts from the mean, naive, seasonal naive, and drift methods for the MLB injury data, which method appears to be the best forecast?
+
+e. Which ones appear to be the worst forecasts?
+
+f. What is one major issue seen in all of the forecasts in regards to their prediction intervals?
+
+:::
+
+# Evaluating Forecasting Models
+
+## Residuals
+
+Checking the residuals of a model is one of the most effective ways to see how well the model is performing. Residuals are the differences between the observed values and the values predicted by the model. $e_t = y_t - \hat{y}_t$
+
+::: column-margin
+It is important to note that when we are talking about residuals in this module that we are referring to the innovation residuals. Most of the time innovation residuals are the same as regular residuals, such as with our seasonal naive model. Innovation residuals are the residuals that are left over after accounting for changes made to the data such as transformations or differencing. These residuals are the ones that are used to check the model assumptions and to evaluate the model's performance.
+:::
+
+There are 3 main things to look at when evaluating residuals:
+
+- Do the residuals appear to be **white noise**? Remember that white noise has a mean of 0, constant variance, and shows no obvious patterns. This can be checked by looking at a time plot of the residuals.
+
+- Are the residuals **normally distributed**? This can be checked by looking at a histogram of the residuals or by using a normal probability plot.
+
+- Are the residuals **uncorrelated**? This can be checked by looking at the ACF plot of the residuals. There are also statistical tests that can be used to check for autocorrelation in the residuals such as the Ljung-Box test. We can use the `Box.test()` function in **R** to perform this test.
+
+::: column-margin
+The formula for the test statistic for a Ljung-Box test is:
+
+$$Q^{*} = T(T+2) \sum_{k=1}^{l} \frac{r^2_k}{T-k}$$
+
+where:
+
+- $T$ is the number of observations
+- $l$ is the max number of lags
+- $r_k$ is the sample autocorrelation at lag $k$
+
+The null hypothesis for the Ljung-Box test is that the data is not distinguishable from white noise. If the p-value is less than the significance level, we reject the null hypothesis and conclude that the data is autocorrelated.
+:::
+
+Thankfully there is a very easy way to check all of these at once in **R** using the `gg_tsresiduals()` function.
+
+::: {.callout-note title="Exercise 5: Residuals Analysis"}
+Below is code that will create a time plot, histogram, and ACF plot of the residuals from the seasonal naive method.
+
+```{r, message=FALSE, warning=FALSE}
+snaive_mod <- injuries |>
+  model(SNAIVE(Count ~ lag('year')))
+  
+snaive_mod |> 
+  gg_tsresiduals()
+```
+
+a. Do the residuals appear to be white noise?
+
+b. What stands out about the time plot of the residuals?
+
+c. Does the histogram of the residuals appear to be normally distributed?
+
+d. Are the residuals uncorrelated? What lag(s) show the most significant autocorrelation and what could this mean for the model? 
+
+:::
+
+
+## Testing and Training for Point Estimate Evaluations
+If you want to evaluate the point estimates of a model, you can use a testing and training split. This involves training the model on the first part of the data and then testing the model on the second part of the data. This allows you to see how well the model can forecast future observations. 
+
+For this example, we will split the data into a training set that contains the first 75% of the data and a testing set that contains the last 25% of the data. This means we will train the models on the data from January 2000 to December 2017 and test the models on the data from January 2018 to December 2023.
+
+::: column-margin
+**TIP**: 75-25 is a common split for training and testing data, but you can use any split that makes sense for your data. Generally the more data you have, the less percentage you need for testing. Other common splits are 70-30 or 80-20.
+:::
+
+```{r}
+training <- injuries |> filter(year(Month) < 2018)
+testing <- injuries |> filter(year(Month) >= 2018)
+```
+
+Now that we have our training and testing data, we can fit the models to the training data and then forecast the testing data.
+
+```{r}
+injury_fit <- training |> 
+  model(mean = MEAN(Count),
+        naive = NAIVE(Count),
+        snaive = SNAIVE(Count ~ lag('year')),
+        drift = RW(Count ~ drift()))
+
+injury_forecasts <- injury_fit |> 
+  forecast(new_data = testing)
+
+```
+
+::: column-margin
+**TIP**: You can fit multiple models at once by using the `model()` function as seen in the code to the left. The values to the left of the `=` are the names we are giving to the models and the values to the right of the `=` are the models we are fitting to the data.
+
+**TIP**: When using the `forecast()` function, you can specify the new data you want to forecast by using the `new_data` argument. In this case, we are forecasting for the testing data.
+:::
+
+Let's visualize the forecasts from the training data and compare them to the testing data.
+
+```{r}
+injury_forecasts |>
+  autoplot(injuries, level = NULL) +
+  labs(title = "Forecasting Methods for Monthly MLB Injury Counts")+
+  guides(color = guide_legend(title = "Forecast"))
+```
+
+The seasonal naive method certainly appears to be the best forecast. 
+
+We can also evaluate these models using the `accuracy()` function.
+This function calculates a variety of accuracy measures for the forecasts, including the mean absolute error, root mean squared error, mean absolute percentage error, and more.
+
+<br>
+
+The **mean absolute error (MAE)** is the average of the absolute errors between the forecasts and the actual values. It is a measure of the average magnitude of the errors in the forecasts. We want this value to be as close to 0 as possible.
+
+::: column-margin
+The formula for the mean absolute error is:
+$$\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} | y_i - \hat{y}_i |$$
+where $y_i$ is the actual value and $\hat{y}_i$ is the forecasted value.
+:::
+
+<br>
+
+The **root mean squared error (RMSE)** is the square root of the average of the squared errors between the forecasts and the actual values. It is a measure of the standard deviation of the errors in the forecasts. We want this value to be as close to 0 as possible.
+
+::: column-margin
+The formula for the root mean squared error is:
+$$\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}$$
+Where $y_i$ is the actual value and $\hat{y}_i$ is the forecasted value.
+:::
+
+<br>
+
+The **mean absolute percentage error (MAPE)** is the average of the absolute percentage errors between the forecasts and the actual values. It is a measure of the accuracy of the forecasts. We want this value to be as close to 0 as possible.
+
+::: column-margin
+The formula for the mean absolute percentage error is:
+$$\text{MAPE} = \frac{100}{n} \sum_{i=1}^{n} \left| \frac{y_i - \hat{y}_i}{y_i} \right|$$
+where $y_i$ is the actual value and $\hat{y}_i$ is the forecasted value.
+:::
+
+<br>
+
+The code below displays the accuracy measures for the forecasts.
+
+```{r}
+accuracy(injury_forecasts, testing)
+```
+
+This confirms that the seasonal naive method is the best forecast, as it has the lowest MAE and RMSE values. The MAPE is shown at -Inf to Inf because some of the actual values are 0, which causes the percentage error to be infinite.
+
+# Forecasting
+
+Since the seasonal naive method appears to be the best for forecasting based on our training and testing data, we will use this method to forecast the future number of Tommy John surgeries in MLB players.
+
+```{r, warning=FALSE, message=FALSE}
+final_fit <- injuries |> 
+  model(SNAIVE(Count ~ lag('year')))
+```
+
+This model is then used to forecast for the next 3 years.
+
+```{r, warning=FALSE, message=FALSE}
+final_forecasts <- final_fit |> 
+  forecast(h = 36)
+```
+
+::: column-margin
+**TIP**: The `forecast()` function can be used to forecast for a specific number of periods into the future by using the `h` argument. In this case, we are forecasting for 36 months (3 years). This could also be written as `forecast(h = "3 years")`.
+:::
+
+The code below visualizes the forecasted values. 
+
+```{r, warning=FALSE, message=FALSE}
+final_forecasts |>
+  autoplot(injuries) +
+  labs(title = "Forecasting MLB Injuries")+
+  guides(color = guide_legend(title = "Forecast"))
+```
+
+::: {.callout-note title="Exercise 6: Forecasting MLB Injuries"}
+
+a. Based on the prediction intervals, are we more precise about the forecasted number of injuries projected in 2024 or 2026? What is the general trend seen in the prediction intervals?
+
+b. What is the forecasted number of players placed on the IL in July 2024. 
+
+::: {.callout-caution title="Hint" collapse="true"}
+Use this code to extract the forecasted values for July 2024:
+```{r, warning=FALSE, message=FALSE, eval = FALSE}
+final_forecasts |> filter(Month == yearmonth("2024-07"))
+```
+:::
+
+c. What is the 95% prediction interval for the forecasted number of players placed on the IL in July 2024?
+
+::: {.callout-caution title="Hint" collapse="true"}
+The `hilo` function can be used to extract the upper and lower bounds of the prediction interval. 
+```{r, warning=FALSE, message=FALSE, eval = FALSE}
+final_forecasts |> filter(Month == yearmonth("2024-07")) |> hilo()
+```
+:::
+
+d. If you were told that 112 players were placed on the IL in July 2024, would that be surprising? Would you consider your forecast made 7 months earlier to be successful?
+:::
+
+# More Practice
+
+We have covered a lot of ground in this module. To practice what you have learned, try the exercises below on your own. Each of these exercises will use data regarding the number of Tommy John surgeries performed by year on MLB and MiLB players. The data can be downloaded below:
+
+::: column-margin
+The image below shows that ulnar collateral ligament in the elbow of a pitcher. This ligament is often injured due to the extreme torque placed on the elbow during the pitching motion as it whips the arm forward. 
+![Ulnar Collateral Ligament](Ulnar_Collateral_Ligament.png)
+
+Image Source: <a href="https://commons.wikimedia.org/wiki/File:Anatomy_of_the_ulnar_collateral_ligament_in_the_pitcher%27s_elbow.png">R.J. Molenaars</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons
+:::
+
++ [Tommy John Surgeries Data](tj_surgeries_mlb_milb.csv)
+
+
+::: {.callout-caution collapse="true" title="What is Tommy John Surgery?"}
+Tommy John surgery is a procedure in which a damaged ulnar collateral ligament in the elbow is replaced with a tendon from elsewhere in the body, usually the forearm. The surgery is named after the first baseball player to undergo the procedure, Tommy John, in 1974. The surgery is common among baseball pitchers and other athletes who put a lot of stress on their elbows. As Tommy John surgery has become more successful, the number of surgeries performed has increased, with some players even having the surgery multiple times.
+
+:::
+
+::: {.callout-note title="Challenge 1: Visualizing the Data"}
+a. Load the Tommy John data into R and create a time series plot of the number of Tommy John surgeries performed by year.
+
+```{r, warning=FALSE, message=FALSE}
+tj_surgeries <- read_csv("tj_surgeries_mlb_milb.csv") |> 
+  as_tsibble(index = year)
+```
+
+```{r, eval=FALSE, echo=FALSE}
+tj_surgeries |> autoplot()
+```
+
+b. Does the data exhibit trend?
+
+c. Does the data exhibit seasonality?
+
+d. Does the data exhibit non-seasonal trend cycles?
+
+e. Look at the ACF plot for the number of Tommy John surgeries. Does there appear to be any autocorrelation? If so, at what lags?
+
+::: {.callout-note title="Hint" collapse="true"}
+You can pipe the data into the `gg_tsdisplay()` function to create a time series plot and ACF plot at the same time.
+:::
+
+```{r, eval=FALSE, echo=FALSE}
+tj_surgeries |> gg_tsdisplay(count)
+```
+
+f. If there is no seasonality in data is there any reason to do a classical decomposition?
+:::
+
+::: column-margin 
+**Injured Earlier?**
+
+Not only have the number of Tommy John surgeries increased over time for MLB and MiLB players, but high school and college players are also undergoing the surgery at increasing rates. Early career injuries are becoming more common, with some players undergoing the surgery long before they reach the professional level. 
+
+Nathan Eovaldi, pitcher for the 2018 World Series Champion Red Sox and 2023 World Series champions Texas Rangers, underwent Tommy John surgery in 2007 in high school. He was drafted by the Los Angeles Dodgers in 2008 and made his MLB debut in 2011. Eovaldi has since had a successful career, despite undergoing a second Tommy John surgery in 2016.
+
+![Nathan Eovaldi](Nathan_Eovaldi.jpg)
+
+Image Source: <a href="https://commons.wikimedia.org/wiki/File:Nathan_Eovaldi_on_May_25,_2015.jpg">Arturo Pardavila III on Flickr (Original version)  UCinternational (Crop)</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>, via Wikimedia Commons)
+:::
+
+::: {.callout-note title="Challenge 2: Simple Forecasting Methods"}
+Use the following data to split the Tommy John surgeries data into training and testing sets. The training set will contain data from 1974 to 2011, and the testing set will contain data from 2012 to 2023. 
+
+```{r}
+training <- tj_surgeries |> filter(year <= 2011)
+testing <- tj_surgeries |> filter(year > 2011)
+```
+
+a. Fit a mean, naive, and drift model to the training data. 
+
+```{r, eval=FALSE, warning=FALSE, message=FALSE, echo=FALSE}
+tj_models <- training |> model(mean = MEAN(count), 
+                                   naive = NAIVE(count), 
+                                   drift = RW(count ~ drift()))
+```
+
+b. Plot the forecasts for the mean, naive, and drift models for the testing data along with the actual testing data. Which appears to be the best forecast? Did the models overestimate, underestimate, or accurately predict the number of Tommy John surgeries?
+
+::: {.callout-note title="Hint" collapse="true"}
+Pipe your models into `forecast(new_data = testing)` and then pipe that into `autoplot(testing)`. Set `level = NULL` in the `autoplot()` function to remove the prediction intervals from the plot.
+:::
+
+```{r, eval=FALSE, echo=FALSE}
+tj_models |> forecast(new_data = testing) |> 
+  autoplot(testing, level = NULL)
+```
+
+c. Check the accuracy of the models on the testing data. Which model has the lowest MAE, RMSE, and MAPE values?
+
+::: {.callout-note title="Hint" collapse="true"}
+Pipe your models into `forecast(new_data = testing)` and then pipe that into `accuracy(testing)` to get the accuracy measures.
+:::
+
+```{r, eval=FALSE, echo=FALSE}
+tj_models |> forecast(new_data = testing) |> 
+  accuracy(testing)
+```
+
+
+d. Fit the best type of model to the entire Tommy John dataset and forecast the number of Tommy John surgeries for the next 3 years. Plot the forecast along with the actual data. Does this forecast seem reasonable?
+
+```{r, echo=FALSE, eval=FALSE}
+tj_surgeries |> 
+  model(drift = RW(count ~ drift())) |>
+  forecast(h = 3) |>
+  autoplot(tj_surgeries)
+```
+
+e. What are the forecasted values for the number of Tommy John surgeries in 2024? 2025? 2026?
+
+```{r, eval=FALSE, echo=FALSE}
+tj_surgeries |> 
+  model(drift = RW(count ~ drift())) |>
+  forecast(h = 3) |> 
+  filter(year >= 2024) |> 
+  hilo()
+```
+
+f. What is the 95% prediction interval for the number of Tommy John surgeries in 2024? 2025? 2026?
+
+:::
+
+# Conclusion
+
+In this module you have learned how to visualize time series data. You have also learned how the number of injuries in the MLB have changed over time. We have looked at how the injuries in the MLB change based on the month of the season, seeing higher rates shortly after the season starts and at the end of the season. Major outliers in the number of injuries were noted during and directly after the COVID-19 pandemic. Lastly, you looked at different forecasting methods - mean, drift, naive, and seasonal naive- to forecast the number of injuries in the MLB. Performance metrics and residual plots were used to determine the best model. A seasonal naive model was the best of the simple models we looked at, since it was able to capture the seasonality in the monthly data.
+
+Additionally, you have learned about increases in Tommy John surgeries among baseball players and have now performed a simple time series analysis all by yourself. 
+
+# References
+-   Hyndman, R.J., & Athanasopoulos, G. (2021). *Forecasting: Principles and Practice (3rd ed.)*. OTexts: Melbourne, Australia. [Online](https://otexts.com/fpp3/)

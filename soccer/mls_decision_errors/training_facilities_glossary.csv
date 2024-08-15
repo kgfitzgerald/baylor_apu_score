@@ -1,0 +1,5 @@
+﻿Variable,Description
+team,MLS Soccer Club
+opened,Year that training facility (as of 2023) was opened
+points_per_match_2023,Team's points per match played in the 2023 season
+new,"Measure of whether a team was using a ""new"" or ""old"" training facility. Facilities opened with 10 years of 2023 (2014-2023) are deemed new. Value is ""TRUE"" if the facility is new and ""FALSE"" if the facility is old."

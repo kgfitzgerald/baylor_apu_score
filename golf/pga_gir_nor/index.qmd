@@ -1,0 +1,639 @@
+---
+title: "PGA - Scheffler Greens in Regulation (No R)"
+author:
+  - name: Jonathan Lieb
+    email: jonathan_lieb1@baylor.edu
+    affiliation:
+      - id: bay
+        name: Baylor University
+date: July 26, 2024
+format:
+  html:
+    grid:
+      margin-width: 350px
+toc: true
+toc-location: left
+description: Exploring Probability Confidence Intervals with Golf Data
+categories:
+  - Sample Proportions
+  - Single Proportion Confidence Intervals
+  - Comparing Two Proportions
+editor_options:
+  chunk_output_type: console
+callout-icon: false
+---
+
+::: {.callout-note collapse="true" title="Facilitation notes" appearance="minimal"}
++ This module would be suitable for an in-class lab or take-home assignment in an introductory statistics course. 
+
++ The data used for this lab and an answer template can be downloaded below.
+  
+  + [Scottie Scheffler Data](scheffler_2023.csv)
+  + [All PGA Data](pga_girs.csv)
+  + [Student Quarto template](student_template.qmd)
+
++ The data for the lab is derived from the [PGA TOUR's Website](https://www.pgatour.com/stats). The `scheffler_2023.csv` data is merely a subset of the `pga_girs.csv` data.
+
+:::
+
+# Welcome video
+
+<iframe width="560" height="315" src title="placeholder">
+
+</iframe>
+
+# Introduction
+
+In this module, you will be exploring the concept of confidence intervals for proportions through the lens of golf. Specifically, you will be analyzing the 2023 greens in regulation data for Scottie Scheffler. Scottie Scheffler was the number 1 ranked golfer in the world and the PGA Tour Player of the Year in 2023.
+
+::: column-margin
+
+![Scottie Scheffler](Scottie_Scheffler.png)
+
+Image Source: <a href="https://commons.wikimedia.org/wiki/File:Scottie_Scheffler_2023_02.png">Titleist</a>, <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>, via Wikimedia Commons
+
+:::
+
+::: {.callout-note title="Learning Objectives" appearance="minimal"}
+By the end of this module, you will be able to:
+
+-   Calculate a sample proportion
+
+-   Make confidence intervals for a proportion
+
+-   Perform a hypothesis test for a proportion
+
+-   Perform a hypothesis test to compare proportions
+:::
+
+
+::: {.callout-caution collapse="true" title="Research Questions"}
+
+During this lab, you'll investigate the following research questions:
+
++ What is the sample probability that Scottie Scheffler hits the green in regulation from different lies?
++ What is the confidence interval for the true probability that Scottie Scheffler hits the green in regulation from different lies?
++ Is there a significant difference in the probability that Scottie Scheffler hits the green in regulation from different lies?
+
+:::
+
+# Getting started: Scottie Scheffler Greens data
+
+The data shown below is what will be used for a majority of the lab. The data contains information about the number of greens hit in regulation by Scottie Scheffler in 2023 from different lies.
+
+::: column-margin
+All data for the lab is from the [PGA TOUR's Website](https://www.pgatour.com/stats.html)
+:::
+
+```{r, warning = FALSE, message = FALSE, echo = FALSE}
+library(tidyverse) 
+library(kableExtra)
+scheffler_2023 <- read_csv("scheffler_2023.csv")
+kable(scheffler_2023)
+```
+
+You can view brief desciptions of the variables in the data by clicking the button below.
+
+::: {.callout-note collapse="true" title="Variable Descriptions" appearance="minimal"}
+
+| Variable | Description |
+|----|----------------------------|
+| `player` | PGA Tour player |
+| `year` | PGA Tour Season |
+| `greens` | Greens in Regulation Hit |
+| `holes` | Number of Holes |
+| `cut` | The type of ground that the approach shot to the green was hit from |
+
+:::
+
+## Terms to know
+
+Before proceeding with the analysis, let's make sure we know some golf terminology that will help us putt-putt our way through this lab.
+
+::: column-margin
+Are greens in regulation important to scoring? Check out the table below to see how greens in regulation and lower handicaps go hand and hand 
+
+|Handicap | GIR %|
+|--- | ---|
+|0| 64%| 
+|0-5| 47%|
+|5-10| 36%|
+|10-15| 27%|
+|15-20| 20%|
+|20-25| 12%|
+|25-30| 10%|
+|30+| 6%|
+
+Data Source: [The Range by The Grint](https://thegrint.com/range/2013/03/golf-tips-gir/)
+:::
+
+::: column-margin
+A Par 3 hole should take 1 shot to reach the green in regulation
+![](tanglewood_hole5.jpg)
+
+A Par 4 hole should take 2 shots to reach the green in regulation
+![](tanglewood_hole1.jpg)
+
+A Par 5 hole should take 3 shots to reach the green in regulation
+![](tanglewood_hole2.jpg)
+Images source: [Tanglewood Golf Course](https://www.tanglewoodfulton.com/golf-course/hole-by-hole-layout), Public Domain
+:::
+
+#### Lie Terminology
+-   The **fairway** is the short grass between the tee box and the green, where the ball is supposed to be hit on a par 4 or par 5 hole
+-   A **bunker** is a hazard filled with sand
+    -   A **fairway bunker** is a bunker located in or next to the fairway
+
+::: {.callout-important}
+
+#### Pars and Greens in Regulation
+-   A **par** in golf is the number of strokes a good golfer is expected to take on a hole or course
+-   A **green in regulation** (GIR) is when a golfer reaches the green in the expected number of strokes (or fewer) on a par 3, 4, or 5 hole
+
+     -  For example, on a **par 4** hole, a golfer would be expected to reach the green in 2 strokes (a drive and an approach shot) and then putt out in 2 more strokes for a total of 4 strokes. If a golfer reaches the green in 2 strokes, they have hit the green in regulation.
+     - On a **par 3** hole, a golfer would be expected to reach the green in 1 stroke
+     - On a **par 5** hole, a golfer would be expected to reach the green in 3 strokes.
+
+
+:::
+
+# Sample Proportions
+
+In statistics, a sample proportion (denoted $\hat{p}$) is an estimate of the true proportion of a population. The sample proportion is calculated by dividing the number of successes by the total number of observations in the sample. 
+
+The formula for the sample proportion is:
+$$\hat{p} = \frac{x}{n}$$
+
+where $x$ is the number of successes and $n$ is the total number of observations in the sample.
+
+::: {.callout-note  title="Exercise 1: Sample Proportions"}
+
+Using the data below calculate the sample proportion of greens hit in regulation by Scottie Scheffler from different lies.
+
+```{r, echo = FALSE}
+kable(scheffler_2023)
+```
+
+
+a. From what `cut` did Scottie Scheffler have the best Green in Regulation rate?
+
+b. From what `cut` did Scottie Scheffler have the worst Green in Regulation rate?
+
+:::
+
+
+# Confidence Intervals for Proportions
+
+A confidence interval for a proportion is a range of values that is likely to contain the true value of the population proportion with a certain level of confidence. Confidence intervals for proportions can be used for a variety of purposes, including:
+
+1. Quantifying the precision of our estimates. The wider the confidence interval, the less precise our estimate is, the narrower the confidence interval, the more precise our estimate is.
+
+2. Making inferences about the population proportion. For example, if a 90% confidence interval was used, it could be said that if the same population was sampled on numerous occasions and interval estimates were made on each occasion, approximately 90% of the intervals would contain the population parameter.
+
+3. Testing hypothesized values of the population proportion. If the hypothesized value is not within the confidence interval, then we have reason to believe that it is not the true population proportion.
+
+4. Comparing two proportions. If the confidence intervals for two sample proportions do not overlap, then we have reason to believe that the two true population proportions are different.
+
+## Making Confidence Intervals
+
+The statistical notation for a confidence interval for a proportion is:
+
+$$
+\hat{p} \pm z \times \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+$$
+
+Where: 
+
+- $\hat{p}$ is the sample proportion.
+- $z$ is the z-score that corresponds to the desired level of confidence
+- $n$ is the sample size
+
+::: column-margin
+**TIP**: The z-score for a 95% confidence interval is approximately 1.96. You can use this value to calculate the confidence interval for the proportion of greens hit in regulation by Scottie Scheffler from the fairway.
+:::
+
+::: column-margin
+Some common Confidence Intervals (two-sided) and their corresponding z-scores are:
+
+| Confidence Interval | Z-Score |
+|----|----------------------------|
+| 90 % | 1.65 |
+| 95 % | 1.96 |
+| 98 % | 2.33 |
+| 99 % | 2.58 |
+
+:::
+
+For a quick example if the proportion of success for a problem is .6, the sample size is 100, and the test is being performed at the 95% confidence level, then the confidence interval for the proportion of success can be calculated as follows:
+
+$$
+\begin{align*}
+CI &= \hat{p} \pm z \times \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} \\
+CI &= .6 \pm 1.96 \times \sqrt{\frac{.6(1-.6)}{100}} \\
+CI &= (.50398, .696102) 
+\end{align*}
+$$
+
+We are 95% confident that the true proportion of success is between .50398 and .696102.
+
+
+::: {.callout-note title="Exercise 2: Probability Confidence Intervals"}
+
+Use the numbers from the data below to calculate a **95% confidence interval** for the proportion of greens hit in regulation by Scottie Scheffler from the fairway. 
+
+```{r, echo = FALSE}
+kable(scheffler_2023 |> filter(cut == "Fairway"))
+```
+
+
+a. What is value of $\hat{p}$ for the fairway cut?
+
+b. What is the value of $n$ for the fairway cut?
+
+c. What is the estimated value of the **upper limit** of the confidence interval from the fairway cut?
+
+d. What is the estimated value of the **lower limit** of the confidence interval from the fairway cut?
+
+:::
+
+
+::: {.callout-note title="Exercise 3: Probability Confidence Intervals- Part 2"}
+
+Calculate a **95% confidence interval** for the proportion of greens hit in regulation by Scottie Scheffler from the **bunker**.
+
+```{r, echo = FALSE}
+kable(scheffler_2023 |> filter(cut == "Bunker"))
+```
+
+
+a. What is the value of the **lower limit** of the confidence interval from the bunker cut?
+
+b. What is the value of the **upper limit** of the confidence interval from the bunker cut?
+
+c. Is the range of the confidence interval from the **bunker** cut wider or narrower than the range of the confidence interval from the **fairway** cut?
+
+d. Explain your answer to part **c**.
+
+:::
+
+# Single Proportion Hypothesis Testing
+
+#### Setting Up Hypotheses
+
+In hypothesis testing for proportions, a null hypothesis is set up to test a claim about a population proportion. The null hypothesis is that the population proportion is equal to a specific value. The alternative hypothesis can be that the population proportion is not equal to the specific value, greater than the specific value, or less than the specific value. 
+
+The options are shown below: 
+
+::: column-margin
+
+**NOTE**: It is common practice to denote a null hypothesis with $H_0$ and an alternative hypothesis with $H_A$. Sometime the alternative hypothesis is denoted with $H_1$.
+
+:::
+
+$H_0: p = p_0$
+
+and 
+
+$H_A: p \neq p_0$ or  
+$H_A: p > p_0$ or  
+$H_A: p < p_0$ 
+
+Where $p_0$ is the hypothesized value of the population proportion and $p$ is the true population proportion.
+
+#### Significance Level
+
+For hypothesis testing, a **significance level** is set to determine the probability of rejecting the null hypothesis when it is true. The significance level is denoted by $\alpha$ and is often set to 0.05. This means that there is a 5% chance of rejecting the null hypothesis when it is actually true. Other common **significance levels** are 0.01 and 0.10.
+
+#### Calculating the Test Statistic
+
+A **test statistic** is a value calculated from the sample data that is used to determine whether the null hypothesis should be rejected or not.
+
+::: column-margin
+**NOTE**: The standard normal distribution is used to determine the critical value and test statistic for hypothesis testing for proportions. The standard normal distribution is a normal distribution with a mean of 0 and a standard deviation of 1. The distribution is symmetric about the mean and has a bell-shaped curve. The standard normal distribution is often called the z-distribution.
+:::
+
+The **test statistic** for hypothesis testing for proportions is **z**,
+and the formula for it is as follows:
+
+$$z = \frac{\hat{p} - p_0}{\sqrt{\frac{p_0(1 - p_0)}{n}}}$$
+
+Where $\hat{p}$ is the sample proportion, $p_0$ is the hypothesized value of the population proportion, and $n$ is the sample size. 
+
+#### Determining the Significance of the Test
+
+There are two common ways to determine the significance of the test:
+
+1. Compare the test statistic to the critical value
+
+2. Compare the p-value to the significance level
+
+The first method compares the **test statistic** to the **critical value**. The critical value is the value that separates the rejection region from the non-rejection region. If the test statistic is in the rejection region, the null hypothesis is rejected. This also corresponds to the confidence intervals given for the true probability of success. If the hypothesized value of the population proportion is within the confidence interval, the null hypothesis is not rejected. If it is outside the confidence interval, the null hypothesis is rejected.
+
+The **p-value** is the most common way to determine the significance of the test. The **p-value** is the probability of observing a test statistic as extreme as the one calculated from the sample data, assuming the null hypothesis is true. If the **p-value** is less than the significance level, the null hypothesis is rejected. 
+
+::: column-margin
+**TIP**: Tables of z-scores and p-values like the one below can be used to determine the significance of the test. These tables show the area under the normal curve to the left of a given z-score.
+
+![](z-table.png)
+
+:::
+
+#### Hypothesis Testing Example
+
+Below is an example of hypothesis testing for proportions. First, we will set up the hypotheses:
+
+$$H_0: p = 0.7$$
+$$H_A: p \neq 0.7$$
+The significance level is set to 0.05.
+
+Our sample data has 60 successes out of 100 trials. The sample proportion is $\hat{p} = 0.6$.
+
+The test statistic is calculated as follows:
+
+$$
+\begin{align*}
+z &= \frac{0.6 - 0.7}{\sqrt{\frac{0.7(1 - 0.7)}{100}}} \\
+z &= \frac{-0.1}{\sqrt{\frac{0.21}{100}}} \\ 
+z &= \frac{-0.1}{0.045826} \\
+z &= -2.183215
+\end{align*}
+$$
+
+Since alpha was set to 0.05, the critical value is $\pm 1.96$. Since the test statistic is less than -1.96, the null hypothesis is rejected.
+
+If we wanted to find the p-value, we would look up the z-score in a z-table. The area under the normal curve to the left of -2.183215 is 0.0146. Since this is a two-tailed test, the p-value is 0.0146 * 2 = 0.0292. Since the p-value is less than 0.05, the null hypothesis is rejected.
+
+There is enough evidence to support the alternative hypothesis that the population proportion is not equal to 0.7.
+
+#### Drawing Conclusions
+
+If the null hypothesis is rejected we can conclude that the sample data provides enough evidence to support the alternative hypothesis. If the null hypothesis was that the population proportion is equal to .7 and the alternative hypothesis was that the population proportion is not equal to .7 and $\alpha = 0.5$, then we might say, 
+
+*"There is significant evidence to suggest that the true population proportion is not equal to .7 at the 95% confidence level."*
+
+If the null hypothesis is not rejected we do not automatically accept the null hypothesis. We simply do not have enough evidence to reject it. For example, if the null hypothesis was that the population proportion is equal to .7 and the alternative hypothesis was that the population proportion is not equal to .7 and $\alpha = .05$, then we might say,
+
+*There is not enough evidence to suggest that the true population proportion is different from .7 at the 95% confidence level."*
+
+#### Testing a Hypothesized Proportion
+
+Suppose you are watching a golf tournament on TV and Scottie Scheffler is about to hit an approach shot from the fairway. You hear the announcer say that Scottie Scheffler hits 3/4 of his greens in regulation from the fairway. You are skeptical of this claim and decide to test it against the data you have collected at the 95% confidence level.
+
+You set up a hypothesis test with the following hypotheses:
+
+- **Null Hypothesis $H_0$**: The proportion of greens hit in regulation by Scottie Scheffler from the fairway is 0.75.
+
+- **Alternative Hypothesis $H_A$**: The proportion of greens hit in regulation by Scottie Scheffler from the fairway is not 0.75.
+
+::: {.callout-note title="Exercise 4: Single Proportion Hypothesis Testing"}
+
+Use the formula for a one sample z-test for a proportion to perform a hypothesis test for the proportion of greens hit in regulation by Scottie Scheffler from the fairway.
+
+a. What is the value of the **test statistic**?
+
+b. What are the **critical values** for the test?
+
+c. What is the **p-value** of the test?
+
+b. Do you reject or fail to reject the **null hypothesis**?
+
+c. What is your **conclusion**?
+
+:::
+
+# Two Sample z-test for Proportions
+
+Sometimes, comparing two sample proportions is necessary to determine if they are significantly different. This can be done with a two sample z-test for equality of proportions.
+
+The null hypothesis for a two sample z-test for equality of proportions is that the two proportions are equal.
+
+$H_0: p_1 = p_2$
+
+The alternative hypothesis can be that the two proportions are not equal, that the first proportion is greater than the second proportion, or that the first proportion is less than the second proportion. The options for the alternative hypothesis are shown below:
+
+$H_A: p_1 \neq p_2$  
+$H_A: p_1 > p_2$  
+$H_A: p_1 < p_2$
+
+The test-statistic for the two sample z-test for equality of proportions is calculated as:
+
+$$Z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\hat{p}(1-\hat{p})\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}$$
+
+where
+
+$\hat{p}_1$ and $\hat{p}_2$ are the sample proportions for the two samples,
+
+$\hat{p}$ is the pooled proportion,
+
+$n_1$ and $n_2$ are the sample sizes for the two samples.
+
+The pooled proportion is calculated as:
+
+$$\hat{p} = \frac{x_1 + x_2}{n_1 + n_2}$$
+
+#### Comparing Two Proportions Example
+
+Suppose you collect two samples of greens hit in regulation by two different golfers. Golfer A hits 10 out of 100 greens in regulation, while Golfer B hits 20 out of 100 greens in regulation. You want to test if the two golfers have significantly different greens hit in regulation at the 95% confidence level.
+
+The hypotheses for the test are:
+$$H_0: p_1 = p_2$$
+$$H_A: p_1 \neq p_2$$
+
+The test statistic is calculated as follows:
+
+$$
+\begin{align*}
+z &= \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\hat{p}(1-\hat{p})\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}} \\ 
+z &= \frac{0.1 - 0.2}{\sqrt{0.15(1 - 0.15)\left(\frac{1}{100} + \frac{1}{100}\right)}} \\
+z &= \frac{-0.1}{\sqrt{0.15(0.85)\left(0.02\right)}} \\
+z &= \frac{-0.1}{\sqrt{0.00255}} \\
+z &= \frac{-0.1}{0.05050} \\
+z &= -1.98030
+\end{align*}
+$$
+
+Since alpha was set to 0.05, the critical value is $\pm 1.96$. Since the test statistic is less than -1.96 (just barely), the null hypothesis is rejected. There is enough evidence to support the alternative hypothesis that the two golfers have significantly different greens hit in regulation proportions.
+
+::: {.callout-note title="Exercise 6: Comparing Two Proportions"}
+
+Of the cuts in golf, the **fairway** is generally considered to be the most desirable place to hit the ball. Shorter grass is widely believed to make it easier to hit the green in regulation. 
+
+The **bunker**, on the other hand, is often considered to be one of the most difficult places to hit the ball from. The sand can make it difficult to control the ball and hit it accurately. Additionally, no practice swings are allowed to hit the sand in the **bunker** making it more difficult to get a feel for the shot.
+
+::: column-margin
+
+Learn about rules about hitting out of the bunkers in golf in the video below:
+
+{{< video https://www.youtube.com/embed/T9_gXqAE6ZY >}}
+
+:::
+
+In the data there is also a cut called **"Other"**. This includes shots from the rough, waste areas, mulch and more. These are also often expected to be tougher than the fairway but slightly easier to hit out of than bunkers, but not always. Our summarization of the probabilities from different cuts earlier confirmed a slightly higher probability of hitting the green in regulation from the **"Other"** cut compared to the bunker cut.
+
+Use the formula for comparing two proportions to compare the proportion of greens hit in regulation by Scottie Scheffler from the **fairway** and the **bunker**. Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway is **greater** than the proportion of greens hit in regulation from the bunker. Use the **95% confidence level**.
+
+:::column-margin
+
+**TIP**: When the alternative hypothesis is that the proportion from the first sample is greater than the proportion from the second sample, the test is a **one-tailed test**, meaning all of the error is in one tail of the distribution. This also means that the critical value of a one-tailed test at the 95% confidence level is the same as a two-tailed test at the 90% confidence level.
+
+:::
+
+a. What is the value of the **test statistic**?
+
+b. What is the **critical value** for the test?
+
+c. Is the **test statistic** in the **rejection region**?
+
+d. What is the **p-value** of the test?
+
+e. Is **0** included in the confidence interval for the difference in proportions?
+
+f. Based on your answers above, what is your **conclusion** about the  two proportions?
+
+Repeat the process from above to compare the proportion of greens hit in regulation by Scottie Scheffler from the **Other** cut and the **Bunker**. Make the alternative hypothesis that the proportion of greens hit in regulation from the **Other** cut is **greater** than the proportion of greens hit in regulation from the **Bunker**. Use the **95% confidence level**.
+
+g. What is the value of the **test statistic**?
+
+h. What is the **p-value** of the test?
+
+i. Is **0** included in the confidence interval for the difference in proportions?
+
+j. Based on your answers above, what is your **conclusion** about the two proportions?
+
+k. If you were giving advice to Scottie Scheffler on a par 4 hole with rough on the left and a bunker on the right and he asked which would be better to hit out of, what would you tell him?
+
+:::
+
+# More Practice
+
+::: {.callout-note title="Challenge Problems"}
+
+Scottie Scheffler is not the only great golfer on the PGA Tour. In this part of the module we will be using data for greens hit in regulation by all PGA professionals from 2019-2023. The data for this section can be downloaded [here](pga_girs.csv).
+
+::: column-margin
+
+Rory McIlroy is one of the most popular and best golfers on the PGA Tour. He has won multiple major championships. He is known for his long drives and his picturesque swing.
+
+![Rory McIlroy](Rory_McIlroy.jpg)
+
+Image Source: <a href="https://commons.wikimedia.org/wiki/File:Rory_McIlroy_finishes_long_iron_stroke.jpg">TourProGolfClubs</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>, via Wikimedia Commons
+
+:::
+
+::: {.callout-note title="Challenge 1: Two Player Comparison"}
+
+:::column-margin
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+pga_girs <- read.csv("pga_girs.csv")
+mcilroy_2023 <- filter(pga_girs, player == "Rory McIlroy", year == 2023)
+```
+
+:::
+
+
+1. Use the data below to compare Scottie Scheffler's approach shots in 2023 to Rory McIlroy's approach shots in 2023. 
+
+```{r, echo=FALSE}
+kable(bind_rows(scheffler_2023, mcilroy_2023))
+```
+
+
+a. Use the formula to compare the proportion of greens hit in regulation by Scottie Scheffler from the **fairway** to the proportion of greens hit in regulation by Rory McIlroy from the **fairway**. Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway by Scottie Scheffler is greater than the proportion of greens hit in regulation from the fairway by Rory McIlroy. Use the **95% confidence level**. 
+    
+b. How big is the **difference** in the sample proportion of greens hit in regulation from the fairway between Scottie Scheffler and Rory McIlroy (round to the nearest hundreth)?
+    
+c. Is there enough evidence to conclude that the proportion of greens hit in regulation from the fairway by Scottie Scheffler is greater than the proportion of greens hit in regulation from the fairway by Rory McIlroy? Explain.
+
+d. Compare the proportion of greens hit in regulation by Scottie Scheffler from the **bunker** to the proportion of greens hit in regulation by Rory McIlroy from the **bunker**. Make the alternative hypothesis that the proportion of greens hit in regulation from the bunker by Scottie Scheffler is greater than the proportion of greens hit in regulation from the bunker by Rory McIlroy. Use the **95% confidence level**. 
+    
+e. How big is the **difference** in the sample proportion of greens hit in regulation from the bunker between Scottie Scheffler and Rory McIlroy (round to the nearest hundreth)?
+    
+f. What is your **conclusion** about Scheffler's and McIlroy's approaches from the bunker?
+    
+g. Explain why it might be more difficult to find a significant difference in the proportion of greens hit in regulation from the bunker compared to the fairway, even if the difference in the sample proportions from the bunker is larger than the difference from the fairway.
+    
+
+:::
+
+::: {.callout-note title="Challenge 2: Past Comparisons"}
+
+2. Scottie Scheffler skyrocketed up the world golf rankings from 2019-2023. His world golf ranking went from 66 to 31 to 12 to 2 and finally to number 1 (at the end of each season respectively). Take a look at whether Scottie Scheffler's greens in regulation from different cuts improved during his climb to the top. This can be seen below.
+
+::: column-margin
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+Below is a graph of Scottie Scheffler's rapid climb up the world golf rankings from the end of 2019 to the end of 2023.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+tibble(
+  year = c(2019, 2020, 2021, 2022, 2023),
+  rank = c(66, 31, 12, 2, 1)
+) |> 
+  ggplot(aes(x = year, y = rank)) +
+  geom_line(type = "dashed", color = "purple") +
+  theme_dark()+
+  labs(title = "Scottie Scheffler's World Golf Rankings",
+       x = "Year",
+       y = "OWGR")+
+  scale_y_reverse()
+```
+
+:::
+
+```{r, echo=FALSE}
+scheffler <- filter(pga_girs, player == "Scottie Scheffler")
+kable(scheffler)
+```
+
+    
+a. Calculate Scheffler's GIR from the fairway each season. Which season is it the highest?
+    
+b. Which season is it the lowest?
+    
+c. Use the formula to compare the proportion of greens hit in regulation by Scottie Scheffler from the **fairway** in 2020 to the proportion of greens hit in regulation by Scottie Scheffler from the **fairway** in 2021. Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2020 is less than the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2021. Use the **95% confidence level**.
+    
+d. Use the formula to compare the proportion of greens hit in regulation by Scottie Scheffler from the **Other** cut in 2021 to the proportion of greens hit in regulation by Scottie Scheffler from the **Other** cut in 2022. Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2021 is less than the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2022. Use the **95% confidence level**. 
+    
+:::
+    
+:::column-margin
+
+```{r, echo=FALSE}
+top_bunker_players <- pga_girs |> 
+  filter(cut == "Bunker", holes < 25, year == 2023) |> 
+  mutate(gir = greens / holes) |>
+  arrange(desc(gir)) |> 
+  slice(c(1, n()))
+```
+
+:::
+
+::: {.callout-note title="Challenge 3: Changing Conditions"}
+
+3. Below is data on the best and worst bunker players in 2023 who took less than 25 approach shots from the bunker.
+
+```{r, echo=FALSE}
+kable(top_bunker_players)
+```
+
+
+a. Test the hypothesis that the proportion of greens hit in regulation from the bunker by the best bunker player is greater than the proportion of greens hit in regulation from the bunker by the worst bunker player. Use the **90% confidence level**.
+    
+b. Test the hypothesis that the proportion of greens hit in regulation from the fairway by the best bunker player is greater than the proportion of greens hit in regulation from the fairway by the worst bunker player. Use the **99% confidence level**. 
+    
+c. Do you get differing results when you change the confidence level? If yes, explain why.
+
+d. If we took the best and worst bunker players in 2023 who took more than 25 approach shots from the bunker, would we be more likely to reject or fail to reject the null hypothesis? Explain.
+:::
+
+
+:::
+
+# Conclusion
+
+# Conclusion
+
+In this module you have learned how to calculate a sample proportion, form confidence intervals, conduct hypothesis tests, and compare proportions. You also learned how to interpret the results of these intervals and tests correctly. The effects of sample size and confidence level were also looked at in this module.
+
+With the golf data we determined that Scottie Scheffler is better at hitting greens in regulation from the fairway than not in the fairway. We also saw that at times the difference in the sample proportions of greens hit in regulation between golfers or cuts was not significant enough to reject the claim that they are equal. When performing multiple tests at different significance levels, we sometimes got different results, proving the importance of choosing a significance level before conducting a test.

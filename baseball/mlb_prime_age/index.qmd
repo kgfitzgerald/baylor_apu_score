@@ -1,0 +1,394 @@
+---
+title: "What's the prime age of an MLB player?"
+author:
+  - name: Jazmine Gurrola
+    affiliation:
+      - id: apu
+        name: Azusa Pacific University
+  - name: Joseph Hsieh
+    affiliation:
+      - ref: apu
+  - name: Dat Tran
+    affiliation:
+      - ref: apu
+  - name: Katie Fitzgerald
+    email: kfitzgerald@apu.edu
+    affiliation:
+      - ref: apu
+date: July 26, 2024
+format:
+  html:
+    grid:
+      margin-width: 350px
+toc: true
+toc-location: left
+description: Exploring the prime age of MLB players
+categories:
+  - Data wrangling
+  - Dplyr basics
+  - Tidyverse
+editor_options:
+  chunk_output_type: console
+callout-icon: false
+---
+
+::: {.callout-note collapse="true" title="Facilitation notes" appearance="minimal"}
++ This module would be suitable for an in-class lab or take-home assignment in an introductory data science course that uses R. 
+
++ It assumes a basic familiarity with the RStudio Environment and basic introduction to the `tidyverse` has already been covered, but tips on tidyverse code are provided throughout. 
+
++ Students should be provided with the following data files (.rds) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd. 
+
+  + [batter data](batter_stats.rds)
+  + [pitcher data](pitcher_stats.rds)
+  + [Student Quarto template](student_template.qmd)
+
++ [Posit Cloud](https://posit.cloud/) (via an Instructor account) or [Github classroom](https://classroom.github.com) are good options for disseminating files to students, but simply uploading files to your university's course management system works, too.
+:::
+
+# Introduction
+
+In this module you will be analyzing data on Major League Baseball (MLB) players from the 2014 - 2023 seasons. The goal of this module is to practice your data wrangling skills while investigating the question "at what age do professional baseball players typically reach their prime?"
+
+::: {.callout-note title="Learning Objectives" appearance="minimal"}
+By the end of this module, you will be able to:
+
++ Wrangle your data into a form that allows you to answer a research question of interest
++ Use `dplyr` verbs to accomplish data wrangling tasks such as:
+    + creating a new variable (`mutate()`), 
+    + `filter()`ing the data to keep or exclude rows that meet a criteria
+    + computing a statistic for each level of a categorical variable using `group_by()`
+    + quickly viewing the data with `slice()` or `glimpse()`
+    + keeping only unique observations using `distinct()`
+    + sorting the data using `arrange()`
++ Develop and implement a code strategy to accomplish a necessary wrangling task
++ Use visualization to investigate a research question
+:::
+
+# Getting started
+
+We'll get started by loading necessary packages and datasets. 
+
+```{r, message= FALSE, warning = FALSE}
+library(tidyverse)
+
+batter_stats <- read_csv("batter_stats.csv")
+pitcher_stats <- read_csv("pitcher_stats.csv")
+```
+
+## Data
+
+This data was curated via the [`baseballr` package](https://billpetti.github.io/baseballr/articles/baseballr.html), which has built in functions for acquiring a plethora of baseball data. In particular, data for this module was pulled in May 2024 using the `fg_batter_leaders()` and `fg_pitcher_leaders()` functions, which provide over 300 variables of statistics on batters and pitchers beginning with the 1974 season. This analysis engages with only a small subset of available variables and seasons, but we encourage baseball enthusiasts and aspiring analysts to check out all the package has to offer. 
+
+<details>
+<summary><b>Variable Descriptions (all players) </b></summary>
+
+| Variable | Description |
+|----|----------------------------|
+| `x_mlbamid` | unique MLB player id |
+| `season` | season the row of data comes from |
+| `team_name` | three-character MLB team abbreviation |
+| `player_name` | first and last name of MLB player |
+| `age` | age of MLB during the corresponding season |
+| `war` | Wins Above Replacement - an estimation of the amount of wins the player would bring to the team, above a regular replacement level player. It measures the value of a player and how much better they are than an "average" one. |
+| `g` | number of games the player played during the corresponding season |
+
+<details>
+<summary><b>Variable Descriptions (batters only) </b></summary>
+
+| Variable | Description |
+|----|----------------------------|
+| `bats` | whether player bats right-handed or left-handed  |
+| `ab` | number of at bats the player had during the corresponding season |
+| `pa` | number of plate appearances the player had during the corresponding season |
+| `h` | number of hits the player had during the corresponding season |
+| `x1b` | number of singles the player hit during the corresponding season |
+| `x2b` | number of doubles the player hit during the corresponding season |
+| `x3b` | number of triples the player hit during the corresponding season |
+| `hr` | number of home runs the player hit during the corresponding season |
+| `r` | number of runs the player had during the corresponding season |
+| `rbi` | number of runs batted in the player had during the corresponding season |
+
+<details>
+<summary><b>Variable Descriptions (pitchers only) </b></summary>
+
+| Variable | Description |
+|----|----------------------------|
+| `throws` | number of runs batted in the player had during the corresponding season |
+| `ip` | number of innings the player pitched during the corresponding season |
+| `era` | Earned Run Average: average number of earned runs given up by a pitcher per nine innings pitched during the corresponding season |
+| `whip` | Walks plus Hits per Inning Pitched. A measure of the number of base-runners a pitcher has allowed per inning pitched during the corresponding season. |
+| `pitches` | total number of pitches thrown by the pitcher during the corresponding season. |
+| `balls` | total number of pitches thrown by the pitcher that were called as balls during the corresponding season. |
+| `strikes` | total number of pitches thrown by the pitcher that were called as strikes during the corresponding season. |
+
+# Prime Age:
+
+::: {.callout-caution title="Research question"}
+At what age do professional baseball players tend to be at their "prime"?
+:::
+
+There are many different aspects of a player's performance that determine how well he is playing. One comprehensive metric is called WAR, which stands for "wins above replacement." The MLB provides the following definition of WAR:
+
+> “WAR measures a player's value in all facets of the game by deciphering how many more wins he's worth than a replacement-level player at his same position (e.g., a Minor League replacement or a readily available fill-in free agent).” [MLB.com](https://www.mlb.com/glossary/advanced-stats/wins-above-replacement)
+
+Therefore, one reasonable way to determine a player's prime age would be to determine the age at which he had his highest WAR.
+
+::: callout-note
+#### What's a good WAR?
+
+An decent WAR is typically around 2, while All-star players typically have a WAR anywhere between 3 and 6, and MVP-level players tend to have a WAR above 6.
+:::
+
+::: callout-note
+#### Batters vs Pitchers 
+WAR is calculated differently for batters and pitchers; they play different roles in the game and therefore they have different stats that capture their performance. We will therefore analyze batters and pitchers separately.
+
+:::
+
+## Batters 
+
+::: {.callout-caution title="Research question"}
+What is the average age a batter in the MLB reaches his prime?
+:::
+
+Let's first note how our data is organized: 
+
+```{r}
+head(batter_stats)
+```
+
+::: column-margin :::
+\
+**CODE TIP**: The function `head()` returns the first 6 rows of a dataset, and the function `tail()` returns the last 6. You can add the argument `n = ` to display a different number of rows. Note these are base R functions and do not require the tidyverse to use. 
+:::
+
+If we `arrange` by `x_mlbaid` we can see that there can be multiple observations per player, where each row represents a different season. 
+
+
+
+```{r}
+batter_stats |> 
+  arrange(x_mlbamid) |> 
+  slice(1:10)
+```
+
+::: column-margin :::
+\ **The pipe**: Recall that `|>` is called the "pipe" function and can be read as "and then." In English, the code on the left can be read as "take the `batter_stats` data and then `arrange` it by `x_mlbamid` and then `slice` the first 10 rows." Mathematically, the pipe accomplishes `f(g(x))` with the (psudeo-)code `x |> g() |> f()`. Read more about the pipe [here](https://r4ds.hadley.nz/data-transform#sec-the-pipe).
+:::
+::: column-margin :::
+**dplyr:** `arrange()` and `slice()` are examples of `dplyr` verbs: `tidyverse` functions that *do* something to / *act* on the data. Other examples include `filter()`, `select()`, `mutate()`, `group_by()`, `summarize()`, `relocate()`, and many more. These verbs are often chained together with the pipe to accomplish multiple data wrangling tasks. Read more about data wrangling with `dplyr` [here](https://r4ds.hadley.nz/data-transform).
+:::
+
+::: callout-note
+### Exercise 1: 
+
+Which seasons are included in this data?
+
+:::
+
+::: column-margin :::
+**TIP:** Try writing your answer as a full sentence in the .qmd using [inline code](https://quarto.org/docs/computations/inline-code.html). For example, if you have the first season saved in an object `first_season`, then including \``r` `first_season`\` outside a code chunk will allow you to auto-populate this value in a sentence. 
+
+:::
+
+::: {.callout-important}
+In order to determine the prime age of each player, we need to look for the year in which his `war` reached its player-specific maximum. We can utilize the `group_by()` function to do this. 
+:::
+
+::: callout-note
+### Exercise 2:
+
+Copy, paste the following code and fill in the blanks to create a new variable `best_war` that contains a player's maximum `war`. 
+
+```{r, eval = FALSE}
+batter_stats <- batter_stats |> 
+  group_by(________) |> 
+  mutate(_______ = _______(_______)) |> 
+  ungroup()
+```
+
+:::
+
+::: column-margin :::
+**CODE TIP**: `group_by()` allows all subsequent actions to be done for *each group* of the grouping variable. Therefore, if we group by player id, we're able to determine the maximum `war` for each player, not simply the maximum `war` for the whole dataset. It's often a good idea to `ungroup()` at the end of a chain of code, otherwise the next time you try to use your data, it will still perform every operation by group.
+:::
+
+Take a quick `glimpse()` of your data to confirm the first few values of `best_war` match those below before proceeding.
+
+```{r, echo = FALSE}
+batter_stats <- batter_stats |> 
+  group_by(x_mlbamid) |> 
+  mutate(best_war = max(war)) |> 
+  ungroup()
+glimpse(batter_stats)
+```
+
+::: column-margin :::
+**CODE TIP**: In real life data science work, you won't usually be provided with the "corect" answer to compare to, so it's often a good idea to do a quick check after any data transformation to make sure your code did what you expected. In this case, you might choose one player to verify that their `best_war` value is in fact equal to their maximum `war` value. You can do a quick `filter` for that player in your console, or use the search feature when `View`ing the full data in spreadsheet view. 
+
+:::
+
+
+::: callout-note
+### Exercise 3:
+
+Create a new dataset called `prime_age` that keeps only the rows where a player's `war` is equal to his `best_war`. 
+
+What are the dimensions of this new dataset?
+
+:::
+
+::: column-margin :::
+\
+*Hint:* what [`dyplr` verb](https://r4ds.hadley.nz/data-transform#rows) do you need to keep rows that meet a criteria? 
+:::
+
+```{r, echo = FALSE}
+prime_age <- batter_stats |> 
+  filter(best_war == war)
+```
+
+Ideally, we want there to be one row per player in our new dataset. However, if we check the number of unique players we have in our original data, we find this does not match the number of rows in `prime_age`. 
+
+::: column-margin :::
+**CODE TIP**: Two options for checking the number of unique levels of a variable are `length(unique(data$variable))` or `data |> distinct(variable) |> nrow()`
+:::
+
+::: callout-note
+### Exercise 4:
+
+Report the number of unique players in the dataset `batter_stats`. 
+
+Inspect the `prime_age` data more closely. What is the maximum number of rows that appear for a player in this dataset? Comment on why this is happening. 
+*Hint: creating a new variable that counts the number of rows per id can help you investigate this.*
+
+:::
+
+::: column-margin :::
+**CODE TIP**: `group_by(grouping_variable)` followed by `mutate(n = n())` will count the number of rows per level of the grouping variable.
+
+:::
+
+::: callout-note
+
+### Exercise 5:
+
+Determine a strategy for reducing `prime_age` down to one row per person (still maintaining all relevant columns). Describe your strategy in words and then write code to accomplish it. Careful - don't just arbitrarily throw away rows! There are multiple ways you might approach this, but you should justify your decision(s) and think through implications for your ultimate analysis goal: estimating prime age. 
+
+:::
+
+```{r, echo = FALSE}
+prime_age <- prime_age |> 
+  group_by(x_mlbamid) |> 
+  mutate(best_war_median = median(best_war)) |>
+  distinct(best_war_median, .keep_all = TRUE) |> 
+  ungroup() |> 
+  select(-best_war,
+          best_war = best_war_median)
+```
+
+Your reduced `prime_age` should look something like this:
+
+```{r, echo = FALSE}
+glimpse(prime_age)
+```
+
+
+::: callout-note
+### Exercise 6:
+
+Produce a visualization that explores the distribution of prime ages, for all players in this data.
+:::
+
+```{r,echo = FALSE, eval = FALSE}
+ggplot(prime_age, aes(x = age)) +
+  geom_histogram(color = "white",
+                 binwidth = 2)
+```
+
+::: callout-note
+### Exercise 7:
+
+Based on the graph, "eyeball" an initial answer to the research question: at what age do professional batters tend to be at their "prime"?
+:::
+
+::: callout-note
+### Exercise 8:
+Calculate the mean and the median prime age for batters in this data.
+:::
+
+::: callout-note
+### Exercise 9:
+Reproduce your graph from above but add 2 lines to the graph representing the mean and median of the distribution.
+:::
+
+::: column-margin :::
+\
+**Tip**: Add a layer called `geom_vline` to your ggplot code. Make sure the colors of the lines are different.
+:::
+
+## Pitchers 
+
+::: {.callout-caution title="Research question"}
+What is the average age an MLB pitcher reaches his prime?
+:::
+
+::: callout-note
+### Exercise 10
+
+Copy, paste, tweak appropriate code from previous exercises to determine the prime age of *pitchers*, using the `pitcher_stats` data. 
+:::
+
+::: column-margin :::
+\
+*Check*: there are `r length(unique(pitcher_stats$x_mlbamid))` unique pitchers in the `pitcher_stats` data, so your final dataset for analysis should have that many rows. 
+:::
+
+```{r, echo = FALSE, eval = FALSE}
+# pitcher_stats <- pitcher_leaders |>        #select(x_mlbamid, season, team_name,               #player_name, age, war)
+pitcher_stats <- pitcher_stats |> 
+  group_by(x_mlbamid) |> 
+  mutate(best_war = max(war)) |> 
+  ungroup()
+
+prime_age_pitcher <- pitcher_stats |> 
+  filter(best_war == war)
+
+prime_age_pitcher <- prime_age_pitcher |> 
+  group_by(x_mlbamid) |> 
+  mutate(best_war_median = median(best_war)) |>
+  distinct(best_war_median, .keep_all = TRUE) |> 
+  ungroup() |> 
+  select(-war, -best_war,
+          best_war = best_war_median)
+
+ggplot(prime_age_pitcher, aes(x = age)) +
+  geom_histogram(color = "white",
+                 binwidth = 2)
+
+mean(prime_age_pitcher$age)
+median(prime_age_pitcher$age)
+```
+
+::: callout-note
+### Exercise 11
+
+Write a paragraph summarizing your findings about the prime age of batters and pitchers from this analysis. Things to consider: 
+
++ Are the prime ages of batters and pitchers similar or different? 
++ Do all players hit their prime at about the same age, or is there a wide range? 
++ Are there limitations to this analysis? 
++ What additional analyses would you want to conduct to investigate prime age more fully? 
++ Is there any additional data you would want to explore further? 
+
+:::
+
+# FOR FUN
+
+You can investigate an individual player's WAR trajectory over time using the app below. If you're curious, you can see the R code that built the Shiny app [here](https://github.com/kgfitzgerald/baylor_apu_score/blob/main/baseball/mlb_prime_age/app.R) and even try making your own! 
+
+```{r, echo = FALSE}
+knitr::include_app("https://kgfitz.shinyapps.io/Baseball_WAR/",
+height = "800px")
+```

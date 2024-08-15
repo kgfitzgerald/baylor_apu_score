@@ -1,0 +1,17 @@
+This repository contains files for a SCORE module for teaching single mean confidence intervals and single mean hypothesis tests using scores from the 2023 Masters Tournament at Augusta National. This module is designed for an introductory statistics course and uses R to teach the concepts. 
+
+This module is best viewed in HTML format. A preprint version of this module can be viewed at https://kgfitzgerald.github.io/baylor_apu_score/golf/pga_masters/. The module can also be viewed locally by opening the R Project pga_masters.RProj, then opening the R Quarto file index.qmd, and then clicking "Render". 
+
+The files in this repository are as follows:
+
+- `pga_masters.RProj`: R Project file for the module
+
+- `index.qmd`: R Quarto file for the module
+
+- `student_template.qmd`: R Quarto file for that can be downloaded to answer questions from the module with code and text. This could be turned in to an instructor if used in a course.
+
+- `masters_2023.csv`: Data file containing scores from the 2023 Masters Tournament at Augusta National. The data was obtained from ESPN's website (https://www.espn.com/golf/leaderboard/_/tournamentId/401465508). The column `tour` was added manually based on the tour that the player was playing on at the time of the tournament.
+
+- `masters_2023_glossary.csv`: Data glossary for the `masters_2023.csv` data file.
+
+- `Augusta_Leaderboard.jpg` and `augusta-national-13.jpg`: Image files used in the `index.qmd` file.

@@ -1,0 +1,93 @@
+---
+title: "What's the prime age of an MLB player?"
+author: "YOUR NAME HERE"
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: tango
+editor: visual
+editor_options:
+  chunk_output_type: console
+---
+
+# Getting started: MLB data
+
+```{r, message = FALSE}
+library(tidyverse)
+
+batter_stats <- read_csv("batter_stats.csv")
+pitcher_stats <- read_csv("pitcher_stats.csv")
+```
+
+```{r}
+head(batter_stats)
+```
+
+## Exercise 1
+
+> YOUR ANSWER HERE
+
+## Exercise 2
+
+```{r}
+
+```
+
+# One numeric variable
+
+## Exercise 3
+
+```{r}
+
+```
+
+> YOUR ANSWER HERE
+
+## Exercise 4
+
+> YOUR ANSWER HERE
+
+## Exercise 5
+
+> YOUR ANSWER HERE
+
+```{r}
+
+```
+
+## Exercise 6
+
+```{r}
+
+```
+
+## Exercise 7
+
+> YOUR ANSWER HERE
+
+## Exercise 8
+
+```{r}
+
+```
+
+## Exercise 9
+
+```{r}
+
+```
+
+## Exercise 10
+
+```{r}
+
+```
+
+## Exercise 11
+
+> YOUR ANSWER HERE
+
+## 

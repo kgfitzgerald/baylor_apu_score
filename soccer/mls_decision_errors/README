@@ -1,0 +1,17 @@
+This repository contains files for a SCORE module for teaching about decision errors using data for about MLS training facilities and their points per match played. This module is designed for an introductory statistics course and does not require knowledge or usage of any programming language.
+
+This module is best viewed in HTML format. A preprint version of this module can be viewed at https://kgfitzgerald.github.io/baylor_apu_score/soccer/mls_decision_errors/. The module can also be viewed locally by opening the R Project mls_decision_errors.RProj, then opening the R Quarto file index.qmd, and then clicking "Render". 
+
+The files in this repository are as follows:
+
+- `mls_decision_errors.RProj`: R Project file for the module
+
+- `index.qmd`: R Quarto file for the module
+
+- `student_template.pdf`: PDF that can be downloaded and printed to answer questions from the module on. This could be turned in to an instructor if used in a course.
+
+- `training_facilities.csv`: Data file for the module containing information about when MLS training facilities were built and the teams points per match played in 2023. The information on the training facilities was obtained from https://www.mlssoccer.com/news/facts-figures-and-images-every-mls-training-facility and individual research on newer facilities. The information on points per match played was obtained from https://fbref.com/en/comps/22/2023/2023-Major-League-Soccer-Stats#all_league_summary. This data was combined into one file for the module.
+
+- `training_facilities_glossary.csv`: Data glossary for the `training_facilities.csv` file.
+
+- `Chase_Stadium.jpg`, `St._Louis_City_SC_logo.png`, and `Starfire_Sports_Complex.jpg`: Image files used in the `index.qmd` file.

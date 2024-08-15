@@ -1,0 +1,22 @@
+This repository contains files for a SCORE module for teaching the Kaplan-Meier estimator and basic survival analysis using American Ninja Warrior data. The module is designed for use in an intermediate statistics course or independent learning and uses R to teach the topics.
+
+This module is best viewed in HTML format. A preprint version of this module can be viewed at https://kgfitzgerald.github.io/baylor_apu_score/anw/kaplan_meier/. The module can also be viewed locally by opening the R Project kaplan_meyer.RProj, then opening the R Quarto file index.qmd, and then clicking "Render". 
+
+The following files are included in this repository:
+
+- `kaplan_meyer.RProj`: R Project file for the module
+
+- `index.qmd`: R Quarto file for the module
+
+- `student_template.qmd`: R Quarto file for that can be downloaded to answer questions from the module with code and text. This could be turned in to an instructor if used in a course. 
+
+- `anw_2021_stage1.csv`: Data file used for most of the module containing information about what obstacle the competitors in the 2021 American Ninja Warrior Stage 1 competition fell on. The data is derived largely from https://www.americanninjawarriornation.com/2021/8/30/22639995/american-ninja-warrior-season-13-2021-full-results-from-the-national-finals-stage-one. Additional columns such as `sex` were individually researched and added to the data.
+
+- `anw_2023_stage1.csv`: Data file used for challenge questions of the module containing information about what obstacle the competitors in the 2023 American Ninja Warrior Stage 1 competition fell on. The data is derived largely from https://sasukepedia.fandom.com/wiki/American_Ninja_Warrior_15#Results_11. 
+
+- `anw_2021_stage1_glossary.csv`: Data glossary for the `anw_2021_stage1.csv` data file.
+
+- `anw_2023_stage1_glossary.csv`: Data glossary for the `anw_2023_stage1.csv` data file.
+
+- `American_Ninja_Warrior_logo.jpg` and `Warped_Wall.jpg`: Image files used in the `index.qmd` file.
+

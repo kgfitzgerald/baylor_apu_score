@@ -1,0 +1,21 @@
+This repository contains files for a SCORE module for teaching single proportion confidence intervals, single proportion hypothesis tests, and two sample proportion tests using PGA data on greens in regulation. This module is designed for an introductory statistics course and uses R teach the concepts.
+
+This module is best viewed in HTML format. A preprint version of this module can be viewed at https://kgfitzgerald.github.io/baylor_apu_score/golf/pga_gir/. The module can also be viewed locally by opening the R Project pga_gir.RProj, then opening the R Quarto file index.qmd, and then clicking "Render". 
+
+The files in this repository are as follows:
+
+- `pga_gir.RProj`: R Project file for the module
+
+- `index.qmd`: R Quarto file for the module
+
+- `student_template.qmd`: R Quarto file for that can be downloaded to answer questions from the module with code and text. This could be turned in to an instructor if used in a course. 
+
+- `pga_girs.csv`: Data file for the module that contains information on the amount of greens in regulation hit by PGA golfers from 2019-2023. The data was derived from data found on the PGA Tour website (https://www.pgatour.com/stats). 
+
+- `scheffler_2023.csv`: Data file that is a subset of the `pga_girs.csv` file that contains information on greens in regulation hit by Scottie Scheffler in 2023. This is used for most of the examples in the module.
+
+- `pga_girs_glossary.csv`: Data glossary for the `pga_girs.csv` file
+
+- `scheffler_2023_glossary.csv`: Data glossary for the `scheffler_2023.csv` file
+
+- `Rory_McIlroy.jpg`, `Scottie_Scheffler.png`, `tanglewood_hole1.jpg`, `tanglewood_hole2.jpg`, and `tanglewood_hole5.jpg`: Image files used in the `index.qmd` file

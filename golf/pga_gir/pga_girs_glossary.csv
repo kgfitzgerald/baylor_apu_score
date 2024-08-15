@@ -1,0 +1,6 @@
+﻿Variable,Description
+player,PGA Tour golfer's name
+year,PGA Tour season. Given by the last year in the season. For example the 2019-2020 season would be 2020.
+greens,Number of greens hit in regulation
+holes,Number of holes where the golfer had an approach shot from regulation
+cut,"The lie that the golfer was hitting from (""Fairway"", ""Bunker"", or ""Other"")"

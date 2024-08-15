@@ -9,7 +9,7 @@ author:
 date: July 1, 2024
 format:
   html:
-    embed-resources: true
+    # embed-resources: true
     self-contained-math: true
     grid:
       margin-width: 350px

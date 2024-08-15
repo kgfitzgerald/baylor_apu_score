@@ -1,0 +1,6 @@
+﻿Variable,Description
+name,The name of the competitor
+sex,The sex of the competitor (M or F)
+obstacle,"The name of the obstacle that the competitor failed on. If they completed the course the obstacle is ""Complete""."
+obstacle_number,"The order of the obstacle that the competitor failed on. 1 means they failed on the first obstacle, 2 means they failed on the second obstacle,  and so on. "
+cause,"The cause of the competitor's failure. This is either ""Fall"", ""Time"", or ""Complete"""

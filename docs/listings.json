@@ -2,7 +2,17 @@
   {
     "listing": "/by-statsds-topic.html",
     "items": [
-      "/volleyball/ncaa_d1/index.html"
+      "/anw/kaplan_meier/index.html",
+      "/baseball/mlb_injuries/index.html",
+      "/soccer/mls_decision_errors/index.html",
+      "/mma/mma_chisquare/index.html",
+      "/golf/pga_gir/index.html",
+      "/golf/pga_gir_nor/index.html",
+      "/golf/pga_masters/index.html",
+      "/golf/pga_masters_nor/index.html",
+      "/tennis/tennis_sampsize/index.html",
+      "/volleyball/ncaa_d1/index.html",
+      "/baseball/mlb_prime_age/index.html"
     ]
   }
 ]

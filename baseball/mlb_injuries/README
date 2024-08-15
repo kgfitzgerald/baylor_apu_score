@@ -1,0 +1,22 @@
+This repository contains files for a SCORE module for teaching the basics of time series analysis and forecasting using MLB injury data. This module is designed to be used for an intermediate statistics course or independent learning and uses R to teach the concepts.
+
+This module is best viewed in HTML format. A preprint version of this module can be viewed at https://kgfitzgerald.github.io/baylor_apu_score/baseball/mlb_injuries/. The module can also be viewed locally by opening the R Project mlb_injuries.RProj, then opening the R Quarto file index.qmd, and then clicking "Render". 
+
+The files in this repository are as follows:
+
+- `mlb_injuries.RProj`: R Project file for the module
+
+- `index.qmd`: R Quarto file for the module
+
+- `student_template.qmd`: R Quarto file for that can be downloaded to answer questions from the module with code and text. This could be turned in to an instructor if used in a course.
+
+- `mlb_injuries_monthly.csv`: Data file used for most of the module containing the total number of players sent to IL each month from 2000 to 2023. The data was derived from information found at https://www.prosportstransactions.com/baseball/Search/SearchResults.php?Player=&Team=&BeginDate=2000-01-01&EndDate=2023-12-31&DLChkBx=yes&submit=Search. This data was cleaned and aggregated to get the monthly totals.
+
+- `tj_surgeries_mlb_milb.csv`: Data file used for the module containing the yearly number of Tommy John surgeries for MLB and MiLB players from 1974 to 2023. The data was derived from information found at https://docs.google.com/spreadsheets/d/1gQujXQQGOVNaiuwSN680Hq-FDVsCwvN-3AazykOBON0/edit?gid=0#gid=0.
+This data was cleaned and aggregated to get the yearly totals.
+
+- `mlb_injuries_monthly_glossary.csv`: Data glossary for the `mlb_injuries_monthly.csv` file.
+
+- `tj_surgeries_mlb_milb_glossary.csv`: Data glossary for the `tj_surgeries_mlb_milb.csv` file.
+
+- `Joe_Crede.jpg`, `Nathan_Eovaldi.jpg`, `Trea_Turner_hbp.png`, and `Ulnar_Collateral_Ligament.png`: Image files used in the `index.qmd` file.

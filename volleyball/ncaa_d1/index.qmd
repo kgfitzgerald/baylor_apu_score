@@ -1,0 +1,699 @@
+---
+title: "Volleyball - Women's NCAA Division I"
+author:
+  - name: Katie Fitzgerald
+    email: kfitzgerald@apu.edu
+    affiliation:
+      - id: apu
+        name: Azusa Pacific University
+  - name: Jazmine Gurrola
+    affiliation:
+      - ref: apu
+  - name: Joseph Hsieh
+    affiliation:
+      - ref: apu
+  - name: Tuan Dat Tran
+    affiliation:
+      - ref: apu
+date: May 30, 2024
+format:
+  html:
+    grid:
+      margin-width: 350px
+toc: true
+toc-location: left
+description: Exploring volleyball statistics through visualization
+categories:
+  - Variable types
+  - ggplot basics
+  - Exploratory Data Analysis (EDA)
+  - Histograms
+  - Bar plots (simple & stacked)
+  - Scatterplots
+  - Ridge plots
+  - Boxplots
+editor_options:
+  chunk_output_type: console
+callout-icon: false
+---
+
+::: {.callout-note collapse="true" title="Methods/Facilitation notes" appearance="minimal"}
++ This module would be suitable for an in-class lab or take-home assignment in an introductory statistics course. 
+
++ It assumes a basic familiarity with the RStudio Environment has already been covered, but no prior programming experiences is expected.
+
++ Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd. 
+  
+  + [data](volleyball_ncaa_div1_2022_23_clean.csv)
+  + [Student Quarto template](student_template.qmd)
+
++ [Posit Cloud](https://posit.cloud/) (via an Instructor account) or [Github classroom](https://classroom.github.com) are good options for disseminating files to students, but simply uploading files to your university's course management system works, too.
+:::
+
+# Introduction
+
+In this module, you will be analyzing data from the NCAA Division I Women's Volleyball season in 2022-3. The goal of this module is to help you explore data through visualization and to deepen your understanding of variable types (e.g. categorical, numerical). Data comes in many different forms, and an important part of being a good analyst is knowing what visualizations and analyses are appropriate and will provide insight into the data you have.
+
+::: column-margin
+This data was originally curated by [Jack Fay, A.J. Dykstra, and Ivan Ramler](https://data.scorenetwork.org/volleyball/volleyball_ncaa_team_stats.html).
+:::
+
+::: {.callout-note title="Learning Objectives" appearance="minimal"}
+By the end of this module, you will be able to:
+
+-   Read (import) a dataset into your RStudio Environment
+
+-   Identify variable types and determine appropriate visualizations for investigating your data
+
+-   Use R to visualize the following types of variables:
+
+    -   one numeric variable (histogram, boxplot)
+
+    -   two numeric variables (scatterplot)
+
+    -   one categorical variable (simple bar plot)
+
+    -   two categorical variables (stacked and standardized bar plots)
+
+    -   one numeric + one categorical variable (faceted histogram, ridge plots, side-by-side boxplots)
+    
+    -   more than two variables (scatterplot with color or size aesthetic)
+
+-   Interpret visualizations to investigate a research question
+:::
+
+::: column-margin
+\
+\
+\
+\
+
+**NOTE**: **R** is the name of the programming language itself and **RStudio** is a convenient interface. To throw even more lingo in, you may be accessing RStudio through a web-based version called **Posit Cloud**. But R is the programming language you are learning :) 
+:::
+
+::: {.callout-caution collapse="true" title="Research Questions"}
+
+During this lab, you'll investigate the following research questions (don't worry if you're new to volleyball, we'll introduce lingo soon!):
+
++ Which NCAA Division I women’s volleyball team had the best and worst records during the 2022-3 season? What percentage of matches did they win? 
++ How many kills are typically scored per set?
++ What is the most common way of scoring a point in volleyball (kill, block, or ace)?
++ Which region has the most teams? Which conference has the most teams? How many teams are in a typical conference?
++ If your defense tends to be strong (e.g. lots of digs), does your offense also tend to be strong (lots of kills)?
++ Which conference had the most teams with winning seasons? Which conference had the least?
++ Does the average number of blocks vary by region?
++ What's the relationship between a team's hitting percentage, their opponent's hitting percentage, and their win percentage?
++ If a team has strong hitters (that get lots of kills), are they also more likely to have strong blockers? 
++ What's the relationship between assists and kills? 
+
+:::
+
+# Getting started: Volleyball data
+
+The first step to any analysis in R is to **load necessary packages and data**. 
+
+::: column-margin
+You can think of **packages** like apps on your phone; they extend the functionality and give you access to many more features beyond what comes in the “base package”.
+:::
+
+Running the following code will load the `tidyverse` and `ggridges` packages and the `volleyball` data we will be using in this lab.
+
+
+
+::: column-margin
+**TIP**: As you follow along in the lab, you should run each corresponding code chunk in your .qmd document. To "Run" a code chunk, you can press the green "Play" button in the top right corner of the code chunk in your .qmd. You can also place your cursor anywhere in the line(s) of code you want to run and press "command + return" (Mac) or "Ctrl + Enter" (Windows).
+:::
+
+::: column-margin
+**TIP**: Using a hashtag in R allows you to add comments to your code (in plain English). Data scientists often use comments to explain what each piece of the code is doing.
+:::
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse) #loads package
+library(ggridges)
+
+volleyball <- read_csv("volleyball_ncaa_div1_2022_23_clean.csv") #loads data
+```
+
+```{r setup, include = FALSE}
+theme_set(theme_minimal())
+```
+
+We can use the `glimpse()` function to get a quick look (errr.. glimpse) at our `volleyball` data. The `glimpse` code provides the number of observations (Rows) and the number of variables (Columns) in the dataset. The “Rows” and “Columns” are referred to as the **dimensions** of the dataset. It also shows us the names of the variables (`team`, `conference`, ..., `winning_season`) and the first few observations for each variable (e.g. the first three teams in the dataset are Lafayette, Deleware St., and Yale).
+
+```{r}
+glimpse(volleyball)
+```
+
+::: column-margin
+**ERROR?** Did you get a error message that says `could not find function "glimpse"`? This means you need to load the `tidyverse` package. You can do this by running the code `library(tidyverse)` from the previous code chunk. A shortcut is to hit the "fast-forward" button (next to the "Play" button in your code chunk), which will run all code chunks above your current one.
+:::
+
+::: {.callout-note  title="Exercise 1"}
+
+a. What are the **dimensions** of this dataset?
+
+
+b. What are the **observational units** for this data? That is, what does one row represent?
+
+c. How many **categorical variables** are there? List the names of these variables. 
+
+d. How many **continuous numeric variables** are there? 
+
+e. How many **discrete numeric variables** are there? List the names of these variables. 
+
+:::
+
+::: column-margin
+\
+**TIP:** Type your answers to each exercise in the .qmd document. 
+\
+\
+\
+\
+\
+\
+\
+**TIP:** To distinguish between continuous and discrete, ask yourself "can this variable have decimal values or only whole-numbers?" Read more about variable types [here](win_loss_pctg).
+:::
+
+## Volleyball lingo
+
+
+
+Before proceeding with any analysis, let's make sure we know some volleyball lingo in order to understand what information is contained in each variable (column) in our dataset. 
+
+::: column-margin
+Totally new to volleyball? Watch this 4-minute video: [The Rules of Volleyball - EXPLAINED!](https://www.youtube.com/watch?v=9g7nYQv-kPM)
+:::
+
+
+::: column-margin
+#### Be the first team to win 3 sets to 25 points!!
+![](scoreboard.png)
+Image source: [BoxOut Sports](https://boxoutsports.com/graphics/volleyball/final-score)
+:::
+
+#### The basics
+-   To win a volleyball **match**, your team must be the first to win 3 **sets**
+-   A match can consist of 3, 4, or 5 sets ("best 3 out of 5")
+-   Your team wins a **set** if you are the first to score 25 points
+    -   but you have to win by at least 2 points!
+    -   and the 5th match (if necessary) only goes to 15 points
+-   **So how do you score points?** By hitting the ball into your opponents side of the court without them successfully returning the ball. (Or by them committing an unforced error such as a missed serve or running into the net, but we won't worry about that in this analysis). 
+-   Play begins on each point with a **serve** from the back line and ends when the ball hits the ground.
+
+::: {.callout-important}
+
+#### Volleyball "stats" that might occur during any given play
+-   An [**ace**](https://youtu.be/mrUlR6d7SIM?feature=shared&t=42) is a serve that directly results in a point (the opponent does not successfully return the serve). 
+-   An **attack** is on offensive play where a player strategically hits the ball over the net using an overhead motion 
+-   A [**kill**](https://youtu.be/m8hD5M1hGK0?feature=shared) is when an attack results in a point for the attacking team (the opposing team doesn't "dig" or successfully return the ball)
+-   An [**assist**](https://youtu.be/9dudLsvv5MA?feature=shared&t=123) is recorded when a player passes or sets the ball to a teammate who attacks the ball for a kill. This is often done by a **setter** and is the 2nd touch of a play (after the pass, before the hit).
+- A [**block**](https://youtu.be/hdGKPN5_5Pw?feature=shared&t=71) is a defensive play at the net when a player successfully blocks the ball from an opponent's attack, sending it back down into the opponent's court, directly resulting in a point.
+- A [**dig**](https://youtu.be/TUaKtfeqOj8?feature=shared&t=47) is a defensive play when a player successfully passes the ball from an attack and keeps it in play
+
+:::
+
+## Variable descriptions
+
+The `volleyball` data you'll be analyzing in this lab provides season-level team statistics for 334 teams during the 2022-3 season. Many of the variables are reported as an average "per set." For example, if a team played 30 matches, this means they played anywhere from 90 to 150 sets during the season, so `aces_per_set` provides the number of aces they scored, on average, across those 90+ sets. The table below provides detailed descriptions of each variable.
+
+<details>
+<summary><b>Variable Descriptions</b></summary>
+
+| Variable | Description |
+|----|----------------------------|
+| `team` | college of the volleyball team |
+| `conference` | conference to which the team belongs |
+| `region` | region to which the team belongs |
+| `aces_per_set` | the average amount of balls served that directly lead to a point (not including errors by the opponent) per set  |
+| `assists_per_set` | the average amount of sets, passes, or digs to a teammate that directly result in a kill per set |
+| `team_attacks_per_set` | the average amount of times the ball is sent to the other team’s court from an overhead motion per set |
+| `blocks_per_set` | the average amount of times the ball is blocked from being hit on to the teams side per set |
+| `digs_per_set` | average amount of times the ball is passed by a player successfully after an opponents attack per set |
+| `hitting_pctg` | total team kills minus team hitting errors all divided by total attempts |
+| `kills_per_set` | average amount of hits that directly result in a point per set |
+| `opp_hitting_pctg` | the average hitting percentage of the teams opponent per set |
+| `w` | the amount of team wins for the season |
+| `l` | the amount of team losses for the season |
+| `win_pctg` | the amount of total wins divided by the total matches of the season |
+| `winning_season` | Indication (yes/no) of whether the team won 50% or more of its matches during the season |
+
+## Viewing your data
+
+You saw that `glimpse()` is one way to get a quick look at your data. Often, you'll want to view your whole dataset. There are two ways to do this:
+
+::: column-margin :::
+\
+**TIP:** Recall that RStudio is split into four quadrants: Source (upper left), **Environment** (upper right), **Console** (bottom left), and Files / Plots / Packages / Help / Viewer (bottom right)
+![](rstudio.png)
+:::
+
+1. type `View(volleyball)` in your **Console** and then click return/Enter on your keyboard. 
+2. OR, in your **Environment** tab, double click the name of the dataset you want to view. 
+
+This will open up your data in a new viewer tab so that you can view it like a spreadsheet (like Google Sheets or Excel\*). Once open, you can sort the data by clicking on a column. 
+
+::: column-margin :::
+\*Unlike Google Sheets or Excel, however, you won't be able to *edit* the data directly in the spreadsheet.
+:::
+
+::: {.callout-note  title="Exercise 2"}
+
+`View` the `volleyball` data and sort it appropriately to answer the following questions:
+
+a. Which NCAA Division I women's volleyball team had the **best** record (highest win percentage) during the 2022-3 season?
+
+b. What percentage of their matches did this team win? 
+
+c. What conference and region is this team in?
+
+d. Which team had the **worst** record? 
+
+e. What percentage of their matches did they win? 
+
+f. What conference and region is this team in?
+
+:::
+
+::: column-margin :::
+**TIP**: When viewing the data, clicking on a column once will sort the data according to that variable in *ascending* order; clicking twice will sort in *descending* order.
+:::
+
+## Creating visualizations
+
+R (and the `tidyverse` package in particular) has some powerful functions for making visualizations. The type of visualization you should create depends on the type(s) of variable(s) you are exploring. In the remainder of this module, you will explore the `volleyball` data via visualizations.
+
+# One numerical variable
+
+::: {.callout-caution title="Research question"}
+
+How many kills are typically scored per set?
+
+:::
+
+Because `kills_per_set`is a **numeric variable**, it is appropriate to visualize it using a **histogram**. We can create a histogram of number of kills per set with the following code:
+
+
+```{r, warning = FALSE, message = FALSE}
+ggplot(volleyball, aes(x = kills_per_set)) + 
+  geom_histogram(color = "white")
+```
+
+::: column-margin :::
+**TIP**: Your code must refer to datasets and variable names *exactly* as they appear in your Environment/data. If, for example, we instead had saved the `volleyball` data as `vball` and the variable name was `Kills_per_set` (with a capital `K`), the first line of plotting code would instead need to be `ggplot(vball, aes(x = Kills_per_set))`. It's usually a good idea to open your data in your Environment and/or run `glimpse()` on your data to verify the exact names. 
+:::
+
+::: column-margin :::
+
+**TIP**: When you run the histogram code, you may see the default message: "`stat_bin() using bins = 30. Pick better value with binwidth`." This is just a message, not an error. It's simply informing you that by default `ggplot()` uses 30 bins when creating a histogram, but you can change this by adding `bins = XX` inside of `geom_histogram()`. For example, `geom_histogram(bins = 10)` will create a histogram with 10 bins. Alternatively, you can specify the *width* of each bin using `binwidth`. Try using `geom_histogram(binwidth = 1)` to see what happens. 
+:::
+
+::: {.callout-important}
+## IMPORTANT SUMMARY: ggplot basics
+Every basic visualization created with `ggplot` must contain at least two "layers" that are added together with a `+` sign: 
+
+1. the `ggplot()` layer to initiate a blank visualization 
+2. a `geom_xxxx()` layer to specify what type of `geom`etric object(s) you want to place in the visualization (e.g. points, bars, histogram, boxplot, etc). 
+
+The `ggplot()` layer should always have two things:
+
+1. the name of the dataset, provided as the first argument
+2. an `aes()` function that specifies how variables will get mapped to `aes`thetic elements of the plot, such as the `x` or `y` axis, or the `size` or `color` of dots or lines.
+:::
+
+::: column-margin :::
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+We use the term "argument" to refer to the "inputs" to a function. 
+:::
+
+::: {.callout-note  title="Exercise 3"}
+
+a. Copy, paste the code above to reproduce the visualization in your document.
+
+b. Describe the shape of the distribution of `kills_per_set`. Make sure to comment on **modality**, **skewness**, and whether there are any **potential outliers**. 
+
+c. Based on this histogram, how would you answer the research question (how many kills are typical per set)? 
+
+:::
+
+::: column-margin :::
+\
+\
+**TIP**: Read [here](https://openintro-ims.netlify.app/explore-numerical#histograms) for a reminder of terminology and how to describe a distribution in terms of its modality and skewness.    
+:::
+
+::: {.callout-note  title="Exercise 4"}
+a. Copy, paste, tweak the `ggplot()` code above to explore the distribution of `blocks_per_set`.
+
+b. Describe the shape of the distribution and interpret what you see.
+
+c. Copy, paste, tweak the `ggplot()` code above to explore the distribution of `aces_per_set`.
+
+d. Describe the shape of the distribution and interpret what you see.
+
+e. What is the most common way of scoring a point in volleyball (kill, block, or ace)?
+:::
+
+Another common visualization for a numeric variable is a **boxplot**. The following image shows 3 boxplots and 3 histograms for the variables explored above.
+
+```{r, echo = FALSE, message = FALSE}
+library(cowplot)
+ggplot(volleyball, aes(x = kills_per_set)) +
+  geom_histogram(color = "white") -> h1
+
+ggplot(volleyball, aes(x = blocks_per_set)) +
+  geom_histogram(color = "white") -> h2
+
+ggplot(volleyball, aes(x = aces_per_set)) +
+  geom_histogram(color = "white") -> h3
+
+ggplot(volleyball, aes(x = kills_per_set)) +
+  geom_boxplot() +
+  theme(axis.text.y = element_blank()) -> b1
+
+ggplot(volleyball, aes(x = blocks_per_set)) +
+  geom_boxplot() +
+  theme(axis.text.y = element_blank()) -> b2
+
+ggplot(volleyball, aes(x = aces_per_set)) +
+  geom_boxplot() +
+  theme(axis.text.y = element_blank()) -> b3
+
+plot_grid(h1, h2, h3, b1, b2, b3, align = 'v', axis = 'l')
+```
+
+::: {.callout-note  title="Exercise 5"}
+
+The histograms and boxplots are visualizing the same information, but each visualization types has different pros/cons. 
+
+a. Is modality visible in both types of visualizations? Explain.
+
+b. Is skewness visible in both types of visualizations? Explain.
+
+c. Are potential outliers visible in both types of visualizations? Explain.
+
+d. Is there any additional information in a boxplot that's not provided by a histogram? Explain.
+
+:::
+
+# One categorical variable
+
+Let's use visualization to explore another question:
+
+::: {.callout-caution title="Research question"}
+
+**Which region has the most teams?**
+
+:::
+
+Because `region` is a **categorical variable**, it is appropriate to visualize it using a **bar plot**. 
+
+The general template for creating a simple bar plot is:
+
+```{r, eval = FALSE}
+ggplot(data, aes(x = variable)) +
+  geom_bar()
+```
+
+Notice it follows the same general format as the histogram code, but now we use `geom_bar()` instead of `geom_histogram()` because we are dealing with one categorical instead of one numeric variable. 
+
+::: {.callout-note  title="Exercise 6"}
+a. Copy, paste, tweak the code above to create a bar plot for `region`. 
+
+b. Which region has the most teams?
+
+:::
+
+::: column-margin 
+\
+**TIP**: In the template code, `data` and `variable` are just placeholders. Make sure to replace them with the appropriate dataset and variable names for this analysis.
+
+:::
+
+# Two numeric variables
+
+::: {.callout-caution title="Research question"}
+
+If your defense tends to be strong (e.g. lots of digs), does your offense also tend to be strong (lots of kills)?
+
+:::
+
+To investigate this question, we need a **scatterplot** because we are dealing with **two numeric variables**.
+
+
+
+```{r}
+ggplot(volleyball, aes(x = digs_per_set, y = kills_per_set)) +
+  geom_point()
+```
+
+::: column-margin 
+\
+
+Notice that the scatterplot code again follows the same general format of a `ggplot()` layer, with data and `aes`thetics sepcified inside, and a `geom_` layer, this time `geom_point()`. Because a scatterplot is for *two* variables instead of one, we must specify two variables, `x` and `y`, in the `aes()` function. 
+
+:::
+
+::: {.callout-note  title="Exercise 7"}
+a. Copy, paste the scatterplot code into your .qmd to reproduce the visualization in your document. 
+
+b. Use the scatterplot to answer the research question. Make sure to comment on the strength and direction of the relationship.
+
+:::
+
+# Two categorical variables
+
+Consider our next research question: 
+
+::: {.callout-caution  title="Research question"}
+
+Which conference had the most teams with winning seasons? Which conference had the least?
+
+:::
+
+Note that this is a question about **two categorical variables,** `conference` and `winning_season`, therefore, a **stacked bar plot** is appropriate for investigating this question. We can do this using the code below:
+
+```{r, echo = FALSE}
+volleyball %>% 
+  filter(!is.na(conference)) -> volleyball
+```
+
+
+```{r}
+ggplot(volleyball, aes(y = conference, fill = winning_season)) +
+  geom_bar()
+```
+
+::: {.callout-important}
+
+## Using `fill` in ggplot
+
+Note that we added the second categorical variable to the `fill` `aes`thetic because we "fill" the bar with the categories of `winning_season`. We can adapt the code further to turn the stacked bar plot into a **standardized bar plot**.
+
+Adding `position = "fill"` inside `geom_bar()` turns the stacked bar plot into a standardized bar plot. Since the x axis now shows proportions instead of counts, we use a `labs()` layer to change the x-axis label.
+
+:::
+
+```{r}
+ggplot(volleyball, aes(y = conference, fill = winning_season)) +
+  geom_bar(position = "fill") +
+  labs(x = "proportion")
+```
+
+
+::: {.callout-note  title="Exercise 8"}
+
+a. Copy, paste the code for both visualizations above to recreate them in your document.
+
+b. Comment on the differences between the stacked and standardized stacked bar plot.
+
+c. What conference had the *most* teams with winning seasons? Do the two visualizations lead to different interpretations of this question? Explain. 
+
+d. What conference had the *least* teams with winning seasons? Do the two visualizations lead to different interpretations of this question? Explain. 
+
+e. Which of the two visualizations would you choose to communicate an answer to these research questions? Comment on pros and cons of your choice. 
+
+:::
+
+# One numeric & one categorical variable
+
+::: {.callout-caution  title="Research question"}
+
+Does the average number of attacks vary by region? 
+
+:::
+
+Note that now we are interested in comparing a numeric variable (`team_attacks_per_set`) across groups of a categorical variable (`region`). To visualize one numeric + one categorical variable, we have a couple options:
+
+-   faceted histogram
+
+-   ridge plot
+
+-   side-by-side boxplot 
+
+To create a faceted histogram, we simply add a layer called `facet_wrap()` to our visualization pipeline for a histogram, which specifies which categorical variable we want to `facet` by. We use `ncol = 1` to specify that we want the histograms to all appear in 1 column (by default it will place them all next to each other in 1 row).
+
+```{r, message = FALSE}
+ggplot(volleyball, aes(x = team_attacks_per_set)) +
+  geom_histogram(color = "white", binwidth = 0.5) + 
+  facet_wrap(~ region, ncol = 1)
+```
+
+To create a ridge plot, we use the following code:
+
+```{r, message = FALSE}
+ggplot(volleyball, aes(x = team_attacks_per_set, y = region)) +
+   geom_density_ridges()
+```
+
+```{r, message = FALSE}
+ggplot(volleyball, aes(x = team_attacks_per_set, y = region)) +
+   geom_boxplot()
+```
+
+::: {.callout-note  title="Exercise 9"}
+
+a. Copy, paste the code for the three visualizations above to reproduce them in your document.
+
+b. All of the above visualizations display the same data. Comment on what you observe. Use the visualizations to answer the research question: do number of attacks differ by region?
+
+
+c. Comment on which of the three visualizations you prefer and why.
+
+:::
+
+# More than 2 variables
+
+We can utilize extra `aes`thetics (in addition to x- and y-axis) such as `color`, `shape`, or `size` to investigate relationships of more than two variables.
+
+```{r, message = FALSE, warning = FALSE}
+ggplot(volleyball, aes(x = hitting_pctg, y = opp_hitting_pctg,
+                        color = win_pctg)) +
+  geom_point() +
+  scale_color_gradient(trans = "reverse")
+```
+
+::: column-margin
+**Note:** the third layer here `scale_color_gradient()` is not strictly necessary. It simply reverses the order of the color scale so that larger numbers are darker and smaller numbers are lighter, which tends to align better with viewer's intuition. 
+:::
+
+::: column-margin
+
+**EXTRA**: We could add in a 4th or even 5th variable using additional aesthetics such as `size` or `alpha` (transparency), but often squeezing too many variables into one visualization makes it cognitively difficult to process and interpret. Alternatively, we may sometimes choose to "double encode" a variable (2 aesthetics for the same variable) to make a relationship in the data more visually salient. But there should be a clear reason for doing so, and you should make sure the extra encoding doesn't confuse the viewer. 
+
+```{r, message = FALSE, warning = FALSE}
+ggplot(volleyball, aes(x = hitting_pctg, y = opp_hitting_pctg,
+                        color = win_pctg, size = win_pctg)) +
+  geom_point() +
+  scale_color_gradient(trans = "reverse")
+```
+
+:::
+
+::: {.callout-note  title="Exercise 10"}
+
+a. Copy, paste the code above to recreate the visualization in your document. 
+
+b. What are the variables being displayed in the visualization above? What types of variables are they?
+
+c. What insight can be gleaned from the above visualizations? Comment on 2 things the visualizations reveal about NCAA volleyball teams. 
+
+:::
+
+# Practice on new research questions
+
+::: {.callout-important}
+## IMPORTANT SUMMARY
+
+Data visualizations are a useful tool for exploring a dataset and investigating research questions. You've now been exposed to code for creating visualizations for many different data types. Now, it's your turn to practice choosing an appropriate visualization for new research questions.
+
+To get started, you should always ask yourself a series of questions:
+
+1. what variable(s) in my dataset are relevant for answering the research question?
+2. what type of variable is each one?
+3. what type of visualization is appropriate for the type(s) and number of variables I have?
+
+In the following exercises, once you determine the appropriate visualization for your question, you should copy, paste, tweak code from the appropriate section of this lab to visually investigate the research question. 
+
+For example, if you identify that you have two numeric variables, you should copy paste code for scatterplots from the "Two numeric variables" section of this lab.
+:::
+
+::: {.callout-note  title="Exercise 11"}
+
+Kills and blocks are both typically scored by tall players at the net. Is there a strong positive relationship between kills and blocks? In other words, if a team has strong hitters (that get lots of kills), are they also more likely to have strong blockers? Produce a visualization to investigate this question and comment on your findings. 
+
+:::
+
+::: {.callout-note  title="Exercise 12"}
+
+Produce one visualization to answer the following questions:
+
+a. What conference has the most teams? 
+
+b. About how many teams are in a typical conference? (You can "eyeball" this from the visualization - don't need to calculate an actual number)
+
+:::
+
+::: column-margin
+\
+\
+\
+**TIP**: If the x-axis of your visualization is too cluttered to read all the category labels, try switching the categorical variable to the y-axis instead. You can do this by simply specifying `y = variable` instead of `x = variable` inside `aes()`.
+:::
+
+::: {.callout-note  title="Exercise 13"}
+
+Produce a visualization to investigate the relationship between assists and kills. Comment on what you find and explain why the relationship is what it is. 
+
+:::
+
+::: {.callout-note  title="Exercise 14"}
+
+Produce one visualization to investigate the following questions and comment on your findings: 
+
+a. Is there a wide range of win percentages across college volleyball teams, or do most teams win roughly 50% of their matches?
+
+b. Did any team have a perfect season? That is, did anyone win 100% of their matches? 
+
+c. The name of the "best" team isn't visible in your visualization, but in Exercise 2a you identified who this team was. Google to find out who won the championship in 2022-3. Was it the team with the best record? 
+
+:::
+
+# Wrap-up / reflection
+
+::: {.callout-note  title="Exercise 15"}
+
+Now that you've explored the `volleyball` data, spend a few minutes reflecting on your learning by responding to the following questions:
+
+a. What were the main statistical concepts covered in this assignment?
+
+b. What's one piece of insight you gleaned from the data? 
+
+c. What's one thing you understand better after completing these exercises?
+
+d. What exercise(s) gave you the most trouble? What was difficult about them/where did you get stuck?
+
+:::
+
+# BONUS practice
+
+::: {.callout-note  title="BONUS 1"}
+
+
+State an additional research question that can be investigated using the `volleyball` data, and create a visualization to investigate it. Comment on your findings.
+
+::: 
+
+

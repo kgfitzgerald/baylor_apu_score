@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jonathan Lieb">
+<meta name="dcterms.date" content="2024-07-18">
+<meta name="description" content="Exploring Probability Confidence Intervals with Golf Data">
+
+<title>Baylor APU SCORE Module Preprint Repository - PGA - Scheffler Greens in Regulation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-JVDQHPRYT1"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-JVDQHPRYT1', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"implied",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Baylor APU SCORE Module Preprint Repository</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../by-statsds-topic.html" aria-current="page"> 
+<span class="menu-text">Modules By Topic</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://data.scorenetwork.org/"> 
+<span class="menu-text">Data Repository</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../golf/pga_gir/index.html">Golf</a></li><li class="breadcrumb-item"><a href="../../golf/pga_gir/index.html">PGA - Scheffler Greens in Regulation</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../by-statsds-topic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modules By Topic</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+ <span class="menu-text">Anw</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../anw/kaplan_meier/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">American Ninja Warrior - Kaplan-Meier Survival Analyis</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+ <span class="menu-text">Baseball</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../baseball/mlb_injuries/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MLB Injuries - Introductory Time Series Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../baseball/mlb_prime_age/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s the prime age of an MLB player?</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Golf</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_gir/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">PGA - Scheffler Greens in Regulation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_gir_nor/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scheffler Greens in Regulation (No R)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_masters/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scoring Average Confidence Intervals</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_masters_nor/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scoring Average Confidence Intervals (No R)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+ <span class="menu-text">Mma</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../mma/mma_chisquare/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MMA Fight Decisions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+ <span class="menu-text">Soccer</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../soccer/mls_decision_errors/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MLS - Types of Decision Errors</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
+ <span class="menu-text">Tennis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../tennis/tennis_sampsize/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tennis Sample Size</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false">
+ <span class="menu-text">Volleyball</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../volleyball/ncaa_d1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Volleyball - Women’s NCAA Division I</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#welcome-video" id="toc-welcome-video" class="nav-link active" data-scroll-target="#welcome-video">Welcome video</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#getting-started-scottie-scheffler-greens-data" id="toc-getting-started-scottie-scheffler-greens-data" class="nav-link" data-scroll-target="#getting-started-scottie-scheffler-greens-data">Getting started: Scottie Scheffler Greens data</a>
+  <ul class="collapse">
+  <li><a href="#terms-to-know" id="toc-terms-to-know" class="nav-link" data-scroll-target="#terms-to-know">Terms to know</a></li>
+  <li><a href="#variable-descriptions" id="toc-variable-descriptions" class="nav-link" data-scroll-target="#variable-descriptions">Variable descriptions</a></li>
+  <li><a href="#viewing-the-data" id="toc-viewing-the-data" class="nav-link" data-scroll-target="#viewing-the-data">Viewing the data</a></li>
+  <li><a href="#mutating-data" id="toc-mutating-data" class="nav-link" data-scroll-target="#mutating-data">Mutating Data</a></li>
+  <li><a href="#arranging-data" id="toc-arranging-data" class="nav-link" data-scroll-target="#arranging-data">Arranging Data</a></li>
+  </ul></li>
+  <li><a href="#confidence-intervals-for-proportions" id="toc-confidence-intervals-for-proportions" class="nav-link" data-scroll-target="#confidence-intervals-for-proportions">Confidence Intervals for Proportions</a>
+  <ul class="collapse">
+  <li><a href="#making-confidence-intervals-in-r" id="toc-making-confidence-intervals-in-r" class="nav-link" data-scroll-target="#making-confidence-intervals-in-r">Making Confidence Intervals in R</a></li>
+  <li><a href="#using-prop.test-to-calculate-confidence-intervals" id="toc-using-prop.test-to-calculate-confidence-intervals" class="nav-link" data-scroll-target="#using-prop.test-to-calculate-confidence-intervals">Using <code>prop.test</code> to Calculate Confidence Intervals</a></li>
+  <li><a href="#testing-hypothesized-proportions" id="toc-testing-hypothesized-proportions" class="nav-link" data-scroll-target="#testing-hypothesized-proportions">Testing Hypothesized Proportions</a></li>
+  </ul></li>
+  <li><a href="#comparing-two-proportions" id="toc-comparing-two-proportions" class="nav-link" data-scroll-target="#comparing-two-proportions">Comparing Two Proportions</a></li>
+  <li><a href="#more-practice" id="toc-more-practice" class="nav-link" data-scroll-target="#more-practice">More Practice</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../golf/pga_gir/index.html">Golf</a></li><li class="breadcrumb-item"><a href="../../golf/pga_gir/index.html">PGA - Scheffler Greens in Regulation</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">PGA - Scheffler Greens in Regulation</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Confidence Intervals</div>
+    <div class="quarto-category">Single Proportion Hypothesis Testing</div>
+    <div class="quarto-category">Comparing Two Proportions</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Exploring Probability Confidence Intervals with Golf Data
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jonathan Lieb <a href="mailto:jonathan_lieb1@baylor.edu" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Baylor University
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 18, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Facilitation notes">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Facilitation notes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>This module would be suitable for an in-class lab or take-home assignment in an introductory statistics course.</p></li>
+<li><p>It assumes a basic familiarity with the RStudio Environment has already been covered, but no prior programming experiences is expected.</p></li>
+<li><p>Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.</p>
+<ul>
+<li><a href="scheffler_2023.csv">Scottie Scheffler Data</a></li>
+<li><a href="pga_girs.csv">All PGA Data</a></li>
+<li><a href="student_template.qmd">Student Quarto template</a></li>
+</ul></li>
+<li><p><a href="https://posit.cloud/">Posit Cloud</a> (via an Instructor account) or <a href="https://classroom.github.com">Github classroom</a> are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.</p></li>
+<li><p>The data for the lab is derived from the <a href="https://www.pgatour.com/stats">PGA TOUR’s Website</a>. The <code>scheffler_2023.csv</code> data is merely a subset of the <code>pga_girs.csv</code> data.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<section id="welcome-video" class="level1">
+<h1>Welcome video</h1>
+<iframe width="560" height="315" src="" title="placeholder">
+</iframe>
+</section>
+<section id="introduction" class="level1 page-columns page-full">
+<h1>Introduction</h1>
+<p>In this module, you will be exploring the concept of confidence intervals for proportions through the lens of golf. Specifically, you will be analyzing the 2023 greens in regulation data for Scottie Scheffler. Scottie Scheffler was the number 1 ranked golfer in the world and the PGA Tour Player of the Year in 2023.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Scottie_Scheffler.png" class="img-fluid figure-img"></p>
+<figcaption>Scottie Scheffler</figcaption>
+</figure>
+</div>
+<p>Image Source: <a href="https://commons.wikimedia.org/wiki/File:Scottie_Scheffler_2023_02.png">Titleist</a>, <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>, via Wikimedia Commons</p>
+</div></div><div class="callout callout-style-simple callout-note no-icon callout-titled" title="Learning Objectives">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this module, you will be able to:</p>
+<ul>
+<li><p>Read (import) a dataset into your RStudio Environment</p></li>
+<li><p>Mutate and arrange data in R</p></li>
+<li><p>Use R to make confidence intervals for a proportion</p></li>
+<li><p>Perform a hypothesis test to compare proportions</p></li>
+</ul>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<br>
+<br>
+<br>
+</p>
+<p><strong>NOTE</strong>: <strong>R</strong> is the name of the programming language itself and <strong>RStudio</strong> is a convenient interface. To throw even more lingo in, you may be accessing RStudio through a web-based version called <strong>Posit Cloud</strong>. But R is the programming language you are learning</p>
+</div></div><div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research Questions">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Research Questions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>During this lab, you’ll investigate the following research questions:</p>
+<ul>
+<li>What is the sample probability that Scottie Scheffler hits the green in regulation from different lies?</li>
+<li>What is the confidence interval for the true probability that Scottie Scheffler hits the green in regulation from different lies?</li>
+<li>Is there a significant difference in the probability that Scottie Scheffler hits the green in regulation in 2023 from different lies?</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="getting-started-scottie-scheffler-greens-data" class="level1 page-columns page-full">
+<h1>Getting started: Scottie Scheffler Greens data</h1>
+<p>The first step to any analysis in R is to <strong>load necessary packages and data</strong>.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: <strong>Packages</strong> are collections of functions that extend the capabilities of R. You can think of them as free apps you can download to your phone.</p>
+</div></div><p>Running the following code will load the <code>tidyverse</code> and packages and the <code>scheffler_2023</code> data we will be using in this lab.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: As you follow along in the lab, you should run each corresponding code chunk in your .qmd document. To “Run” a code chunk, you can press the green “Play” button in the top right corner of the code chunk in your .qmd. You can also place your cursor anywhere in the lines of code you want to run and press “command + return” (Mac) or “Ctrl + Enter” (Windows).</p>
+</div><div class="">
+<p><strong>TIP</strong>: Hashtags in R allows you to add comments to your code.</p>
+</div></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#loads package</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>scheffler_2023 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"scheffler_2023.csv"</span>) <span class="co">#loads data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>All data for the lab is from the <a href="https://www.pgatour.com/stats.html">PGA TOUR’s Website</a></p>
+</div></div><section id="terms-to-know" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="terms-to-know">Terms to know</h2>
+<p>Before proceeding with the analysis, let’s make sure we know some golf terminology that will help us putt-putt our way through this lab.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Are Greens in Regulation important to scoring? Check out the table below to see how greens in regulation and lower handicaps go hand and hand.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Handicap</th>
+<th>GIR %</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>64%</td>
+</tr>
+<tr class="even">
+<td>0-5</td>
+<td>47%</td>
+</tr>
+<tr class="odd">
+<td>5-10</td>
+<td>36%</td>
+</tr>
+<tr class="even">
+<td>10-15</td>
+<td>27%</td>
+</tr>
+<tr class="odd">
+<td>15-20</td>
+<td>20%</td>
+</tr>
+<tr class="even">
+<td>20-25</td>
+<td>12%</td>
+</tr>
+<tr class="odd">
+<td>25-30</td>
+<td>10%</td>
+</tr>
+<tr class="even">
+<td>30+</td>
+<td>6%</td>
+</tr>
+</tbody>
+</table>
+<p>Data Source: <a href="https://thegrint.com/range/2013/03/golf-tips-gir/">The Range by The Grint</a></p>
+</div><div class="">
+<p>A Par 3 hole should take 1 shot to reach the green in regulation <img src="tanglewood_hole5.jpg" class="img-fluid"></p>
+<p>A Par 4 hole should take 2 shots to reach the green in regulation <img src="tanglewood_hole1.jpg" class="img-fluid"></p>
+<p>A Par 5 hole should take 3 shots to reach the green in regulation <img src="tanglewood_hole2.jpg" class="img-fluid"> Images source: <a href="https://www.tanglewoodfulton.com/golf-course/hole-by-hole-layout">Tanglewood Golf Course</a>, Public Domain</p>
+</div></div>
+<section id="lie-terminology" class="level4">
+<h4 class="anchored" data-anchor-id="lie-terminology">Lie Terminology</h4>
+<ul>
+<li>The <strong>fairway</strong> is the short grass between the tee box and the green, where the ball is supposed to be hit on a par 4 or par 5 hole</li>
+<li>A <strong>bunker</strong> is a hazard filled with sand
+<ul>
+<li>A <strong>fairway bunker</strong> is a bunker located in or next to the fairway</li>
+</ul></li>
+</ul>
+<div class="callout callout-style-default callout-important no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pars and Greens in Regulation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>A <strong>par</strong> in golf is the number of strokes a good golfer is expected to take on a hole or course</p></li>
+<li><p>A <strong>green in regulation</strong> (GIR) is when a golfer reaches the green in the expected number of strokes (or fewer) on a par 3, 4, or 5 hole</p>
+<ul>
+<li>For example, on a <strong>par 4</strong> hole, a golfer would be expected to reach the green in 2 strokes (a drive and an approach shot) and then putt out in 2 more strokes for a total of 4 strokes. If a golfer reaches the green in 2 strokes, they have hit the green in regulation.</li>
+<li>On a <strong>par 3</strong> hole, a golfer would be expected to reach the green in 1 stroke</li>
+<li>On a <strong>par 5</strong> hole, a golfer would be expected to reach the green in 3 strokes.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="variable-descriptions" class="level2">
+<h2 class="anchored" data-anchor-id="variable-descriptions">Variable descriptions</h2>
+<p>The <code>scheffler_2023</code> data you’ll be analyzing in this lab provides approach data for Scottie Scheffler in 2023. The data includes the number of greens in regulation (GIR) hit by Scottie Scheffler, the number of holes he played, and the cut he hit from.</p>
+<details>
+<summary>
+<b>Variable Descriptions</b>
+</summary>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 87%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>player</code></td>
+<td>PGA Tour player</td>
+</tr>
+<tr class="even">
+<td><code>year</code></td>
+<td>PGA Tour Season</td>
+</tr>
+<tr class="odd">
+<td><code>greens</code></td>
+<td>Greens in Regulation Hit</td>
+</tr>
+<tr class="even">
+<td><code>holes</code></td>
+<td>Number of Holes</td>
+</tr>
+<tr class="odd">
+<td><code>cut</code></td>
+<td>The type of ground that the approach shot to the green was hit from</td>
+</tr>
+</tbody>
+</table>
+</details></section>
+<section id="viewing-the-data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="viewing-the-data">Viewing the data</h2>
+<p>We can use the <code>glimpse()</code> function to get a quick look at our <code>scheffler_2023</code> data. The <code>glimpse</code> code provides the number of observations (Rows) and the number of variables (Columns) in the dataset. The “Rows” and “Columns” are referred to as the <strong>dimensions</strong> of the dataset. It also shows us the names of the variables (<code>player</code>, <code>greens</code>, <code>holes</code> …, <code>cut</code>) and the first few observations for each variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(scheffler_2023)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3
+Columns: 5
+$ player &lt;chr&gt; "Scottie Scheffler", "Scottie Scheffler", "Scottie Scheffler"
+$ year   &lt;dbl&gt; 2023, 2023, 2023
+$ greens &lt;dbl&gt; 247, 657, 28
+$ holes  &lt;dbl&gt; 416, 760, 48
+$ cut    &lt;chr&gt; "Other", "Fairway", "Bunker"</code></pre>
+</div>
+</div>
+<p>Another useful function to get a quick look at the data is the <code>head()</code> function. This function shows the first few rows of the dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(scheffler_2023)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  player             year greens holes cut    
+  &lt;chr&gt;             &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  
+1 Scottie Scheffler  2023    247   416 Other  
+2 Scottie Scheffler  2023    657   760 Fairway
+3 Scottie Scheffler  2023     28    48 Bunker </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 1: Data Structure">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 1: Data Structure
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="a">
+<li><p>What are the <strong>dimensions</strong> of this dataset?</p></li>
+<li><p>Are there any <strong>variables</strong> not useful for our analysis? If so, list the names of these variables.</p></li>
+<li><p>What <strong>type of variable</strong> (ex: continuous numeric, catergorical, binary, ordinal…) is the <code>cut</code> <strong>variable</strong>?</p></li>
+<li><p>Which two <strong>variables</strong> can be used to calculate the proportion of greens hit in regulation?</p></li>
+</ol>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<strong>TIP:</strong> Type your answers to each exercise in the .qmd document.<br>
+</p>
+</div></div></section>
+<section id="mutating-data" class="level2">
+<h2 class="anchored" data-anchor-id="mutating-data">Mutating Data</h2>
+<ol type="1">
+<li>Mutating data in R is the process of creating new variables based on existing variables in a dataset. This can be done using the <code>mutate()</code> function in the <code>dplyr</code> package.</li>
+<li>The mutate function takes a data frame as its first argument and then a series of new variable assignments. (Eg: <code>mutate(data, new_var1 = old_var * 2, new_var = old_var1 - old_var2)</code>)</li>
+</ol>
+</section>
+<section id="arranging-data" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="arranging-data">Arranging Data</h2>
+<ol type="1">
+<li>The <code>arrange()</code> function in the <code>dplyr</code> package is used to sort the data frame by one or more variables.</li>
+<li>The <code>arrange()</code> function takes a data frame as its first argument and then a series of variables to sort by. (Eg: <code>arrange(data, variable1, variable2)</code>)</li>
+<li>By default, the <code>arrange()</code> function sorts in ascending order. To sort in descending order, you can use the <code>desc()</code> function inside the <code>arrange()</code> function. (Eg: <code>arrange(data, desc(variable1))</code>)</li>
+</ol>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 2: Data Manipulation">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 2: Data Manipulation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+<p>Use the <code>mutate()</code> function to create a new variable called <code>gir_rate</code> that represents the proportion of greens hit in regulation. Save this new dataset as <code>scheffler_2023_mutated</code>. Then arrange the <code>scheffler_2023_mutated</code> data by the <code>gir_rate</code> variable in descending order.</p>
+<ol type="a">
+<li><p>From what <code>cut</code> did Scottie Scheffler have the best Green in Regulation rate?</p></li>
+<li><p>From what <code>cut</code> did Scottie Scheffler have the worst Green in Regulation rate?</p></li>
+</ol>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"><div class="callout-margin-content">
+<p><strong>HINT</strong>: Values can be assigned to variable names in <em>R</em> using the <code>&lt;-</code> operator. For example, <code>x &lt;- 2</code>, <code>y &lt;- "Hello"</code>, or <code>z &lt;- 2 * x</code>.</p>
+<p>Using <code>=</code> also works in <strong>R</strong> for assigning values to variables, but it is common practice to use <code>&lt;-</code> for this purpose.</p>
+</div></div></section>
+</section>
+<section id="confidence-intervals-for-proportions" class="level1 page-columns page-full">
+<h1>Confidence Intervals for Proportions</h1>
+<p>A confidence interval for a proportion is a range of values that is likely to contain the true value of the population proportion with a certain level of confidence. Confidence intervals for proportions can be used for a variety of purposes, including:</p>
+<ol type="1">
+<li><p>Quantifying the precision of our estimates. The wider the confidence interval, the less precise our estimate is, the narrower the confidence interval, the more precise our estimate is.</p></li>
+<li><p>Making inferences about the population proportion. For example, if a 90% confidence interval was used, it could be said that if the same population was sampled on numerous occasions and interval estimates were made on each occasion, approximately 90% of the intervals would contain the population parameter.</p></li>
+<li><p>Testing hypothesized values of the population proportion. If the hypothesized value is not within the confidence interval, then we have reason to believe that it is not the true population proportion.</p></li>
+<li><p>Comparing two proportions. If the confidence intervals for two sample proportions do not overlap, then we have reason to believe that the two true population proportions are different.</p></li>
+</ol>
+<section id="making-confidence-intervals-in-r" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="making-confidence-intervals-in-r">Making Confidence Intervals in R</h2>
+<p>The statistical notation for a confidence interval for a proportion is:</p>
+<p><span class="math display">\[
+\hat{p} \pm z \times \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(\hat{p}\)</span> is the sample proportion.</li>
+<li><span class="math inline">\(z\)</span> is the z-score that corresponds to the desired level of confidence</li>
+<li><span class="math inline">\(n\)</span> is the sample size</li>
+</ul>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: The z-score for a 95% confidence interval is approximately 1.96. You can use this value to calculate the confidence interval for the proportion of greens hit in regulation by Scottie Scheffler from the fairway.</p>
+</div><div class="">
+<p>Some common Confidence Intervals and their corresponding z-scores are:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Confidence Interval</th>
+<th>Z-Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>90 %</td>
+<td>1.65</td>
+</tr>
+<tr class="even">
+<td>95 %</td>
+<td>1.96</td>
+</tr>
+<tr class="odd">
+<td>98 %</td>
+<td>2.33</td>
+</tr>
+<tr class="even">
+<td>99 %</td>
+<td>2.58</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+<p>In R you can perform basic math using the <code>*</code> operator for multiplication and the <code>\</code> operator for division.</p>
+<p>For a quick example if the proportion of success for a problem is .6, the sample size is 100, and the test is being performed at the 95% confidence level, then the confidence interval for the proportion of success can be calculated as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lower_limit <span class="ot">&lt;-</span> .<span class="dv">6</span> <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> <span class="fu">sqrt</span>((.<span class="dv">6</span> <span class="sc">*</span> (<span class="dv">1</span><span class="fl">-.6</span>))<span class="sc">/</span><span class="dv">100</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>upper_limit <span class="ot">&lt;-</span> .<span class="dv">6</span> <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> <span class="fu">sqrt</span>((.<span class="dv">6</span> <span class="sc">*</span> (<span class="dv">1</span><span class="fl">-.6</span>))<span class="sc">/</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This would give you the lower limit (0.50398) and the upper limit (0.69602) of the 95% confidence interval for the true proportion of success.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 3: Manual Confidence Intervals">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 3: Manual Confidence Intervals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the numbers from the <code>scheffler_2023_mutated</code> data frame where <strong><code>cut</code> = “Fairway”</strong> to calculate a <strong>95% confidence interval</strong> for the proportion of greens hit in regulation by Scottie Scheffler from the fairway.</p>
+<ol type="a">
+<li><p>What is value of <span class="math inline">\(\hat{p}\)</span> for the fairway cut?</p></li>
+<li><p>What is the value of <span class="math inline">\(n\)</span> for the fairway cut?</p></li>
+<li><p>What is the estimated value of the <strong>upper limit</strong> of the confidence interval for the fairway cut?</p></li>
+<li><p>What is the estimated value of the <strong>lower limit</strong> of the confidence interval for the fairway cut?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="using-prop.test-to-calculate-confidence-intervals" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="using-prop.test-to-calculate-confidence-intervals">Using <code>prop.test</code> to Calculate Confidence Intervals</h2>
+<p>In R the <code>prop.test()</code> function can be used to calculate confidence intervals for proportions. The <code>prop.test()</code> function takes the number of successes and the total number of trials as arguments and returns a confidence interval for the proportion.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: You can type <code>?prop.test</code> in the R console to get more information about the <code>prop.test()</code> function, including which arguments it takes and what it returns.</p>
+<p><strong>TIP</strong>: Throughout this lesson, we will set the <code>correct</code> argument to <code>FALSE</code> in the <code>prop.test()</code> function. This is because the <code>correct</code> argument is used to apply a continuity correction to the confidence interval, which we will not be using in this lesson.</p>
+</div></div><p>Below is an example of how to use the <code>prop.test()</code> function to calculate a 95% confidence interval for data where the number of successes is 60 and the total number of trials is 100. If <code>$conf.int</code> is added to the end of the <code>prop.test()</code> function, the function will return only the confidence interval and confidence level.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="dv">60</span>, <span class="dv">100</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>, <span class="at">correct =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1-sample proportions test without continuity correction
+
+data:  60 out of 100, null probability 0.5
+X-squared = 4, df = 1, p-value = 0.0455
+alternative hypothesis: true p is not equal to 0.5
+95 percent confidence interval:
+ 0.5020026 0.6905987
+sample estimates:
+  p 
+0.6 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="dv">60</span>, <span class="dv">100</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>, <span class="at">correct =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5020026 0.6905987
+attr(,"conf.level")
+[1] 0.95</code></pre>
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: The <code>$</code> operator is used to access a specific element of a list in R. In this case, the <code>conf.int</code> element of the list returned by the <code>prop.test()</code> function contains the confidence interval.</p>
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 4: Using R Functions for Confidence Intervals">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 4: Using R Functions for Confidence Intervals
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the <code>prop.test()</code> function to calculate a <strong>95% confidence interval</strong> for the proportion of greens hit in regulation by Scottie Scheffler from the <strong>bunker</strong>.</p>
+<ol type="a">
+<li><p>What is the value of the <strong>lower limit</strong> of the confidence interval for the bunker cut?</p></li>
+<li><p>What is the value of the <strong>upper limit</strong> of the confidence interval for the bunker cut?</p></li>
+<li><p>Is the range of the confidence interval for the <strong>bunker</strong> cut wider or narrower than the range of the confidence interval for the <strong>fairway</strong> cut?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="testing-hypothesized-proportions" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="testing-hypothesized-proportions">Testing Hypothesized Proportions</h2>
+<section id="setting-up-hypotheses" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="setting-up-hypotheses">Setting Up Hypotheses</h4>
+<p>In hypothesis testing for proportions, a null hypothesis is set up to test a claim about a population proportion. The null hypothesis is that the population proportion is equal to a specific value. The alternative hypothesis can be that the population proportion is not equal to the specific value, greater than the specific value, or less than the specific value.</p>
+<p>The options are shown below:</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>NOTE</strong>: It is common practice to denote a null hypothesis with <span class="math inline">\(H_0\)</span> and an alternative hypothesis with <span class="math inline">\(H_A\)</span>. Sometime the alternative hypothesis is denoted with <span class="math inline">\(H_1\)</span>.</p>
+</div></div><p><span class="math inline">\(H_0: p = p_0\)</span></p>
+<p>and</p>
+<p><span class="math inline">\(H_A: p \neq p_0\)</span> or<br>
+<span class="math inline">\(H_A: p &gt; p_0\)</span> or<br>
+<span class="math inline">\(H_A: p &lt; p_0\)</span></p>
+<p>Where <span class="math inline">\(p_0\)</span> is the hypothesized value of the population proportion and <span class="math inline">\(p\)</span> is the true population proportion.</p>
+</section>
+<section id="significance-level" class="level4">
+<h4 class="anchored" data-anchor-id="significance-level">Significance Level</h4>
+<p>For hypothesis testing, a <strong>significance level</strong> is set to determine the probability of rejecting the null hypothesis when it is true. The significance level is denoted by <span class="math inline">\(\alpha\)</span> and is often set to 0.05. This means that there is a 5% chance of rejecting the null hypothesis when it is actually true. Other common <strong>significance levels</strong> are 0.01 and 0.10.</p>
+</section>
+<section id="calculating-the-test-statistic" class="level4">
+<h4 class="anchored" data-anchor-id="calculating-the-test-statistic">Calculating the Test Statistic</h4>
+<p>A <strong>test statistic</strong> is a value calculated from the sample data that is used to determine whether the null hypothesis should be rejected or not.</p>
+<p>The <strong>test statistic</strong> for hypothesis testing for proportions is:</p>
+<p><span class="math display">\[z = \frac{\hat{p} - p_0}{\sqrt{\frac{p_0(1 - p_0)}{n}}}\]</span></p>
+<p>Where <span class="math inline">\(\hat{p}\)</span> is the sample proportion, <span class="math inline">\(p_0\)</span> is the hypothesized value of the population proportion, and <span class="math inline">\(n\)</span> is the sample size.</p>
+</section>
+<section id="determining-the-significance-of-the-test" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="determining-the-significance-of-the-test">Determining the Significance of the Test</h4>
+<p>There are two common ways to determine the significance of the test:</p>
+<ol type="1">
+<li><p>Compare the test statistic to the critical value</p></li>
+<li><p>Compare the p-value to the significance level</p></li>
+</ol>
+<p>The first method compares the <strong>test statistic</strong> to the <strong>critical value</strong>. The critical value is the value that separates the rejection region from the non-rejection region. If the test statistic is in the rejection region, the null hypothesis is rejected. This also corresponds to the confidence intervals given for true probability of success. If the hypothesized value of the population proportion is within the confidence interval, the null hypothesis is not rejected. If it is outside the confidence interval, the null hypothesis is rejected.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>: Critical values can be found very easily in <strong>R</strong> using the <code>qnorm()</code> function. For example, <code>qnorm(.975)</code> will return the critical value for a 95% confidence interval (two sided test).</p>
+<p>If the test is right-tailed (greater than), the critical value is found using <code>qnorm(.95)</code> for a 95% confidence interval. If the test is left-tailed (less than), the critical value is found using <code>qnorm(.05)</code> for a 95% confidence interval.</p>
+</div></div><p>The <strong>p-value</strong> is the most common way to determine the significance of the test. The <strong>p-value</strong> is the probability of observing a test statistic as extreme as the one calculated from the sample data, assuming the null hypothesis is true. If the <strong>p-value</strong> is less than the significance level, the null hypothesis is rejected.</p>
+</section>
+<section id="hypothesis-testing-in-r" class="level4">
+<h4 class="anchored" data-anchor-id="hypothesis-testing-in-r">Hypothesis Testing in R</h4>
+<p>Hypothesis testing for proportions can also be done in <strong>R</strong> using the <code>prop.test()</code> function. Seen below is an example where it is being tested if the true proportion of successes is different than .7. The first test shows the results if the sample proportion had 60 out of 100 successes and the second test shows the results if the sample proportion had 70 out of 100 successes. Both tests are done using an <span class="math inline">\(\alpha\)</span> level of 0.05.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="dv">60</span>, <span class="dv">100</span>, <span class="at">p =</span> .<span class="dv">7</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>, <span class="at">correct =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1-sample proportions test without continuity correction
+
+data:  60 out of 100, null probability 0.7
+X-squared = 4.7619, df = 1, p-value = 0.0291
+alternative hypothesis: true p is not equal to 0.7
+95 percent confidence interval:
+ 0.5020026 0.6905987
+sample estimates:
+  p 
+0.6 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="dv">70</span>, <span class="dv">100</span>, <span class="at">p =</span> .<span class="dv">7</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>, <span class="at">correct =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1-sample proportions test without continuity correction
+
+data:  70 out of 100, null probability 0.7
+X-squared = 4.2073e-31, df = 1, p-value = 1
+alternative hypothesis: true p is not equal to 0.7
+95 percent confidence interval:
+ 0.6041515 0.7810511
+sample estimates:
+  p 
+0.7 </code></pre>
+</div>
+</div>
+<p>The test statistic is returned in the output of <code>prop.test()</code> as <code>X-squared</code>. This is the square of the z-value. For the first test the test statistic is 2.182, and for the second test the test statistic is 0. For a 95% confidence level for a two-sided test, the critical value is 1.96. If the test statistic is greater than 1.96 or less than -1.96, the null hypothesis is rejected. Since the test statistic for the first test is less than -1.96, the null hypothesis is rejected. Since the test statistic for the second test is between -1.96 and 1.96, the null hypothesis is not rejected.</p>
+<p>The p-value of the test is returned in the output of the <code>prop.test()</code> function. For the first test, the p-value is 0.029 and for the second test, the p-value is 1. Since the p-value of the first test is less than the significance level of 0.05, the null hypothesis is rejected. Since the p-value for the second test is greater than the significance level of 0.05, we fail to reject the null hypothesis.</p>
+</section>
+<section id="drawing-conclusions" class="level4">
+<h4 class="anchored" data-anchor-id="drawing-conclusions">Drawing Conclusions</h4>
+<p>If the null hypothesis is rejected we can conclude that the sample data provides enough evidence to support the alternative hypothesis. If the null hypothesis was that the population proportion is equal to .7 and the alternative hypothesis was that the population proportion is not equal to .7 and <span class="math inline">\(\alpha = 0.5\)</span>, then we might say,</p>
+<p><em>“There is significant evidence to suggest that the true population proportion is not equal to .7 at the 95% confidence level.”</em></p>
+<p>If the null hypothesis is not rejected we do not automatically accept the null hypothesis. We simply do not have enough evidence to reject it. For example if the null hypothesis was that the population proportion is equal to .7 and the alternative hypothesis was that the population proportion is not equal to .7 and <span class="math inline">\(\alpha = .05\)</span>, then we might say,</p>
+<p><em>There is not enough evidence to suggest that the true population proportion is different from .7 at the 95% confidence level.”</em></p>
+</section>
+<section id="example" class="level4">
+<h4 class="anchored" data-anchor-id="example">Example</h4>
+<p>Suppose you are watching a golf tournament on TV and Scottie Scheffler is about to hit an approach shot from the fairway. You hear the announcer say that Scottie Scheffler hits 3/4 of his greens in regulation from the fairway. You are skeptical of this claim and decide to test it against the data you have collected at the 95% confidence level.</p>
+<p>You set up a hypothesis test with the following hypotheses:</p>
+<ul>
+<li><p><strong>Null Hypothesis <span class="math inline">\(H_0\)</span></strong>: The proportion of greens hit in regulation by Scottie Scheffler from the fairway is 0.75.</p></li>
+<li><p><strong>Alternative Hypothesis <span class="math inline">\(H_A\)</span></strong>: The proportion of greens hit in regulation by Scottie Scheffler from the fairway is not 0.75.</p></li>
+</ul>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 5: Confidence Intervals for Hypothesis Testing">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 5: Confidence Intervals for Hypothesis Testing
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use the <code>prop.test()</code> function to test the hypothesis that the true proportion of greens hit in regulation by Scottie Scheffler from the fairway is not 0.75. <span class="math inline">\(\alpha = 0.05\)</span>. Set <code>correct = FALSE</code>.</p>
+<ol type="a">
+<li><p>What is the <strong>p-value</strong> of the test?</p></li>
+<li><p>Based on the <strong>p-value</strong>, do you reject or fail to reject the null hypothesis?</p></li>
+<li><p>What is your <strong>conclusion</strong>?</p></li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="comparing-two-proportions" class="level1 page-columns page-full">
+<h1>Comparing Two Proportions</h1>
+<p>Sometimes, comparing two sample proportions is necessary to determine if they are significantly different. This can be done with a two sample z-test for equality of proportions.</p>
+<p>The null hypothesis for a two sample z-test for equality of proportions is that the two proportions are equal.</p>
+<p><span class="math inline">\(H_0: p_1 = p_2\)</span></p>
+<p>The alternative hypothesis can be that the two proportions are not equal.</p>
+<p><span class="math inline">\(H_A: p_1 \neq p_2\)</span></p>
+<p>That the first proportion is greater than the second proportion.</p>
+<p><span class="math inline">\(H_A: p_1 &gt; p_2\)</span></p>
+<p>or that the first proportion is less than the second proportion.</p>
+<p><span class="math inline">\(H_A: p_1 &lt; p_2\)</span></p>
+<p>The test-statistic for the two sample z-test for equality of proportions is calculated as:</p>
+<p><span class="math display">\[Z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\hat{p}(1-\hat{p})\left(\frac{1}{n_1} + \frac{1}{n_2}\right)}}\]</span></p>
+<p>where</p>
+<p><span class="math inline">\(\hat{p}_1\)</span> and <span class="math inline">\(\hat{p}_2\)</span> are the sample proportions for the two samples,</p>
+<p><span class="math inline">\(\hat{p}\)</span> is the pooled proportion,</p>
+<p><span class="math inline">\(n_1\)</span> and <span class="math inline">\(n_2\)</span> are the sample sizes for the two samples.</p>
+<p>The pooled proportion is calculated as:</p>
+<p><span class="math display">\[\hat{p} = \frac{x_1 + x_2}{n_1 + n_2}\]</span></p>
+<p>Once again the <code>prop.test()</code> function in R can help us out. The <code>prop.test()</code> function can the number of successes and the total number of trials for each sample as arguments and return a p-value for the comparison. Use the argument <code>correct = FALSE</code> in the function to get the correct results. Remember that the <code>prop.test()</code> function will list the test statistic as an X-squared value, which is the square of the z-score. The p-value stays the same as listed in the output.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>TIP</strong>:Use the <code>?prop.test</code> command in the R console to get more information about the <code>prop.test()</code> function, including which arguments it takes and what it returns.</p>
+<p><strong>NOTE</strong>: <code>prop.test</code> can take the form <code>prop.test(c(x1, x2), c(n1, n2))</code> where <code>x1</code> and <code>x2</code> are the number of successes in each sample and <code>n1</code> and <code>n2</code> are the total number of trials in each sample.</p>
+</div></div><p>Below is an example of how the <code>prop.test()</code> function could be used to compare two proportions (10/100 and 20/100) at the 95% confidence level with a two-sided alternative hypothesis:</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>NOTE</strong>: If we were using the test statistic to compare the critical value, we would have to take the square root of the X-squared value to get the z-score (the z-Score is our test statistic).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fl">3.9216</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.980303</code></pre>
+</div>
+</div>
+<p>The z-score would then be compared to the critical value for the desired confidence level. Since we know that the critical values for a two-sided test at the 95% confidence level are -1.96 and 1.96, we can see that the z-score of <span class="math inline">\(\pm 1.98\)</span> falls in the rejection region.</p>
+</div></div><div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>), <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">100</span>), </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">conf.level =</span> <span class="fl">0.95</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">alternative =</span> <span class="st">'two.sided'</span>, </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">correct =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    2-sample test for equality of proportions without continuity correction
+
+data:  c(10, 20) out of c(100, 100)
+X-squared = 3.9216, df = 1, p-value = 0.04767
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.197998199 -0.002001801
+sample estimates:
+prop 1 prop 2 
+   0.1    0.2 </code></pre>
+</div>
+</div>
+<p>The <code>prop.test()</code> function returns a p-value for the comparison, which in this case is .048. Since this value is less than our <span class="math inline">\(\alpha\)</span> of .05, we would reject the null hypothesis that the two proportions are equal and conclude that there is enough evidence to suggest that the two true proportions are different.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 6: Comparing Two Proportions">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise 6: Comparing Two Proportions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Of the cuts in golf, the <strong>fairway</strong> is generally considered to be the most desirable place to hit the ball. Shorter grass is widely believed to make it easier to hit the green in regulation.</p>
+<p>The <strong>bunker</strong>, on the other hand, is often considered to be one of the most difficult places to hit the ball from. The sand can make it difficult to control the ball and hit it accurately. Additionally, no practice swings are allowed to hit the sand in the <strong>bunker</strong> making it more difficult to get a feel for the shot.</p>
+
+<p>In the <code>scheffler_2023</code> dataset there is also a cut called <strong>“Other”</strong>. This includes shots from the rough, waste areas, mulch and more. These are also often expected to be tougher than the fairway but slightly easier to hit out of than bunkers, but not always. Our summarization of the probabilities from different cuts earlier confirmed a slightly higher probability of hitting the green in regulation from the <strong>“Other”</strong> cut compared to the bunker cut.</p>
+<p>Use the <code>prop.test()</code> function to compare the proportion of greens hit in regulation by Scottie Scheffler from the <strong>fairway</strong> and the <strong>bunker</strong>. Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway is <strong>greater</strong> than the proportion of greens hit in regulation from the bunker. Use the <strong>95% confidence level</strong>. Set <strong>correct = FALSE</strong>.</p>
+
+<ol type="a">
+<li><p>What is the value of the <strong>test statistic</strong>?</p></li>
+<li><p>What is the <strong>critical value</strong> for the test?</p></li>
+<li><p>Is the <strong>test statistic</strong> in the <strong>rejection region</strong>?</p></li>
+<li><p>What is the <strong>p-value</strong> of the test?</p></li>
+<li><p>Is <strong>0</strong> included in the confidence interval for the difference in proportions?</p></li>
+<li><p>Based on your answers above, what is your <strong>conclusion</strong> about the two proportions?</p></li>
+</ol>
+<p>Use the <code>prop.test()</code> function to compare the proportion of greens hit in regulation by Scottie Scheffler from the <strong>Other</strong> cut and the <strong>Bunker</strong>. Make the alternative hypothesis that the proportion of greens hit in regulation from the <strong>Other</strong> cut is <strong>greater</strong> than the proportion of greens hit in regulation from the <strong>Bunker</strong>. Use the <strong>95% confidence level</strong>. Set <strong>correct = FALSE</strong>.</p>
+<ol start="7" type="a">
+<li><p>What is the value of the <strong>test statistic</strong>?</p></li>
+<li><p>What is the <strong>p-value</strong> of the test?</p></li>
+<li><p>Is <strong>0</strong> included in the confidence interval for the difference in proportions?</p></li>
+<li><p>Based on your answers above, what is your <strong>conclusion</strong> about the two proportions?</p></li>
+<li><p>If you were giving advice to Scottie Scheffler on a par 4 hole with rough on the left and a bunker on the right and he asked which would be better to hit out of, what would you tell him?</p></li>
+</ol>
+</div>
+</div><div class="no-row-height column-margin column-container"><div class="callout-margin-content">
+<p>Learn about rules about hitting out of the bunkers in golf in the video below:</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/T9_gXqAE6ZY" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</div><div class="callout-margin-content">
+<p><strong>TIP</strong>: The alternative hypothesis can be set to <code>'greater'</code>, <code>'less'</code>, or <code>'two.sided'</code> using the <code>alternative</code> argument in the <code>prop.test()</code> function.</p>
+<p><strong>TIP</strong>: Remember that the test statistic is <strong>z</strong> which is the square root of the X-squared value output by the <code>prop.test()</code> function.</p>
+</div></div>
+</section>
+<section id="more-practice" class="level1 page-columns page-full">
+<h1>More Practice</h1>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Challenge Problems">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Challenge Problems
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Scottie Scheffler is not the only great golfer on the PGA Tour. In the <a href="pga_girs.csv">pga_girs</a> dataset there is data on the greens hit in regulation by PGA professionals from 2019-2023. The data is structured identically to the <code>scheffler_2023</code> dataset.</p>
+
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Challenge 1: Two Player Comparison">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Challenge 1: Two Player Comparison
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+<ol type="1">
+<li>Compare Scottie Scheffler’s approach shots in 2023 to Rory McIlroy’s approach shots in 2023.</li>
+</ol>
+<ol type="a">
+<li><p>Use the <code>prop.test()</code> function to compare the proportion of greens hit in regulation by Scottie Scheffler from the <strong>fairway</strong> to the proportion of greens hit in regulation by Rory McIlroy from the <strong>fairway</strong>. Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway by Scottie Scheffler is greater than the proportion of greens hit in regulation from the fairway by Rory McIlroy. Use the <strong>95% confidence level</strong>. Set <strong>correct = FALSE</strong>.</p></li>
+<li><p>How big is the <strong>difference</strong> in the sample proportion of greens hit in regulation from the fairway between Scottie Scheffler and Rory McIlroy (round to the nearest hundreth)?</p></li>
+<li><p>Is there enough evidence to conclude that Scottie Scheffler is better at hitting greens in regulation from the fairway than Rory McIlroy? Explain your answer.</p></li>
+<li><p>Compare the proportion of greens hit in regulation by Scottie Scheffler from the <strong>bunker</strong> to the proportion of greens hit in regulation by Rory McIlroy from the <strong>bunker</strong>. Make the alternative hypothesis that the proportion of greens hit in regulation from the bunker by Scottie Scheffler is greater than the proportion of greens hit in regulation from the bunker by Rory McIlroy. Use the <strong>95% confidence level</strong>. Set <strong>correct = FALSE</strong>.</p></li>
+<li><p>How big is the <strong>difference</strong> in the sample proportion of greens hit in regulation from the bunker between Scottie Scheffler and Rory McIlroy (round to the nearest hundreth)?</p></li>
+<li><p>What is your <strong>conclusion</strong> about Scheffler’s and McIlroy’s approaches from the bunker?</p></li>
+<li><p>Explain why it might be more difficult to find a significant difference in the proportion of greens hit in regulation from the bunker compared to the fairway, even if the difference in the sample proportions from the bunker is larger than the difference from the fairway.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Challenge 2: Past Comparisons">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Challenge 2: Past Comparisons
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="2" type="1">
+<li>Scottie Scheffler skyrocketed up the world golf rankings from 2019-2023. His world golf ranking went from 66 to 31 to 12 to 2 and finally to number 1 (at the end of each season respectively). Take a look at whether Scottie Scheffler’s Greens in Regulation from different cuts improved during his climb to the top. Filter the <code>pga_girs</code> dataset to only include data from Scottie Scheffler.</li>
+</ol>
+
+<ol type="a">
+<li><p>Use filter, mutate, and arrange to calculate Scheffler’s GIR from the fairway each season. Which season is it the highest?</p></li>
+<li><p>Which season is it the lowest?</p></li>
+<li><p>Use the <code>prop.test()</code> function to compare the proportion of greens hit in regulation by Scottie Scheffler from the <strong>fairway</strong> in 2020 to the proportion of greens hit in regulation by Scottie Scheffler from the <strong>fairway</strong> in 2021 Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2020 is less than the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2021. Use the <strong>95% confidence level</strong>. Set <strong>correct = FALSE</strong>.</p></li>
+<li><p>Use the <code>prop.test()</code> function to compare the proportion of greens hit in regulation by Scottie Scheffler from the <strong>Other</strong> cut in 2021 to the proportion of greens hit in regulation by Scottie Scheffler from the <strong>Other</strong> cut in 2022. Make the alternative hypothesis that the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2021 is less than the proportion of greens hit in regulation from the fairway by Scottie Scheffler in 2022. Use the <strong>95% confidence level</strong>. Set <strong>correct = FALSE</strong>.</p></li>
+</ol>
+</div>
+</div>
+
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Challenge 3: Changing Conditions">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Challenge 3: Changing Conditions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol start="3" type="1">
+<li>Find the best and worst bunker players in 2023 who took less than 25 approach shots from the bunker.</li>
+</ol>
+<ol type="a">
+<li><p>Test the hypothesis that the proportion of greens hit in regulation from the bunker by the best bunker player is greater than the proportion of greens hit in regulation from the bunker by the worst bunker player. Use the <strong>90% confidence level</strong>. Set <strong>correct = FALSE</strong>.</p></li>
+<li><p>Test the hypothesis that the proportion of greens hit in regulation from the fairway by the best bunker player is greater than the proportion of greens hit in regulation from the fairway by the worst bunker player. Use the <strong>99% confidence level</strong>. Set <strong>correct = FALSE</strong>.</p></li>
+<li><p>Do you get differing results when you change the confidence level? If yes, explain why.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="no-row-height column-margin column-container"><div class="callout-margin-content">
+<p>Rory McIlroy is one of the most popular and best golfers on the PGA Tour. He has won multiple major championships. He is known for his long drives and his picturesque swing.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Rory_McIlroy.jpg" class="img-fluid figure-img"></p>
+<figcaption>Rory McIlroy</figcaption>
+</figure>
+</div>
+<p>Image Source: <a href="https://commons.wikimedia.org/wiki/File:Rory_McIlroy_finishes_long_iron_stroke.jpg">TourProGolfClubs</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>, via Wikimedia Commons</p>
+</div><div class="callout-margin-content">
+<p><strong>HINT</strong>: Read in the data and create a McIlroy 2023 dataset with the code below:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pga_girs <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"pga_girs.csv"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>mcilroy_2023 <span class="ot">&lt;-</span> <span class="fu">filter</span>(pga_girs, player <span class="sc">==</span> <span class="st">"Rory McIlroy"</span>, year <span class="sc">==</span> <span class="dv">2023</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="callout-margin-content">
+<p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+<p>Below is a graph of Scottie Scheffler’s rapid climb up the world golf rankings from the end of 2019 to the end of 2023.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="callout-margin-content">
+<p><br><br><br><br></p>
+<p><strong>HINT</strong>: Use the code below to filter the data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>top_bunker_players <span class="ot">&lt;-</span> pga_girs <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(cut <span class="sc">==</span> <span class="st">"Bunker"</span>, holes <span class="sc">&lt;</span> <span class="dv">25</span>, year <span class="sc">==</span> <span class="dv">2023</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gir =</span> greens <span class="sc">/</span> holes) <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(gir)) <span class="sc">|&gt;</span> </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>, <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div></div>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>In this module you have learned how to form confidence intervals, conduct hypothesis tests, and compare proportions in R. You also learned how to interpret the results of these intervals and tests correctly. The effects of sample size and confidence level were also looked at in this module.</p>
+<p>With the golf data we determined that Scottie Scheffler is better at hitting greens in regulation from the fairway than not in the fairway. We also saw that at times the difference in the sample proportions of greens hit in regulation between golfers or cuts was not significant enough to reject the claim that they are equal. When performing multiple tests at different significance levels, we sometimes got different results, proving the importance of choosing a significance level before conducting a test.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Maintained by Katie Fitzgerald <br> We use cookies to track usage statistics to help measure impact of the materials for authors. Please consider allowing tracking cookies.</p>
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Manage cookies</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

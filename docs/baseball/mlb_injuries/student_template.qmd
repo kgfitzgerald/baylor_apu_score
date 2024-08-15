@@ -1,0 +1,257 @@
+---
+title: "MLB Injuries- Introductory Time Series Analysis"
+author: "YOUR NAME HERE"
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: tango
+editor_options:
+  chunk_output_type: console
+embed-resources: true
+---
+
+# Getting Started: MLB Injury Data
+
+```{r, warning = FALSE, message = FALSE}
+# Load the libraries
+# Note you may need to install some of these packages
+library(fpp3)
+library(tidyverse)
+
+# Load the data and convert to tsibble
+injuries <- read_csv("mlb_injuries_monthly.csv") |> 
+  mutate(Month = yearmonth(Month)) |> 
+  as_tsibble(index = Month)
+```
+
+# Visualizing Time Series Data
+
+## Exercise 1: Interpreting a Time Series Plot
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+autoplot(injuries, Count) +
+  labs(title = "Monthly MLB Injury Counts",
+       x = "Year",
+       y = "Number of Injuries")
+```
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+e.  YOUR ANSWER HERE
+
+# Autocorrelation
+
+## Exercise 2: Autocorrelation Plots
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+injuries |> 
+  ACF(Count) |> 
+  autoplot() +
+  labs(title = "Autocorrelation of Monthly MLB Injury Counts",
+       x = "Lag",
+       y = "Autocorrelation")
+```
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+# Decomposition
+
+## Exercise 3: Changing Decomposition Types
+
+a. 
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+injuries |> 
+  model(classical_decomposition(Count)) |>
+  components() |>
+  autoplot() +
+  labs(title = "Classical Additive Decomposition of Monthly MLB Injury Counts")
+```
+
+```{r}
+#Your CODE HERE FOR CLASSICAL MULTIPLICATIVE DECOMPOSITION
+```
+
+YOUR ANSWER HERE
+
+b. 
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+injuries |> 
+  model(STL(Count ~ trend(window = 21)+ 
+            season(window = "periodic"),
+            robust = TRUE)) |>
+  components() |>
+  autoplot() +
+  labs(title = "STL Additive Decomposition of Monthly MLB Injury Counts (Trend Window = 21)")
+```
+
+```{r}
+#Your CODE HERE FOR STL Decomposition WITH SMALLER TREND WINDOW
+```
+
+YOUR ANSWER HERE
+
+# Basic Forecasting Methods
+
+## Exercise 4: Basic Forecasting Methods
+
+a. YOUR ANSWER HERE
+
+b. YOUR ANSWER HERE
+
+c. YOUR ANSWER HERE
+
+d. YOUR ANSWER HERE
+
+e. YOUR ANSWER HERE
+
+f. YOUR ANSWER HERE
+
+# Evaluating Forecasting Models
+
+## Exercise 5: Residual Analysis
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+snaive_mod <- injuries |>
+  model(SNAIVE(Count ~ lag('year')))
+  
+snaive_mod |> 
+  gg_tsresiduals()
+```
+
+a. YOUR ANSWER HERE
+
+b. YOUR ANSWER HERE
+
+c. YOUR ANSWER HERE
+
+d. YOUR ANSWER HERE
+
+```{r, echo=FALSE, eval=FALSE}
+# This code is purely to help you later in the assignment
+training <- injuries |> filter(year(Month) < 2018)
+testing <- injuries |> filter(year(Month) >= 2018)
+
+injury_fit <- training |>
+  model(mean = MEAN(Count),
+        naive = NAIVE(Count),
+        snaive = SNAIVE(Count ~ lag('year')),
+        drift = RW(Count ~ drift()))
+
+injury_forecasts <- injury_fit |> 
+  forecast(new_data = testing)
+
+injury_forecasts |>
+  autoplot(injuries, level = NULL) +
+  labs(title = "Forecasting Methods for Monthly MLB Injury Counts")+
+  guides(color = guide_legend(title = "Forecast"))
+
+accuracy(injury_forecasts, testing)
+```
+
+# Forecasting
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+# Fit the final model
+final_fit <- injuries |> 
+  model(SNAIVE(Count ~ lag('year')))
+
+# Forecast the next 36 months
+final_forecasts <- final_fit |> 
+  forecast(h = 36)
+
+# Plot the forecasts
+final_forecasts |>
+  autoplot(injuries) +
+  labs(title = "Forecasting MLB Injuries")+
+  guides(color = guide_legend(title = "Forecast"))
+```
+
+## Exercise 6: Forecasting MLB Injuries
+
+a. YOUR ANSWER HERE
+
+b. YOUR ANSWER HERE
+
+c. YOUR ANSWER HERE
+
+d. YOUR ANSWER HERE
+
+# More Practice
+
+## Challenge 1: Visualizing the Data
+
+a. 
+```{r, warning=FALSE, message=FALSE}
+tj_surgeries <- read_csv("tj_surgeries_mlb_milb.csv") |> 
+  as_tsibble(index = year)
+
+# Your Code For Plotting Here
+```
+
+b. YOUR ANSWER HERE
+
+c. YOUR ANSWER HERE
+
+d. YOUR ANSWER HERE
+
+e. 
+```{r}
+# Your Code For Plotting Acf Here
+```
+
+YOUR ANSWER HERE
+
+f. YOUR ANSWER HERE
+
+## Challenge 2: Simple Forecasting Methods
+
+```{r}
+training <- tj_surgeries |> filter(year <= 2011)
+testing <- tj_surgeries |> filter(year > 2011)
+```
+
+a. 
+```{r}
+# Your Code For Fitting Models Here
+```
+
+b. 
+```{r}
+# Your Code For Plotting Forecasts Here
+```
+
+YOUR ANSWER HERE
+
+c. 
+```{r}
+# Your Code For Calculating Accuracy Here
+```
+
+YOUR ANSWER HERE
+
+d. 
+```{r}
+# Your Code for Fitting to the Full Data Here
+# Your Code for Forecasting  and Plotting the Next 3 Years Here
+```
+
+YOUR ANSWER HERE
+
+e. YOUR ANSWER HERE
+
+f. YOUR ANSWER HERE
+
+
