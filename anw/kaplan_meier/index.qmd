@@ -6,6 +6,9 @@ author:
     affiliation:
       - id: bay
         name: Baylor University
+  - name: Rodney X. Sturdivant
+    affiliation:
+      - ref: baylor
 date: July 22, 2024
 format:
   html:
