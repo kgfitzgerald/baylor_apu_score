@@ -1,0 +1,21 @@
+﻿Variable,Description
+date,date of the event (mdy)
+month,month of the event
+year,year of the event
+event,name of the event
+championship,is the event a championship event
+decision,fight result
+decision_group,aggregated groups of decision variable
+round,how many rounds the fight lasted
+time,time the fight ended
+p1_result,result of the fight for fighter 1
+p1_id,a unique ID for fighter 1
+p1_name,full name of fighter 1
+p1_country,home country of fighter 1
+p1_sex,sex of fighter 1
+p2_result,result of the fight for fighter 2
+p2_id,a unique ID for fighter 2
+p2_name,full name of fighter 2
+p2_country,home country of fighter 2
+p2_sex,sex of fighter 2
+wtClass,aggregated groups of Weight Class
