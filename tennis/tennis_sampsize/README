@@ -1,0 +1,17 @@
+This repository contains files for a SCORE module for teaching the basic sample size calculation using tennis data. The module is designed for use in an introductory statistics course or independent learning and uses R to teach the topics.
+
+This module is best viewed in HTML format. A preprint version of this module can be viewed at https://kgfitzgerald.github.io/baylor_apu_score/tennis/tennis_sampsize/. The module can also be viewed locally from files in the GitHub https://github.com/kgfitzgerald/baylor_apu_score/tree/main/tennis by opening the R Project tennis_sampsize.RProj, then opening the R Quarto file index.qmd, and then clicking "Render". 
+
+The following files are included in this repository:
+
+- `tennis_sampsize.RProj`: R Project file for the module
+
+- `index.qmd`: R Quarto file for the module
+
+- `tennis_student_template.qmd`: R Quarto file for that can be downloaded to answer questions from the module with code and text. This could be turned in to an instructor if used in a course. 
+
+- `wimbledon_featured_matches.csv`: Data file used for most of the module containing information about results for tennis matches at Wimbledon in 2023. The data is derived from `Tennis databases, files, and algorithms` by Jeff Sackmann / Tennis Abstract is licenses under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. Based on a work at https://github.com/JeffSackmann.
+
+- `tennis_2024_sampsize_glossary.csv`: Data glossary for the `wimbledon_featured_matches.csv` data file.
+
+
