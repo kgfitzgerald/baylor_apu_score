@@ -22,7 +22,7 @@ format:
       margin-width: 350px
 toc: true
 toc-location: left
-description: Exploring the prime age of MLB players
+description: Use data wrangling skills to explore the prime age of MLB players
 categories:
   - Data wrangling
   - Dplyr basics
@@ -39,8 +39,8 @@ callout-icon: false
 
 + Students should be provided with the following data files (.rds) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd. 
 
-  + [batter data](batter_stats.csv)
-  + [pitcher data](pitcher_stats.csv)
+  + [batter_stats.csv](batter_stats.csv)
+  + [pitcher_stats.csv](pitcher_stats.csv)
   + [Student Quarto template](student_template.qmd)
 
 + [Posit Cloud](https://posit.cloud/) (via an Instructor account) or [Github classroom](https://classroom.github.com) are good options for disseminating files to students, but simply uploading files to your university's course management system works, too.

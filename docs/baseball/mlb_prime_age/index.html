@@ -11,7 +11,7 @@
 <meta name="author" content="Dat Tran">
 <meta name="author" content="Katie Fitzgerald">
 <meta name="dcterms.date" content="2024-07-26">
-<meta name="description" content="Exploring the prime age of MLB players">
+<meta name="description" content="Use data wrangling skills to explore the prime age of MLB players">
 
 <title>Baylor APU SCORE Module Preprint Repository - What’s the prime age of an MLB player?</title>
 <style>
@@ -379,7 +379,7 @@ cookieconsent.run({
 
 <div>
   <div class="description">
-    Exploring the prime age of MLB players
+    Use data wrangling skills to explore the prime age of MLB players
   </div>
 </div>
 
@@ -456,8 +456,8 @@ Facilitation notes
 <li><p>It assumes a basic familiarity with the RStudio Environment and basic introduction to the <code>tidyverse</code> has already been covered, but tips on tidyverse code are provided throughout.</p></li>
 <li><p>Students should be provided with the following data files (.rds) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.</p>
 <ul>
-<li><a href="batter_stats.csv">batter data</a></li>
-<li><a href="pitcher_stats.csv">pitcher data</a></li>
+<li><a href="batter_stats.csv">batter_stats.csv</a></li>
+<li><a href="pitcher_stats.csv">pitcher_stats.csv</a></li>
 <li><a href="student_template.qmd">Student Quarto template</a></li>
 </ul></li>
 <li><p><a href="https://posit.cloud/">Posit Cloud</a> (via an Instructor account) or <a href="https://classroom.github.com">Github classroom</a> are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.</p></li>
@@ -467,7 +467,7 @@ Facilitation notes
 </div>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>In this module you will be analyzing data on Major League Baseball (MLB) players from the 2014 - 2023 seasons. The goal of this module is to practice your data wrangling skills while investigating the question “at what age do professional baseball players typically reach their prime?”</p>
+<p>In this module you will be analyzing data on Major League Baseball (MLB) players from the 2014 - 2023 seasons. The goal of this module is to practice your data wrangling skills while investigating the question <em>“at what age do professional baseball players typically reach their prime?”</em></p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Learning Objectives">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -507,7 +507,7 @@ Learning Objectives
 </div>
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
-<p>This data was curated via the <a href="https://billpetti.github.io/baseballr/articles/baseballr.html"><code>baseballr</code> package</a>, which has built in functions for acquiring a plethora of baseball data. In particular, data for this module was pulled in May 2024 using the <code>fg_batter_leaders()</code> and <code>fg_pitcher_leaders()</code> functions, which provide over 300 variables of statistics on batters and pitchers beginning with the 1974 season. This analysis engages with only a small subset of available variables and seasons, but we encourage baseball enthusiasts and aspiring analysts to check out all the package has to offer.</p>
+<p>This data was curated via the <a href="https://billpetti.github.io/baseballr/articles/baseballr.html"><code>baseballr</code> package</a>, which has built in functions for acquiring a plethora of baseball data. In particular, data for this module was pulled in May 2024 using the <code>fg_batter_leaders()</code> and <code>fg_pitcher_leaders()</code> functions, which provide over 300 variables of statistics on batters and pitchers beginning with the 1974 season. This analysis engages with only a small subset of available variables and seasons, but we encourage baseball enthusiasts and aspiring analysts to check out all the <code>baseballr</code> package has to offer.</p>
 <details>
 <summary>
 <b>Variable Descriptions (all players) </b>
@@ -677,7 +677,7 @@ Research question
 </div>
 <p>There are many different aspects of a player’s performance that determine how well he is playing. One comprehensive metric is called WAR, which stands for “wins above replacement.” The MLB provides the following definition of WAR:</p>
 <blockquote class="blockquote">
-<p>“WAR measures a player’s value in all facets of the game by deciphering how many more wins he’s worth than a replacement-level player at his same position (e.g., a Minor League replacement or a readily available fill-in free agent).” <a href="https://www.mlb.com/glossary/advanced-stats/wins-above-replacement">MLB.com</a></p>
+<p>“WAR measures a player’s value in all facets of the game by deciphering how many more wins he’s worth than a replacement-level player at his same position (e.g., a Minor League replacement or a readily available fill-in free agent).” - <a href="https://www.mlb.com/glossary/advanced-stats/wins-above-replacement">MLB.com</a></p>
 </blockquote>
 <p>Therefore, one reasonable way to determine a player’s prime age would be to determine the age at which he had his highest WAR.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -690,7 +690,7 @@ What’s a good WAR?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>An decent WAR is typically around 2, while All-star players typically have a WAR anywhere between 3 and 6, and MVP-level players tend to have a WAR above 6.</p>
+<p>A decent WAR is typically around 2, while All-star players typically have a WAR anywhere between 3 and 6, and MVP-level players tend to have a WAR above 6.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
