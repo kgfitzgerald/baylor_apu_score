@@ -347,15 +347,13 @@ cookieconsent.run({
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting started</a>
-  <ul class="collapse">
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  </ul></li>
-  <li><a href="#prime-age" id="toc-prime-age" class="nav-link" data-scroll-target="#prime-age">Prime Age:</a>
+  <li><a href="#data-variable-descriptions" id="toc-data-variable-descriptions" class="nav-link" data-scroll-target="#data-variable-descriptions">Data / Variable Descriptions</a></li>
+  <li><a href="#prime-age-analysis" id="toc-prime-age-analysis" class="nav-link" data-scroll-target="#prime-age-analysis">Prime Age Analysis</a>
   <ul class="collapse">
   <li><a href="#batters" id="toc-batters" class="nav-link" data-scroll-target="#batters">Batters</a></li>
   <li><a href="#pitchers" id="toc-pitchers" class="nav-link" data-scroll-target="#pitchers">Pitchers</a></li>
   </ul></li>
+  <li><a href="#wrap-up-reflection" id="toc-wrap-up-reflection" class="nav-link" data-scroll-target="#wrap-up-reflection">Wrap-up / reflection</a></li>
   <li><a href="#for-fun" id="toc-for-fun" class="nav-link" data-scroll-target="#for-fun">FOR FUN</a></li>
   </ul>
 </nav>
@@ -439,13 +437,13 @@ cookieconsent.run({
 </header>
 
 
-<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Facilitation notes">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Methods/Facilitation notes">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Facilitation notes
+Methods/Facilitation notes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -496,8 +494,8 @@ Learning Objectives
 </div>
 </div>
 </section>
-<section id="getting-started" class="level1">
-<h1>Getting started</h1>
+<section id="data-variable-descriptions" class="level1">
+<h1>Data / Variable Descriptions</h1>
 <p>We’ll get started by loading necessary packages and datasets.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -505,8 +503,6 @@ Learning Objectives
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>batter_stats <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"batter_stats.csv"</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pitcher_stats <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"pitcher_stats.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>This data was curated via the <a href="https://billpetti.github.io/baseballr/articles/baseballr.html"><code>baseballr</code> package</a>, which has built in functions for acquiring a plethora of baseball data. In particular, data for this module was pulled in May 2024 using the <code>fg_batter_leaders()</code> and <code>fg_pitcher_leaders()</code> functions, which provide over 300 variables of statistics on batters and pitchers beginning with the 1974 season. This analysis engages with only a small subset of available variables and seasons, but we encourage baseball enthusiasts and aspiring analysts to check out all the <code>baseballr</code> package has to offer.</p>
 <details>
 <summary>
@@ -659,9 +655,8 @@ Learning Objectives
 </tbody>
 </table>
 </details></details></details></section>
-</section>
-<section id="prime-age" class="level1 page-columns page-full">
-<h1>Prime Age:</h1>
+<section id="prime-age-analysis" class="level1 page-columns page-full">
+<h1>Prime Age Analysis</h1>
 <div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research question">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1016,7 +1011,11 @@ Exercise 10
 <div class="no-row-height column-margin column-container"><div class="">
 <p><br>
 <em>Check</em>: there are 2382 unique pitchers in the <code>pitcher_stats</code> data, so your final dataset for analysis should have that many rows.</p>
-</div></div><div class="callout callout-style-default callout-note no-icon callout-titled">
+</div></div></section>
+</section>
+<section id="wrap-up-reflection" class="level1">
+<h1>Wrap-up / reflection</h1>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1036,7 +1035,6 @@ Exercise 11
 </ul>
 </div>
 </div>
-</section>
 </section>
 <section id="for-fun" class="level1">
 <h1>FOR FUN</h1>

@@ -32,7 +32,7 @@ editor_options:
 callout-icon: false
 ---
 
-::: {.callout-note collapse="true" title="Facilitation notes" appearance="minimal"}
+::: {.callout-note collapse="true" title="Methods/Facilitation notes" appearance="minimal"}
 + This module would be suitable for an in-class lab or take-home assignment in an introductory data science course that uses R. 
 
 + It assumes a basic familiarity with the RStudio Environment and basic introduction to the `tidyverse` has already been covered, but tips on tidyverse code are provided throughout. 
@@ -65,7 +65,7 @@ By the end of this module, you will be able to:
 + Use visualization to investigate a research question
 :::
 
-# Getting started
+# Data / Variable Descriptions
 
 We'll get started by loading necessary packages and datasets. 
 
@@ -75,8 +75,6 @@ library(tidyverse)
 batter_stats <- read_csv("batter_stats.csv")
 pitcher_stats <- read_csv("pitcher_stats.csv")
 ```
-
-## Data
 
 This data was curated via the [`baseballr` package](https://billpetti.github.io/baseballr/articles/baseballr.html), which has built in functions for acquiring a plethora of baseball data. In particular, data for this module was pulled in May 2024 using the `fg_batter_leaders()` and `fg_pitcher_leaders()` functions, which provide over 300 variables of statistics on batters and pitchers beginning with the 1974 season. This analysis engages with only a small subset of available variables and seasons, but we encourage baseball enthusiasts and aspiring analysts to check out all the `baseballr` package has to offer. 
 
@@ -122,7 +120,7 @@ This data was curated via the [`baseballr` package](https://billpetti.github.io/
 | `balls` | total number of pitches thrown by the pitcher that were called as balls during the corresponding season. |
 | `strikes` | total number of pitches thrown by the pitcher that were called as strikes during the corresponding season. |
 
-# Prime Age:
+# Prime Age Analysis
 
 ::: {.callout-caution title="Research question"}
 At what age do professional baseball players tend to be at their "prime"?
@@ -371,6 +369,8 @@ mean(prime_age_pitcher$age)
 median(prime_age_pitcher$age)
 ```
 
+# Wrap-up / reflection
+
 ::: callout-note
 ### Exercise 11
 
@@ -392,3 +392,4 @@ You can investigate an individual player's WAR trajectory over time using the ap
 knitr::include_app("https://kgfitz.shinyapps.io/Baseball_WAR/",
 height = "800px")
 ```
+

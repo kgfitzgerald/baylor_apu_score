@@ -862,7 +862,7 @@
     "href": "baseball/mlb_prime_age/index.html",
     "title": "What’s the prime age of an MLB player?",
     "section": "",
-    "text": "Facilitation notes\n\n\n\n\n\n\nThis module would be suitable for an in-class lab or take-home assignment in an introductory data science course that uses R.\nIt assumes a basic familiarity with the RStudio Environment and basic introduction to the tidyverse has already been covered, but tips on tidyverse code are provided throughout.\nStudents should be provided with the following data files (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.\n\nbatter_stats.csv\npitcher_stats.csv\nStudent Quarto template\n\nPosit Cloud (via an Instructor account) or Github classroom are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.",
+    "text": "Methods/Facilitation notes\n\n\n\n\n\n\nThis module would be suitable for an in-class lab or take-home assignment in an introductory data science course that uses R.\nIt assumes a basic familiarity with the RStudio Environment and basic introduction to the tidyverse has already been covered, but tips on tidyverse code are provided throughout.\nStudents should be provided with the following data files (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.\n\nbatter_stats.csv\npitcher_stats.csv\nStudent Quarto template\n\nPosit Cloud (via an Instructor account) or Github classroom are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.",
     "crumbs": [
       "Home",
       "Baseball",
@@ -898,7 +898,7 @@
     "href": "baseball/mlb_prime_age/index.html#pitchers",
     "title": "What’s the prime age of an MLB player?",
     "section": "Pitchers",
-    "text": "Pitchers\n\n\n\n\n\n\nResearch question\n\n\n\nWhat is the average age an MLB pitcher reaches his prime?\n\n\n\n\n\n\n\n\nExercise 10\n\n\n\nCopy, paste, tweak appropriate code from previous exercises to determine the prime age of pitchers, using the pitcher_stats data.\n\n\n\n\n\nCheck: there are 2382 unique pitchers in the pitcher_stats data, so your final dataset for analysis should have that many rows.\n\n\n\n\n\n\nExercise 11\n\n\n\nWrite a paragraph summarizing your findings about the prime age of batters and pitchers from this analysis. Things to consider:\n\nAre the prime ages of batters and pitchers similar or different?\nDo all players hit their prime at about the same age, or is there a wide range?\nAre there limitations to this analysis?\nWhat additional analyses would you want to conduct to investigate prime age more fully?\nIs there any additional data you would want to explore further?",
+    "text": "Pitchers\n\n\n\n\n\n\nResearch question\n\n\n\nWhat is the average age an MLB pitcher reaches his prime?\n\n\n\n\n\n\n\n\nExercise 10\n\n\n\nCopy, paste, tweak appropriate code from previous exercises to determine the prime age of pitchers, using the pitcher_stats data.\n\n\n\n\n\nCheck: there are 2382 unique pitchers in the pitcher_stats data, so your final dataset for analysis should have that many rows.",
     "crumbs": [
       "Home",
       "Baseball",
@@ -1035,6 +1035,18 @@
       "Home",
       "Baseball",
       "MLB Injuries - Introductory Time Series Analysis"
+    ]
+  },
+  {
+    "objectID": "baseball/mlb_prime_age/index.html#wrap-up-reflection",
+    "href": "baseball/mlb_prime_age/index.html#wrap-up-reflection",
+    "title": "What’s the prime age of an MLB player?",
+    "section": "Wrap-up / reflection",
+    "text": "Wrap-up / reflection\n\n\n\n\n\n\nExercise 11\n\n\n\nWrite a paragraph summarizing your findings about the prime age of batters and pitchers from this analysis. Things to consider:\n\nAre the prime ages of batters and pitchers similar or different?\nDo all players hit their prime at about the same age, or is there a wide range?\nAre there limitations to this analysis?\nWhat additional analyses would you want to conduct to investigate prime age more fully?\nIs there any additional data you would want to explore further?",
+    "crumbs": [
+      "Home",
+      "Baseball",
+      "What's the prime age of an MLB player?"
     ]
   }
 ]
