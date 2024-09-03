@@ -37,7 +37,7 @@ callout-icon: false
 
 + It assumes a basic familiarity with the RStudio Environment and basic introduction to the `tidyverse` has already been covered, but tips on tidyverse code are provided throughout. 
 
-+ Students should be provided with the following data files (.rds) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd. 
++ Students should be provided with the following data files (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd. 
 
   + [batter_stats.csv](batter_stats.csv)
   + [pitcher_stats.csv](pitcher_stats.csv)
