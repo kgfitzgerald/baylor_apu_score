@@ -48,7 +48,7 @@ callout-icon: false
 
 # Introduction
 
-In this module you will be analyzing data on Major League Baseball (MLB) players from the 2014 - 2023 seasons. The goal of this module is to practice your data wrangling skills while investigating the question "at what age do professional baseball players typically reach their prime?"
+In this module you will be analyzing data on Major League Baseball (MLB) players from the 2014 - 2023 seasons. The goal of this module is to practice your data wrangling skills while investigating the question *"at what age do professional baseball players typically reach their prime?"*
 
 ::: {.callout-note title="Learning Objectives" appearance="minimal"}
 By the end of this module, you will be able to:
@@ -78,7 +78,7 @@ pitcher_stats <- read_csv("pitcher_stats.csv")
 
 ## Data
 
-This data was curated via the [`baseballr` package](https://billpetti.github.io/baseballr/articles/baseballr.html), which has built in functions for acquiring a plethora of baseball data. In particular, data for this module was pulled in May 2024 using the `fg_batter_leaders()` and `fg_pitcher_leaders()` functions, which provide over 300 variables of statistics on batters and pitchers beginning with the 1974 season. This analysis engages with only a small subset of available variables and seasons, but we encourage baseball enthusiasts and aspiring analysts to check out all the package has to offer. 
+This data was curated via the [`baseballr` package](https://billpetti.github.io/baseballr/articles/baseballr.html), which has built in functions for acquiring a plethora of baseball data. In particular, data for this module was pulled in May 2024 using the `fg_batter_leaders()` and `fg_pitcher_leaders()` functions, which provide over 300 variables of statistics on batters and pitchers beginning with the 1974 season. This analysis engages with only a small subset of available variables and seasons, but we encourage baseball enthusiasts and aspiring analysts to check out all the `baseballr` package has to offer. 
 
 <details>
 <summary><b>Variable Descriptions (all players) </b></summary>
@@ -130,14 +130,14 @@ At what age do professional baseball players tend to be at their "prime"?
 
 There are many different aspects of a player's performance that determine how well he is playing. One comprehensive metric is called WAR, which stands for "wins above replacement." The MLB provides the following definition of WAR:
 
-> “WAR measures a player's value in all facets of the game by deciphering how many more wins he's worth than a replacement-level player at his same position (e.g., a Minor League replacement or a readily available fill-in free agent).” [MLB.com](https://www.mlb.com/glossary/advanced-stats/wins-above-replacement)
+> “WAR measures a player's value in all facets of the game by deciphering how many more wins he's worth than a replacement-level player at his same position (e.g., a Minor League replacement or a readily available fill-in free agent).” - [MLB.com](https://www.mlb.com/glossary/advanced-stats/wins-above-replacement)
 
 Therefore, one reasonable way to determine a player's prime age would be to determine the age at which he had his highest WAR.
 
 ::: callout-note
 #### What's a good WAR?
 
-An decent WAR is typically around 2, while All-star players typically have a WAR anywhere between 3 and 6, and MVP-level players tend to have a WAR above 6.
+A decent WAR is typically around 2, while All-star players typically have a WAR anywhere between 3 and 6, and MVP-level players tend to have a WAR above 6.
 :::
 
 ::: callout-note
