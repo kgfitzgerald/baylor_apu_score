@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jonathan Lieb">
-<meta name="dcterms.date" content="2024-08-06">
+<meta name="dcterms.date" content="2024-11-12">
 <meta name="description" content="Exploring MLB injury data through time series analysis and forecasting.">
 
 <title>Baylor APU SCORE Module Preprint Repository - MLB Injuries - Introductory Time Series Analysis</title>
@@ -275,7 +275,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../basketball/conditional_probability/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">A Look at Paul George's Missed Free Throws \</span></a>
+ <span class="menu-text">A Look at Paul George’s Missed Free Throws</span></a>
   </div>
 </li>
       </ul>
@@ -462,7 +462,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 6, 2024</p>
+      <p class="date">November 12, 2024</p>
     </div>
   </div>
   
@@ -509,13 +509,17 @@ Facilitation notes
 </section>
 <section id="introduction" class="level1 page-columns page-full">
 <h1>Introduction</h1>
-<p>In this module, you will explore Major League Baseball (MLB) injury data through time series analysis and forecasting. The dataset contains monthly injury counts from 2000 to 2023. You will learn how to create time series plots, decompose time series data, and forecast future injury counts.</p>
+<p>In this module, you will explore Major League Baseball (MLB) injury data through time series analysis and forecasting. The dataset contains monthly injury counts from 2001 to 2023. You will learn how to create time series plots, decompose time series data, and forecast future injury counts.</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <p>Coming off of COVID-19 breaks, the MLB saw a rash of injuries in the shortened 2020 season and the 2021 season.</p>
 <p>In the image below Washington Nationals star shortstop Trea Turner attempts to shake off a hit-by-pitch injury in the 9th inning of a game against the Atlanta Braves April 26th, 2021. <img src="Trea_Turner_hbp.png" class="img-fluid"></p>
 <p>Image source: <a href="https://commons.wikimedia.org/wiki/File:Trea_Turner_hit_by_pitch_in_9th_inning_from_Nationals_vs._Braves_at_Nationals_Park,_April_6th,_2021_(All-Pro_Reels_Photography)_(51101815218).png">All-Pro Reels from District of Columbia, USA</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0">CC BY-SA 2.0</a>, via Wikimedia Commons</p>
-</div></div><p>Injuries significantly impact a team’s performance and can be costly to the organization. Despite the rise of analytics and specialized training for players, MLB injuries feel as though they are happening more and more frequently. Are injuries on the rise in the MLB? Are there certain months where injuries are more prevalent? Are future amounts of injuries predictable? Let’s dig into the data and find out!</p>
+</div></div><p>Injuries significantly impact a team’s performance and can be costly to the organization. In fact, at the end of the 2023 season MLB teams combined for over $1 billion worth of salaries on the injured list. The Angels single-handedly had over $145 million worth of injured player salaries, more than than three times as much money as their 26-man roster was making. This contributed heavily to their 73-89 record. On the flip side, 7 of the 11 teams with the fewest amount of money on the injured list made the playoffs. Health matters to teams, players, coaches, and the league. When injuries accumulate for teams it forces teams to play worse players-harming performance- or acquire new players at a cost-harming the team’s bottom line.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>If you’d like to see more information about MLB salary breakdowns, check out <a href="https://www.spotrac.com/mlb/payroll/_/year/2023/sort/cap_injured/dir/desc">Spotrac’s</a> webpage.</p>
+</div></div><p>Despite the rise of analytics and specialized training for players, MLB injuries feel as though they are happening more and more frequently. If this is the case there are could be major financial repercussions in the future as well as a loss in the quality of baseball being played. In this module we will investigate the issue of injuries in the MLB and see if injuries are truly on the rise in the MLB? Additionally we will look at when injuries are occurring to determine when teams should be most cautious. Are there certain months where injuries are more prevalent and what could cause injuries to occur then? Lastly, we will look at whether the amount of future injuries could be predicted using time series data. Let’s dig into the data and find out what we can learn!</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Learning Objectives">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -571,7 +575,7 @@ Research Question
 </section>
 <section id="getting-started-mlb-injury-data" class="level1 page-columns page-full">
 <h1>Getting started: MLB Injury data</h1>
-<p>We will begin our time series analysis by loading the MLB injury data. The dataset contains monthly injury counts from 2000 to 2023.</p>
+<p>We will begin our time series analysis by loading the MLB injury data. The dataset contains monthly injury counts from 2001 to 2023.</p>
 <p>Run the following code chunk to load the necessary libraries and the MLB injury data. In this code chunk the data is also converted to a tsibble object, which is a time series object that includes a time index and one or more columns of data. This makes it easier to work with time series data in R.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
@@ -591,14 +595,14 @@ Research Question
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"fpp3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div></div>
-<p>By using the glimpse function as shown below, we can see structure of the <code>injuries</code> data. The <code>Month</code> column contains the date of each observation, and the <code>Count</code> column contains the number of players sent to the injured list each month.</p>
+<p>By using the glimpse function as shown below, we can see structure of the <code>injuries</code> data. The <code>Month</code> column contains the month and year of each observation, such as “2001 Jan”. This column is formatted as a date already to make time series analysis easier. The <code>Count</code> column contains the number of players sent to the injured list each month. This is the cumulative total of players sent to the IL across the entire MLB in that month. The value of <code>Count</code> is what we are concerned with and will be forecasting in this module.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(injuries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 288
+<pre><code>Rows: 276
 Columns: 2
-$ Month &lt;mth&gt; 2000 Jan, 2000 Feb, 2000 Mar, 2000 Apr, 2000 May, 2000 Jun, 2000…
-$ Count &lt;dbl&gt; 0, 0, 1, 9, 27, 6, 6, 3, 2, 0, 0, 0, 0, 0, 57, 59, 79, 92, 62, 5…</code></pre>
+$ Month &lt;mth&gt; 2001 Jan, 2001 Feb, 2001 Mar, 2001 Apr, 2001 May, 2001 Jun, 2001…
+$ Count &lt;dbl&gt; 0, 0, 57, 59, 79, 92, 62, 57, 31, 2, 0, 0, 0, 0, 81, 68, 87, 77,…</code></pre>
 </div>
 </div>
 <details>
@@ -747,8 +751,8 @@ Exercise 2: Autocorrelation Plots
 <p><span class="math display">\[y_t = T_t + S_t + R_t\]</span></p>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p>Speaking of breaking things down, when looking at injured players by team it can be found that since 2000 the Dodgers have had the most players sent to the injured list with 625. On the opposite end of the spectrum the White Sox have had the fewest players sent to the injured list with 371.</p>
-<p>Joe Crede of the Chicago White Sox is hit by a pitch during a game in 2006. The White Sox have had the fewest injuries since 2000.</p>
+<p>Speaking of breaking things down, when looking at injured players by team it can be found that since 2001 the Dodgers have had the most players sent to the injured list with 708. On the opposite end of the spectrum the White Sox have had the fewest players sent to the injured list with 398.</p>
+<p>Joe Crede of the Chicago White Sox is hit by a pitch during a game in 2006. The White Sox have had the fewest injuries since 2001.</p>
 <p><img src="Joe_Crede.jpg" class="img-fluid"></p>
 <p>Image Source: <a href="https://commons.wikimedia.org/wiki/File:Hit_by_pitch_joe_crede.JPG">User SecondPrint Productions (Original version) User Mattingly23 (Crop)</a>, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>, via Wikimedia Commons</p>
 </div></div><p>Where:</p>
@@ -819,7 +823,7 @@ Exercise 2: Autocorrelation Plots
 </div>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p><strong>TIP</strong>: The <code>window</code> argument in the <code>trend()</code> function controls the length of the smoothing window for the trend-cycle. The larger the window, the smoother the trend. This value should always be an odd number. <code>trend(window = 21)</code> is a common choice for monthly data.</p>
+<p><strong>TIP</strong>: The <code>window</code> argument in the <code>trend()</code> function controls the length of the smoothing window for the trend-cycle. The larger the window, the smoother the trend. This value should always be an odd number so that a central point can be used. <code>trend(window = 21)</code> is a common choice for monthly data. This relatively large window size helps to prevent the trend from being influenced by short-term fluctuations in just a single year, but rather capture long-term trends and cycles.</p>
 <p><strong>TIP</strong>: The <code>window</code> argument in the <code>season()</code> function controls how many years the seasonal component should be estimated over. The default value is 11. When the seasonal window is set to periodic <code>season(window = "periodic")</code>, it is the equivalent setting the window to all of the data. When <code>periodic</code> is used, the seasonal component is assumed to be the same each year. The seasonal window argument should always be an odd number or “periodic”.</p>
 </div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 3: Changing Decomposition Types">
 <div class="callout-header d-flex align-content-center">
@@ -966,7 +970,7 @@ Exercise 5: Residuals Analysis
 <section id="testing-and-training-for-point-estimate-evaluations" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="testing-and-training-for-point-estimate-evaluations">Testing and Training for Point Estimate Evaluations</h2>
 <p>If you want to evaluate the point estimates of a model, you can use a testing and training split. This involves training the model on the first part of the data and then testing the model on the second part of the data. This allows you to see how well the model can forecast future observations.</p>
-<p>For this example, we will split the data into a training set that contains the first 75% of the data and a testing set that contains the last 25% of the data. This means we will train the models on the data from January 2000 to December 2017 and test the models on the data from January 2018 to December 2023.</p>
+<p>For this example, we will split the data into a training set that contains the first 75% of the data and a testing set that contains the last 25% of the data. This means we will train the models on the data from January 2001 to December 2017 and test the models on the data from January 2018 to December 2023.</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <p><strong>TIP</strong>: 75-25 is a common split for training and testing data, but you can use any split that makes sense for your data. Generally the more data you have, the less percentage you need for testing. Other common splits are 70-30 or 80-20.</p>
@@ -1028,8 +1032,8 @@ Exercise 5: Residuals Analysis
 <pre><code># A tibble: 4 × 10
   .model .type    ME  RMSE   MAE   MPE  MAPE  MASE RMSSE  ACF1
   &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 drift  Test   86.0 122.   86.0  -Inf   Inf   NaN   NaN 0.698
-2 mean   Test   38.7  94.9  79.1  -Inf   Inf   NaN   NaN 0.698
+1 drift  Test   86.0 122.   86.0   Inf   Inf   NaN   NaN 0.698
+2 mean   Test   36.2  93.9  79.2  -Inf   Inf   NaN   NaN 0.698
 3 naive  Test   86.0 122.   86.0   100   100   NaN   NaN 0.698
 4 snaive Test   14.3  58.4  34.5  -Inf   Inf   NaN   NaN 0.424</code></pre>
 </div>
@@ -1279,8 +1283,9 @@ Hint
 </section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
-<p>In this module you have learned how to visualize time series data. You have also learned how the number of injuries in the MLB have changed over time. We have looked at how the injuries in the MLB change based on the month of the season, seeing higher rates shortly after the season starts and at the end of the season. Major outliers in the number of injuries were noted during and directly after the COVID-19 pandemic. Lastly, you looked at different forecasting methods - mean, drift, naive, and seasonal naive- to forecast the number of injuries in the MLB. Performance metrics and residual plots were used to determine the best model. A seasonal naive model was the best of the simple models we looked at, since it was able to capture the seasonality in the monthly data.</p>
+<p>In this module you have learned how to visualize time series data. You have also learned how the number of injuries in the MLB have changed over time. These injuries have major consequences for teams and the league as a whole. We have looked at how the injuries in the MLB change based on the month of the season, seeing higher rates shortly after the season starts and at the end of the season. This tells us that teams need to be cautious with player health particularly when they are not fully warmed up at the beginning of the season and when they are fatigued at the end of the season. Major outliers in the number of injuries were noted during and directly after the COVID-19 pandemic. These most likely can be credited to being shut down for a while and then suddenly resuming play. Lastly, you looked at different basic forecasting methods - mean, drift, naive, and seasonal naive- to forecast the number of injuries in the MLB. Performance metrics and residual plots were used to determine the best model. A seasonal naive model was the best of the simple models we looked at, since it was able to capture the seasonality in the monthly data. However, this model still falls a little short because it captures no trends that may be occurring in the data.</p>
 <p>Additionally, you have learned about increases in Tommy John surgeries among baseball players and have now performed a simple time series analysis all by yourself.</p>
+<p>The topics covered in this module are just the beginning of time series analysis and meant to help you get started working with time-related data. There are many more complex and accurate forecasting methods that can be used for advanced time series forecasting such as ARIMA, TSLM, ETS, Prophet, and Neural Networks that you should look into if you are interested if learning more.</p>
 </section>
 <section id="references" class="level1">
 <h1>References</h1>

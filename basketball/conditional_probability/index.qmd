@@ -1,6 +1,6 @@
 ---
 title: |
-  A Look at Paul George's Missed Free Throws \
+  A Look at Paul George's Missed Free Throws 
 author:
   - name: Connor Bryson
     affiliations:

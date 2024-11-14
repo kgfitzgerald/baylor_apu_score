@@ -6,7 +6,7 @@ author:
     affiliation:
       - id: bay
         name: Baylor University
-date: August 6, 2024
+date: November 12, 2024
 format:
   html:
     grid:
@@ -50,7 +50,7 @@ callout-icon: false
 
 # Introduction
 
-In this module, you will explore Major League Baseball (MLB) injury data through time series analysis and forecasting. The dataset contains monthly injury counts from 2000 to 2023. You will learn how to create time series plots, decompose time series data, and forecast future injury counts.
+In this module, you will explore Major League Baseball (MLB) injury data through time series analysis and forecasting. The dataset contains monthly injury counts from 2001 to 2023. You will learn how to create time series plots, decompose time series data, and forecast future injury counts.
 
 ::: column-margin
 Coming off of COVID-19 breaks, the MLB saw a rash of injuries in the shortened 2020 season and the 2021 season.
@@ -61,7 +61,13 @@ In the image below Washington Nationals star shortstop Trea Turner attempts to s
 Image source: <a href="https://commons.wikimedia.org/wiki/File:Trea_Turner_hit_by_pitch_in_9th_inning_from_Nationals_vs._Braves_at_Nationals_Park,_April_6th,_2021_(All-Pro_Reels_Photography)_(51101815218).png">All-Pro Reels from District of Columbia, USA</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0">CC BY-SA 2.0</a>, via Wikimedia Commons
 :::
 
-Injuries significantly impact a team's performance and can be costly to the organization. Despite the rise of analytics and specialized training for players, MLB injuries feel as though they are happening more and more frequently. Are injuries on the rise in the MLB? Are there certain months where injuries are more prevalent? Are future amounts of injuries predictable? Let's dig into the data and find out!
+Injuries significantly impact a team's performance and can be costly to the organization. In fact, at the end of the 2023 season MLB teams combined for over \$1 billion worth of salaries on the injured list. The Angels single-handedly had over \$145 million worth of injured player salaries, more than than three times as much money as their 26-man roster was making. This contributed heavily to their 73-89 record. On the flip side, 7 of the 11 teams with the fewest amount of money on the injured list made the playoffs. Health matters to teams, players, coaches, and the league. When injuries accumulate for teams it forces teams to play worse players-harming performance- or acquire new players at a cost-harming the team's bottom line.
+
+::: column-margin
+If you'd like to see more information about MLB salary breakdowns, check out [Spotrac's](https://www.spotrac.com/mlb/payroll/_/year/2023/sort/cap_injured/dir/desc) webpage.
+:::
+
+Despite the rise of analytics and specialized training for players, MLB injuries feel as though they are happening more and more frequently. If this is the case there are could be major financial repercussions in the future as well as a loss in the quality of baseball being played. In this module we will investigate the issue of injuries in the MLB and see if injuries are truly on the rise in the MLB? Additionally we will look at when injuries are occurring to determine when teams should be most cautious. Are there certain months where injuries are more prevalent and what could cause injuries to occur then? Lastly, we will look at whether the amount of future injuries could be predicted using time series data. Let's dig into the data and find out what we can learn!
 
 ::: {.callout-note title="Learning Objectives" appearance="minimal"}
 By the end of this module you should be able to:
@@ -102,7 +108,7 @@ During this lab we will explore the following research questions:
 
 # Getting started: MLB Injury data
 
-We will begin our time series analysis by loading the MLB injury data. The dataset contains monthly injury counts from 2000 to 2023.
+We will begin our time series analysis by loading the MLB injury data. The dataset contains monthly injury counts from 2001 to 2023.
 
 Run the following code chunk to load the necessary libraries and the MLB injury data. In this code chunk the data is also converted to a tsibble object, which is a time series object that includes a time index and one or more columns of data. This makes it easier to work with time series data in R.
 
@@ -129,7 +135,7 @@ install.packages("fpp3")
 
 :::
 
-By using the glimpse function as shown below, we can see structure of the `injuries` data. The `Month` column contains the date of each observation, and the `Count` column contains the number of players sent to the injured list each month.
+By using the glimpse function as shown below, we can see structure of the `injuries` data. The `Month` column contains the month and year of each observation, such as "2001 Jan". This column is formatted as a date already to make time series analysis easier. The `Count` column contains the number of players sent to the injured list each month. This is the cumulative total of players sent to the IL across the entire MLB in that month. The value of `Count` is what we are concerned with and will be forecasting in this module.
 
 ```{r}
 glimpse(injuries)
@@ -252,10 +258,10 @@ Oftentimes when performing a time series analysis we want to **decompose** the d
 $$y_t = T_t + S_t + R_t$$
 
 ::: column-margin
-Speaking of breaking things down, when looking at injured players by team it can be found that since 2000 the Dodgers have had the most players sent to the injured list with 625. On the opposite end of the spectrum the White Sox have had the fewest players sent to the injured list with 371. 
+Speaking of breaking things down, when looking at injured players by team it can be found that since 2001 the Dodgers have had the most players sent to the injured list with 708. On the opposite end of the spectrum the White Sox have had the fewest players sent to the injured list with 398. 
 
 
-Joe Crede of the Chicago White Sox is hit by a pitch during a game in 2006. The White Sox have had the fewest injuries since 2000.
+Joe Crede of the Chicago White Sox is hit by a pitch during a game in 2006. The White Sox have had the fewest injuries since 2001.
 
 ![](Joe_Crede.jpg)
 
@@ -333,7 +339,7 @@ injuries |>
 
 ::: column-margin
 
-**TIP**: The `window` argument in the `trend()` function controls the length of the smoothing window for the trend-cycle. The larger the window, the smoother the trend. This value should always be an odd number. `trend(window = 21)` is a common choice for monthly data.
+**TIP**: The `window` argument in the `trend()` function controls the length of the smoothing window for the trend-cycle. The larger the window, the smoother the trend. This value should always be an odd number so that a central point can be used. `trend(window = 21)` is a common choice for monthly data. This relatively large window size helps to prevent the trend from being influenced by short-term fluctuations in just a single year, but rather capture long-term trends and cycles. 
 
 **TIP**: The `window` argument in the `season()` function controls how many years the seasonal component should be estimated over. The default value is 11. When the seasonal window is set to periodic `season(window = "periodic")`, it is the equivalent setting the window to all of the data. When `periodic` is used, the seasonal component is assumed to be the same each year. The seasonal window argument should always be an odd number or "periodic".
 
@@ -412,25 +418,25 @@ Use the following plots of the monthly MLB injury counts and forecasts to answer
 ```{r, warning=FALSE, message=FALSE, echo=FALSE}
 p1 <- injuries |> 
   model(MEAN(Count)) |> 
-  forecast(h = 12) |> 
+  forecast(h = 36) |> 
   autoplot(injuries) +
   labs(title = "Mean Method")+
   theme(legend.position = "none")
 p2 <- injuries |> 
   model(NAIVE(Count)) |> 
-  forecast(h = 12) |>
+  forecast(h = 36) |>
   autoplot(injuries) +
   labs(title = "Naive Method")+
   theme(legend.position = "none")
 p3 <- injuries |>
   model(SNAIVE(Count ~ lag('year'))) |> 
-  forecast(h = 12) |>
+  forecast(h = 36) |>
   autoplot(injuries)+
   labs(title = "Seasonal Naive Method")+
   theme(legend.position = "none")
 p4 <- injuries |>
   model(RW(Count ~ drift())) |> 
-  forecast(h = 12) |>
+  forecast(h = 36) |>
   autoplot(injuries)+
   labs(title = "Drift Method")+
   theme(legend.position = "none")
@@ -504,7 +510,7 @@ d. Are the residuals uncorrelated? What lag(s) show the most significant autocor
 ## Testing and Training for Point Estimate Evaluations
 If you want to evaluate the point estimates of a model, you can use a testing and training split. This involves training the model on the first part of the data and then testing the model on the second part of the data. This allows you to see how well the model can forecast future observations. 
 
-For this example, we will split the data into a training set that contains the first 75% of the data and a testing set that contains the last 25% of the data. This means we will train the models on the data from January 2000 to December 2017 and test the models on the data from January 2018 to December 2023.
+For this example, we will split the data into a training set that contains the first 75% of the data and a testing set that contains the last 25% of the data. This means we will train the models on the data from January 2001 to December 2017 and test the models on the data from January 2018 to December 2023.
 
 ::: column-margin
 **TIP**: 75-25 is a common split for training and testing data, but you can use any split that makes sense for your data. Generally the more data you have, the less percentage you need for testing. Other common splits are 70-30 or 80-20.
@@ -769,9 +775,11 @@ f. What is the 95% prediction interval for the number of Tommy John surgeries in
 
 # Conclusion
 
-In this module you have learned how to visualize time series data. You have also learned how the number of injuries in the MLB have changed over time. We have looked at how the injuries in the MLB change based on the month of the season, seeing higher rates shortly after the season starts and at the end of the season. Major outliers in the number of injuries were noted during and directly after the COVID-19 pandemic. Lastly, you looked at different forecasting methods - mean, drift, naive, and seasonal naive- to forecast the number of injuries in the MLB. Performance metrics and residual plots were used to determine the best model. A seasonal naive model was the best of the simple models we looked at, since it was able to capture the seasonality in the monthly data.
+In this module you have learned how to visualize time series data. You have also learned how the number of injuries in the MLB have changed over time. These injuries have major consequences for teams and the league as a whole. We have looked at how the injuries in the MLB change based on the month of the season, seeing higher rates shortly after the season starts and at the end of the season. This tells us that teams need to be cautious with player health particularly when they are not fully warmed up at the beginning of the season and when they are fatigued at the end of the season. Major outliers in the number of injuries were noted during and directly after the COVID-19 pandemic. These most likely can be credited to being shut down for a while and then suddenly resuming play. Lastly, you looked at different basic forecasting methods - mean, drift, naive, and seasonal naive- to forecast the number of injuries in the MLB. Performance metrics and residual plots were used to determine the best model. A seasonal naive model was the best of the simple models we looked at, since it was able to capture the seasonality in the monthly data. However, this model still falls a little short because it captures no trends that may be occurring in the data.
 
 Additionally, you have learned about increases in Tommy John surgeries among baseball players and have now performed a simple time series analysis all by yourself. 
+
+The topics covered in this module are just the beginning of time series analysis and meant to help you get started working with time-related data. There are many more complex and accurate forecasting methods that can be used for advanced time series forecasting such as ARIMA, TSLM, ETS, Prophet, and Neural Networks that you should look into if you are interested if learning more.
 
 # References
 -   Hyndman, R.J., & Athanasopoulos, G. (2021). *Forecasting: Principles and Practice (3rd ed.)*. OTexts: Melbourne, Australia. [Online](https://otexts.com/fpp3/)
