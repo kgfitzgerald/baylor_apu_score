@@ -6,7 +6,7 @@ author:
     affiliation:
       - id: bay
         name: Baylor University
-date: November 12, 2024
+date: November 26, 2024
 format:
   html:
     grid:
@@ -37,9 +37,9 @@ callout-icon: false
 
 -   [Posit Cloud](https://posit.cloud/) (via an Instructor account) or [Github classroom](https://classroom.github.com) are good options for disseminating files to students, but simply uploading files to your university's course management system works, too.
 
--   The data for the `mlb_injuries_monthly.csv` file was derived from data found on [prosportstransactions.com](https://www.prosportstransactions.com/baseball/Search/SearchResults.php?Player=&Team=&BeginDate=2000-01-01&EndDate=2023-12-31&DLChkBx=yes&submit=Search) 
+-   The data for the `mlb_injuries_monthly.csv` file was derived from data found on [prosportstransactions.com](https://www.prosportstransactions.com/baseball/Search/SearchResults.php?Player=&Team=&BeginDate=2000-01-01&EndDate=2023-12-31&DLChkBx=yes&submit=Search). The original data from the site contained rows of observations showing each transaction that involved sending a player to the injured list or bringing a player off of the injured list. The data was then filtered to include only times when a player was sent to the injured list and aggregated by month. The 2000 season was originally included in the data, but was removed after incomplete data was found for that season.
 
--   The data for the `tj_surgeries_mlb_milb.csv` file was derived from data accumulated by [@MLBPlayerAnalys](https://docs.google.com/spreadsheets/d/1gQujXQQGOVNaiuwSN680Hq-FDVsCwvN-3AazykOBON0/edit?gid=0#gid=0) over many years
+-   The data for the `tj_surgeries_mlb_milb.csv` file was derived from data accumulated by [@MLBPlayerAnalys](https://docs.google.com/spreadsheets/d/1gQujXQQGOVNaiuwSN680Hq-FDVsCwvN-3AazykOBON0/edit?gid=0#gid=0) over many years. The original data lists any reported Tommy John surgery for a player now playing in the MLB or MiLB. This data was aggregated by year to produce the data used in this module.
 :::
 
 # Welcome video
@@ -420,24 +420,28 @@ p1 <- injuries |>
   model(MEAN(Count)) |> 
   forecast(h = 36) |> 
   autoplot(injuries) +
+  ylim(-600, 600) + 
   labs(title = "Mean Method")+
   theme(legend.position = "none")
 p2 <- injuries |> 
   model(NAIVE(Count)) |> 
   forecast(h = 36) |>
   autoplot(injuries) +
+  ylim(-600, 600) +
   labs(title = "Naive Method")+
   theme(legend.position = "none")
 p3 <- injuries |>
   model(SNAIVE(Count ~ lag('year'))) |> 
   forecast(h = 36) |>
   autoplot(injuries)+
+  ylim(-600, 600) +
   labs(title = "Seasonal Naive Method")+
   theme(legend.position = "none")
 p4 <- injuries |>
   model(RW(Count ~ drift())) |> 
   forecast(h = 36) |>
   autoplot(injuries)+
+  ylim(-600, 600) +
   labs(title = "Drift Method")+
   theme(legend.position = "none")
 ((p1 + p2) / (p3 + p4 + theme(legend.position = "bottom"))) + plot_annotation(title = "Basic Forecasting Methods for Monthly MLB Injury Counts")
@@ -775,7 +779,10 @@ f. What is the 95% prediction interval for the number of Tommy John surgeries in
 
 # Conclusion
 
-In this module you have learned how to visualize time series data. You have also learned how the number of injuries in the MLB have changed over time. These injuries have major consequences for teams and the league as a whole. We have looked at how the injuries in the MLB change based on the month of the season, seeing higher rates shortly after the season starts and at the end of the season. This tells us that teams need to be cautious with player health particularly when they are not fully warmed up at the beginning of the season and when they are fatigued at the end of the season. Major outliers in the number of injuries were noted during and directly after the COVID-19 pandemic. These most likely can be credited to being shut down for a while and then suddenly resuming play. Lastly, you looked at different basic forecasting methods - mean, drift, naive, and seasonal naive- to forecast the number of injuries in the MLB. Performance metrics and residual plots were used to determine the best model. A seasonal naive model was the best of the simple models we looked at, since it was able to capture the seasonality in the monthly data. However, this model still falls a little short because it captures no trends that may be occurring in the data.
+In this module you have learned how to visualize time series data. You have also learned how the number of injuries in the MLB have changed over time. These injuries have major consequences for teams and the league as a whole, harming both performance and bottom lines. We have looked at how the injuries in the MLB change based on the month of the season, seeing higher rates shortly after the season starts and at the end of the season. This tells us that teams need to be cautious with player health particularly when they are not fully warmed up at the beginning of the season and when they are fatigued at the end of the season. 
+
+
+Major outliers in the number of injuries were noted during and directly after the COVID-19 pandemic. These most likely can be credited to being shut down for a while and then suddenly resuming play. Lastly, you looked at different basic forecasting methods - mean, drift, naive, and seasonal naive- to forecast the number of injuries in the MLB. Performance metrics and residual plots were used to determine the best model. A seasonal naive model was the best of the simple models we looked at, since it was able to capture the seasonality in the monthly data. However, this model still falls a little short because it captures no long-term trends that may be occurring in the data.
 
 Additionally, you have learned about increases in Tommy John surgeries among baseball players and have now performed a simple time series analysis all by yourself. 
 
