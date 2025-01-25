@@ -14,4 +14,6 @@ The files in this repository are as follows:
 
 - `masters_2023_glossary.csv`: Data glossary for the `masters_2023.csv` data file.
 
-- `Augusta_Leaderboard.jpg`, `augusta-national-13.jpg`, `z-table.png`, and `t-table.png`: Image files used in the `index.qmd` file.
+- `Augusta_Leaderboard.jpg`, `augusta-national-13.jpg` : Image files used in the `index.qmd` file.
+
+- `z-table.png`, `z-table-pvalue-arrows.png`, `z-table-with-arrows.png`, `t-table-hypothesis-arrows.png`, `t-table-pvalue-arrows.png`, `t-table-with-arrows.png`, and `t-table.png`: Image files of tables. Any t-table or z-table images display how to use the associated tables.

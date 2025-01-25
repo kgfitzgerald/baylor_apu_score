@@ -2,15 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jonathan Lieb">
-<meta name="dcterms.date" content="2024-07-18">
+<meta name="dcterms.date" content="2025-01-25">
 <meta name="description" content="Exploring Single Mean Confidence Intervals with Golf Data">
 
-<title>Baylor APU SCORE Module Preprint Repository - PGA - Scoring Average Confidence Intervals</title>
+<title>PGA - Scoring Average Confidence Intervals – Baylor APU SCORE Module Preprint Repository</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -133,7 +133,7 @@ cookieconsent.run({
 </script> 
   
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -177,7 +177,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -196,17 +196,17 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../golf/pga_gir/index.html">Golf</a></li><li class="breadcrumb-item"><a href="../../golf/pga_masters/index.html">PGA - Scoring Average Confidence Intervals</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../golf/pga_gir_nor/index.html">Golf</a></li><li class="breadcrumb-item"><a href="../../golf/pga_masters/index.html">PGA - Scoring Average Confidence Intervals</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -225,9 +225,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Anw</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -242,42 +242,53 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Baseball</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../baseball/mlb_injuries/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">MLB Injuries - Introductory Time Series Analysis</span></a>
+  <a href="../../baseball/mlb_prime_age/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s the prime age of an MLB player?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../baseball/mlb_prime_age/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">What’s the prime age of an MLB player?</span></a>
+  <a href="../../baseball/mlb_injuries/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MLB Injuries - Introductory Time Series Analysis</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text">Golf</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Basketball</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../golf/pga_gir/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">PGA - Scheffler Greens in Regulation</span></a>
+  <a href="../../basketball/conditional_probability/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A Look at Paul George’s Missed Free Throws</span></a>
   </div>
 </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Golf</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../golf/pga_gir_nor/index.html" class="sidebar-item-text sidebar-link">
@@ -286,8 +297,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../golf/pga_masters/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">PGA - Scoring Average Confidence Intervals</span></a>
+  <a href="../../golf/pga_gir/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scheffler Greens in Regulation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -296,17 +307,23 @@ window.Quarto = {
  <span class="menu-text">PGA - Scoring Average Confidence Intervals (No R)</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_masters/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">PGA - Scoring Average Confidence Intervals</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
  <span class="menu-text">Mma</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../mma/mma_chisquare/index.html" class="sidebar-item-text sidebar-link">
@@ -317,13 +334,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
  <span class="menu-text">Soccer</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../soccer/mls_decision_errors/index.html" class="sidebar-item-text sidebar-link">
@@ -334,13 +351,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
  <span class="menu-text">Tennis</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../tennis/tennis_sampsize/index.html" class="sidebar-item-text sidebar-link">
@@ -351,13 +368,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
  <span class="menu-text">Volleyball</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../volleyball/ncaa_d1/index.html" class="sidebar-item-text sidebar-link">
@@ -399,12 +416,12 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../golf/pga_gir/index.html">Golf</a></li><li class="breadcrumb-item"><a href="../../golf/pga_masters/index.html">PGA - Scoring Average Confidence Intervals</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../golf/pga_gir_nor/index.html">Golf</a></li><li class="breadcrumb-item"><a href="../../golf/pga_masters/index.html">PGA - Scoring Average Confidence Intervals</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">PGA - Scoring Average Confidence Intervals</h1>
   <div class="quarto-categories">
@@ -439,7 +456,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 18, 2024</p>
+      <p class="date">January 25, 2025</p>
     </div>
   </div>
   
@@ -468,10 +485,9 @@ Facilitation notes
 <li><p>It assumes a basic familiarity with the RStudio Environment and R programming language.</p></li>
 <li><p>Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by “Rendering” the .qmd.</p>
 <ul>
-<li><a href="masters_2023.csv">data</a></li>
+<li><a href="masters_2023.csv">Data</a></li>
 <li><a href="student_template.qmd">Student Quarto template</a></li>
 </ul></li>
-<li><p><a href="https://posit.cloud/">Posit Cloud</a> (via an Instructor account) or <a href="https://classroom.github.com">Github classroom</a> are good options for disseminating files to students, but simply uploading files to your university’s course management system works, too.</p></li>
 <li><p>The data for this module is derived largely from the <a href="https://www.espn.com/golf/leaderboard/_/tournamentId/401465508">ESPN website</a>. However, the tours were manually added to the data based on the what they played on in 2023 at the time of the Masters.</p></li>
 </ul>
 </div>
@@ -497,7 +513,7 @@ Facilitation notes
 </div><div class="">
 <p>View the course at Augusta National <a href="https://www.masters.com/en_US/course/index.html">here</a></p>
 </div></div>
-<p>As mentioned before, only the best players and previous winners can compete in the tournament, With that being said, the Masters is one of the few tournaments that players from the newly created LIV golf tour can play in, although they are mostly qualifying because of their past performances at the Masters before they joined LIV golf. This leads to a mixture of regular PGA professionals, LIV professionals, Amateurs, and Seniors playing in the Masters in 2023.</p>
+<p>As mentioned before, only the best players and previous winners can compete in the tournament, With that being said, the Masters is one of the few tournaments that players from the newly created LIV Golf tour can play in, although they are mostly qualifying because of their past performances at the Masters before they joined LIV Golf. This leads to a mixture of regular PGA Tour professionals, LIV golfers, Amateurs, and Seniors playing in the Masters in 2023.</p>
 <p>The focus for this module is confidence intervals and hypothesis testing for the true mean scores for different groups of players at Augusta National.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Learning Objectives">
 <div class="callout-header d-flex align-content-center">
@@ -509,7 +525,7 @@ Learning Objectives
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>By the end of this module, you will be able to:</p>
+<p>By the end of this lesson, you will be able to:</p>
 <ul>
 <li><p>Read (import) a dataset into your RStudio Environment</p></li>
 <li><p>Make single mean confidence intervals</p></li>
@@ -524,7 +540,7 @@ Learning Objectives
 <br>
 <br>
 </p>
-<p><strong>NOTE</strong>: <strong>R</strong> is the name of the programming language itself and <strong>RStudio</strong> is a convenient interface. You may be accessing RStudio through a web-based version called <strong>Posit Cloud</strong>. But R is the programming language you are using.</p>
+<p><strong>NOTE</strong>: <strong>R</strong> is the name of the programming language you are using and <strong>RStudio</strong> is a <strong>IDE</strong> (Integrated Development Environment). You may be accessing RStudio through a web-based version called <strong>Posit Cloud</strong>, but <strong>R</strong> is still the language.</p>
 </div></div><div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research Questions">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -537,7 +553,7 @@ Research Questions
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>During this lab, you’ll investigate the following research questions:</p>
+<p>During this module, you’ll investigate the following research questions:</p>
 <ul>
 <li>What are the confidence intervals for true scoring for different groups of players at the 2023 Masters Tournament?</li>
 <li>Is the true mean for different groups of players at The 2023 Masters different than par?</li>
@@ -554,10 +570,10 @@ Research Questions
 
 <div class="no-row-height column-margin column-container"><div class="">
 <p>You can think of <strong>packages</strong> like apps on your phone; they extend the functionality and give you access to many more features beyond what comes in the “base package”.</p>
-</div></div><p>Running the following code will load the <code>tidyverse</code> and <code>BSDA</code> packages and the <code>masters_2023</code> data we will be using in this lab.</p>
+</div></div><p>Running the following code will load the <code>tidyverse</code> and <code>BSDA</code> packages and the <code>masters_2023</code> data we will be using in this module.</p>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p><strong>TIP</strong>: As you follow along in the lab, you should run each corresponding code chunk in your .qmd document. To “Run” a code chunk, you can press the green “Play” button in the top right corner of the code chunk in your .qmd. You can also place your cursor anywhere in the line(s) of code you want to run and press “command + return” (Mac) or “Ctrl + Enter” (Windows).</p>
+<p><strong>TIP</strong>: As you follow along in the module, you should run each corresponding code chunk in your .qmd document. To “Run” a code chunk, you can press the green “Play” button in the top right corner of the code chunk in your .qmd. You can also place your cursor anywhere in the line(s) of code you want to run and press “command + return” (Mac) or “Ctrl + Enter” (Windows).</p>
 </div></div><div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BSDA)</span>
@@ -615,7 +631,7 @@ Exercise 1: Data Structure
 </p>
 </div></div><section id="terms-to-know" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="terms-to-know">Terms to know</h2>
-<p>Before proceeding with the analysis, let’s make sure we know some important golf terminology that will help us master this lab.</p>
+<p>Before proceeding with the analysis, let’s make sure we know some important golf terminology that will help us master this module.</p>
 <section id="golf-terminology" class="level4 page-columns page-full">
 <h4 class="anchored" data-anchor-id="golf-terminology">Golf Terminology</h4>
 <ul>
@@ -642,8 +658,8 @@ Types of Golf Tours
 <ul>
 <li><p>In golf there are a few <strong>tours</strong>, better thought of as leagues, that golfers regularly compete in</p>
 <ul>
-<li>The <strong>PGA</strong>, or “Professional Golf Association”, has long been considered the preeminant golfing tour, hosting most tournaments and containing the most skilled members.</li>
-<li>The <strong>LIV</strong> tour is a Saudi-backed alternative to the PGA that began playing tournaments in 2022. <strong>LIV</strong> is the Roman numeral for 54 and is related to the fact that <strong>LIV</strong> tournaments only allow 54 players and only play 54 holes, compared to the normal PGA 72 holes.</li>
+<li>The <strong>PGA Tour</strong>, or “Professional Golf Association Tour”, has long been considered the preeminant golfing tour, hosting most tournaments and containing the most skilled members.</li>
+<li>The <strong>LIV Golf</strong> tour is a Saudi-backed alternative to the PGA Tour that began playing tournaments in 2022. <strong>LIV</strong> is the Roman numeral for 54 and is related to the fact that <strong>LIV</strong> tournaments only allow 54 players and only play 54 holes, compared to the normal PGA Tour 72 holes.</li>
 <li>The <strong>PGA Tour Champions</strong> is a branch off of the PGA tour for players 50 or older. It used to be called the “Senior PGA Tour” until 2003, when it began being called the <strong>Champions</strong> tour</li>
 <li>An <strong>amateur</strong> is a golfer who is not yet a professional. They are not allowed to win money in professional golf tournaments. Most <strong>amateurs</strong> are college golfers.</li>
 </ul></li>
@@ -658,12 +674,12 @@ Types of Golf Tours
 </section>
 <section id="variable-descriptions" class="level2">
 <h2 class="anchored" data-anchor-id="variable-descriptions">Variable descriptions</h2>
-<p>The <code>masters_2023</code> data you’ll be analyzing in this lab provides scores for each round by each golfer in the 2023 Masters. The data includes the names of golfers, the round, their scores, and their tour.</p>
+<p>The <code>masters_2023</code> data you’ll be analyzing in this module provides scores for each round by each golfer in the 2023 Masters. The data includes the names of golfers, the round, their scores, and their tour.</p>
 <details>
 <summary>
 <b>Variable Descriptions</b>
 </summary>
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Variable</th>
@@ -693,8 +709,11 @@ Types of Golf Tours
 </section>
 <section id="single-mean-confidence-intervals" class="level1 page-columns page-full">
 <h1>Single Mean Confidence Intervals</h1>
-<p>Single mean confidence intervals give a range of numbers that the we can feel confident that the true population mean falls between.</p>
-<p>There are two different ways of calculating the confidence interval for a single mean.</p>
+<p>Single mean confidence intervals give a range of numbers that we can feel confident that the true population mean falls between. In the most accurate sense, a single mean confidence interval is a range of values that, if we were to take many samples and calculate the confidence interval for each sample, a certain percentage of those intervals would contain the true population mean. Because of what a single mean confidence interval is, it is innaccurate to say that there is a 95% chance (if we were constructing a 95% confidence interval) that the true mean falls within the the confidence interval. The true mean is a fixed value, so it either falls within the interval or it does not. The 95% confidence level refers to the long-run proportion of confidence intervals that will contain the true mean if we were to take many samples.This can lead to difficulties interpreting these ranges in practice though. An accurate interpretation of a single mean confidence interval will often follow the structure below:</p>
+<p><strong>We are <em>(insert confidence level)</em> confident that the true <em>(insert variable)</em> mean for <em>(insert population group)</em> is between <em>(insert lower bound)</em> and <em>(insert upper bound)</em>.</strong></p>
+<p>For example:</p>
+<p><strong>We are 95% confident that the true scoring average for LIV golfers at Augusta National is between 70.1 and 73.3.</strong></p>
+<p>There are two different ways of calculating the confidence interval for a single mean. How we determine which of the two methods to use is based on the sample size and whether or not the population standard deviation is known.</p>
 <section id="t-interval-for-single-means" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="t-interval-for-single-means">t-interval for single means</h2>
 <p>A t-distribution is used for calculating a single mean confidence interval if the sample size is small (rule of thumb: less than 30) and the population standard deviation is unknown.</p>
@@ -731,6 +750,51 @@ Types of Golf Tours
 <pre><code>[1] 2.228139</code></pre>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Example: t-distribution confidence intervals">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example: t-distribution confidence intervals
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We would like to make a 90% confidence interval for the true mean of scoring for Jon Rahm at the Masters. We can pull his scores and put them in a vector with following code. We will also set the sample size (n) to the amount of observations in the sample.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>jon_rahm <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(player <span class="sc">==</span> <span class="st">"Jon Rahm"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(score)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(jon_rahm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We start by calculating the the sample mean (<span class="math inline">\(\bar{x}\)</span>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(jon_rahm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next we calculate the sample standard deviation (<span class="math inline">\(s\)</span>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">sd</span>(jon_rahm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Our next step is to find the critical value for a 90% confidence interval with 3 degrees of freedom (<span class="math inline">\(t_{\alpha/2, df}\)</span>). We’ll use the <code>qt</code> function from <strong>R</strong> to do this. Note that we use .95 as the first argument because alpha is .1 and half of our error should be in each end.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cv <span class="ot">&lt;-</span> <span class="fu">qt</span>(.<span class="dv">95</span>, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Lastly we will use the confidence interval formula to find the bounds of our 90% confidence interval.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>lower_confidence_boundary <span class="ot">&lt;-</span> x_bar <span class="sc">-</span> cv <span class="sc">*</span> (s<span class="sc">/</span>n)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>upper_confidence_boundary <span class="ot">&lt;-</span> x_bar <span class="sc">+</span> cv <span class="sc">*</span> (s<span class="sc">/</span>n)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">"90% confidence interval: ("</span>, lower_confidence_boundary, <span class="st">", "</span>, upper_confidence_boundary, <span class="st">")"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "90% confidence interval: (67.078486801804, 70.921513198196)"</code></pre>
+</div>
+</div>
+<p>Finally we can interpret the confidence interval and say that we are 95% confident that the true mean of Jon Rahm’s scores at Augusta National is between 67.1 and 70.9.</p>
+</div>
+</div>
+</div>
 <div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 2: t-distribution confidence intervals">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -744,16 +808,16 @@ Exercise 2: t-distribution confidence intervals
 
 <p>Run the code below to create the proper subset of the data for this exercise and calculate the sample mean and sample standard deviation.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>amateurs_round1 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">1</span>, tour <span class="sc">==</span> <span class="st">"Amateur"</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> amateurs_round1 <span class="sc">|&gt;</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">mean</span>(score)) <span class="sc">|&gt;</span> </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>std_dev <span class="ot">&lt;-</span> amateurs_round1 <span class="sc">|&gt;</span> </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">sd</span>(score)) <span class="sc">|&gt;</span> </span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(amateurs_round1)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>t_cv <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.95</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>amateurs_round1 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">1</span>, tour <span class="sc">==</span> <span class="st">"Amateur"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> amateurs_round1 <span class="sc">|&gt;</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">mean</span>(score)) <span class="sc">|&gt;</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>std_dev <span class="ot">&lt;-</span> amateurs_round1 <span class="sc">|&gt;</span> </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">sd</span>(score)) <span class="sc">|&gt;</span> </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(amateurs_round1)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>t_cv <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.95</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Use the formula for creating a <strong>confidence interval</strong> using the t-distribution to calculate the upper and lower limits of a confidence interval for the true mean of amateur scoring using the amateurs in the first round as our sample. Use a 90% confidence interval (<span class="math inline">\(\alpha = .1\)</span>).</p>
 <ol type="a">
@@ -798,13 +862,70 @@ Exercise 2: t-distribution confidence intervals
 <p>The code below calculates the critical values for the z-distribution for a 95% confidence interval.<br>
 (Note that .975 is used for a 95% confidence interval because <span class="math inline">\(\alpha = .05\)</span> and since the confidence interval is two sided we need half of the error each side so <span class="math inline">\(\alpha / 2  = .025\)</span>, which means we want to use <code>qnorm(.975)</code> or <code>qnorm(.025)</code>)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(.<span class="dv">975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(.<span class="dv">975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.959964</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(.<span class="dv">025</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>(.<span class="dv">025</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -1.959964</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Example: z-distribution confidence intervals">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example: z-distribution confidence intervals
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We would like to make a 98% confidence interval for the true mean of scoring for PGA Tour golfers based off of a sample from the third round. This sample can be created with the following code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pga_round3_scores <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(tour <span class="sc">==</span> <span class="st">"PGA"</span>, round <span class="sc">==</span> <span class="dv">3</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can check the size of our sample with the following code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pga_round3_n <span class="ot">&lt;-</span> <span class="fu">length</span>(pga_round3_scores)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>pga_round3_n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 39</code></pre>
+</div>
+</div>
+<p>That’s 39 observations we have in our sample, which means we can use the z-distribution.</p>
+<p>We start by calculating the the sample mean (<span class="math inline">\(\bar{x}\)</span>). <code>R</code> can do this very easily as seen below</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pga_round3_mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(pga_round3_scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next we calculate the sample standard deviation (<span class="math inline">\(s\)</span>), which is our estimate for <span class="math inline">\(\sigma\)</span>. Once again, <code>R</code> can do this quickly.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pga_round3_sd <span class="ot">&lt;-</span> <span class="fu">sd</span>(pga_round3_scores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Our next step is to find the critical value for a 98% confidence interval for a z-distribution (<span class="math inline">\(Z_{\alpha/2}\)</span>). We can use <code>qnorm</code> to do this.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>z_cv <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(.<span class="dv">99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Lastly we will use the confidence interval formula to find the bounds for our 98% confidence interval. <span class="math display">\[
+CI = \bar{X} \pm Z_{\alpha/2} \times \frac{s}{\sqrt{n}}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>lower_confidence_boundary <span class="ot">&lt;-</span> pga_round3_mean <span class="sc">-</span> z_cv <span class="sc">*</span> pga_round3_sd <span class="sc">/</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(pga_round3_n)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>upper_confidence_boundary <span class="ot">&lt;-</span> pga_round3_mean <span class="sc">+</span> z_cv <span class="sc">*</span> pga_round3_sd <span class="sc">/</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(pga_round3_n)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">"98% confidence interval: ("</span>, lower_confidence_boundary,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>       <span class="st">", "</span>, upper_confidence_boundary, <span class="st">")"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "98% confidence interval: (72.1152269671053, 73.9360550841767)"</code></pre>
+</div>
+</div>
+<p>Finally we can interpret the confidence interval and say that we are 98% confident that the true mean of PGA Tour golfers’ scores at the 2023 masters is between 72.1 and 73.9.</p>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 3: z-distribution confidence intervals">
@@ -819,15 +940,15 @@ Exercise 3: z-distribution confidence intervals
 <div class="callout-body-container callout-body">
 <p>Run the code below to create the proper subset of the data for this exercise and calculate the sample mean, sample standard deviation, and critical value for the z-distribution.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pga_round1 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">1</span>, tour <span class="sc">==</span> <span class="st">"PGA"</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> pga_round1 <span class="sc">|&gt;</span> </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">mean</span>(score)) <span class="sc">|&gt;</span> </span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> pga_round1 <span class="sc">|&gt;</span> </span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">sd</span>(score)) <span class="sc">|&gt;</span> </span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>z_cv <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(.<span class="dv">975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pga_round1 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">1</span>, tour <span class="sc">==</span> <span class="st">"PGA"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> pga_round1 <span class="sc">|&gt;</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">mean</span>(score)) <span class="sc">|&gt;</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> pga_round1 <span class="sc">|&gt;</span> </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">sd</span>(score)) <span class="sc">|&gt;</span> </span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>()</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>z_cv <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(.<span class="dv">975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Use the formula for creating a confidence interval using the standard normal distribution to calculate the upper and lower limits of a confidence interval for the true mean of PGA professional scoring at Augusta using the PGA pros in the first round as our sample. Use a 95% confidence interval (<span class="math inline">\(\alpha = .05\)</span>).</p>
 <ol type="a">
@@ -843,29 +964,29 @@ Exercise 3: z-distribution confidence intervals
 <p>R functions can help to speed up the process of finding these confidence intervals and will also help us with testing hypotheses later. The <code>t.test</code> function from the <code>stats</code> package makes a confidence interval for the t-distribution and the <code>z.test</code> function from the <code>BSDA</code> package does the same for the standard normal distribution.</p>
 <p>Run the code below to view what type of arguments these functions take, what they output, and the see some example uses</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>?t.test</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>?z.test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>?t.test</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>?z.test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>These functions return more than just a confidence interval. If we want to see just the confidence interval <code>$conf.int</code> should be used. Run the example below to see how this is done.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># t-test example</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>seniors_round1 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">1</span>, tour <span class="sc">==</span> <span class="st">"Senior"</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(seniors_round1<span class="sc">$</span>score, <span class="at">conf.level =</span> .<span class="dv">95</span>)<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># t-test example</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>seniors_round1 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">1</span>, tour <span class="sc">==</span> <span class="st">"Senior"</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(seniors_round1<span class="sc">$</span>score, <span class="at">conf.level =</span> .<span class="dv">95</span>)<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 72.39194 79.03663
 attr(,"conf.level")
 [1] 0.95</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># z-test example</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>pga_round2 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">2</span>, tour <span class="sc">==</span> <span class="st">"PGA"</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Note that the Z test require the standard deviation to be passed in as an argument `sigma.x`</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">z.test</span>(pga_round2<span class="sc">$</span>score,</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">sigma.x =</span> <span class="fu">sd</span>(pga_round2<span class="sc">$</span>score),</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">conf.level =</span> .<span class="dv">95</span>)<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># z-test example</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>pga_round2 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">2</span>, tour <span class="sc">==</span> <span class="st">"PGA"</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Note that the Z test require the standard deviation to be passed in as an argument `sigma.x`</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">z.test</span>(pga_round2<span class="sc">$</span>score,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">sigma.x =</span> <span class="fu">sd</span>(pga_round2<span class="sc">$</span>score),</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">conf.level =</span> .<span class="dv">95</span>)<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 72.24391 73.71973
 attr(,"conf.level")
@@ -901,13 +1022,13 @@ Exercise 4: R for confidence intervals
 <div class="no-row-height column-margin column-container"><div class="callout-margin-content">
 <p><strong>TIP</strong> If you didn’t create the amateur_round1 sample earlier run the code below</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>amateur_round1 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">1</span>, tour <span class="sc">==</span> <span class="st">"Amateur"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>amateur_round1 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">1</span>, tour <span class="sc">==</span> <span class="st">"Amateur"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>TIP</strong> If you didn’t create the pga_round1 sample earlier run the code below</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pga_round1 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">1</span>, tour <span class="sc">==</span> <span class="st">"PGA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>pga_round1 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">1</span>, tour <span class="sc">==</span> <span class="st">"PGA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div></div></section>
 </section>
@@ -934,6 +1055,7 @@ Exercise 4: R for confidence intervals
 <p>The z-test statistic is calculated using the formula:</p>
 <p><span class="math display">\[z = \frac{\bar{x} - \mu_0}{\frac{\sigma}{\sqrt{n}}}\]</span></p>
 <p>where <span class="math inline">\(\bar{x}\)</span> is the sample mean, <span class="math inline">\(\mu_0\)</span> is the hypothesized population mean, <span class="math inline">\(\sigma\)</span> is the population standard deviation, and <span class="math inline">\(n\)</span> is the sample size.</p>
+<p>Once again, if the sample size is over 30 and the population standard deviation is unknown, we use the sample standard deviation to approximate the population standard deviation.</p>
 </section>
 </section>
 <section id="to-reject-or-fail-to-reject" class="level2 page-columns page-full">
@@ -941,12 +1063,12 @@ Exercise 4: R for confidence intervals
 <p>There are two ways to make a decision about the null hypothesis.</p>
 <p><strong>Method 1</strong>: <strong>Critical values</strong>, along with <strong>test statistics</strong>, can be used to determine if the <strong>hypothesized population mean</strong> is within the <strong>confidence interval</strong> for the true mean.</p>
 <p>A <strong>critical value</strong> is a value that separates the rejection region from the non-rejection region. The rejection region is the area where the null hypothesis is rejected. The non-rejection region is the area where the null hypothesis is not rejected. The critical value is determined by the significance level (<span class="math inline">\(\alpha\)</span>) and the degrees of freedom (if it is a t-test). The critical value is compared to the test statistic to determine if the null hypothesis should be rejected. If the test statistic is within the non-rejection region, the null hypothesis is not rejected. If the test statistic is within the rejection region, the null hypothesis is rejected and the alternative hypothesis is accepted.</p>
-<p>Below is an example of using critical values and a test-statistic for a z-test with a 95% confidence level (two-sided). The critical value is 1.96. This means that if the test statistic is greater than 1.96 or less than -1.96, the null hypothesis is rejected. The blue represents the non-rejection region and the red the rejection region. Since the Test Statistic for this hypothetical example is 1.1 (less than 1.96 and greater than -1.96), we fail to reject the null hypothesis.</p>
+<p>Below is an example of using critical values and a test-statistic for a z-test with a 95% confidence level (two-sided). The critical value is 1.96. This means that if the test statistic is greater than 1.96 or less than -1.96, the null hypothesis is rejected. The blue represents the non-rejection region and the red the rejection region. Since the test statistic for this hypothetical example is 1.1 (less than 1.96 and greater than -1.96), we fail to reject the null hypothesis.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -957,15 +1079,41 @@ Exercise 4: R for confidence intervals
 <div class="no-row-height column-margin column-container"><div class="">
 <p><strong>Note</strong>: We can say that there is significant evidence to accept the alternative hypothesis if the null hypothesis is rejected. However, it should never be said that we accept the null hypothesis. We can only fail to reject it.</p>
 </div></div><p><strong>Method 2</strong>: The second method is to use a p-value. The p-value is the probability of observing a test statistic as extreme as the one calculated from the sample data given that the null hypothesis is true. The p-value is compared to the significance level (<span class="math inline">\(\alpha\)</span>) to determine if the null hypothesis should be rejected. If the p-value is less than <span class="math inline">\(\alpha\)</span>, the null hypothesis is rejected. If the p-value is greater than <span class="math inline">\(\alpha\)</span>, the null hypothesis is not rejected.</p>
-<p>For example, if the p-value for a single mean hypothesis test is 0.03 and the significance level is 0.05, the null hypothesis is rejected because the p-value is less than the significance level.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><strong>NOTE</strong>: Our <strong>alternative hypothesis</strong> determines whether we are looking for the probability that the test statistic is greater than or less than the observed value.</p>
+<ul>
+<li><p>For a <strong>two-sided test</strong>, the p-value is the probability that the test statistic is greater than the observed value or less than the negative of the observed value. Find the area in one of the tails and double it.</p></li>
+<li><p>For a <strong>left-tailed test</strong> (<span class="math inline">\(H_a: \mu &lt; \mu_0\)</span>), the p-value is the probability that the test statistic is less than the observed value.</p></li>
+<li><p>For a <strong>right-tailed test</strong> (<span class="math inline">\(H_a: \mu &gt; \mu_0\)</span>), the p-value is the probability that the test statistic is greater than the observed value.</p></li>
+</ul>
+</div></div><p>First let’s visualize what a p-value is telling us.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now let’s see how we can calculate p-value for our example using <code>R</code>. We have a hypothetical z-test statistic of 1.1 and alpha of .05 for a two-tailed test. We want to find the probability of getting a test statistic less than -1.1 or greater than 1.1. In <code>R</code> the <code>pnorm</code> function calculates the probability that a test statistic is less than a given value. Since we know that the z-distribution is symmetrical we can simply multiply the probability that the test statistic is less than -1.1 by 2 to get our p-value.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="fu">pnorm</span>(<span class="sc">-</span><span class="fl">1.1</span>) <span class="sc">*</span> <span class="dv">2</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>p_value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2713321</code></pre>
+</div>
+</div>
+<p>Since the p-value is greater than our alpha value of .05 we fail to reject the null hypothesis.</p>
 </section>
 <section id="hypothesis-testing-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-testing-in-r">Hypothesis testing in R</h2>
-<p>Thankfully R can help us with this as well. The <code>t.test</code> function and the <code>z.test</code> function can both perform hypothesis tests.</p>
+<p>Thankfully R can help us with this as well. The <code>t.test</code> function and the <code>z.test</code> function can both perform hypothesis tests, without having to do each step manually.</p>
 <p>The code below tests if the true mean is not equal to 50 given that the <code>example_vector</code> is our sample. The confidence level is set to 95%.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>example_vector <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(example_vector, <span class="at">mu =</span> <span class="dv">50</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>example_vector <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(example_vector, <span class="at">mu =</span> <span class="dv">50</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     One Sample t-test
@@ -1045,7 +1193,7 @@ Exercise 6: z-test for single mean hypothesis testing
 <p><strong>TIP</strong> Use the <code>$score</code> column from the <code>pga_round1</code> sample as the first argument in the <code>z.test</code> function</p>
 <p><strong>TIP</strong> Remember that the <code>z.test</code> function requires the population standard deviation as the second argument. Use the <code>sd</code> function to calculate the standard deviation of the <code>pga_round1</code> sample.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(pga_round1<span class="sc">$</span>score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(pga_round1<span class="sc">$</span>score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div></div></section>
 </section>
@@ -1064,8 +1212,8 @@ Challenge 1: Critical Values Knowledge Check
 <div class="callout-body-container callout-body">
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>liv_round3 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">3</span>, tour <span class="sc">==</span> <span class="st">"LIV"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>liv_round3 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">3</span>, tour <span class="sc">==</span> <span class="st">"LIV"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol type="a">
 <li><p>What is the degrees of freedom for a single mean hypothesis test for the above sample of Augusta National scores?</p></li>
@@ -1096,8 +1244,8 @@ Challenge 2: P-Value Knowledge check
 <div class="callout-body-container callout-body">
 <p>Answer the following questions based on the sample of Augusta National scores below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pro_round4 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">4</span>, tour <span class="sc">==</span> <span class="st">"PGA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>pro_round4 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">4</span>, tour <span class="sc">==</span> <span class="st">"PGA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 <ol type="a">
@@ -1124,13 +1272,13 @@ Challenge 3: Confidence Intervals Knowledge Check
 <div class="callout-body-container callout-body">
 <p>Answer the following questions based on the 2 samples of Augusta National scores below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Sample 1</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>amateur_round2 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">2</span>, tour <span class="sc">==</span> <span class="st">"Amateur"</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Sample 2</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>pga_rounds2_4 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), tour <span class="sc">==</span> <span class="st">"PGA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Sample 1</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>amateur_round2 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">==</span> <span class="dv">2</span>, tour <span class="sc">==</span> <span class="st">"Amateur"</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Sample 2</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>pga_rounds2_4 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), tour <span class="sc">==</span> <span class="st">"PGA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol type="a">
 <li><p>How many observations are in sample 1?</p></li>
@@ -1156,8 +1304,8 @@ Challenge 4: z vs t (large sample size)
 <p>You have the following sample of Augusta National scores below. Answer the following questions based on the sample.</p>
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pga_rounds1_2 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), tour <span class="sc">==</span> <span class="st">"PGA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pga_rounds1_2 <span class="ot">&lt;-</span> masters_2023 <span class="sc">|&gt;</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(round <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), tour <span class="sc">==</span> <span class="st">"PGA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol type="a">
 <li><p>Create a <strong>95% confidence interval</strong> for the mean of the sample using the <code>z.test</code> function. What is the <strong>confidence interval</strong>?</p></li>
@@ -1215,18 +1363,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1258,7 +1395,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1266,7 +1425,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

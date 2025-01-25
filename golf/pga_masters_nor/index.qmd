@@ -6,7 +6,7 @@ author:
     affiliation:
       - id: bay
         name: Baylor University
-date: July 24, 2024
+date: January 25, 2025
 format:
   html:
     grid:
@@ -27,8 +27,8 @@ callout-icon: false
 
 + The data used to create this module and a student answer template can be downloaded from the following links:
   
-  + [data](masters_2023.csv)
-  + [Student Answer template](student_template.pdf)
+  + [Data](masters_2023.csv)
+  + [Student answer template](student_template.pdf)
   
 + The data for this module is derived largely from the [ESPN website](https://www.espn.com/golf/leaderboard/_/tournamentId/401465508). However, the tours were manually added to the data based on the what they played on in 2023 at the time of the Masters.
 :::
@@ -56,7 +56,7 @@ View the course at Augusta National [here](https://www.masters.com/en_US/course/
 :::
 
 
-As mentioned before, only the best players and previous winners can compete in the tournament. With that being said, the Masters is one of the few tournaments that players from the newly created LIV golf tour can play in, although they are mostly qualifying because of their past performances at the Masters before they joined LIV golf. This leads to a mixture of regular PGA professionals, LIV professionals, Amateurs, and Seniors playing in the Masters in 2023. 
+As mentioned before, only the best players and previous winners can compete in the tournament. With that being said, the Masters is one of the few tournaments that players from the newly created LIV golf tour can play in, although they are mostly qualifying because of their past performances at the Masters before they joined LIV golf. This leads to a mixture of regular PGA Tour professionals, LIV golfers, Amateurs, and Seniors playing in the Masters in 2023. 
 
 
 The focus for this module is confidence intervals and hypothesis testing for the true mean scores for different groups of players at Augusta National. 
@@ -119,8 +119,8 @@ Before proceeding with the analysis, let's make sure we know some important golf
 #### Types of Golf Tours
 - In golf there are a few **tours**, better thought of as leagues, that golfers regularly compete in
 
-     -  The **PGA**, or "Professional Golf Association", has long been considered the preeminant golfing tour, hosting most tournaments and containing the most skilled members.
-     - The **LIV** tour is a Saudi-backed alternative to the PGA that was played its first season in 2022. **LIV** is the Roman numeral for 54 and is related to the fact that **LIV** tournaments only allow 54 players and only play 54 holes, compared to the normal PGA 72 holes.
+     -  The **PGA Tour**, or "Professional Golf Association Tour", has long been considered the preeminant golfing tour, hosting most tournaments and containing the most skilled members.
+     - The **LIV** tour is a Saudi-backed alternative to the PGA that played its first season in 2022. **LIV** is the Roman numeral for 54 and is related to the fact that **LIV** tournaments only allow 54 players and only play 54 holes, compared to the normal PGA Tour 72 holes.
      - The **PGA Tour Champions** is a branch off of the PGA tour for players 50 or older. It used to be called the "Senior PGA Tour" until 2003, when it began being called the **Champions** tour
      - An **amateur** is a golfer who is not yet a professional. They are not allowed to win money in professional golf tournaments. Most **amateurs** are college golfers. 
 
@@ -128,7 +128,7 @@ Before proceeding with the analysis, let's make sure we know some important golf
 
 ::: column-margin
 
-PGA vs. LIV
+PGA Tour vs. LIV Golf
 
 Click [here](https://www.si.com/golf/news/timeline-liv-golf-how-pga-tour-adapted) to read about LIV golf's founding and its continued impact on the PGA tour.
 
@@ -137,16 +137,35 @@ Click [here](https://www.si.com/golf/news/timeline-liv-golf-how-pga-tour-adapted
 
 # Single Mean Confidence Intervals
 
-Single Mean confidence intervals give a range of numbers that we can feel confident that the true population mean falls between. 
+Single mean confidence intervals give a range of numbers that we can feel confident that the true population mean falls between. 
+In the most accurate sense, a single mean confidence interval is a range of values that,
+if we were to take many samples and calculate the confidence interval for each sample,
+a certain percentage of those intervals would contain the true population mean.
+Because of what a single mean confidence interval is, it is innaccurate to say that there is 
+a 95% chance (if we were constructing a 95% confidence interval) that the true mean falls within the the confidence interval. The true mean is a fixed value,
+so it either falls within the interval or it does not. The 95% confidence level refers to the long-run proportion of confidence intervals
+that will contain the true mean if we were to take many samples.This can lead to difficulties interpreting
+these ranges in practice though. An accurate interpretation of a single mean confidence interval will often follow the structure below:
 
-There are two different ways of calculating the confidence interval for a single mean. 
+**We are *(insert confidence level)* confident that the true *(insert variable)* mean for *(insert population group)* is between *(insert lower bound)* and *(insert upper bound)*.**
+
+
+For example:
+
+  **We are 95% confident that the true scoring average for LIV golfers at Augusta National is between 70.1 and 73.3.**
+  
+
+There are two different ways of calculating the confidence interval for a single mean. How we
+determine which of the two methods to use is based on the sample size and whether
+or not the population standard deviation is known. 
+
 
 ## t-interval for single means
 
 A t-distribution is used for calculating a single mean confidence interval if the sample size is small (rule of thumb: less than 30) and the population standard deviation is unknown. 
 
 The formula for calculating a CI using this method is shown below:
-$$CI = \bar{X} \pm t_{\alpha/2, df} \times \frac{S}{\sqrt{n}}$$
+$$CI = \bar{x} \pm t_{\alpha/2, df} \times \frac{s}{\sqrt{n}}$$
 
 ::: column-margin
 
@@ -204,15 +223,58 @@ ggplot(data, aes(x = x, y = y)) +
   theme_minimal()
 ```
 
-These critical values can be found using t-tables like the one below:
+These critical values can be found using t-tables like the one below. Some important things to note about this specific t-table. The degrees of freedom for the test are on the left. The row *cum. prob* at the top shows us the $t_{\alpha}$ value. The *one-tail* row shows us the p-value for a one-tailed test and the row *two-tail* shows us the p-value for a two-tailed test. There is also a helpful row at the bottom called *confidence level* that shows the associated confidence level for confidence intervals. The values in the table show the t-test statistic values corresponding to the degrees of freedom and $t_{alpha}$. 
 
 ![](t-table.png)
 
 For a 95% confidence interval, our Type I error rate is $\alpha = 0.05$. Since confidence intervals are two-tailed, we split this $\alpha$ in half, half in the left tail and half in the right tail. This means that we are looking for $t_{.025, df}$ or $t_{.975, df}$.
 
-::: column-margin
-**NOTE**: A **Type I** error is when we reject the null hypothesis when it is actually true. This is also known as a false positive.
+::: {.callout-note collapse="true" title="Example 1: t-distribution confidence intervals"}
+We would like to make a 90% confidence interval for the true mean of scoring for Jon Rahm at the Masters. His scores were as follows. 
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+jon_rahm <- masters_2023 |> 
+  filter(player == "Jon Rahm") |> 
+  select(player, round, score)
+
+kable(jon_rahm, col.names = c("Golfer", "Round", "Score"))
+```
+
+We start by calculating the the sample mean ($\bar{x}$).
+
+$$
+\begin{align*}
+\bar{x} &= \frac{65 + 69 + 73 + 69}{4} \\
+        &= 69
+\end{align*}
+$$
+
+Next we calculate the sample standard deviation ($s$).
+
+$$
+\begin{align*}
+s &= {\sqrt {\frac {\sum _{i=1}^{n}(x_{i}-{\overline {x}})^{2}}{n-1}}} \\
+  &= {\sqrt {\frac{(65 - 69)^2 + (69 - 69)^2 + (73 - 69)^2 + (69 - 69)^2}{4-1}}} \\
+  &= {\sqrt {\frac{(-4)^2 + 0^2 + 4^2 + 0^2}{3}}} \\
+  &\approx 3.266
+\end{align*}
+$$
+
+Our next step is to find the critical value for a 90% confidence interval with 3 degrees of freedom ($t_{\alpha/2, df}$. We'll use the t-table from earlier to find this.
+
+![](t-table-with-arrows.png)
+
+Lastly we will use the confidence interval formula to find the bounds of our 90% confidence interval.
+$$
+\begin{align*}
+CI &= \bar{x} \pm t_{\alpha/2, df} \times \frac{s}{\sqrt{n}} \\
+CI &= 69 \pm 2.353 \times \frac{3.266}{\sqrt{4}} \\
+CI &= (67.07878, 70.92122)
+\end{align*}
+$$
+Finally we can interpret the confidence interval and say that we are 95% confident that the true mean of Jon Rahm's scores at Augusta National is between 67.1 and 70.9. 
+
 :::
+
 
 ::: {.callout-note title="Exercise 1: t-distribution confidence intervals"}
 
@@ -221,15 +283,15 @@ The table below shows summary data for the first round of the 2023 Masters tourn
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 amateurs_round1 <- masters_2023 |> 
   filter(round == 1, tour == "Amateur")
-x_bar <- amateurs_round1 |> 
+amateur_round1_x_bar <- amateurs_round1 |> 
   summarise(mean(score)) |> 
   pull()
-std_dev <- amateurs_round1 |> 
+amateur_round1_std_dev <- amateurs_round1 |> 
   summarize(sd(score)) |> 
   pull()
-n <- nrow(amateurs_round1)
-t_cv <- qt(0.95, df = n - 1)
-kable(data.frame("Amateurs Round 1", x_bar, std_dev, n, t_cv), col.names = c("Sample", "Sample Mean", "Sample Standard Deviation", "Sample Size", "Critical Value"))
+amateur_round1_n <- nrow(amateurs_round1)
+t_cv <- qt(0.95, df = amateur_round1_n - 1)
+kable(data.frame("Amateurs Round 1", amateur_round1_x_bar, amateur_round1_std_dev, amateur_round1_n, t_cv), col.names = c("Sample", "Sample Mean", "Sample Standard Deviation", "Sample Size", "Critical Value"))
 ```
 
 Use the formula for creating a **confidence interval** using the t-distribution to calculate the upper and lower limits of a confidence interval for the true mean of amateur scoring using the amateurs in the first round as our sample. Use a 90% confidence interval ($\alpha = .1$). 
@@ -284,13 +346,54 @@ and $n$ is the sample size.
 
 The reasoning behind why we can use the standard normal distribution when the sample is greater than 30 even if the population standard deviation is unknown is found in the [Central Limit Theorem](https://www.scribbr.com/statistics/central-limit-theorem/), which says that as the sample size increases, the sampling distribution of the sample mean approaches a normal distribution. This means that when the sample size is greater than 30 we can use the sample standard deviation to estimate the population standard deviation and create a confidence interval as seen below
 
-$CI = \bar{X} \pm Z_{\alpha/2} \times \frac{S}{\sqrt{n}}$
+$CI = \bar{X} \pm Z_{\alpha/2} \times \frac{s}{\sqrt{n}}$
 
 Once again the critical value for the z-distribution is the value of $Z_{\alpha/2}$ such that the area under the standard normal distribution curve between $-Z_{\alpha/2}$ and $Z_{\alpha/2}$ is equal to the confidence level.
 
-The critical values for the z-distribution can be found using a z-table such as the one below. All values in the table are the area under the curve to the left of the z-score. 
+The critical values for the z-distribution can be found using a z-table such as the one below. All values in the table are the area under the standard normal curve to the left of the associated z-score. The column on the left shows the associated ones and tenths value for the z-score. The row at the top shows the associated hundredths value for the z-score.
 
 ![](z-table.png)
+
+::: {.callout-note collapse="true" title="Example 2: z-distribution confidence intervals"}
+We would like to make a 98% confidence interval for the true mean of scoring for PGA Tour golfers based off 
+of a sample from the third round. The sample includes the following scores.
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+pga_round3_scores <- masters_2023 |> 
+  filter(tour == "PGA", round == 3) |> 
+  pull(score)
+
+cat("Round 3 PGA Tour golfer scores:", pga_round3_scores)
+```
+
+Whew! That's 39 observations we have in our sample, which means we can use the z-distribution.
+
+We start by calculating the the sample mean ($\bar{x}$). This probably has to be done using 
+a calculator or programming tool. For this example our sample mean is approximately 
+`r round(mean(pga_round3_scores), 2)`. 
+
+Next we calculate the sample standard deviation ($s$), which is our estimate for $\sigma$. Once again, with a sample this 
+size a calculator or computer is probably necessary for computing this. Our sample 
+standard deviation is approximately `r round(sd(pga_round3_scores), 2)`.
+
+Our next step is to find the critical value for a 98% confidence interval for a 
+z-distribution ($Z_{\alpha/2}$). We will use the z-table from earlier. Since we want alpha equal to .2, our area to the right should be .1 and we look for the value on the table of .99.
+
+![](z-table-with-arrows.png)
+
+Note that this value is not exact. The value is slightly less than 2.33
+but .9901 is closer to .99 than .9898, so we went with 2.33.
+
+Lastly we will use the confidence interval formula to find the bounds for our 98% confidence interval.
+$$
+\begin{align*}
+CI &= \bar{X} \pm Z_{\alpha/2} \times \frac{s}{\sqrt{n}} \\
+CI &= 73.03 \pm 2.33 \times \frac{2.44}{\sqrt{39}} \\
+CI &= (72.12, 73.94)
+\end{align*}
+$$
+Finally we can interpret the confidence interval and say that we are 98% confident that the true mean of PGA Tour golfers' scores at the 2023 Masters is between 72.12 and 73.94. 
+
+:::
 
 ::: {.callout-note title="Exercise 2: z-distribution confidence intervals"}
 
@@ -299,21 +402,21 @@ The table below shows summary data for the first round of the 2023 Masters Tourn
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 pga_round1 <- masters_2023 |> 
   filter(round == 1, tour == "PGA")
-x_bar <- pga_round1 |> 
+pga_round1_x_bar <- pga_round1 |> 
   summarise(mean(score)) |> 
   pull()
-sigma <- pga_round1 |> 
+pga_round1_sigma <- pga_round1 |> 
   summarise(sd(score)) |> 
   pull()
 z_cv <- qnorm(.975)
-kable(data.frame("PGA Round 1", x_bar, sigma, nrow(pga_round1), z_cv), col.names = c("Sample", "Sample Mean", "Standard Deviation Estimate", "Sample Size", "Critical Value"))
+kable(data.frame("PGA Round 1", pga_round1_x_bar, pga_round1_sigma, nrow(pga_round1), z_cv), col.names = c("Sample", "Sample Mean", "Standard Deviation Estimate", "Sample Size", "Critical Value"))
 ```
 
 Use the formula for creating a confidence interval using the standard normal distribution to calculate the upper and lower limits of a confidence interval for the true mean of PGA professional scoring at Augusta using the PGA pros in the first round as our sample. Use a 95% confidence interval ($\alpha = .05$).
 
 a. Why can we use the **standard normal distribution** to calculate this confidence interval?
 
-b. What is the **confidence interval** for the true mean of scoring for PGA professionals at Augusta National?
+b. What is the **confidence interval** for the true mean of scoring for PGA professionals at Augusta National using round 1 as our sample?
 
 c. What is the **interpretation** of this confidence interval?
 
@@ -356,6 +459,8 @@ $$z = \frac{\bar{x} - \mu_0}{\frac{\sigma}{\sqrt{n}}}$$
 
 where $\bar{x}$ is the sample mean, $\mu_0$ is the hypothesized population mean, $\sigma$ is the population standard deviation, and $n$ is the sample size.
 
+Once again, if the sample size is over 30 and the population standard deviation is unknown, we use the sample standard deviation to approximate the population standard deviation.
+
 ## To Reject or Fail to Reject
 
 There are two ways to make a decision about the null hypothesis. 
@@ -364,7 +469,8 @@ There are two ways to make a decision about the null hypothesis.
 
 A **critical value** is a value that separates the rejection region from the non-rejection region. The rejection region is the area where the null hypothesis is rejected. The non-rejection region is the area where the null hypothesis is not rejected. The critical value is determined by the significance level ($\alpha$) and the degrees of freedom (if it is a t-test). The critical value is compared to the test statistic to determine if the null hypothesis should be rejected. If the test statistic is within the non-rejection region, the null hypothesis is not rejected. If the test statistic is within the rejection region, the null hypothesis is rejected and the alternative hypothesis is accepted.
 
-Below is an example of using critical values and a test-statistic for a z-test with a 95% confidence level (two-sided). The critical value is 1.96. This means that if the test statistic is greater than 1.96 or less than -1.96, the null hypothesis is rejected. The blue represents the non-rejection region and the red the rejection region. Since the Test Statistic for this hypothetical example is 1.1 (less than 1.96 and greater than -1.96), we fail to reject the null hypothesis.
+
+Below is an example of using critical values and a test-statistic for a z-test with a 95% confidence level (two-sided). The critical value is 1.96. This means that if the test statistic is greater than 1.96 or less than -1.96, the null hypothesis is rejected. The blue represents the non-rejection region and the red the rejection region. Since the test statistic for this example is 1.1 (less than 1.96 and greater than -1.96), we fail to reject the null hypothesis.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 z_values <- tibble(z = seq(-3, 3, .01),
@@ -426,29 +532,141 @@ If the hypothesized population mean is within the confidence interval, we fail t
 - For a **right-tailed test** ($H_a: \mu > \mu_0$), the p-value is the probability that the test statistic is greater than the observed value.
 :::
 
-For example, if the p-value for a single mean hypothesis test is 0.03 and the significance level is 0.05, the null hypothesis is rejected because the p-value is less than the significance level.
+First let's visualize what a p-value is telling us. 
 
-## Hypothesis testing example
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+z_values <- tibble(z = seq(-3, 3, .01),
+                    y = dnorm(seq(-3, 3, .01)))
+
+new_zy <- tibble(z = -3.00, y = 0) |> 
+  bind_rows(z_values |> filter(z <= -1.1)) |> 
+  add_row(z = -1.1, y = 0) 
+
+non_rejection <- tibble(z = -1.1, y = 0) |> 
+  bind_rows(z_values |> filter(z >= -1.1 & z <= 1.1)) |> 
+  add_row(z = 1.1, y = 0)
+
+upper_rejection <- tibble(z = 1.1, y = 0) |> 
+  bind_rows(z_values |> filter(z >= 1.1)) |> 
+  add_row(z = 3.00, y = 0)
+
+ggplot(new_zy, aes(x = z, y = y))+
+  geom_polygon(aes(x = z, y = y), fill = "red", alpha = .5)+
+  geom_line()+
+  geom_polygon(data = non_rejection, aes(x = z, y = y), alpha = .5)+
+  geom_line(data = non_rejection)+
+  geom_polygon(data = upper_rejection, aes(x = z, y = y), fill = "red", alpha = .5)+
+  geom_line(data = upper_rejection)+
+  geom_vline(xintercept = -1.1, linetype = "solid")+
+  geom_vline(xintercept = 1.1, linetype = "solid")+
+  geom_text(aes(x = -2, y = .2, label = "Area under curve
+  less than -1.1: .1357"))+
+  geom_text(aes(x = 2, y = .2, label = "Area under curve
+  greater than 1.1: .1357"))+ 
+  labs(title = "P-value visualization for z-test with test statistic of 1.1",
+       subtitle = "Standard Normal Distribution",
+       x = "Z",
+       y = "Density")+
+  theme_minimal()
+  
+```
+
+
+Now let's see how we can calculate p-value for our example using a z-table. 
+
+We have a hypothetical z-test statistic of 1.1 and alpha of .05 for a two-tailed test.
+We start by finding the area under the curve to the left of a z-score of 1.1. However, we know that we want the area under the curve greater than 1.1 or less than -1.1. We can find the area under the curve to the right of 1.1 by subtracting our area value from 1. Additionally, we know that the z-distribution is symmetrical, implying that the area under the curve less than -1.1 is equal to that which is greater than 1.1. This means that we multiply our area value by 2 to get the p-value.
+
+![](z-table-pvalue-arrows.png)
+
+This means we can calculate p-value with the math below.
+
+$$
+\begin{align*}
+p\text{-}value &= 2 * (1 - .8643)\\
+               &= .2714
+\end{align*}
+$$
+
+Since the p-value is greater than our alpha value of .05 we fail to reject the null hypothesis.
+
+::: {.callout-note collapse="true" title="Example 3: Hypothesis testing example"}
 
 Suppose we have a sample of data with the following values: 10, 20, 30, 40, 50, 60, 70, 80, 90, 100. We want to test if the true mean of the population is not equal to 50. Alpha is 0.05. Our hypotheses are as follows:
 
 - Null Hypothesis ($H_0$): $\mu = 50$
 - Alternative Hypothesis ($H_1$): $\mu \neq 50$
 
-We can use the t-test to test this hypothesis. We start by finding the sample mean and sample standard deviation. The sample mean is 55 and the sample standard deviation is 30.2765. The degrees of freedom are 9. The critical value for a 95% two-sided confidence t-interval with 9 degrees of freedom is $\pm 2.262157$. 
+We should use the t-test to test this hypothesis because the sample size is small and the population standard deviation is unknown.
 
-The test statistic can be calculated as follows:
+We start by finding the sample mean, sample standard deviation, and degrees of freedom. 
+Using a calculator we can find $\bar{x} = 55$, $s = 30.2765$, and logically $df = 9$.
+
+Now we need to find the critical value for a 95% two sided confidence t-interval with 9 degrees of freedom ($t_{\alpha/2, df}$). Once again we will use the t-table from earlier. 
+
+![](t-table-hypothesis-arrows.png)
+
+The critical value is $\pm 2.262$.
+
+
+Next the test statistic can be calculated as follows:
 
 $$t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}}$$
 $$t = \frac{55 - 50}{\frac{30.2765}{\sqrt{10}}}$$
 $$t = 0.522$$
+
+This is visualized in the plot below.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+t_values <- tibble(t = seq(-3, 3, .01),
+                    y = dt(seq(-3, 3, .01), 9))
+
+new_ty <- tibble(t = -3.00, y = 0) |> 
+  bind_rows(t_values |> filter(t <= -2.262)) |> 
+  add_row(t = -2.262, y = 0) 
+
+non_rejection <- tibble(t = -2.262, y = 0) |> 
+  bind_rows(t_values |> filter(t >= -2.262 & t <= 2.262)) |> 
+  add_row(t = 2.262, y = 0)
+
+upper_rejection <- tibble(t = 2.262, y = 0) |> 
+  bind_rows(t_values |> filter(t >= 2.262)) |> 
+  add_row(t = 3.00, y = 0)
+
+ggplot(new_ty, aes(x = t, y = y))+
+  geom_polygon(aes(x = t, y = y), fill = "red", alpha = .5)+
+  geom_line()+
+  geom_polygon(data = non_rejection, aes(x = t, y = y), fill = "blue", alpha = .5)+
+  geom_line(data = non_rejection)+
+  geom_polygon(data = upper_rejection, aes(x = t, y = y), fill = "red", alpha = .5)+
+  geom_line(data = upper_rejection)+
+  geom_vline(xintercept = -2.262, linetype = "dashed")+
+  geom_vline(xintercept = 2.262, linetype = "dashed")+
+  geom_vline(xintercept = .522, linetype = "solid")+
+  geom_text(aes(x = -2.262, y = .1, label = "Critical Value: -2.262"), vjust = -2)+
+  geom_text(aes(x = 2.262, y = .1, label = "Critical Value: 2.262"), vjust = -2)+ 
+  geom_text(aes(x = .5, y = .1, label = "Test Statistic: .522"), vjust = -6)+
+  labs(title = "Two-Sided t-test with 95% Confidence Level and 9 Degrees of Freedom",
+       subtitle = "T-Distribution",
+       x = "t",
+       y = "Density")+
+  theme_minimal()
+  
+```
+
 Since the test statistic is between the two critical values, there is not enough evidence to reject the null hypothesis and conclude that the true mean is not equal to 50.
 
 The p-value for this example could be calculated by finding the area
-under the curve to the left of -0.522 and to the right of 0.522. The p-value would be the sum of these two areas. By looking at the t-table, it can be seen that the sum of these two areas would be well greater than .5, which is greater than .05. Therefore, the null hypothesis would not be rejected.
+under the curve to the left of -0.522 and to the right of 0.522. The p-value would be the sum of these two areas.
+
+This value can be estimated by looking at the t-table. Obviously .522 is not on the table, but is between 0 and .703. If we follow this up to the top of the table we can look at the two-tails column and see that the p-value would be between .5 and 1. This is significantly larger than .05. Therefore we fail to reject the null hypothesis.
+
+![](t-table-pvalue-arrows.png)
 
 ::: column-margin
 **NOTE**: Since this is a two-sided test you could simply find the probability that the test statistic is greater than 0.522 and multiply by 2. This would give you the **p-value**.
+:::
+
 :::
 
 ## Hypothesizing Par as the Population Mean
@@ -485,7 +703,7 @@ b. What is the **alternative hypothesis** for this test?
 Perform a single mean hypothesis test to see if the mean of amateur scoring is greater than 72 using the amateur round 1 score sample from earlier in the lesson. The summary of the sample is as follows:
 
 ```{r, echo=FALSE}
-kable(data.frame("Amateurs Round 1", x_bar, std_dev, n), col.names = c("Sample", "Sample Mean", "Sample Standard Deviation", "Sample Size"))
+kable(data.frame("Amateurs Round 1", amateur_round1_x_bar, amateur_round1_std_dev, amateur_round1_n), col.names = c("Sample", "Sample Mean", "Sample Standard Deviation", "Sample Size"))
 ```
 
 c. What is the **critical value** for this test?
@@ -509,7 +727,7 @@ b. What is the **alternative hypothesis** for this test?
 Perform a single mean hypothesis test using the PGA Round 1 sample from earlier. The summary of that sample is displayed below.
 
 ```{r, echo=FALSE}
-kable(data.frame("PGA Round 1", x_bar, std_dev, n), col.names = c("Sample", "Sample Mean", "Sample Standard Deviation", "Sample Size"))
+kable(data.frame("PGA Round 1", pga_round1_x_bar, pga_round1_sigma, nrow(pga_round1)), col.names = c("Sample", "Sample Mean", "Sample Standard Deviation", "Sample Size"))
 ```
 
 c. What is the **critical value** for this test?

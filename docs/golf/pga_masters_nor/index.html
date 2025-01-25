@@ -2,15 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jonathan Lieb">
-<meta name="dcterms.date" content="2024-07-24">
+<meta name="dcterms.date" content="2025-01-25">
 <meta name="description" content="Exploring Single Mean Confidence Intervals with Golf Data">
 
-<title>Baylor APU SCORE Module Preprint Repository - PGA - Scoring Average Confidence Intervals (No R)</title>
+<title>PGA - Scoring Average Confidence Intervals (No R) – Baylor APU SCORE Module Preprint Repository</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -99,7 +99,7 @@ cookieconsent.run({
 </script> 
   
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -143,7 +143,7 @@ window.Quarto = {
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -162,17 +162,17 @@ window.Quarto = {
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../golf/pga_gir/index.html">Golf</a></li><li class="breadcrumb-item"><a href="../../golf/pga_masters_nor/index.html">PGA - Scoring Average Confidence Intervals (No R)</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../golf/pga_gir_nor/index.html">Golf</a></li><li class="breadcrumb-item"><a href="../../golf/pga_masters_nor/index.html">PGA - Scoring Average Confidence Intervals (No R)</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
   </nav>
@@ -191,9 +191,9 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Anw</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -208,42 +208,53 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Baseball</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../baseball/mlb_injuries/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">MLB Injuries - Introductory Time Series Analysis</span></a>
+  <a href="../../baseball/mlb_prime_age/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">What’s the prime age of an MLB player?</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../baseball/mlb_prime_age/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">What’s the prime age of an MLB player?</span></a>
+  <a href="../../baseball/mlb_injuries/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">MLB Injuries - Introductory Time Series Analysis</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text">Golf</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Basketball</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../golf/pga_gir/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">PGA - Scheffler Greens in Regulation</span></a>
+  <a href="../../basketball/conditional_probability/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A Look at Paul George’s Missed Free Throws</span></a>
   </div>
 </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Golf</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../golf/pga_gir_nor/index.html" class="sidebar-item-text sidebar-link">
@@ -252,8 +263,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../golf/pga_masters/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">PGA - Scoring Average Confidence Intervals</span></a>
+  <a href="../../golf/pga_gir/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scheffler Greens in Regulation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -262,17 +273,23 @@ window.Quarto = {
  <span class="menu-text">PGA - Scoring Average Confidence Intervals (No R)</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../golf/pga_masters/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">PGA - Scoring Average Confidence Intervals</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
  <span class="menu-text">Mma</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../mma/mma_chisquare/index.html" class="sidebar-item-text sidebar-link">
@@ -283,13 +300,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
  <span class="menu-text">Soccer</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../soccer/mls_decision_errors/index.html" class="sidebar-item-text sidebar-link">
@@ -300,13 +317,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
  <span class="menu-text">Tennis</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../tennis/tennis_sampsize/index.html" class="sidebar-item-text sidebar-link">
@@ -317,13 +334,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
  <span class="menu-text">Volleyball</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../volleyball/ncaa_d1/index.html" class="sidebar-item-text sidebar-link">
@@ -353,7 +370,6 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#test-statistics" id="toc-test-statistics" class="nav-link" data-scroll-target="#test-statistics">Test Statistics</a></li>
   <li><a href="#to-reject-or-fail-to-reject" id="toc-to-reject-or-fail-to-reject" class="nav-link" data-scroll-target="#to-reject-or-fail-to-reject">To Reject or Fail to Reject</a></li>
-  <li><a href="#hypothesis-testing-example" id="toc-hypothesis-testing-example" class="nav-link" data-scroll-target="#hypothesis-testing-example">Hypothesis testing example</a></li>
   <li><a href="#hypothesizing-par-as-the-population-mean" id="toc-hypothesizing-par-as-the-population-mean" class="nav-link" data-scroll-target="#hypothesizing-par-as-the-population-mean">Hypothesizing Par as the Population Mean</a></li>
   </ul></li>
   <li><a href="#more-practice" id="toc-more-practice" class="nav-link" data-scroll-target="#more-practice">More practice</a></li>
@@ -363,12 +379,12 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../golf/pga_gir/index.html">Golf</a></li><li class="breadcrumb-item"><a href="../../golf/pga_masters_nor/index.html">PGA - Scoring Average Confidence Intervals (No R)</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../golf/pga_gir_nor/index.html">Golf</a></li><li class="breadcrumb-item"><a href="../../golf/pga_masters_nor/index.html">PGA - Scoring Average Confidence Intervals (No R)</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">PGA - Scoring Average Confidence Intervals (No R)</h1>
   <div class="quarto-categories">
@@ -403,7 +419,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 24, 2024</p>
+      <p class="date">January 25, 2025</p>
     </div>
   </div>
   
@@ -431,8 +447,8 @@ Facilitation notes
 <li><p>This module would be suitable for an in-class lab or take-home assignment in an introductory statistics course.</p></li>
 <li><p>The data used to create this module and a student answer template can be downloaded from the following links:</p>
 <ul>
-<li><a href="masters_2023.csv">data</a></li>
-<li><a href="student_template.pdf">Student Answer template</a></li>
+<li><a href="masters_2023.csv">Data</a></li>
+<li><a href="student_template.pdf">Student answer template</a></li>
 </ul></li>
 <li><p>The data for this module is derived largely from the <a href="https://www.espn.com/golf/leaderboard/_/tournamentId/401465508">ESPN website</a>. However, the tours were manually added to the data based on the what they played on in 2023 at the time of the Masters.</p></li>
 </ul>
@@ -459,7 +475,7 @@ Facilitation notes
 </div><div class="">
 <p>View the course at Augusta National <a href="https://www.masters.com/en_US/course/index.html">here</a></p>
 </div></div>
-<p>As mentioned before, only the best players and previous winners can compete in the tournament. With that being said, the Masters is one of the few tournaments that players from the newly created LIV golf tour can play in, although they are mostly qualifying because of their past performances at the Masters before they joined LIV golf. This leads to a mixture of regular PGA professionals, LIV professionals, Amateurs, and Seniors playing in the Masters in 2023.</p>
+<p>As mentioned before, only the best players and previous winners can compete in the tournament. With that being said, the Masters is one of the few tournaments that players from the newly created LIV golf tour can play in, although they are mostly qualifying because of their past performances at the Masters before they joined LIV golf. This leads to a mixture of regular PGA Tour professionals, LIV golfers, Amateurs, and Seniors playing in the Masters in 2023.</p>
 <p>The focus for this module is confidence intervals and hypothesis testing for the true mean scores for different groups of players at Augusta National.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled" title="Learning Objectives">
 <div class="callout-header d-flex align-content-center">
@@ -516,7 +532,7 @@ Data Description
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<table class="table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Variable</th>
@@ -574,8 +590,8 @@ Types of Golf Tours
 <ul>
 <li><p>In golf there are a few <strong>tours</strong>, better thought of as leagues, that golfers regularly compete in</p>
 <ul>
-<li>The <strong>PGA</strong>, or “Professional Golf Association”, has long been considered the preeminant golfing tour, hosting most tournaments and containing the most skilled members.</li>
-<li>The <strong>LIV</strong> tour is a Saudi-backed alternative to the PGA that was played its first season in 2022. <strong>LIV</strong> is the Roman numeral for 54 and is related to the fact that <strong>LIV</strong> tournaments only allow 54 players and only play 54 holes, compared to the normal PGA 72 holes.</li>
+<li>The <strong>PGA Tour</strong>, or “Professional Golf Association Tour”, has long been considered the preeminant golfing tour, hosting most tournaments and containing the most skilled members.</li>
+<li>The <strong>LIV</strong> tour is a Saudi-backed alternative to the PGA that played its first season in 2022. <strong>LIV</strong> is the Roman numeral for 54 and is related to the fact that <strong>LIV</strong> tournaments only allow 54 players and only play 54 holes, compared to the normal PGA Tour 72 holes.</li>
 <li>The <strong>PGA Tour Champions</strong> is a branch off of the PGA tour for players 50 or older. It used to be called the “Senior PGA Tour” until 2003, when it began being called the <strong>Champions</strong> tour</li>
 <li>An <strong>amateur</strong> is a golfer who is not yet a professional. They are not allowed to win money in professional golf tournaments. Most <strong>amateurs</strong> are college golfers.</li>
 </ul></li>
@@ -584,19 +600,22 @@ Types of Golf Tours
 </div>
 
 <div class="no-row-height column-margin column-container"><div class="">
-<p>PGA vs.&nbsp;LIV</p>
+<p>PGA Tour vs.&nbsp;LIV Golf</p>
 <p>Click <a href="https://www.si.com/golf/news/timeline-liv-golf-how-pga-tour-adapted">here</a> to read about LIV golf’s founding and its continued impact on the PGA tour.</p>
 </div></div></section>
 </section>
 </section>
 <section id="single-mean-confidence-intervals" class="level1 page-columns page-full">
 <h1>Single Mean Confidence Intervals</h1>
-<p>Single Mean confidence intervals give a range of numbers that we can feel confident that the true population mean falls between.</p>
-<p>There are two different ways of calculating the confidence interval for a single mean.</p>
+<p>Single mean confidence intervals give a range of numbers that we can feel confident that the true population mean falls between. In the most accurate sense, a single mean confidence interval is a range of values that, if we were to take many samples and calculate the confidence interval for each sample, a certain percentage of those intervals would contain the true population mean. Because of what a single mean confidence interval is, it is innaccurate to say that there is a 95% chance (if we were constructing a 95% confidence interval) that the true mean falls within the the confidence interval. The true mean is a fixed value, so it either falls within the interval or it does not. The 95% confidence level refers to the long-run proportion of confidence intervals that will contain the true mean if we were to take many samples.This can lead to difficulties interpreting these ranges in practice though. An accurate interpretation of a single mean confidence interval will often follow the structure below:</p>
+<p><strong>We are <em>(insert confidence level)</em> confident that the true <em>(insert variable)</em> mean for <em>(insert population group)</em> is between <em>(insert lower bound)</em> and <em>(insert upper bound)</em>.</strong></p>
+<p>For example:</p>
+<p><strong>We are 95% confident that the true scoring average for LIV golfers at Augusta National is between 70.1 and 73.3.</strong></p>
+<p>There are two different ways of calculating the confidence interval for a single mean. How we determine which of the two methods to use is based on the sample size and whether or not the population standard deviation is known.</p>
 <section id="t-interval-for-single-means" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="t-interval-for-single-means">t-interval for single means</h2>
 <p>A t-distribution is used for calculating a single mean confidence interval if the sample size is small (rule of thumb: less than 30) and the population standard deviation is unknown.</p>
-<p>The formula for calculating a CI using this method is shown below: <span class="math display">\[CI = \bar{X} \pm t_{\alpha/2, df} \times \frac{S}{\sqrt{n}}\]</span></p>
+<p>The formula for calculating a CI using this method is shown below: <span class="math display">\[CI = \bar{x} \pm t_{\alpha/2, df} \times \frac{s}{\sqrt{n}}\]</span></p>
 
 <div class="no-row-height column-margin column-container"><div class="">
 <p>Click <a href="https://www.scribbr.com/statistics/t-distribution/">here</a> to learn more about the t-distribution and play around with t-distribution graphs.</p>
@@ -617,13 +636,86 @@ Types of Golf Tours
 </div>
 </div>
 </div>
-<p>These critical values can be found using t-tables like the one below:</p>
+<p>These critical values can be found using t-tables like the one below. Some important things to note about this specific t-table. The degrees of freedom for the test are on the left. The row <em>cum. prob</em> at the top shows us the <span class="math inline">\(t_{\alpha}\)</span> value. The <em>one-tail</em> row shows us the p-value for a one-tailed test and the row <em>two-tail</em> shows us the p-value for a two-tailed test. There is also a helpful row at the bottom called <em>confidence level</em> that shows the associated confidence level for confidence intervals. The values in the table show the t-test statistic values corresponding to the degrees of freedom and <span class="math inline">\(t_{alpha}\)</span>.</p>
 <p><img src="t-table.png" class="img-fluid"></p>
 <p>For a 95% confidence interval, our Type I error rate is <span class="math inline">\(\alpha = 0.05\)</span>. Since confidence intervals are two-tailed, we split this <span class="math inline">\(\alpha\)</span> in half, half in the left tail and half in the right tail. This means that we are looking for <span class="math inline">\(t_{.025, df}\)</span> or <span class="math inline">\(t_{.975, df}\)</span>.</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p><strong>NOTE</strong>: A <strong>Type I</strong> error is when we reject the null hypothesis when it is actually true. This is also known as a false positive.</p>
-</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 1: t-distribution confidence intervals">
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Example 1: t-distribution confidence intervals">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example 1: t-distribution confidence intervals
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We would like to make a 90% confidence interval for the true mean of scoring for Jon Rahm at the Masters. His scores were as follows.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Golfer</th>
+<th style="text-align: right;">Round</th>
+<th style="text-align: right;">Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Jon Rahm</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">65</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Jon Rahm</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">69</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Jon Rahm</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">73</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Jon Rahm</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">69</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We start by calculating the the sample mean (<span class="math inline">\(\bar{x}\)</span>).</p>
+<p><span class="math display">\[
+\begin{align*}
+\bar{x} &amp;= \frac{65 + 69 + 73 + 69}{4} \\
+        &amp;= 69
+\end{align*}
+\]</span></p>
+<p>Next we calculate the sample standard deviation (<span class="math inline">\(s\)</span>).</p>
+<p><span class="math display">\[
+\begin{align*}
+s &amp;= {\sqrt {\frac {\sum _{i=1}^{n}(x_{i}-{\overline {x}})^{2}}{n-1}}} \\
+  &amp;= {\sqrt {\frac{(65 - 69)^2 + (69 - 69)^2 + (73 - 69)^2 + (69 - 69)^2}{4-1}}} \\
+  &amp;= {\sqrt {\frac{(-4)^2 + 0^2 + 4^2 + 0^2}{3}}} \\
+  &amp;\approx 3.266
+\end{align*}
+\]</span></p>
+<p>Our next step is to find the critical value for a 90% confidence interval with 3 degrees of freedom (<span class="math inline">\(t_{\alpha/2, df}\)</span>. We’ll use the t-table from earlier to find this.</p>
+<p><img src="t-table-with-arrows.png" class="img-fluid"></p>
+<p>Lastly we will use the confidence interval formula to find the bounds of our 90% confidence interval. <span class="math display">\[
+\begin{align*}
+CI &amp;= \bar{x} \pm t_{\alpha/2, df} \times \frac{s}{\sqrt{n}} \\
+CI &amp;= 69 \pm 2.353 \times \frac{3.266}{\sqrt{4}} \\
+CI &amp;= (67.07878, 70.92122)
+\end{align*}
+\]</span> Finally we can interpret the confidence interval and say that we are 95% confident that the true mean of Jon Rahm’s scores at Augusta National is between 67.1 and 70.9.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 1: t-distribution confidence intervals">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -636,7 +728,7 @@ Exercise 1: t-distribution confidence intervals
 <p>The table below shows summary data for the first round of the 2023 Masters tournament for amateur golfers. The critical value is for a 90% confidence interval with 6 degrees of freedom.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 20%">
 <col style="width: 14%">
@@ -697,10 +789,44 @@ Exercise 1: t-distribution confidence intervals
 </div></div><p><span class="math inline">\(CI = \bar{X} \pm Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}\)</span></p>
 <p>Where <span class="math inline">\(\bar{X}\)</span> is once again the sample mean, <span class="math inline">\(Z_{\alpha/2}\)</span> is the critical value for the standard normal distribution at the specified confidence level, <span class="math inline">\({\sigma}\)</span> is the population standard deviation, and <span class="math inline">\(n\)</span> is the sample size.</p>
 <p>The reasoning behind why we can use the standard normal distribution when the sample is greater than 30 even if the population standard deviation is unknown is found in the <a href="https://www.scribbr.com/statistics/central-limit-theorem/">Central Limit Theorem</a>, which says that as the sample size increases, the sampling distribution of the sample mean approaches a normal distribution. This means that when the sample size is greater than 30 we can use the sample standard deviation to estimate the population standard deviation and create a confidence interval as seen below</p>
-<p><span class="math inline">\(CI = \bar{X} \pm Z_{\alpha/2} \times \frac{S}{\sqrt{n}}\)</span></p>
+<p><span class="math inline">\(CI = \bar{X} \pm Z_{\alpha/2} \times \frac{s}{\sqrt{n}}\)</span></p>
 <p>Once again the critical value for the z-distribution is the value of <span class="math inline">\(Z_{\alpha/2}\)</span> such that the area under the standard normal distribution curve between <span class="math inline">\(-Z_{\alpha/2}\)</span> and <span class="math inline">\(Z_{\alpha/2}\)</span> is equal to the confidence level.</p>
-<p>The critical values for the z-distribution can be found using a z-table such as the one below. All values in the table are the area under the curve to the left of the z-score.</p>
+<p>The critical values for the z-distribution can be found using a z-table such as the one below. All values in the table are the area under the standard normal curve to the left of the associated z-score. The column on the left shows the associated ones and tenths value for the z-score. The row at the top shows the associated hundredths value for the z-score.</p>
 <p><img src="z-table.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Example 2: z-distribution confidence intervals">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example 2: z-distribution confidence intervals
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We would like to make a 98% confidence interval for the true mean of scoring for PGA Tour golfers based off of a sample from the third round. The sample includes the following scores.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Round 3 PGA Tour golfer scores: 73 76 71 75 70 73 71 72 71 74 73 68 74 67 73 73 70 72 74 74 69 73 74 74 72 78 74 76 74 72 77 70 74 77 72 73 74 74 77</code></pre>
+</div>
+</div>
+<p>Whew! That’s 39 observations we have in our sample, which means we can use the z-distribution.</p>
+<p>We start by calculating the the sample mean (<span class="math inline">\(\bar{x}\)</span>). This probably has to be done using a calculator or programming tool. For this example our sample mean is approximately 73.03.</p>
+<p>Next we calculate the sample standard deviation (<span class="math inline">\(s\)</span>), which is our estimate for <span class="math inline">\(\sigma\)</span>. Once again, with a sample this size a calculator or computer is probably necessary for computing this. Our sample standard deviation is approximately 2.44.</p>
+<p>Our next step is to find the critical value for a 98% confidence interval for a z-distribution (<span class="math inline">\(Z_{\alpha/2}\)</span>). We will use the z-table from earlier. Since we want alpha equal to .2, our area to the right should be .1 and we look for the value on the table of .99.</p>
+<p><img src="z-table-with-arrows.png" class="img-fluid"></p>
+<p>Note that this value is not exact. The value is slightly less than 2.33 but .9901 is closer to .99 than .9898, so we went with 2.33.</p>
+<p>Lastly we will use the confidence interval formula to find the bounds for our 98% confidence interval. <span class="math display">\[
+\begin{align*}
+CI &amp;= \bar{X} \pm Z_{\alpha/2} \times \frac{s}{\sqrt{n}} \\
+CI &amp;= 73.03 \pm 2.33 \times \frac{2.44}{\sqrt{39}} \\
+CI &amp;= (72.12, 73.94)
+\end{align*}
+\]</span> Finally we can interpret the confidence interval and say that we are 98% confident that the true mean of PGA Tour golfers’ scores at the 2023 Masters is between 72.12 and 73.94.</p>
+</div>
+</div>
+</div>
 <div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 2: z-distribution confidence intervals">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -714,7 +840,7 @@ Exercise 2: z-distribution confidence intervals
 <p>The table below shows summary data for the first round of the 2023 Masters Tournament for PGA professional golfers. The critical value is for a 95% confidence interval.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 15%">
 <col style="width: 15%">
@@ -746,7 +872,7 @@ Exercise 2: z-distribution confidence intervals
 <p>Use the formula for creating a confidence interval using the standard normal distribution to calculate the upper and lower limits of a confidence interval for the true mean of PGA professional scoring at Augusta using the PGA pros in the first round as our sample. Use a 95% confidence interval (<span class="math inline">\(\alpha = .05\)</span>).</p>
 <ol type="a">
 <li><p>Why can we use the <strong>standard normal distribution</strong> to calculate this confidence interval?</p></li>
-<li><p>What is the <strong>confidence interval</strong> for the true mean of scoring for PGA professionals at Augusta National?</p></li>
+<li><p>What is the <strong>confidence interval</strong> for the true mean of scoring for PGA professionals at Augusta National using round 1 as our sample?</p></li>
 <li><p>What is the <strong>interpretation</strong> of this confidence interval?</p></li>
 </ol>
 </div>
@@ -776,6 +902,7 @@ Exercise 2: z-distribution confidence intervals
 <p>The z-test statistic is calculated using the formula:</p>
 <p><span class="math display">\[z = \frac{\bar{x} - \mu_0}{\frac{\sigma}{\sqrt{n}}}\]</span></p>
 <p>where <span class="math inline">\(\bar{x}\)</span> is the sample mean, <span class="math inline">\(\mu_0\)</span> is the hypothesized population mean, <span class="math inline">\(\sigma\)</span> is the population standard deviation, and <span class="math inline">\(n\)</span> is the sample size.</p>
+<p>Once again, if the sample size is over 30 and the population standard deviation is unknown, we use the sample standard deviation to approximate the population standard deviation.</p>
 </section>
 </section>
 <section id="to-reject-or-fail-to-reject" class="level2 page-columns page-full">
@@ -783,12 +910,12 @@ Exercise 2: z-distribution confidence intervals
 <p>There are two ways to make a decision about the null hypothesis.</p>
 <p><strong>Method 1</strong>: <strong>Critical values</strong>, along with <strong>test statistics</strong>, can be used to determine if the <strong>hypothesized population mean</strong> is within the <strong>confidence interval</strong> for the true mean.</p>
 <p>A <strong>critical value</strong> is a value that separates the rejection region from the non-rejection region. The rejection region is the area where the null hypothesis is rejected. The non-rejection region is the area where the null hypothesis is not rejected. The critical value is determined by the significance level (<span class="math inline">\(\alpha\)</span>) and the degrees of freedom (if it is a t-test). The critical value is compared to the test statistic to determine if the null hypothesis should be rejected. If the test statistic is within the non-rejection region, the null hypothesis is not rejected. If the test statistic is within the rejection region, the null hypothesis is rejected and the alternative hypothesis is accepted.</p>
-<p>Below is an example of using critical values and a test-statistic for a z-test with a 95% confidence level (two-sided). The critical value is 1.96. This means that if the test statistic is greater than 1.96 or less than -1.96, the null hypothesis is rejected. The blue represents the non-rejection region and the red the rejection region. Since the Test Statistic for this hypothetical example is 1.1 (less than 1.96 and greater than -1.96), we fail to reject the null hypothesis.</p>
+<p>Below is an example of using critical values and a test-statistic for a z-test with a 95% confidence level (two-sided). The critical value is 1.96. This means that if the test statistic is greater than 1.96 or less than -1.96, the null hypothesis is rejected. The blue represents the non-rejection region and the red the rejection region. Since the test statistic for this example is 1.1 (less than 1.96 and greater than -1.96), we fail to reject the null hypothesis.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -807,21 +934,70 @@ Exercise 2: z-distribution confidence intervals
 <li><p>For a <strong>left-tailed test</strong> (<span class="math inline">\(H_a: \mu &lt; \mu_0\)</span>), the p-value is the probability that the test statistic is less than the observed value.</p></li>
 <li><p>For a <strong>right-tailed test</strong> (<span class="math inline">\(H_a: \mu &gt; \mu_0\)</span>), the p-value is the probability that the test statistic is greater than the observed value.</p></li>
 </ul>
-</div></div><p>For example, if the p-value for a single mean hypothesis test is 0.03 and the significance level is 0.05, the null hypothesis is rejected because the p-value is less than the significance level.</p>
-</section>
-<section id="hypothesis-testing-example" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="hypothesis-testing-example">Hypothesis testing example</h2>
+</div></div><p>First let’s visualize what a p-value is telling us.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now let’s see how we can calculate p-value for our example using a z-table.</p>
+<p>We have a hypothetical z-test statistic of 1.1 and alpha of .05 for a two-tailed test. We start by finding the area under the curve to the left of a z-score of 1.1. However, we know that we want the area under the curve greater than 1.1 or less than -1.1. We can find the area under the curve to the right of 1.1 by subtracting our area value from 1. Additionally, we know that the z-distribution is symmetrical, implying that the area under the curve less than -1.1 is equal to that which is greater than 1.1. This means that we multiply our area value by 2 to get the p-value.</p>
+<p><img src="z-table-pvalue-arrows.png" class="img-fluid"></p>
+<p>This means we can calculate p-value with the math below.</p>
+<p><span class="math display">\[
+\begin{align*}
+p\text{-}value &amp;= 2 * (1 - .8643)\\
+               &amp;= .2714
+\end{align*}
+\]</span></p>
+<p>Since the p-value is greater than our alpha value of .05 we fail to reject the null hypothesis.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Example 3: Hypothesis testing example">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example 3: Hypothesis testing example
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <p>Suppose we have a sample of data with the following values: 10, 20, 30, 40, 50, 60, 70, 80, 90, 100. We want to test if the true mean of the population is not equal to 50. Alpha is 0.05. Our hypotheses are as follows:</p>
 <ul>
 <li>Null Hypothesis (<span class="math inline">\(H_0\)</span>): <span class="math inline">\(\mu = 50\)</span></li>
 <li>Alternative Hypothesis (<span class="math inline">\(H_1\)</span>): <span class="math inline">\(\mu \neq 50\)</span></li>
 </ul>
-<p>We can use the t-test to test this hypothesis. We start by finding the sample mean and sample standard deviation. The sample mean is 55 and the sample standard deviation is 30.2765. The degrees of freedom are 9. The critical value for a 95% two-sided confidence t-interval with 9 degrees of freedom is <span class="math inline">\(\pm 2.262157\)</span>.</p>
-<p>The test statistic can be calculated as follows:</p>
-<p><span class="math display">\[t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}}\]</span> <span class="math display">\[t = \frac{55 - 50}{\frac{30.2765}{\sqrt{10}}}\]</span> <span class="math display">\[t = 0.522\]</span> Since the test statistic is between the two critical values, there is not enough evidence to reject the null hypothesis and conclude that the true mean is not equal to 50.</p>
-<p>The p-value for this example could be calculated by finding the area under the curve to the left of -0.522 and to the right of 0.522. The p-value would be the sum of these two areas. By looking at the t-table, it can be seen that the sum of these two areas would be well greater than .5, which is greater than .05. Therefore, the null hypothesis would not be rejected.</p>
+<p>We should use the t-test to test this hypothesis because the sample size is small and the population standard deviation is unknown.</p>
+<p>We start by finding the sample mean, sample standard deviation, and degrees of freedom. Using a calculator we can find <span class="math inline">\(\bar{x} = 55\)</span>, <span class="math inline">\(s = 30.2765\)</span>, and logically <span class="math inline">\(df = 9\)</span>.</p>
+<p>Now we need to find the critical value for a 95% two sided confidence t-interval with 9 degrees of freedom (<span class="math inline">\(t_{\alpha/2, df}\)</span>). Once again we will use the t-table from earlier.</p>
+<p><img src="t-table-hypothesis-arrows.png" class="img-fluid"></p>
+<p>The critical value is <span class="math inline">\(\pm 2.262\)</span>.</p>
+<p>Next the test statistic can be calculated as follows:</p>
+<p><span class="math display">\[t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}}\]</span> <span class="math display">\[t = \frac{55 - 50}{\frac{30.2765}{\sqrt{10}}}\]</span> <span class="math display">\[t = 0.522\]</span></p>
+<p>This is visualized in the plot below.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Since the test statistic is between the two critical values, there is not enough evidence to reject the null hypothesis and conclude that the true mean is not equal to 50.</p>
+<p>The p-value for this example could be calculated by finding the area under the curve to the left of -0.522 and to the right of 0.522. The p-value would be the sum of these two areas.</p>
+<p>This value can be estimated by looking at the t-table. Obviously .522 is not on the table, but is between 0 and .703. If we follow this up to the top of the table we can look at the two-tails column and see that the p-value would be between .5 and 1. This is significantly larger than .05. Therefore we fail to reject the null hypothesis.</p>
+<p><img src="t-table-pvalue-arrows.png" class="img-fluid"></p>
 
-<div class="no-row-height column-margin column-container"><div class="">
+</div>
+</div>
+</div>
+<div class="no-row-height column-margin column-container"><div class="callout-10-contents callout-collapse collapse callout-margin-content">
 <p><strong>NOTE</strong>: Since this is a two-sided test you could simply find the probability that the test statistic is greater than 0.522 and multiply by 2. This would give you the <strong>p-value</strong>.</p>
 </div></div></section>
 <section id="hypothesizing-par-as-the-population-mean" class="level2 page-columns page-full">
@@ -857,7 +1033,7 @@ Exercise 3: t-test for single mean hypothesis testing
 <p>Perform a single mean hypothesis test to see if the mean of amateur scoring is greater than 72 using the amateur round 1 score sample from earlier in the lesson. The summary of the sample is as follows:</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Sample</th>
@@ -869,7 +1045,7 @@ Exercise 3: t-test for single mean hypothesis testing
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Amateurs Round 1</td>
-<td style="text-align: right;">71.54545</td>
+<td style="text-align: right;">75</td>
 <td style="text-align: right;">3.21455</td>
 <td style="text-align: right;">7</td>
 </tr>
@@ -905,7 +1081,7 @@ Exercise 4: z-test for single mean hypothesis testing
 <p>Perform a single mean hypothesis test using the PGA Round 1 sample from earlier. The summary of that sample is displayed below.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Sample</th>
@@ -918,8 +1094,8 @@ Exercise 4: z-test for single mean hypothesis testing
 <tr class="odd">
 <td style="text-align: left;">PGA Round 1</td>
 <td style="text-align: right;">71.54545</td>
-<td style="text-align: right;">3.21455</td>
-<td style="text-align: right;">7</td>
+<td style="text-align: right;">3.023477</td>
+<td style="text-align: right;">55</td>
 </tr>
 </tbody>
 </table>
@@ -953,7 +1129,7 @@ Challenge 1: Critical Values Knowledge Check
 <p>Below is summary data from a sample of LIV golfers from round 3 of the 2023 Masters Tournament.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Sample</th>
@@ -1003,7 +1179,7 @@ Challenge 2: P-Value Knowledge check
 <p>Answer the following questions based on the sample of Augusta National scores below.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Sample</th>
@@ -1046,7 +1222,7 @@ Challenge 3: Confidence Intervals Knowledge Check
 <p>Answer the following questions based on the 2 samples of Augusta National scores below.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 28%">
 <col style="width: 16%">
@@ -1100,7 +1276,7 @@ Challenge 4: z vs t (large sample size)
 
 <div class="cell">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;">Sample</th>
@@ -1176,18 +1352,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1219,7 +1384,29 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -1227,7 +1414,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {

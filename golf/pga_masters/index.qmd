@@ -6,7 +6,7 @@ author:
     affiliation:
       - id: bay
         name: Baylor University
-date: July 18, 2024
+date: January 25, 2025
 format:
   html:
     grid:
@@ -30,10 +30,8 @@ callout-icon: false
 
 + Students should be provided with the following data file (.csv) and Quarto document (.qmd) to produce visualizations and write up their answers to each exercise. Their final deliverable is to turn in an .html document produced by "Rendering" the .qmd. 
   
-  + [data](masters_2023.csv)
+  + [Data](masters_2023.csv)
   + [Student Quarto template](student_template.qmd)
-
-+ [Posit Cloud](https://posit.cloud/) (via an Instructor account) or [Github classroom](https://classroom.github.com) are good options for disseminating files to students, but simply uploading files to your university's course management system works, too.
 
 + The data for this module is derived largely from the [ESPN website](https://www.espn.com/golf/leaderboard/_/tournamentId/401465508). However, the tours were manually added to the data based on the what they played on in 2023 at the time of the Masters.
 :::
@@ -61,13 +59,13 @@ View the course at Augusta National [here](https://www.masters.com/en_US/course/
 :::
 
 
-As mentioned before, only the best players and previous winners can compete in the tournament, With that being said, the Masters is one of the few tournaments that players from the newly created LIV golf tour can play in, although they are mostly qualifying because of their past performances at the Masters before they joined LIV golf. This leads to a mixture of regular PGA professionals, LIV professionals, Amateurs, and Seniors playing in the Masters in 2023. 
+As mentioned before, only the best players and previous winners can compete in the tournament, With that being said, the Masters is one of the few tournaments that players from the newly created LIV Golf tour can play in, although they are mostly qualifying because of their past performances at the Masters before they joined LIV Golf. This leads to a mixture of regular PGA Tour professionals, LIV golfers, Amateurs, and Seniors playing in the Masters in 2023. 
 
 
 The focus for this module is confidence intervals and hypothesis testing for the true mean scores for different groups of players at Augusta National. 
 
 ::: {.callout-note title="Learning Objectives" appearance="minimal"}
-By the end of this module, you will be able to:
+By the end of this lesson, you will be able to:
 
 -   Read (import) a dataset into your RStudio Environment
 
@@ -82,13 +80,13 @@ By the end of this module, you will be able to:
 \
 \
 
-**NOTE**: **R** is the name of the programming language itself and **RStudio** is a convenient interface. You may be accessing RStudio through a web-based version called **Posit Cloud**. But R is the programming language you are using. 
+**NOTE**: **R** is the name of the programming language you are using and **RStudio** is a **IDE** (Integrated Development Environment). You may be accessing RStudio through a web-based version called **Posit Cloud**, but **R** is still the language. 
 :::
 
 
 ::: {.callout-caution collapse="true" title="Research Questions"}
 
-During this lab, you'll investigate the following research questions:
+During this module, you'll investigate the following research questions:
 
 + What are the confidence intervals for true scoring for different groups of players at the 2023 Masters Tournament?
 + Is the true mean for different groups of players at The 2023 Masters different than par?
@@ -105,10 +103,10 @@ The first step to any analysis in R is to **load necessary packages and data**.
 You can think of **packages** like apps on your phone; they extend the functionality and give you access to many more features beyond what comes in the “base package”.
 :::
 
-Running the following code will load the `tidyverse` and `BSDA` packages and the `masters_2023` data we will be using in this lab.
+Running the following code will load the `tidyverse` and `BSDA` packages and the `masters_2023` data we will be using in this module.
 
 ::: column-margin
-**TIP**: As you follow along in the lab, you should run each corresponding code chunk in your .qmd document. To "Run" a code chunk, you can press the green "Play" button in the top right corner of the code chunk in your .qmd. You can also place your cursor anywhere in the line(s) of code you want to run and press "command + return" (Mac) or "Ctrl + Enter" (Windows).
+**TIP**: As you follow along in the module, you should run each corresponding code chunk in your .qmd document. To "Run" a code chunk, you can press the green "Play" button in the top right corner of the code chunk in your .qmd. You can also place your cursor anywhere in the line(s) of code you want to run and press "command + return" (Mac) or "Ctrl + Enter" (Windows).
 :::
 
 ```{r, warning = FALSE, message = FALSE}
@@ -149,7 +147,7 @@ c. Which **variable** will be used for computing a single mean confidence interv
 
 ## Terms to know
 
-Before proceeding with the analysis, let's make sure we know some important golf terminology that will help us master this lab.
+Before proceeding with the analysis, let's make sure we know some important golf terminology that will help us master this module.
 
 #### Golf Terminology
 -   **Par** in golf is the amount of strokes that a good golfer is expected to take to get the ball in the hole.
@@ -164,8 +162,8 @@ Before proceeding with the analysis, let's make sure we know some important golf
 #### Types of Golf Tours
 - In golf there are a few **tours**, better thought of as leagues, that golfers regularly compete in
 
-     -  The **PGA**, or "Professional Golf Association", has long been considered the preeminant golfing tour, hosting most tournaments and containing the most skilled members.
-     - The **LIV** tour is a Saudi-backed alternative to the PGA that began playing tournaments in 2022. **LIV** is the Roman numeral for 54 and is related to the fact that **LIV** tournaments only allow 54 players and only play 54 holes, compared to the normal PGA 72 holes.
+     -  The **PGA Tour**, or "Professional Golf Association Tour", has long been considered the preeminant golfing tour, hosting most tournaments and containing the most skilled members.
+     - The **LIV Golf** tour is a Saudi-backed alternative to the PGA Tour that began playing tournaments in 2022. **LIV** is the Roman numeral for 54 and is related to the fact that **LIV** tournaments only allow 54 players and only play 54 holes, compared to the normal PGA Tour 72 holes.
      - The **PGA Tour Champions** is a branch off of the PGA tour for players 50 or older. It used to be called the "Senior PGA Tour" until 2003, when it began being called the **Champions** tour
      - An **amateur** is a golfer who is not yet a professional. They are not allowed to win money in professional golf tournaments. Most **amateurs** are college golfers. 
 
@@ -181,7 +179,7 @@ Click [here](https://www.si.com/golf/news/timeline-liv-golf-how-pga-tour-adapted
 
 ## Variable descriptions
 
-The `masters_2023` data you'll be analyzing in this lab provides scores for each round by each golfer in the 2023 Masters. The data includes the names of golfers, the round, their scores, and their tour.
+The `masters_2023` data you'll be analyzing in this module provides scores for each round by each golfer in the 2023 Masters. The data includes the names of golfers, the round, their scores, and their tour.
 
 <details>
 <summary><b>Variable Descriptions</b></summary>
@@ -196,9 +194,27 @@ The `masters_2023` data you'll be analyzing in this lab provides scores for each
 
 # Single Mean Confidence Intervals
 
-Single mean confidence intervals give a range of numbers that the we can feel confident that the true population mean falls between. 
+Single mean confidence intervals give a range of numbers that we can feel confident that the true population mean falls between. 
+In the most accurate sense, a single mean confidence interval is a range of values that,
+if we were to take many samples and calculate the confidence interval for each sample,
+a certain percentage of those intervals would contain the true population mean.
+Because of what a single mean confidence interval is, it is innaccurate to say that there is 
+a 95% chance (if we were constructing a 95% confidence interval) that the true mean falls within the the confidence interval. The true mean is a fixed value,
+so it either falls within the interval or it does not. The 95% confidence level refers to the long-run proportion of confidence intervals
+that will contain the true mean if we were to take many samples.This can lead to difficulties interpreting
+these ranges in practice though. An accurate interpretation of a single mean confidence interval will often follow the structure below:
 
-There are two different ways of calculating the confidence interval for a single mean. 
+**We are *(insert confidence level)* confident that the true *(insert variable)* mean for *(insert population group)* is between *(insert lower bound)* and *(insert upper bound)*.**
+
+
+For example:
+
+  **We are 95% confident that the true scoring average for LIV golfers at Augusta National is between 70.1 and 73.3.**
+  
+
+There are two different ways of calculating the confidence interval for a single mean. How we
+determine which of the two methods to use is based on the sample size and whether
+or not the population standard deviation is known. 
 
 ## t-interval for single means
 
@@ -279,6 +295,51 @@ Note that the 95% confidence interval has $\alpha = .05$ and $\alpha / 2 =  .025
 ```{r}
 qt(0.975, df = 10)
 ```
+
+::: {.callout-note collapse="true" title="Example: t-distribution confidence intervals"}
+We would like to make a 90% confidence interval for the true mean of scoring for Jon Rahm at the Masters. We can pull his scores and put them in a vector with following code. We will also set the sample size (n) to the amount of observations in the sample.
+```{r}
+jon_rahm <- masters_2023 |> 
+  filter(player == "Jon Rahm") |> 
+  pull(score)
+
+n <- length(jon_rahm)
+```
+
+We start by calculating the the sample mean ($\bar{x}$).
+
+```{r}
+x_bar <- mean(jon_rahm)
+```
+
+
+Next we calculate the sample standard deviation ($s$).
+
+```{r}
+s <- sd(jon_rahm)
+```
+
+
+Our next step is to find the critical value for a 90% confidence interval with 3 degrees of freedom ($t_{\alpha/2, df}$). We'll use the `qt` function from **R** to do this. Note that we use .95 as the first argument because alpha is .1 and half of our error should be in each end.
+
+```{r}
+cv <- qt(.95, 3)
+```
+
+
+Lastly we will use the confidence interval formula to find the bounds of our 90% confidence interval.
+
+```{r}
+lower_confidence_boundary <- x_bar - cv * (s/n)
+upper_confidence_boundary <- x_bar + cv * (s/n)
+paste0("90% confidence interval: (", lower_confidence_boundary, ", ", upper_confidence_boundary, ")")
+```
+
+
+Finally we can interpret the confidence interval and say that we are 95% confident that the true mean of Jon Rahm's scores at Augusta National is between 67.1 and 70.9. 
+
+:::
+
 
 ::: {.callout-note title="Exercise 2: t-distribution confidence intervals"}
 
@@ -372,6 +433,66 @@ The code below calculates the critical values for the z-distribution for a 95% c
 qnorm(.975)
 qnorm(.025)
 ```
+
+::: {.callout-note collapse="true" title="Example: z-distribution confidence intervals"}
+We would like to make a 98% confidence interval for the true mean of scoring for PGA Tour golfers based off 
+of a sample from the third round. This sample can be created with the following code.
+
+```{r, warning=FALSE, message=FALSE}
+pga_round3_scores <- masters_2023 |> 
+  filter(tour == "PGA", round == 3) |> 
+  pull(score)
+```
+
+We can check the size of our sample with the following code.
+
+```{r}
+pga_round3_n <- length(pga_round3_scores)
+pga_round3_n
+```
+
+That's 39 observations we have in our sample, which means we can use the z-distribution.
+
+We start by calculating the the sample mean ($\bar{x}$). `R` can do this very easily as seen below
+
+```{r}
+pga_round3_mean <- mean(pga_round3_scores)
+```
+
+
+Next we calculate the sample standard deviation ($s$), which is our estimate for $\sigma$. Once again, `R` can do this quickly.
+
+```{r}
+pga_round3_sd <- sd(pga_round3_scores)
+```
+
+Our next step is to find the critical value for a 98% confidence interval for a 
+z-distribution ($Z_{\alpha/2}$). We can use `qnorm` to do this.
+
+```{r}
+z_cv <- qnorm(.99)
+```
+
+Lastly we will use the confidence interval formula to find the bounds for our 98% confidence interval.
+$$
+CI = \bar{X} \pm Z_{\alpha/2} \times \frac{s}{\sqrt{n}}
+$$
+
+```{r}
+lower_confidence_boundary <- pga_round3_mean - z_cv * pga_round3_sd /
+  sqrt(pga_round3_n)
+upper_confidence_boundary <- pga_round3_mean + z_cv * pga_round3_sd /
+  sqrt(pga_round3_n)
+paste0("98% confidence interval: (", lower_confidence_boundary,
+       ", ", upper_confidence_boundary, ")")
+```
+
+
+Finally we can interpret the confidence interval and say that we are 98% confident that the true mean of PGA Tour golfers' scores at the 2023 masters is between 72.1 and 73.9. 
+
+:::
+
+
 
 ::: {.callout-note title="Exercise 3: z-distribution confidence intervals"}
 
@@ -502,6 +623,8 @@ $$z = \frac{\bar{x} - \mu_0}{\frac{\sigma}{\sqrt{n}}}$$
 
 where $\bar{x}$ is the sample mean, $\mu_0$ is the hypothesized population mean, $\sigma$ is the population standard deviation, and $n$ is the sample size.
 
+Once again, if the sample size is over 30 and the population standard deviation is unknown, we use the sample standard deviation to approximate the population standard deviation.
+
 ## To Reject or Fail to Reject
 
 There are two ways to make a decision about the null hypothesis. 
@@ -510,7 +633,7 @@ There are two ways to make a decision about the null hypothesis.
 
 A **critical value** is a value that separates the rejection region from the non-rejection region. The rejection region is the area where the null hypothesis is rejected. The non-rejection region is the area where the null hypothesis is not rejected. The critical value is determined by the significance level ($\alpha$) and the degrees of freedom (if it is a t-test). The critical value is compared to the test statistic to determine if the null hypothesis should be rejected. If the test statistic is within the non-rejection region, the null hypothesis is not rejected. If the test statistic is within the rejection region, the null hypothesis is rejected and the alternative hypothesis is accepted.
 
-Below is an example of using critical values and a test-statistic for a z-test with a 95% confidence level (two-sided). The critical value is 1.96. This means that if the test statistic is greater than 1.96 or less than -1.96, the null hypothesis is rejected. The blue represents the non-rejection region and the red the rejection region. Since the Test Statistic for this hypothetical example is 1.1 (less than 1.96 and greater than -1.96), we fail to reject the null hypothesis.
+Below is an example of using critical values and a test-statistic for a z-test with a 95% confidence level (two-sided). The critical value is 1.96. This means that if the test statistic is greater than 1.96 or less than -1.96, the null hypothesis is rejected. The blue represents the non-rejection region and the red the rejection region. Since the test statistic for this hypothetical example is 1.1 (less than 1.96 and greater than -1.96), we fail to reject the null hypothesis.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 z_values <- tibble(z = seq(-3, 3, .01),
@@ -562,11 +685,71 @@ If the hypothesized population mean is within the confidence interval, we fail t
 
 **Method 2**: The second method is to use a p-value. The p-value is the probability of observing a test statistic as extreme as the one calculated from the sample data given that the null hypothesis is true. The p-value is compared to the significance level ($\alpha$) to determine if the null hypothesis should be rejected. If the p-value is less than $\alpha$, the null hypothesis is rejected. If the p-value is greater than $\alpha$, the null hypothesis is not rejected.
 
-For example, if the p-value for a single mean hypothesis test is 0.03 and the significance level is 0.05, the null hypothesis is rejected because the p-value is less than the significance level.
+
+
+::: column-margin
+**NOTE**: Our **alternative hypothesis** determines whether we are looking for the probability that the test statistic is greater than or less than the observed value. 
+
+- For a **two-sided test**, the p-value is the probability that the test statistic is greater than the observed value or less than the negative of the observed value. Find the area in one of the tails and double it.
+
+- For a **left-tailed test** ($H_a: \mu < \mu_0$), the p-value is the probability that the test statistic is less than the observed value.
+
+- For a **right-tailed test** ($H_a: \mu > \mu_0$), the p-value is the probability that the test statistic is greater than the observed value.
+:::
+
+First let's visualize what a p-value is telling us. 
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+z_values <- tibble(z = seq(-3, 3, .01),
+                    y = dnorm(seq(-3, 3, .01)))
+
+new_zy <- tibble(z = -3.00, y = 0) |> 
+  bind_rows(z_values |> filter(z <= -1.1)) |> 
+  add_row(z = -1.1, y = 0) 
+
+non_rejection <- tibble(z = -1.1, y = 0) |> 
+  bind_rows(z_values |> filter(z >= -1.1 & z <= 1.1)) |> 
+  add_row(z = 1.1, y = 0)
+
+upper_rejection <- tibble(z = 1.1, y = 0) |> 
+  bind_rows(z_values |> filter(z >= 1.1)) |> 
+  add_row(z = 3.00, y = 0)
+
+ggplot(new_zy, aes(x = z, y = y))+
+  geom_polygon(aes(x = z, y = y), fill = "red", alpha = .5)+
+  geom_line()+
+  geom_polygon(data = non_rejection, aes(x = z, y = y), alpha = .5)+
+  geom_line(data = non_rejection)+
+  geom_polygon(data = upper_rejection, aes(x = z, y = y), fill = "red", alpha = .5)+
+  geom_line(data = upper_rejection)+
+  geom_vline(xintercept = -1.1, linetype = "dashed")+
+  geom_vline(xintercept = 1.1, linetype = "dashed")+
+  geom_vline(xintercept = 1.1, linetype = "solid")+
+  geom_text(aes(x = -2, y = .2, label = "Area under curve
+  less than -1.1: .1357"))+
+  geom_text(aes(x = 2, y = .2, label = "Area under curve
+  greater than 1.1: .1357"))+ 
+  labs(title = "P-value visualization for z-test with test statistic of 1.1",
+       subtitle = "Standard Normal Distribution",
+       x = "Z",
+       y = "Density")+
+  theme_minimal()
+  
+```
+
+
+Now let's see how we can calculate p-value for our example using `R`. We have a hypothetical z-test statistic of 1.1 and alpha of .05 for a two-tailed test. We want to find the probability of getting a test statistic less than -1.1 or greater than 1.1. In `R` the `pnorm` function calculates the probability that a test statistic is less than a given value. Since we know that the z-distribution is symmetrical we can simply multiply the probability that the test statistic is less than -1.1 by 2 to get our p-value.
+
+```{r}
+p_value <- pnorm(-1.1) * 2
+p_value
+```
+
+Since the p-value is greater than our alpha value of .05 we fail to reject the null hypothesis.
 
 ## Hypothesis testing in R
 
-Thankfully R can help us with this as well. The `t.test` function and the `z.test` function can both perform hypothesis tests. 
+Thankfully R can help us with this as well. The `t.test` function and the `z.test` function can both perform hypothesis tests, without having to do each step manually.
 
 The code below tests if the true mean is not equal to 50 given that the `example_vector` is our sample. The confidence level is set to 95%.
 
@@ -807,7 +990,4 @@ e. Is the difference in the **confidence intervals** in this problem likely to c
 In this module you have learned about single mean confidence intervals and single mean hypothesis tests. You have learned when to use a z-distribution and when to use a t-distribution. How to interpret p-values and confidence intervals was also covered.
 
 With the Masters scoring data, you were able to calculate confidence intervals and test hypotheses about the mean score of different groups of golfers. We saw that in order to form confidence intervals for groups such as amateurs and seniors, we needed to use the t-distribution due to the small sample sizes. With larger sample sizes, such as the PGA golfers, we were able to use the z-distribution. These confidence intervals gave us a range of plausible values for the true mean score of each group. We also tested hypotheses about the mean scoring averages for PGA, LIV, and amateur golfers. We were able to make conclusions about the mean score of each group (whether or not that group's mean was greater than or not equal to par) based on the p-values of the hypothesis tests.
-
-
-
 
