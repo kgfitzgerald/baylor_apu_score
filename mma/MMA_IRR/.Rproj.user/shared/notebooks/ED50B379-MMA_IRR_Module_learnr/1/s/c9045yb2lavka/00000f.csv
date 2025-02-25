@@ -1,0 +1,21 @@
+"0","question_radio("
+"0","  ""7.6. (Optional - Advanced) Assess the confidence interval based on quadratic weights.  What can you conclude? "","
+"0","  answer(""We have evidence to support excellent reproducibility for these two judges."", correct = TRUE),"
+"0","  answer(""We have too much variability so there is not enough evidence to conclude reproducability is excellent.""),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""7.6. (Optional - Advanced) Assess the confidence interval based on quadratic weights.  What can you conclude?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    ✔: ""We have evidence to support excellent reproducibility for these two judges.""
+    X: ""We have too much variability so there is not enough evidence to conclude reproducability is excellent.""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

@@ -1,0 +1,23 @@
+"0","question_radio("
+"0","  ""6.4. Now look at the expected values. What values are the largest? Is this surprising?"","
+"0","  answer(""All less than 10.  There are many possible score combinations for the size of the sample."", correct = TRUE),"
+"0","  answer(""Large differences between judges (5 and -5).  The judges should be expected to disagree by a lot.""),"
+"0","  answer(""All diagnonal values.  The judges are expected to agree often.""),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""6.4. Now look at the expected values. What values are the largest? Is this surprising?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    ✔: ""All less than 10.  There are many possible score combinations for the size of the sample.""
+    X: ""Large differences between judges (5 and -5).  The judges should be expected to disagree by a lot.""
+    X: ""All diagnonal values.  The judges are expected to agree often.""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

@@ -1,0 +1,23 @@
+"0","question_radio("
+"0","  ""6.2. In the first column, there is a single observation (a 1 in row three).  What does this value represent?"","
+"0","  answer(""Agreement about the fight outcome (winner) but Lee had a wider margin in scores"", correct = TRUE),"
+"0","  answer(""Agreement about the fight outcome (winner) but D'Amato had a wider margin in scores""),"
+"0","  answer(""Disagreement about the fight outcome with the judges picking different winners""),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""6.2. In the first column, there is a single observation (a 1 in row three).  What does this value represent?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    ✔: ""Agreement about the fight outcome (winner) but Lee had a wider margin in scores""
+    X: ""Agreement about the fight outcome (winner) but D’Amato had a wider margin in scores""
+    X: ""Disagreement about the fight outcome with the judges picking different winners""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

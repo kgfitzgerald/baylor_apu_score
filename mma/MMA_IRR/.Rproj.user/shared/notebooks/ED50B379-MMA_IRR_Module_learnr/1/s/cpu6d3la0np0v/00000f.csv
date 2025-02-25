@@ -1,0 +1,8 @@
+"0","Dam_Lee %>% summarise("
+"0","  Agree = sum(damato_out == lee_out),"
+"0","  Disagree = sum(damato_out != lee_out),"
+"0","  ""Percent Agreement"" = percent(Agree / sum(Disagree, Agree), accuracy = .01)) %>%"
+"0","  flextable() %>%"
+"0","  set_caption(caption = ""D'Amato and Lee - Simple Agreement"") %>%"
+"0","  align(align = ""center"", part = ""all"") %>%"
+"0","  width(j = 3, width = 1.5)"

@@ -1,0 +1,10 @@
+library(effectsize)
+effectsize::cohens_d(p1_distance_run ~ 1, data = tennis)
+mean(tennis$p1_distance_run)/sd(tennis$p1_distance_run)
+effectsize::interpret_cohens_d(1.04)
+
+library(pwr)
+
+ES.h(0.75, 0.5)
+
+interpret

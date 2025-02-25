@@ -1,0 +1,21 @@
+"0","question_radio("
+"0","  ""7.7. Using linear weights do D'Amato and Cleary have good reproducibility? "","
+"0","  answer(""Yes, the kappa value is over 0.9."", correct = TRUE),"
+"0","  answer(""No.  The observed agreement is not much better than the expected.""),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""7.7. Using linear weights do D’Amato and Cleary have good reproducibility?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    ✔: ""Yes, the kappa value is over 0.9.""
+    X: ""No.  The observed agreement is not much better than the expected.""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

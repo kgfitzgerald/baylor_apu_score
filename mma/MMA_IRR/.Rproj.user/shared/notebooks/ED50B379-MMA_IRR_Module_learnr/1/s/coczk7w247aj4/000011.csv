@@ -1,0 +1,6 @@
+"0",""
+"0","# kable(quadratic_weights, caption = ""Quadratic Weights"") %>%"
+"0","#   kable_material(c(""hover"", ""striped"")) %>% "
+"0","#   add_header_above(c("" "" = 1, ""Judge2"" = 11), align = ""c"") %>%"
+"0","#   column_spec(1, bold = T) %>%"
+"0","#   kable_styling(latex_options = ""HOLD_position"")"

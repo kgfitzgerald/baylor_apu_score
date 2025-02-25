@@ -10,7 +10,7 @@ The following files are included in this repository:
 
 - `student_template.qmd`: R Quarto file for that can be downloaded to answer questions from the module with code and text. This could be turned in to an instructor if used in a course. 
 
-- `mma.csv`: Data file used for most of the module containing information about results for MMA fights. The data is derived largely from 
+- `mma.csv`: Data file used for most of the module containing information about results for MMA fights. The data is derived largely from publicly available data from ESPN (https://www.espn.com/mma/) and the MMA (http://mmadecisions.com/)
 
 - `mma_2024_chisq_glossary.csv`: Data glossary for the `mma.csv` data file.
 

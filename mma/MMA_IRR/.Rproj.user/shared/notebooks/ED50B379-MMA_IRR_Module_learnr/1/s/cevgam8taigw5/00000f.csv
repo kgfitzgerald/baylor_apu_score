@@ -1,0 +1,25 @@
+"0","question_radio("
+"0","  ""1.2  Use the concordant responses to calculate D'Amato and Cleary's percent agreement yourself. Remember, the formula for percent agreement $(p_{o})$ = concordant values/total."","
+"0","  answer(""46.7%"", message = ""Did you use the answer from the previous question?""),"
+"0","  answer(""48%"", message = ""Did you use the answer from the previous question?""),"
+"0","  answer(""89%"", message = ""Did you use the answer from the previous question?""),"
+"0","  answer(""91.4%"", correct = TRUE),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""1.2  Use the concordant responses to calculate D’Amato and Cleary’s percent agreement yourself. Remember, the formula for percent agreement \((p_{o})\) = concordant values/total.""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    X: ""46.7%""; ""Did you use the answer from the previous question?""
+    X: ""48%""; ""Did you use the answer from the previous question?""
+    X: ""89%""; ""Did you use the answer from the previous question?""
+    ✔: ""91.4%""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

@@ -1,0 +1,7 @@
+"0",""
+"0","  # kable(caption = ""Expected Values of D'Amato and Cleary"") %>%"
+"0","  # kable_material(c(""hover"", ""striped"")) %>% "
+"0","  # add_header_above(c("" "" = 1, ""Cleary"" = 12), align = ""c"") %>%"
+"0","  # row_spec(12, bold = T) %>%"
+"0","  # column_spec(13, bold = T) %>%"
+"0","  # kable_styling(latex_options = ""HOLD_position"")"

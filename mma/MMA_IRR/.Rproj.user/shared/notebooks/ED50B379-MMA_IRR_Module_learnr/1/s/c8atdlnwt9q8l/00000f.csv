@@ -1,0 +1,23 @@
+"0","question_radio("
+"0","  ""7.4. Look through the expected value table. Do the highly expected values also occur frequently in the observed table? "","
+"0","  answer(""Somewhat.  The highest observed values have relatively high exepected, but some high expected values are not observed often."", correct = TRUE),"
+"0","  answer(""No.  The highest observed values of 20 are 0 in the expected table.""),"
+"0","  answer(""Yes. The highest expected values of 5 and above are all observed at least 10 times. ""),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""7.4. Look through the expected value table. Do the highly expected values also occur frequently in the observed table?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    ✔: ""Somewhat.  The highest observed values have relatively high exepected, but some high expected values are not observed often.""
+    X: ""No.  The highest observed values of 20 are 0 in the expected table.""
+    X: ""Yes. The highest expected values of 5 and above are all observed at least 10 times.""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

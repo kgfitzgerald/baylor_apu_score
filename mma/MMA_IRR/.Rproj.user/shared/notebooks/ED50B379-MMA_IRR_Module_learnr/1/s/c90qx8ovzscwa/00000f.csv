@@ -1,0 +1,23 @@
+"0","question_radio("
+"0","  ""6.1. Take a look at the contingency table. Trace your eyes along the diagonal of concordant values. How often do the judges completely agree?"","
+"0","  answer(""69 times, 58 percent"", correct = TRUE),"
+"0","  answer(""8 times, 7 percent""),"
+"0","  answer(""97 times, 82 percent""),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""6.1. Take a look at the contingency table. Trace your eyes along the diagonal of concordant values. How often do the judges completely agree?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    ✔: ""69 times, 58 percent""
+    X: ""8 times, 7 percent""
+    X: ""97 times, 82 percent""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

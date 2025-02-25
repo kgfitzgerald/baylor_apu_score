@@ -1,0 +1,23 @@
+"0","question_radio("
+"0","  ""5.4.  After solving for kappa, our value is 0.21. Using the guidelines demonstrated previously, interpret the value.  How does it compare to previous judge-pairings kappas?"","
+"0","  answer(""This value suggests marginal reproducibility, much worse than previous examples"", correct = TRUE),"
+"0","  answer(""This value suggests good reproducibility, somewhat lower than previous examples""),"
+"0","  answer(""This value suggests excellent reproducibility similar to previous examples""),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""5.4.  After solving for kappa, our value is 0.21. Using the guidelines demonstrated previously, interpret the value.  How does it compare to previous judge-pairings kappas?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    ✔: ""This value suggests marginal reproducibility, much worse than previous examples""
+    X: ""This value suggests good reproducibility, somewhat lower than previous examples""
+    X: ""This value suggests excellent reproducibility similar to previous examples""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

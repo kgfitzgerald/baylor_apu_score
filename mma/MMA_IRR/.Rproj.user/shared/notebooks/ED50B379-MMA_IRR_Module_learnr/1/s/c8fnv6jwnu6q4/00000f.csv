@@ -1,0 +1,27 @@
+"0","question_radio("
+"0","  ""2.2. Once again, we’ve left an empty percent agreement table for you (above). Fill in the cells with the appropriate"
+"0","values and calculate the percent agreement."","
+"0","  answer(""88/16/84.6%""),"
+"0","  answer(""115/98/54%""),"
+"0","  answer(""186/213/86.8%""),"
+"0","  answer(""186/28/86.8%"", correct = TRUE),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""2.2. Once again, we’ve left an empty percent agreement table for you (above). Fill in the cells with the appropriate
+values and calculate the percent agreement.""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    X: ""88/16/84.6%""
+    X: ""115/98/54%""
+    X: ""186/213/86.8%""
+    ✔: ""186/28/86.8%""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

@@ -1,0 +1,25 @@
+"0","question_radio("
+"0","  ""6.5. Does the observed agreement surpass the expected agreement? By how much?"","
+"0","  answer(""Yes.  58 observed vs 18 percent expected."", correct = TRUE),"
+"0","  answer(""No.  58 observed vs 78 percent expected.""),"
+"0","  answer(""Yes.  82 observed vs 58 percent expected.""),"
+"0","  answer(""No  7 observed vs 58 percent expected.""),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""6.5. Does the observed agreement surpass the expected agreement? By how much?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    ✔: ""Yes.  58 observed vs 18 percent expected.""
+    X: ""No.  58 observed vs 78 percent expected.""
+    X: ""Yes.  82 observed vs 58 percent expected.""
+    X: ""No  7 observed vs 58 percent expected.""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

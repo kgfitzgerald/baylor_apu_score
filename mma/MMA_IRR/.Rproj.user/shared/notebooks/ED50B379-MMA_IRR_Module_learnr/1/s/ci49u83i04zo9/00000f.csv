@@ -1,0 +1,8 @@
+"0","# displaying simple agreement of jimmy and mateo"
+"0","random %>% summarise("
+"0","  Agree = sum(Jimmy == Mateo),"
+"0","  Disagree = sum(Jimmy != Mateo),"
+"0","  ""Percent Agreement"" = percent(Agree / sum(Disagree, Agree), accuracy = .01)) %>%"
+"0","  flextable() %>%"
+"0","  align(align = ""center"", part = ""all"") %>%"
+"0","  width(j = 3, width = 1.5)"
