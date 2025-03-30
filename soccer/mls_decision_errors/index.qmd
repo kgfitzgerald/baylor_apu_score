@@ -27,7 +27,9 @@ callout-icon: false
 ::: {.callout-note collapse="true" title="Facilitation notes" appearance="minimal"}
 + This module would be suitable for an in-class lab in an introductory statistics course or for supplemental self-study.
 
-+ This module is designed for student just learning about hypothesis testing and is meant to bolster their understanding of errors that can be made in hypothesis testing.
++ This module is designed for students just learning about hypothesis testing and is meant to bolster their understanding of errors that can be made in hypothesis testing. It assumes a basic knowledge of what hypothesis testing is.
+
++ This module requires no programming knowledge.
 
 + The data used to create this module can be downloaded [here](training_facilities.csv)
 

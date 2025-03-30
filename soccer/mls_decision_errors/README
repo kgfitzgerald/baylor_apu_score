@@ -13,3 +13,5 @@ The files in this repository are as follows:
 - `training_facilities_glossary.csv`: Data glossary for the `training_facilities.csv` file.
 
 - `Chase_Stadium.jpg`, `St._Louis_City_SC_logo.png`, and `Starfire_Sports_Complex.jpg`: Image files used in the `index.qmd` file.
+
+- `webex.css` and `webex.js` are files used to help create the proper webexercises output that allows for interactivity.
