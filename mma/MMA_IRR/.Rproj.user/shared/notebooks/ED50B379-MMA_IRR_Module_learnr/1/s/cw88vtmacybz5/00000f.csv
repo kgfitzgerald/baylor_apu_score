@@ -1,0 +1,21 @@
+"0","question_radio("
+"0","  ""5.3.  Now, compare the two tables. Do the expected values for the cells surprise you? How similar are they to the observed values?"","
+"0","  answer(""Very surprising.  Expected agreement is as high as the observed.""),"
+"0","  answer(""Expected agreement is roughly 50 percent so not surprising."", correct = TRUE),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""5.3.  Now, compare the two tables. Do the expected values for the cells surprise you? How similar are they to the observed values?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    X: ""Very surprising.  Expected agreement is as high as the observed.""
+    ✔: ""Expected agreement is roughly 50 percent so not surprising.""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

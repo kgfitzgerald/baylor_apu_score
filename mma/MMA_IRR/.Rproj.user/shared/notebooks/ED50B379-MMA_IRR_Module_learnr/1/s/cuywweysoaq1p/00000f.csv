@@ -1,0 +1,23 @@
+"0","question_radio("
+"0","  ""2.1.  Assess the table. How well do the judges tend to agree?"","
+"0","  answer(""They agree very rarely (<50%, 88 times) ""),"
+"0","  answer(""Excellent, they only disagree 1 time""),"
+"0","  answer(""Reasonable agreement (less than 30 times disagree)"", correct = TRUE),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""2.1.  Assess the table. How well do the judges tend to agree?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    X: ""They agree very rarely (&lt;50%, 88 times)""
+    X: ""Excellent, they only disagree 1 time""
+    ✔: ""Reasonable agreement (less than 30 times disagree)""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

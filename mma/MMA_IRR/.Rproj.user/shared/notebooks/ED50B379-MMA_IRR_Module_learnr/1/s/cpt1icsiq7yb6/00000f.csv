@@ -1,0 +1,25 @@
+"0","question_radio("
+"0","  ""2.3.  How do Cartlidge and Lethaby's results compare to the other judges we assessed?"","
+"0","  answer(""They have much worse agreement than either of the previous examples.""),"
+"0","  answer(""They have much better agreement than either of the previous examples.""),"
+"0","  answer(""They have agreement about as strong as D'Amato and Cleary""),"
+"0","  answer(""They have slightly better agreement than D'Amato and Lee but not as strong as D'Amato and Cleary"", correct = TRUE),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""2.3.  How do Cartlidge and Lethaby’s results compare to the other judges we assessed?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    X: ""They have much worse agreement than either of the previous examples.""
+    X: ""They have much better agreement than either of the previous examples.""
+    X: ""They have agreement about as strong as D’Amato and Cleary""
+    ✔: ""They have slightly better agreement than D’Amato and Lee but not as strong as D’Amato and Cleary""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

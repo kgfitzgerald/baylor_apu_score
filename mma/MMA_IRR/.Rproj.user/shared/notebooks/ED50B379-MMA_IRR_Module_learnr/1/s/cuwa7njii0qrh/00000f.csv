@@ -1,0 +1,27 @@
+"0","question_radio("
+"0","  ""1.1.  Can you identify D'Amato and Cleary's concordant responses?"","
+"0","  answer(""65"", message = ""These are only concordant responses involving fighter 1.""),"
+"0","  answer(""71"", message = ""These are only concordant responses involving fighter 3.""),"
+"0","  answer(""73"", message = ""This is the total times Cleary picked fighter 1.""),"
+"0","  answer(""139"", correct = TRUE),"
+"0","  answer(""152"", message = ""This is the total number of responses, not just concordant.""),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""1.1.  Can you identify D’Amato and Cleary’s concordant responses?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    X: ""65""; ""These are only concordant responses involving fighter 1.""
+    X: ""71""; ""These are only concordant responses involving fighter 3.""
+    X: ""73""; ""This is the total times Cleary picked fighter 1.""
+    ✔: ""139""
+    X: ""152""; ""This is the total number of responses, not just concordant.""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

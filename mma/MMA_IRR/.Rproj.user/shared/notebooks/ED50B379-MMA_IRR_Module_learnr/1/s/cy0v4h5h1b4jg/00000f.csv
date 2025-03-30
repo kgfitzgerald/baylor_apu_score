@@ -1,0 +1,6 @@
+"0","indiv_fleiss <- as.data.frame.matrix(F_indiv$detail) %>%"
+"0","  rownames_to_column(var = ""Category"") %>%"
+"0","  mutate(Category = factor(Category, levels = c(""fighter1"", ""draw"", ""fighter2"")))"
+"0",""
+"0","flextable(indiv_fleiss) %>%"
+"0","  align(align = ""center"", part = ""all"")"

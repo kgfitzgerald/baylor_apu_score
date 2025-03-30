@@ -1,0 +1,21 @@
+"0","question_radio("
+"0","  ""7.9. (Optional Advanced) How large is the difference between the quadratic and linear weights?  "","
+"0","  answer(""Hardly any difference so the choice does not matter here.""),"
+"0","  answer(""A large enough difference to matter when drawing inference from the confidence interval."", correct = TRUE),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""7.9. (Optional Advanced) How large is the difference between the quadratic and linear weights?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    X: ""Hardly any difference so the choice does not matter here.""
+    ✔: ""A large enough difference to matter when drawing inference from the confidence interval.""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

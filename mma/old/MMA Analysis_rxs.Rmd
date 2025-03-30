@@ -1,0 +1,368 @@
+---
+title: "MMA Analysis"
+author: "Ian Young"
+date: "June 2023"
+output:
+  pdf_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("tidyverse"); library("showtext"); library("scales")
+font_add_google("Roboto Condensed")
+showtext_auto()
+theme_set(theme_minimal(base_family = "Roboto Condensed"))
+theme_update(panel.grid.minor = element_blank())
+library("gt")
+library("gtExtras")
+library(readr)
+```
+
+```{r, include=FALSE}
+# Load Data
+#load("fights_stack.Rdata")
+mma <- read_csv("mma.csv")
+```
+
+
+\newpage
+
+# Data Introduction
+
+The data used for the following examples is MMA fight data. The data has 128,946 observations and 30 variables. The data includes fights from 1991 to 2023. An event may have multiple fights within it, each fight has two observations for each fighter participating in the fight. Along with the general information of the fight such as date and event, there is information on the fight result and fighter information. Various methods may result in the data being filtered down, and the removal of NA's.
+
+Listed below is a data dictionary.
+
+```{r, echo=FALSE}
+data_dictionary <- tibble(
+  Variable = c("stack", "date", "event_day", "event_month", "event_year", "event", "champ", "decision",
+               "decision_group", "round", "time", "time_minutes", "time_seconds", "fighter_result",
+               "fighter_id", "fighter", "first_name", "last_name", "Nickname", "fighter_country", "sex",
+               "Height", "Weight", "fighter_age", "Reach", "Stance", "WT Class", "weight_class", "Team",
+               "Birthdate"),
+  Definition = c("number represents fighter 1 or fighter 2 in original dataset", "date of the event (mdy)",
+                 "day of the event", "month of the event", "year of the event", "name of the event",
+                 "is the event a championship event", "fight result", "aggregated groups of decision variable",
+                 "how many rounds the fight lasted", "time the fight ended", "time the fight ended in minutes",
+                 "time the fight ended in seconds", "result of the fight for the fighter",
+                 "a unique ID for each fighter", "full name of the fighter", "first name of the fighter",
+                 "last name of the fighter", "nickname of the fighter", "home country of the fighter",
+                 "sex of the fighter", "height of the fighter in inches", "weight of the fighter in pounds",
+                 "age of the fighter at the time of the fight", "reach (arm span) of a fighter measured in inches",
+                 "stance the fighter uses", "specific weight class the fighter was in at the event",
+                 "aggregated groups of WT Class", "team the fighter was a part of at the time of the fight",
+                 "birthday of the fighter"),
+  Example_Values = c("1 or 2", "10/12/2023", "12", "10", "2023", "UFC 1: The Beginning", "TRUE/FALSE",
+                     "TKO (Injury)", "KO/TKO", "3", "4:42", "4.7", "282", "W", "2354059", "Shamrock, Ken",
+                     "Ken", "Shamrock", "The World's Most Dangerous Man", "USA", "M", "61", "155", "23",
+                     "68", "Orthodox", "Heavyweight - Old UFC", "Heavyweight", "Long Island MMA",
+                     "12/22/1989")
+)
+
+
+
+data_dictionary |> gt()
+
+```
+
+\newpage
+
+# Chi-square Test Overview
+
+The chi-square test is a test used to determine if there is a significant association between two categorical variables. It compares the observed frequencies of the different categories with the expected independent frequencies. It can also be thought of as determining if dimensions of a contingency table are associated. Lets use the MMA data to determine if since the year 2020 fighter weight class and the decision of a fight are associated. After selecting, filtering, and preparing the data, a contingency table is produced (Note: To perform a chi-square test in many software packages, it is often not necessary to format the data into a contingency table. Many packages can take data from a standard rectangular data table and pass it through a chi-square function.). Additionally, it may be of use to present the data in a more visual format.  
+
+```{r, echo=FALSE}
+# Select, filter, and prepare relevant data for analysis
+dat <- mma |> 
+  select(year, p1_wtClass2, decision_group) |> 
+  filter(p1_wtClass2 == "Middleweight" | p1_wtClass2 == "Heavyweight") |> 
+  filter(year >= 2020) |> 
+  mutate(decision_group = 
+           fct_collapse(decision_group, 
+                        "Decision" = c("Decision"), 
+                        "KO/TKO/Submission" = c("KO/TKO", "Submission"))) |>
+          filter(decision_group == "Decision" | 
+                   decision_group == "KO/TKO/Submission") |> 
+  mutate(decision_group = as.character(decision_group))
+
+# Contingency table example
+# table(dat$decision_group, dat$weight_class) |> addmargins()
+
+my_tibble <- tibble(
+  Category = c("Decision", "KO/TKO/Submission", "Sum"),
+  Heavyweight = c(222, 559, 781),
+  Middleweight = c(173, 346, 519),
+  Sum = c(395, 905, 1300)
+)
+
+my_tibble |> gt()
+```
+
+```{r, echo=FALSE, fig.show='asis', fig.height = 6, fig.width = 8, warning=FALSE}
+
+# Plot the Data
+dat |> 
+ggplot(aes(p1_wtClass2, fill = decision_group)) +
+  geom_bar(position = "dodge", width = 0.5) +
+  geom_text(stat = "count", 
+            aes(label = after_stat(count)), 
+            position = position_dodge(width = 0.5), 
+            vjust = -.5,
+            size = 3.5) +
+  ylim(0, 600) +
+  labs(title = "\n Weight Class & Fight Decision \n",
+       x = "Weight Class",
+       y = "Count",
+       fill = "") +
+  theme(legend.position = "bottom")
+```
+
+\newpage
+
+## Chi-square 2x2 Example
+
+The question we are trying to answer is, is there an association between weight class and fight decision?    
+
+This leaves us with the following null and alternative hypothesis...    
+
+$H_0$: Weight class and the fight decision are not associated.  
+$H_a$: Weight class and the fight decision are associated.
+
+```{r, echo=FALSE}
+my_tibble |> gt()
+```
+
+Decision: 222 of 395     
+KO/TKO/Submission: 559 of 905  
+
+If there was no association we would expect the same proportion of Decision & KO/TKO/Submission in the heavyweight class.    
+
+Our best guess to this common proportion of heavyweight is (559 + 222) / (395 + 905) = 0.601    
+
+Now using this common proportion we estimate our best guess at the table counts if there were no association (also known as the expected counts).  
+
+Expected heavyweight = number in group x 0.601  
+Expected middleweight = number in group x (1 - 0.601)  
+
+Another way to find the expected count for each cell is the following formula:    
+expected count = (row total x column total) / grand total    
+
+For example we can compute the expected count for the first cell as follows...    
+(395 x 781) / 1300 = 237.3    
+
+The expected counts are then used to construct the test statistic. Below is a table of the expected counts.    
+
+```{r, echo=FALSE}
+dat |> 
+  select(decision_group, p1_wtClass2) |> 
+  table() |> 
+  chisq.test() %>% 
+  .$expected |> 
+  round(1) |> knitr::kable()
+
+```
+
+The test statistic takes the difference of the observed minus the expected and squares this number and divides the number by the expected count. This is done for each cell and all the numbers are summed together to get the test statistic. Below is an example using our data.    
+
+```{r}
+(((222-237.3)^2) / 237.3) + 
+  (((559-543.7)^2) / 543.7) +
+  (((173-157.7)^2) / 157.7) +
+  (((346-361.3)^2) / 361.3)
+```
+
+We Can also calculate the test statistic, degrees of freedom, and p-value using software packages. We will use an alpha of 0.05 as our cutoff.  
+
+```{r, echo=FALSE}
+# Chi Square test option 1 with infer package and tidy output (tidymodels)
+test <- infer::chisq_test(dat, p1_wtClass2 ~ decision_group)
+test |> gt()
+# # Chi Square test option 2 with stats package
+# dat |> 
+#   select(weight_class, decision_group) |> 
+#   table() |> 
+#   chisq.test()
+
+```
+
+The test returned a p-value of 0.0683.  Our conclusion then after performing a chi-square 2x2 test is at p < 0.05 we do not have evidence to suggest that weight class and fight decision are associated (p = 0.0683). In other words, we fail to reject our null hypothesis.  
+
+## Fisher's Exact Test Example
+
+The chi-square test only works if expected counts/frequencies are large enough. A general guideline is that chi-square test can be used if most of the expected counts are at least 5. If this is not the case, the "Fisher's Exact Test" is an alternative test. The Fisher's Exact Test assumes the row and column totals are fixed, then calculates the probability of a particular set of cell counts, then figures out all possible tables that could be constructed given the fixed totals, and calculates probabilities for each of these tables. The test determines which of these tables are extreme or more extreme than the table seen, and sums up the probabilities for the table seen and the more extreme tables to get the p-value.  
+
+For example, lets say we are looking in the data at fights from 2023. We want to look and see if there is an association between the two lightest weight classes (flyweight and strawweight) and the decision type. We first check the expected counts in each cell.  
+
+```{r, echo=FALSE, warning=FALSE}
+# Select, filter, and prepare relevant data for analysis
+dat2 <- mma |> 
+  select(year, p1_wtClass2, decision_group) |> 
+  filter(p1_wtClass2 == "Strawweight" | p1_wtClass2 == "Flyweight") |> 
+  filter(year == 2023) |> 
+  mutate(decision_group = fct_collapse(decision_group, 
+                                       "Decision" = c("Decision"), 
+                                       "KO/TKO/Submission" = c("KO/TKO", "Submission"))) |>
+  filter(decision_group == "Decision" | decision_group == "KO/TKO/Submission") |> 
+  mutate(decision_group = as.character(decision_group))
+
+# Check expected values for Fisher's exact test
+dat2 |> 
+  select(p1_wtClass2, decision_group) |> 
+  table() |> 
+  chisq.test() %>% 
+  .$expected |> 
+  round(1) |> 
+  knitr::kable()
+  
+```
+
+We notice that 3 of the 4 cells have expected counts less than 5, so we will use Fisher's Exact Test in place of the Chi-Square test.  
+
+We once again state our hypotheses.
+
+$H_0$: Weight class and the fight decision are not associated.  
+$H_a$: Weight class and the fight decision are associated.
+
+```{r, echo=FALSE}
+# Conduct Fisher's Test
+fisher.test(dat2$p1_wtClass2, dat2$decision_group)
+```
+The test returned a p-value of 0.5573.  Our conclusion then after performing a Fisher's Exact Test is at p < 0.05 we do not have evidence to suggest that weight class and fight decision are associated (p = 0.5573). In other words, we fail to reject our null hypothesis.
+
+## Chi-Square rxc Example
+
+The Chi-Square 2x2 example we did earlier, can be generalized on a table of any number of rows (r) and columns (C). Lets take a look at a Chi-Square Test on a larger table. Below we see a table of 6 columns representing weight classes and 3 rows representing categories. We have a 3 x 6 table of observed values followed by the corresponding table of expected values.     
+
+```{r, echo=FALSE}
+# Select, filter, and prepare relevant data for analysis
+dat3 <- mma |> 
+  select(year, p1_wtClass2, decision_group) |> 
+  filter(p1_wtClass2 %in% c("Strawweight", "Flyweight", "Bantamweight", 
+                             "Welterweight", "Middleweight", "Heavyweight")) |> 
+  filter(year >= 2020) |> 
+  filter(decision_group == "Decision" | decision_group == "KO/TKO" | decision_group == "Submission") |> 
+  mutate(p1_wtClass2 = as_factor(p1_wtClass2)) |>
+  mutate(p1_wtClass2 = fct_relevel(p1_wtClass2, 
+                    c("Strawweight", "Flyweight", "Bantamweight", 
+                      "Welterweight", "Middleweight", "Heavyweight")))
+  
+# Contingency table example
+#table(dat3$decision_group, dat3$weight_class) |> addmargins()
+my_tibble <- tibble(
+  Category = c("Decision", "KO/TKO", "Submission", "Sum"),
+  Strawweight = c(144, 70, 72, 286),
+  Flyweight = c(287, 172, 149, 608),
+  Bantamweight = c(344, 240, 184, 768),
+  Welterweight = c(276, 301, 163, 740),
+  Middleweight = c(173, 230, 116, 519),
+  Heavyweight = c(222, 420, 139, 781),
+  Sum = c(2236, 2040, 1230, 5506)
+)
+
+my_tibble |> gt()
+```
+
+```{r, echo=FALSE}
+# Table of the expected values
+dat3 |> 
+  select(decision_group, p1_wtClass2) |> 
+  table() |> 
+  chisq.test() %>% 
+  .$expected |> 
+  round(1) |> knitr::kable()
+```
+
+As we saw above with the 2x2 Chi-Square test it may be helpful to display this information visually. Below we plot what is called a mosaic plot. On the x axis is weight class and the wider the bar the higher the count in that weight class and the thinner the bar the lower the count in that weight class. On the y axis we see the different decision groups, again the width shows how many in that particular decision group. Looking at the overall plot we can see how the proportion of weight class and decision groups vary.  
+
+```{r, echo=FALSE, warning=FALSE, fig.show='asis', fig.height = 6, fig.width = 9}
+# Plot mosaic plot
+library("ggmosaic")
+dat3 |> ggplot() +
+  geom_mosaic(aes(x = product(p1_wtClass2), fill = decision_group)) +
+  labs(title = "\n Mosaic Plot: Weight Class & Fight Decision \n",
+       x = "\n Weight Class",
+       y = "Decision Group",
+       fill = "") +
+  theme(legend.position = "bottom")
+```
+
+Lets formally state our null and alternative hypothesis. Again the 2x2 Chi-Square test generalizes to the rxc Chi-Square test so the following will feel very similar.
+
+$H_0$: Weight classes and the fight decisions are not associated.  
+$H_a$: Weight classes and the fight decisions are associated.
+
+We then proceed to compute our test statistic, degrees of freedom, and p-value. We will use an alpha of 0.05 as our cutoff. 
+
+```{r, echo=FALSE}
+# Chi Square test option 1 with infer package and tidy output (tidymodels)
+test2 <- infer::chisq_test(dat3, p1_wtClass2 ~ decision_group)
+test2 |> gt()
+# # Chi Square test option 2 with stats package
+# dat3 |>
+#   select(weight_class, decision_group) |>
+#   table() |>
+#   chisq.test()
+```
+
+The test returned a statistic of 157.9847 with a resulting p-value of <.0001 and 10 degrees of freedom.  Our conclusion then after performing a chi-square 3x6 test is at p < 0.05 we do have evidence to suggest that weight classes and fight decisions are associated (p <.001). In other words, we reject our null hypothesis.  
+
+However, this still begs a couple of questions. (1) Which weight classes and which decision groups differ? (2) We achieved statistical significance (maybe as a result of high counts), but is there practical significance?  
+
+Lets do an informal inspection of the observed and expected values and look into the residuals (difference between the observed and the expected counts).    
+
+Below are the observed values.    
+```{r, echo=FALSE}
+# Table of the observed values
+table(dat3$decision_group, dat3$p1_wtClass2) |> knitr::kable()
+```
+Below are the expected values.  
+```{r, echo=FALSE}
+# Table of the expected values
+dat3 |> 
+  select(decision_group, p1_wtClass2) |> 
+  table() |> 
+  chisq.test() %>% 
+  .$expected |> 
+  round(1) |> knitr::kable()
+```
+
+With this high of rows and columns it is difficult to see if there are practical differences between certain cells. This may be achievable with a 2x2 table, but is much more difficult with larger tables. To help use we can calculate the standardized residuals to see cells to investigate. The formula for the Pearson residuals is (O-E)/sqrt(E). 
+
+```{r, echo=FALSE}
+dat3 |> 
+  select(decision_group, p1_wtClass2) |> 
+  table() |> 
+  chisq.test() |> 
+  residuals() |> 
+  round(1) |> knitr::kable()
+```
+
+Now we can look at the standardized residuals and see which cells may be impacting the test and causing a conclusion that there is an association. However, we still run into the problem of trying to look at many different cells when the table is large. To help us, let's plot the absolute values of the standardized residuals and sort them.
+
+```{r, echo=FALSE, fig.show='asis', fig.height = 6, fig.width = 9}
+res <- dat3 |> 
+  select(decision_group, p1_wtClass2) |> 
+  table() |> 
+  chisq.test() |> 
+  residuals() |> 
+  round(1) |>  
+  as_tibble() |> 
+  mutate(n = abs(n),
+         Cell = paste(p1_wtClass2, decision_group, sep = " x "))
+
+res |> 
+  ggplot(aes(reorder(Cell, -n), n)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "cyan3", alpha = 0.6) +
+  geom_text(aes(label = n), vjust = -0.5, color = "black", size = 3.3) +
+  geom_hline(yintercept = 3, linetype = "dashed", color = "red") +
+  labs(title = "Impact of Each Cell \n",
+       x = "\n Cell",
+       y = "Absolute Value of Standardized Residual \n") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+Looking at the plot we can now see certain cells that had high standardized residuals (above 3), with some very large residuals in the heavyweight group impacting the test.
+
+## Chi-Square rxc Exercise
+

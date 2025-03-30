@@ -1,0 +1,7 @@
+"0","# I decided to not include disagree and agree_rate, because I think it was misleading"
+"0","j_summary %>%"
+"0","  arrange(desc(fights)) %>%"
+"0","  slice(1:10) %>%"
+"0","  select(judge, fights) %>%"
+"0","  flextable() %>%"
+"0","  align(align = ""center"", part = ""all"")"

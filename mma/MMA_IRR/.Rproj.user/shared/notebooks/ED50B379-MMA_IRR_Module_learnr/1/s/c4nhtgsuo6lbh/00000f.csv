@@ -1,0 +1,23 @@
+"0","question_radio("
+"0","  ""4.1.  Recall our percent agreement assessment from earlier. Do D'Amato and Cleary tend to agree?"","
+"0","  answer(""They agree very rarely (<50%, 71 times) ""),"
+"0","  answer(""Perfect agreement (0 values in the draw column)""),"
+"0","  answer(""Very good agreement (less than 15 times disagree)"", correct = TRUE),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""4.1.  Recall our percent agreement assessment from earlier. Do D’Amato and Cleary tend to agree?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    X: ""They agree very rarely (&lt;50%, 71 times)""
+    X: ""Perfect agreement (0 values in the draw column)""
+    ✔: ""Very good agreement (less than 15 times disagree)""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"

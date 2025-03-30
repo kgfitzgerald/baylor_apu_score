@@ -1,0 +1,118 @@
+---
+title: "Tennis Sample Size"
+author: "YOUR NAME HERE"
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: tango
+editor: visual
+editor_options:
+  chunk_output_type: console
+---
+
+# Getting started: Tennis data
+
+```{r, message = FALSE}
+library(tidyverse) #loads package
+library(DescTools)
+library(effectsize)
+library(pwr)
+tennis <- read_csv("wimbledon_featured_matches.csv") #loads data
+```
+
+```{r}
+glimpse(tennis)
+```
+
+## Exercise 1
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+## Exercise 2
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+# Example 1
+
+## Exercise 3
+
+a\. YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+## Exercise 4
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+## Exercise 5
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+## Exercise 6
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+## Exercise 7
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+# Example 2
+
+## Exercise 8
+
+a.  YOUR ANSWER HERE
+
+b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+## Exercise 9
+
+```{r}
+# your code here - remove the hashtag!
+
+# your code here - remove the hashtag!
+
+# your code here - remove the hashtag!
+```
+
+YOUR ANSWER HERE
+
+## Exercise 10
+
+```{r}
+# your code here - remove the hashtag!
+
+# your code here - remove the hashtag!
+
+# your code here - remove the hashtag!
+```
+
+YOUR ANSWER HERE

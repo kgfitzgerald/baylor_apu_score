@@ -1,0 +1,6 @@
+"0","  # kable() %>%"
+"0","  # kable_material(c(""hover"", ""striped"")) %>%"
+"0","  # column_spec(3, width = ""22em"") %>%"
+"0","  # row_spec(0, bold = TRUE) %>% "
+"0","  # kable_styling(latex_options = ""HOLD_position"", font_size = 10)"
+"0",""

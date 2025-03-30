@@ -1,0 +1,25 @@
+"0","question_radio("
+"0","  ""5.1.  How does the sample size between these two judges likely impact the kappa estimate? "","
+"0","  answer(""The sample size is smaller than previous examples so we will have MORE confidence in the kappa estimate""),"
+"0","  answer(""The sample size is larger than previous examples so we will have MORE confidence in the kappa estimate""),"
+"0","  answer(""The sample size is larger than previous examples so we will have LESS confidence in the kappa estimate""),"
+"0","  answer(""The sample size is smaller than previous examples so we will have LESS confidence in the kappa estimate"", correct = TRUE),"
+"0","  allow_retry = TRUE,"
+"0","  random_answer_order = TRUE"
+"0",")"
+"1","Question: ""5.1.  How does the sample size between these two judges likely impact the kappa estimate?""
+  type: ""learnr_radio""
+  allow_retry: TRUE
+  random_answer_order: TRUE
+  answers:
+    X: ""The sample size is smaller than previous examples so we will have MORE confidence in the kappa estimate""
+    X: ""The sample size is larger than previous examples so we will have MORE confidence in the kappa estimate""
+    X: ""The sample size is larger than previous examples so we will have LESS confidence in the kappa estimate""
+    ✔: ""The sample size is smaller than previous examples so we will have LESS confidence in the kappa estimate""
+  messages:
+    correct: ""Correct!""
+    incorrect: ""Incorrect""
+    try_again: ""Incorrect"""
+"1"," "
+"1","
+"
