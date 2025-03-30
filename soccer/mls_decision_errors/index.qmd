@@ -6,9 +6,12 @@ author:
     affiliation:
       - id: bay
         name: Baylor University
-date: July 30, 2024
+date: March 30, 2025
 format:
   html:
+    # embed-resources: true
+    css: [webex.css]
+    include-after-body: [webex.js]
     grid:
       margin-width: 350px
 toc: true
@@ -22,11 +25,11 @@ callout-icon: false
 ---
 
 ::: {.callout-note collapse="true" title="Facilitation notes" appearance="minimal"}
-+ This module would be suitable for an in-class lab or take-home assignment in an introductory statistics course. 
++ This module would be suitable for an in-class lab in an introductory statistics course or for supplemental self-study.
+
++ This module is designed for student just learning about hypothesis testing and is meant to bolster their understanding of errors that can be made in hypothesis testing.
 
 + The data used to create this module can be downloaded [here](training_facilities.csv)
-
-+ A student template for answers can be downloaded [here](student_template.pdf)
 
 + Much of the data for the module was derived from an [MLS article](https://www.mlssoccer.com/news/facts-figures-and-images-every-mls-training-facility) and [fbref.com](https://fbref.com/en/comps/22/2023/2023-Major-League-Soccer-Stats#all_league_summary). The rest of the data concerning the opening of training facilities was individually researched.
 :::
@@ -42,7 +45,7 @@ callout-icon: false
 In this module, we will explore the concept of decision errors in hypothesis testing. We will use MLS (Major League Soccer) training facility data to explore Type I and Type II errors. 
 
 ::: column-margin
-Inter Miami CF opened a $40 million training facility in 2020. It sprawls over 25 acres and includes 7 fields. The field is adjacent to their home stadium and can be seen in the background of the image below.
+Inter Miami CF's built training facilities that opened in 2020. One of the fields is adjacent to their home stadium and can be seen in the background of the image below.
 
 ![Chase Stadium](Chase_Stadium.jpg)
 
@@ -50,9 +53,11 @@ Image Source: <a href="https://commons.wikimedia.org/wiki/File:Inter_Miami_vs_Ne
 
 :::
 
-In the last decade (2014-2023) more than half of all MLS teams opened new training facilities, and several more clubs have plans to build new facilities soon. These cutting edge facilities are designed to provide players with the best possible environment to train and develop, hopefully translating to better performance on the field.
+In the last decade (2014-2023) more than half of all MLS teams opened new training facilities, and several more clubs have plans to build new facilities soon. These cutting edge facilities are designed to provide players with the best possible environment to train and develop, hopefully translating to better performance on the field. 
 
-Do these new, state-of-the-art facilities lead to better performance on the field though? What are some potential consequences of claiming they make a difference when they don't? What are some potential consequences of claiming they don't make a difference when they do?
+But these new facilities come at a high cost. According to the [MLS](https://www.mlssoccer.com/news/facts-figures-and-images-every-mls-training-facility), between 2017 and 2020 over 400 million dollars were spent on training facilities. For reference, Atlanta United FC's new training facility, which opened in 2017, cost \$60 million. Inter Miami, a relatively new expansion team, opted to spend \$40 million on their training facilities, which sprawl over 25 acres and include 7 fields.
+
+All this money being spent raises some important questions though. Do these new, state-of-the-art facilities lead to better performance on the field though? What are some potential consequences of claiming they make a difference when they don't? What are some potential consequences of claiming they don't make a difference when they do?
 
 We will explore these questions and more as we kick off our exploration of hypothesis testing and decision errors. For our purposes we will consider any team with a training facility that opened in 2014 or later to have a new training facility and any team with a training facility that opened before 2014 to have an old training facility.
 
@@ -82,12 +87,12 @@ By the end of this module, you should be able to:
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(pwr)
+library(webexercises)
+library(knitr)
 training_facilities <- read_csv("training_facilities.csv")
 ```
 
 # Terms to Know
-
-::: {.callout-important title="Soccer Vocab"}
 
 ::: column-margin
 **ON THE RISE**
@@ -99,6 +104,8 @@ Ratings, attendance, and revenue have all increased dramatically over the last d
 
 Image Source: <a href="https://commons.wikimedia.org/wiki/File:St._Louis_City_SC_logo.png">IagoQnsi</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons
 :::
+
+::: {.callout-important title="Soccer Vocab"}
 
 Let's knock out some soccer terminology before we head into hypothesis testing and decision errors.
 
@@ -113,6 +120,79 @@ Let's knock out some soccer terminology before we head into hypothesis testing a
 -  **Table**: The standings in a league. Teams are ranked by the number of points they have earned. The team with the most points is at the top of the table.
 
 :::
+
+# Data Exploration
+
+Let's take a quick look at the data that will be used for this module and calculate some basic summary statistics. The data includes the points per match played for MLS teams in 2023 and when their current training facility opened. For the sake of this module, we will consider any facility opened within 10 years of 2023 to be a new facility. There are 17 teams with new training facilities and 12 teams with old training facilities in the data.
+
+::: column-margin
+**Fun Fact**: The top team in the MLS in 2023, FC Cincinnati, averaged 2.03 points per match. They opened a new training facility in 2019.
+
+<br>
+The graph below show the points per match played in 2023 for teams with new training facilities and teams without new training facilities.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+training_facilities |> 
+  mutate(new = ifelse(new, "New", "Old")) |> 
+  group_by(new) |> 
+  summarize(mean = mean(points_per_match_2023)) |>
+  ggplot(aes(x = new, y = mean, fill = new)) +
+  geom_col() +
+  labs(title = "Points per Match Played by Training Facility Age (2023)",
+       x = "Training Facility Age",
+       y = "Points per Match Played") +
+  theme(legend.position = "none")
+```
+
+<br>
+
+:::
+
+Below are the 2023 points per match played for teams with new training facilities.
+```{r, echo=FALSE}
+training_facilities |> 
+  filter(new) |> 
+  pull(points_per_match_2023) |> 
+  cat(sep = ", ")
+```
+
+```{r, echo=FALSE}
+q1 <- sample(c(
+   "1.5",
+  answer ="1.44",
+  "24.42",
+  "2.04",
+  "1.36"
+))
+```
+
+
+What is the mean of the points per match played for teams with new training facilities in 2023?
+`r mcq(q1)`
+
+The points per match played for teams with old training facilities in 2023 are shown below.
+
+```{r, echo=FALSE}
+training_facilities |> 
+  filter(!new) |> 
+  pull(points_per_match_2023) |> 
+  cat(sep = ", ")
+```
+
+```{r, echo=FALSE}
+q2 <- sample(c(
+  "1",
+  "1.44",
+  ".87",
+  "1.35",
+  answer = "1.23"
+))
+```
+
+What is the mean of the points per match played for teams with old training facilities in 2023?
+
+`r mcq(q2)`
+
 
 # Hypothesis Testing
 
@@ -142,35 +222,20 @@ The alternative hypothesis is a statement that there is an effect or a differenc
 
 #### Setting up a Hypothesis Test
 
-Let's set up a hypothesis test to determine if a new training facility leads to better performance on the field. We will use points per match played as our measure of performance. The null hypothesis is that there is no difference in points per match played between teams with new training facilities and teams without new training facilities. The alternative hypothesis is that the teams with new training facilities have a higher points per match played than teams without new training facilities.
+Let's set up a hypothesis test to determine if a new training facility leads to better performance on the field. We will use points per match played as our measure of performance. The null hypothesis is that there is no difference in points per match played between teams with new training facilities and teams without new training facilities. The alternative hypothesis is that the teams with new training facilities have a higher points per match played than teams without new training facilities. Let $\mu_{new}$ be the population mean points per match played for teams with new training facilities and $\mu_{old}$ be the population mean points per match played for teams without new training facilities.
 
-::: column-margin
-**Fun Fact**: The top team in the MLS in 2023, FC Cincinnati, averaged 2.03 points per match. They opened a new training facility in 2019.
-
-<br>
-The graph below show the points per match played in 2023 for teams with new training facilities and teams without new training facilities.
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-training_facilities |> 
-  mutate(new = ifelse(new, "New", "Old")) |> 
-  group_by(new) |> 
-  summarize(mean = mean(points_per_match_2023)) |>
-  ggplot(aes(x = new, y = mean, fill = new)) +
-  geom_col() +
-  labs(title = "Points per Match Played by Training Facility Age (2023)",
-       x = "Training Facility Age",
-       y = "Points per Match Played") +
-  theme(legend.position = "none")
+```{r, echo=FALSE}
+q3 <- sample(c(
+  "$H_0: \\mu_{new} = \\mu_{old}$, $H_a: \\mu_{new} \\neq \\mu_{old}$",
+  "$H_0: \\mu_{new} > \\mu_{old}$, $H_a: \\mu_{new} = \\mu_{old}$",
+  answer = "$H_0: \\mu_{new} = \\mu_{old}$, $H_a: \\mu_{new} > \\mu_{old}$",
+  "$H_0: \\mu_{new} = \\mu_{old}$, $H_a: \\mu_{new} < \\mu_{old}$"
+))
 ```
 
+Which of the following shows the correct null and alternative hypotheses for this test?
 
-:::
-
-$$H_0: \mu_{new} = \mu_{old}$$
-
-$$H_a: \mu_{new} \ge \mu_{old}$$
-
-Where $\mu_{new}$ is the population mean points per match played for teams with new training facilities and $\mu_{old}$ is the population mean points per match played for teams without new training facilities.
+`r longmcq(q3)`
 
 
 #### Significane Level and Decisions in Hypothesis Testing
@@ -205,17 +270,35 @@ In our example of the new training facilities, a Type I error would occur if we 
 
 ::: {.callout-note title="Exercise 1: Type I Errors"}
 
-a. What are some potential consequences of making a Type I error in the context of the new training facilities?
+a. Which of the following could be a potential consequences of making a Type I error in the context of the new training facilities?
 
-b. Would a Type I error in this context have greater consequences for the team's finances or the team's performance?
+```{r, echo=FALSE}
+e1_q1 <- sample(c(
+  answer = "Teams may invest millions in new training facilities that don't actually help them win more games",
+  "Teams may not invest in new training facilities that could help them win more games"))
+```
+
+`r longmcq(e1_q1)`
+
+
+b. Would a Type I error in this context most likely have greater consequences for the team's finances or the team's performance?
+
+`r fitb(c("finances"), ignore_case = TRUE)`
 
 c. If alpha = 0.05, what is the percent chance that there is no difference in points per match played between the two groups given that we accept the alternative hypothesis of greater points per match played for teams with new training facilities?
 
+`r fitb(c("5%", 5), ignore_case = TRUE)`
+
 d. If alpha = 0.01, what is the percent chance of making a Type I error, given we reject the null hypothesis?
+
+`r fitb(c("1%", 1), ignore_case = TRUE)`
 
 e. If alpha = 0.01, what is the likelihood of making a Type I error if we fail to reject the null hypothesis?
 
-f. Is there a best significance level to always use in hypothesis testing? Why or why not?
+`r fitb(c("0%", 0), ignore_case = TRUE)`
+
+f. T/F: There a best significance level to always use in hypothesis testing. `r torf(FALSE)`
+
 
 :::
 
@@ -224,7 +307,7 @@ f. Is there a best significance level to always use in hypothesis testing? Why o
 A Type II error occurs when we fail to reject a false null hypothesis. We conclude that there is no effect when there is an effect. Type II errors are also known as false negatives. The probability of making a Type II error is denoted by $\beta$. The value of beta is determined by the power of the test, which is the probability of correctly rejecting a false null hypothesis. Often we want power to be at least 0.80. This means that we want the probability of making a Type II error to be less than 0.20.
 
 $$\beta = 1 - \text{Power}$$
-The power of a test depends on the sample size, the effect size, and the significance level. As a general rule, increasing the sample size, increasing the effect size, and decreasing the significance level will increase the power of a test. The full calculations for power are beyond the scope of this lesson.
+The power of a test depends on the sample size, the effect size, and the significance level. As a general rule, increasing the sample size, the effect size, or the significance level will increase the power of a test. The full calculations for power are beyond the scope of this lesson.
 
 ```{r, echo=FALSE}
 calculate_cohen_d <- function(M1, M2, s1, s2, n1, n2) {
@@ -275,17 +358,33 @@ The effect size of our test for comparing points per match played between teams 
 
 ::: {.callout-note title="Exercise 2: Type II Errors"}
 
-a. What are some potential consequences of making a Type II error in the context of the new training facilities?
+a. Which of the following could be a potential consequences of making a Type II error in the context of the new training facilities?
 
-b. Would a Type II error in this context have greater consequences for the team's finances or the team's performance?
+```{r, echo=FALSE}
+e2_q1 <- sample(c(
+  answer = "Teams may not invest in new training facilities that could help them win more games",
+  "Teams may invest millions in new training facilities that don't actually help them win more games"))
+```
 
-Power can sometimes be hard to come by with small samples in hypothesis testing. For example, using the points per match played in 2023 for teams with new training facilities and teams without new training facilities we have 17 teams with new training facilities and 12 teams without new training facilities. With these sample sizes, the samples' effect size, and an $\alpha = 0.5$, we have a power of 0.46269. 
+`r longmcq(e2_q1)`
 
-c. What is the probability of making a Type II error in this instance, given we fail to reject the null hypothesis?
+b. Would a Type II error in this context most likely have greater consequences for the team's finances or the team's performance?
 
-d. What is the probability of making a Type II error in this instance, given we reject the null hypothesis?
+`r fitb(c("performance"), ignore_case = TRUE)`
+
+Power can sometimes be hard to come by with small samples in hypothesis testing. For example, using the points per match played in 2023 for teams with new training facilities and teams without new training facilities we have 17 teams with new training facilities and 12 teams without new training facilities. With these sample sizes, the samples' effect size, and an $\alpha = 0.05$, we have a power of 0.46269. 
+c. What is the probability of making a Type II error in this instance, given we fail to reject the null hypothesis? (Round to the hundreths)
+
+`r fitb(c(".54", 0.54), ignore_case = TRUE)`
+
+d. What is the probability of making a Type II error in this instance, given we reject the null hypothesis? (Round to the hundreths)
+
+`r fitb(c(0), ignore_case = TRUE)`
 
 e. What could be done to increase the power of the test?
+
+`r fitb("increase sample|larger sample|alpha larger|alpha bigger|bigger alpha|bigger sample|more observations|increase alpha|increase significance level", regex = TRUE, ignore_case = TRUE)`
+
 
 ::: 
 
@@ -322,11 +421,29 @@ In the plot above it can be seen that we never have as much power as we would li
 
 ::: {.callout-note title="Exercise 3: Relationship between Type I and Type II Errors"}
 
-a. Does sample size affect the probability of making a Type I or Type II error?
+TRUE or FALSE 
 
-b. Does changing the significance level affect the probability of making a Type I or Type II error?
 
-c. If we perform a test at the 0.01 significance level and another test at the 0.05 significance level, which test is more likely to result in a Type I error? Which test is more likely to result in a Type II error?
+a. Sample size affects the probability of making a Type I error. `r torf(FALSE)`
+
+b. Sample size affects the probability of making a Type II error. `r torf(TRUE)`
+
+c. Changing the significance level affects the probability of making a Type I 
+error. `r torf(TRUE)`
+
+d. Changing the significance level affects the probability of making a Type II error. `r torf(TRUE)`
+
+e. For a test at the 0.05 significance level, increasing the sample size from 
+10 to 100 will decrease the probability of making a Type I error. `r torf(FALSE)`
+
+f. For a test at the 0.05 significance level, increasing the sample size from
+10 to 100 will decrease the probability of making a Type II error. `r torf(TRUE)`
+
+e. A hypothesis test at the 0.01 significance level is more likely to 
+result in a Type I error than a hypothesis test at the 0.05 significance level. `r torf(FALSE)`
+
+f. Given we hold sample size constant, a hypothesis test at the 0.01 significance level is more likely to
+result in a Type II error than a hypothesis test at the 0.05 significance level. `r torf(TRUE)`
 
 :::
 
@@ -356,9 +473,15 @@ Answer the following questions in the context of the new training facilities:
 
 a. Which type of error would be more likely to hurt/fail to help the performance of the team?
 
+`r mcq(c("Type I error", answer = "Type II error"))`
+
 b. Which type of error would be more costly financially?
 
+`r mcq(c(answer = "Type I error", "Type II error"))`
+
 c. Which type of error do you think is more serious in this context: Type I or Type II?
+
+`r fitb(".*", regex = TRUE, ignore_case = TRUE)`
 
 :::
 
@@ -385,11 +508,19 @@ Test NO. | Significance Level |  Power | Decision | Possible Error | Possible Er
 
 a. Which hypothesis test results in a decision that has the highest chance of being an error?
 
+`r mcq(c("Test 1", "Test 2", answer = "Test 3"))`
+
 b. Which hypothesis test has the greatest chance of producing a Type I error?
+
+`r mcq(c("Test 1", answer = "Test 2", "Test 3"))`
 
 c. Which hypothesis test has the greatest chance of making a Type II error?
 
+`r mcq(c("Test 1", "Test 2", answer = "Test 3"))`
+
 d. If you were advising a team owner on whether to invest in new training facilities, what would you recommend?
+
+`r fitb(".*", regex = TRUE, ignore_case = TRUE)`
 :::
 
 
@@ -405,5 +536,15 @@ In this lesson, we learned about Type I and Type II errors in hypothesis testing
 
 Image Source: <a href="https://commons.wikimedia.org/wiki/File:Starfire_Sports_Complex_-_stadium_field_01.jpg">Joe Mabel</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>, via Wikimedia Commons
 :::
+
+We saw that in our example of new training facilities that if we performed a hypothesis test with alpha = .05, we would conclude that teams with new training facilities have a higher points per match played than teams without new training facilities. This conclusion is based on the p-value of 0.03524, which is less than the significance level of 0.05. However we also learned that there is still a 5% chance that this conclusion is incorrect, and that teams with new training facilities don't actually perform better. If our decision in this case was incorrect, it could cost the team somewhere in the vicinity of $50 million for new facilities that don't actually help the team win more games.
+
+
+
+However, if we thought that risk were too high we might set our alpha = 0.01 from the beginning in order to lesson our Type I error rate. However this would switch our decision to fail to reject the null hypothesis, and we would conclude that there is no difference in points per match played between teams with new training facilities and teams without new training facilities. This conclusion is based on the p-value of 0.03524, which is greater than the significance level of 0.01. Our power is very weak in this case scenario though and there would be a 77.6% chance that we are making a Type II error. This means that there is a 77.6% chance that we incorrectly conclude that teams with new training facilities do not perform better than teams without new training facilities, when in fact they do, which could prevent the team from performing better on the field and generating more revenue.
+
+
+If you were to advise a team owner on whether to invest in new training facilities, you would need to carefully consider the consequences of each type of error before forming your hypothesis test design and making a recommendation. It would also be important to communicate the possibility that an error had occurred, particularly if the rate of error is high (such as 77.6%).
+
 
 Errors in hypothesis testing can have serious consequences, so it is important to carefully consider the significance level and power of the test when designing a hypothesis test. Increasing the sample size is the most effective way to make our hypothesis test more powerful. Just remember, when performing and interpreting hypothesis tests there is always a chance of making an error, and it is important to consider the consequences of each type of error before beginning.
