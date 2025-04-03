@@ -130,24 +130,6 @@ Let's take a quick look at the data that will be used for this module and calcul
 ::: column-margin
 **Fun Fact**: The top team in the MLS in 2023, FC Cincinnati, averaged 2.03 points per match. They opened a new training facility in 2019.
 
-<br>
-The graph below show the points per match played in 2023 for teams with new training facilities and teams without new training facilities.
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-training_facilities |> 
-  mutate(new = ifelse(new, "New", "Old")) |> 
-  group_by(new) |> 
-  summarize(mean = mean(points_per_match_2023)) |>
-  ggplot(aes(x = new, y = mean, fill = new)) +
-  geom_col() +
-  labs(title = "Points per Match Played by Training Facility Age (2023)",
-       x = "Training Facility Age",
-       y = "Points per Match Played") +
-  theme(legend.position = "none")
-```
-
-<br>
-
 :::
 
 Below are the 2023 points per match played for teams with new training facilities.
@@ -194,6 +176,21 @@ q2 <- sample(c(
 What is the mean of the points per match played for teams with old training facilities in 2023?
 
 `r mcq(q2)`
+
+The graph below show the points per match played in 2023 for teams with new training facilities and teams without new training facilities.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+training_facilities |> 
+  mutate(new = ifelse(new, "New", "Old")) |> 
+  group_by(new) |> 
+  summarize(mean = mean(points_per_match_2023)) |>
+  ggplot(aes(x = new, y = mean, fill = new)) +
+  geom_col() +
+  labs(title = "Points per Match Played by Training Facility Age (2023)",
+       x = "Training Facility Age",
+       y = "Points per Match Played") +
+  theme(legend.position = "none")
+```
 
 
 # Hypothesis Testing

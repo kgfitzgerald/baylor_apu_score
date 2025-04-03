@@ -549,24 +549,13 @@ Soccer Vocab
 
 <div class="no-row-height column-margin column-container"><div class="">
 <p><strong>Fun Fact</strong>: The top team in the MLS in 2023, FC Cincinnati, averaged 2.03 points per match. They opened a new training facility in 2019.</p>
-<p><br> The graph below show the points per match played in 2023 for teams with new training facilities and teams without new training facilities.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p><br></p>
 </div></div><p>Below are the 2023 points per match played for teams with new training facilities.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>1.5, 2.03, 1.18, 1, 1.53, 1.21, 1.62, 1.21, 1.85, 1.62, 1.47, 1.29, 1.41, 1.44, 1.15, 1.26, 1.65</code></pre>
 </div>
 </div>
-<p>What is the mean of the points per match played for teams with new training facilities in 2023? <select class="webex-select"><option value="blank"></option><option value="">24.42</option><option value="">2.04</option><option value="">1.36</option><option value="answer">1.44</option><option value="">1.5</option></select></p>
+<p>What is the mean of the points per match played for teams with new training facilities in 2023? <select class="webex-select"><option value="blank"></option><option value="">1.36</option><option value="">1.5</option><option value="">2.04</option><option value="">24.42</option><option value="answer">1.44</option></select></p>
 <p>The points per match played for teams with old training facilities in 2023 are shown below.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -574,7 +563,17 @@ Soccer Vocab
 </div>
 </div>
 <p>What is the mean of the points per match played for teams with old training facilities in 2023?</p>
-<p><select class="webex-select"><option value="blank"></option><option value="">.87</option><option value="">1.35</option><option value="answer">1.23</option><option value="">1</option><option value="">1.44</option></select></p>
+<p><select class="webex-select"><option value="blank"></option><option value="">1.35</option><option value="">.87</option><option value="">1.44</option><option value="">1</option><option value="answer">1.23</option></select></p>
+<p>The graph below show the points per match played in 2023 for teams with new training facilities and teams without new training facilities.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="hypothesis-testing" class="level1 page-columns page-full">
 <h1>Hypothesis Testing</h1>
@@ -596,8 +595,8 @@ Soccer Vocab
 <h4 class="anchored" data-anchor-id="setting-up-a-hypothesis-test">Setting up a Hypothesis Test</h4>
 <p>Let’s set up a hypothesis test to determine if a new training facility leads to better performance on the field. We will use points per match played as our measure of performance. The null hypothesis is that there is no difference in points per match played between teams with new training facilities and teams without new training facilities. The alternative hypothesis is that the teams with new training facilities have a higher points per match played than teams without new training facilities. Let <span class="math inline">\(\mu_{new}\)</span> be the population mean points per match played for teams with new training facilities and <span class="math inline">\(\mu_{old}\)</span> be the population mean points per match played for teams without new training facilities.</p>
 <p>Which of the following shows the correct null and alternative hypotheses for this test?</p>
-<div id="radio_USPBMTRCWM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_USPBMTRCWM" value=""> <span><span class="math inline">\(H_0: \mu_{new} = \mu_{old}\)</span>, <span class="math inline">\(H_a: \mu_{new} &lt; \mu_{old}\)</span></span></label><label><input type="radio" autocomplete="off" name="radio_USPBMTRCWM" value="answer"> <span><span class="math inline">\(H_0: \mu_{new} = \mu_{old}\)</span>, <span class="math inline">\(H_a: \mu_{new} &gt; \mu_{old}\)</span></span></label><label><input type="radio" autocomplete="off" name="radio_USPBMTRCWM" value=""> <span><span class="math inline">\(H_0: \mu_{new} &gt; \mu_{old}\)</span>, <span class="math inline">\(H_a: \mu_{new} = \mu_{old}\)</span></span></label><label><input type="radio" autocomplete="off" name="radio_USPBMTRCWM" value=""> <span><span class="math inline">\(H_0: \mu_{new} = \mu_{old}\)</span>, <span class="math inline">\(H_a: \mu_{new} \neq \mu_{old}\)</span></span></label>
+<div id="radio_RVUSJLOTXW" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_RVUSJLOTXW" value=""> <span><span class="math inline">\(H_0: \mu_{new} = \mu_{old}\)</span>, <span class="math inline">\(H_a: \mu_{new} \neq \mu_{old}\)</span></span></label><label><input type="radio" autocomplete="off" name="radio_RVUSJLOTXW" value=""> <span><span class="math inline">\(H_0: \mu_{new} &gt; \mu_{old}\)</span>, <span class="math inline">\(H_a: \mu_{new} = \mu_{old}\)</span></span></label><label><input type="radio" autocomplete="off" name="radio_RVUSJLOTXW" value=""> <span><span class="math inline">\(H_0: \mu_{new} = \mu_{old}\)</span>, <span class="math inline">\(H_a: \mu_{new} &lt; \mu_{old}\)</span></span></label><label><input type="radio" autocomplete="off" name="radio_RVUSJLOTXW" value="answer"> <span><span class="math inline">\(H_0: \mu_{new} = \mu_{old}\)</span>, <span class="math inline">\(H_a: \mu_{new} &gt; \mu_{old}\)</span></span></label>
 </div>
 </section>
 <section id="significane-level-and-decisions-in-hypothesis-testing" class="level4 page-columns page-full">
@@ -653,8 +652,8 @@ Exercise 1: Type I Errors
 <ol type="a">
 <li>Which of the following could be a potential consequences of making a Type I error in the context of the new training facilities?</li>
 </ol>
-<div id="radio_PCHBMEBMZO" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_PCHBMEBMZO" value=""> <span>Teams may not invest in new training facilities that could help them win more games</span></label><label><input type="radio" autocomplete="off" name="radio_PCHBMEBMZO" value="answer"> <span>Teams may invest millions in new training facilities that don't actually help them win more games</span></label>
+<div id="radio_QODIULFQHF" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_QODIULFQHF" value="answer"> <span>Teams may invest millions in new training facilities that don't actually help them win more games</span></label><label><input type="radio" autocomplete="off" name="radio_QODIULFQHF" value=""> <span>Teams may not invest in new training facilities that could help them win more games</span></label>
 </div>
 <ol start="2" type="a">
 <li>Would a Type I error in this context most likely have greater consequences for the team’s finances or the team’s performance?</li>
@@ -699,8 +698,8 @@ Exercise 2: Type II Errors
 <ol type="a">
 <li>Which of the following could be a potential consequences of making a Type II error in the context of the new training facilities?</li>
 </ol>
-<div id="radio_GPSTYBIETO" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_GPSTYBIETO" value="answer"> <span>Teams may not invest in new training facilities that could help them win more games</span></label><label><input type="radio" autocomplete="off" name="radio_GPSTYBIETO" value=""> <span>Teams may invest millions in new training facilities that don't actually help them win more games</span></label>
+<div id="radio_LJZXPTSOKA" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LJZXPTSOKA" value="answer"> <span>Teams may not invest in new training facilities that could help them win more games</span></label><label><input type="radio" autocomplete="off" name="radio_LJZXPTSOKA" value=""> <span>Teams may invest millions in new training facilities that don't actually help them win more games</span></label>
 </div>
 <ol start="2" type="a">
 <li>Would a Type II error in this context most likely have greater consequences for the team’s finances or the team’s performance?</li>
