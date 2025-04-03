@@ -375,6 +375,7 @@ b. Would a Type II error in this context most likely have greater consequences f
 `r fitb(c("performance"), ignore_case = TRUE)`
 
 Power can sometimes be hard to come by with small samples in hypothesis testing. For example, using the points per match played in 2023 for teams with new training facilities and teams without new training facilities we have 17 teams with new training facilities and 12 teams without new training facilities. With these sample sizes, the samples' effect size, and an $\alpha = 0.05$, we have a power of 0.46269. 
+
 c. What is the probability of making a Type II error in this instance, given we fail to reject the null hypothesis? (Round to the hundreths)
 
 `r fitb(c(".54", 0.54), ignore_case = TRUE)`
@@ -385,7 +386,7 @@ d. What is the probability of making a Type II error in this instance, given we 
 
 e. What could be done to increase the power of the test?
 
-`r fitb("increase sample|larger sample|alpha larger|alpha bigger|bigger alpha|bigger sample|more observations|increase alpha|increase significance level", regex = TRUE, ignore_case = TRUE)`
+`r fitb("increase sample|larger sample|alpha larger|alpha bigger|bigger alpha|bigger sample|more observations|increase alpha|increase significance level", regex = TRUE, ignore_case = TRUE, width = 20)`
 
 
 ::: 
@@ -483,7 +484,7 @@ b. Which type of error would be more costly financially?
 
 c. Which type of error do you think is more serious in this context: Type I or Type II?
 
-`r fitb(".*", regex = TRUE, ignore_case = TRUE)`
+`r fitb(".*", regex = TRUE, ignore_case = TRUE, width = 10)`
 
 :::
 
@@ -522,7 +523,7 @@ c. Which hypothesis test has the greatest chance of making a Type II error?
 
 d. If you were advising a team owner on whether to invest in new training facilities, what would you recommend?
 
-`r fitb(".*", regex = TRUE, ignore_case = TRUE)`
+`r fitb(".*", regex = TRUE, ignore_case = TRUE, width = 40)`
 :::
 
 
