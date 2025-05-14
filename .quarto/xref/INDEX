@@ -10,5 +10,14 @@
   },
   "tennis/tennis_sampsize/index.qmd": {
     "index.html": "2f170cf2"
+  },
+  "soccer/mls_decision_errors/index.qmd": {
+    "index.html": "b48cd70f"
+  },
+  "by-statsds-topic.qmd": {
+    "by-statsds-topic.html": "faa76895"
+  },
+  "mma/MMA_IRR/index.qmd": {
+    "index.html": "b1fbb641"
   }
 }
