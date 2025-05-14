@@ -107,7 +107,7 @@ Ratings, attendance, and revenue have all increased dramatically over the last d
 Image Source: <a href="https://commons.wikimedia.org/wiki/File:St._Louis_City_SC_logo.png">IagoQnsi</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons
 :::
 
-::: {.callout-important title="Soccer Vocab"}
+::: {.callout-important title="Soccer Vocabulary"}
 
 Let's knock out some soccer terminology before we head into hypothesis testing and decision errors.
 
@@ -237,7 +237,7 @@ Which of the following shows the correct null and alternative hypotheses for thi
 `r longmcq(q3)`
 
 
-#### Significane Level and Decisions in Hypothesis Testing
+#### Significance Level and Decisions in Hypothesis Testing
 In hypothesis testing, we make a decision to either reject the null hypothesis or fail to reject the null hypothesis. We make this decision based on the sample data and the **significance level**. The **significance level** is the probability of making a Type I error, which we will expand on soon. The significance level is denoted by **$\alpha$**. We often use the probability of observing the sample data given that the null hypothesis is true, called the **p-value**, to make our decision. If the **p-value** is less than the significance level, we reject the null hypothesis. If the **p-value** is greater than the significance level, we fail to reject the null hypothesis.
 
 ::: column-margin
