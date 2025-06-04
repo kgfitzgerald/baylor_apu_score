@@ -1,0 +1,303 @@
+---
+title: "American Ninja Warrior - Kaplan-Meier Survival Analyis"
+author: "INSTRUCTOR KEY"
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: tango
+editor_options:
+  chunk_output_type: console
+# embed-resources: true
+---
+
+# Getting Started: American Ninja Warrior Survival Analysis
+
+```{r, warning = FALSE, message = FALSE}
+# Load packages
+library(tidyverse)
+library(survival)
+library(survminer)
+
+# Load Data
+ninja <- read_csv("anw_2021_stage1.csv")
+```
+
+## Exercise 1: Data Structure
+
+a.  There are 69 observations in the data set (each representing a run of the course for a single competitor)
+
+b.  There are 5 variables: competitor name, sex, the obstacle name (this represents the last obstacle they reached in the run), the obstacle number, and the cause (why they did not move to further obstacles, could be either "Complete", "Fall", or "Time")
+
+c.  The "time" variable here is the obstacle number.
+
+## Point of Confusion: Second Run
+
+Run the code below to remove the second run for Joe Moravsky from the data. If they students don't do this they will get incorrect values later.
+```{r}
+ninja <- ninja |> 
+  filter(name != "Joe Moravsky (Safety Pass)")
+```
+
+# Kaplan-Meier Survival Analysis
+
+## Exercise 2: Fake Data Table Completion
+
+Calculating and filling in the NA values for obstacles 3 - 5 in the fake data summary table produces:
+
+```{r}
+fake_complete <- tibble(
+  obstacle_number = c(1:5),
+  fails = c(4,3,7,2,3),
+  censored = c(0,4,0,0,2),
+  at_risk = c(25,21,14,14-7,7-2),
+  p_surv_cond = c(0.84,0.857,7/14,5/7,2/5),
+  p_surv_km = c(0.84,0.72,0.5*0.72,0.714*0.36,0.4*0.257)
+)
+fake_complete
+```
+
+```{r}
+# Makes a column called censor that is 1 if the competitor failed and 0 if they completed the course or ran out of time
+ninja <- ninja |> 
+  mutate(censor = if_else(cause %in%  c("Complete", "Time"), 0, 1))
+```
+
+## Exercise 3: Manual Kaplan-Meier Calculation
+
+#### Part 1: Number of Events
+
+```{r}
+ninja_summary <- ninja |> 
+  group_by(obstacle = obstacle_number) |>
+  summarize(fails = sum(cause == "Fall"),
+            censor = sum(cause %in% c("Complete", "Time")))
+```
+
+a.  The most failures occurred at obstacle 4; 10 competitors failed that obstacle.
+
+b.  The obstacle with the most censored competitors (other than the last obstacle, which is completion) was obstacle 8; three ran out of time before being able to complete or fall on obstacle 9.
+
+#### Part 2: At Risk Competitors
+
+```{r}
+ninja_summary <- ninja_summary |> 
+  mutate(attempts = 68 - lag(cumsum(fails), default = 0) - lag(cumsum(censor), default = 0))
+```
+
+a.  All 68 were at risk at the first obstacle
+
+b.  Censored competitors do not attempt subsequent obstacles (at least fully) so need to be subtracted from the total for the next obstacle.
+
+#### Part 3: Conditional Fail Probabilities
+
+a.  
+
+```{r}
+ninja_summary <- ninja_summary |> 
+  mutate(fail_prob = fails / attempts)
+```
+
+b.  97.1 (100 minus 2.9) percent survived the first obstacle (66 out of 68)
+
+c.  Failed obstacle 5: 5/44 = 0.114, so 11.4%
+
+d.  Highest conditional fail probability was obstacle 4 at 18.5%
+
+e.  Obstacle 7 had a very slightly higher fail probability than Obstacle 2 (0.0789 vs 0.0757).
+
+#### Part 4: Kaplan-Meier
+
+```{r}
+ninja_summary <- ninja_summary |> 
+  mutate(km = cumprod(1 - fail_prob))
+```
+
+a.  Probability of surviving beyond first obstacle: 0.971
+
+b.  Probability of surviving beyond five obstacles: 0.574
+
+c.  Furthest obstacle with more than 0.5 probability of surviving is obstacle 7 (0.528). The estimated probability of surviving beyond obstacle 8 is below 0.5 at 0.451.
+
+#### Part 5: Plotting the Kaplan-Meier Estimate
+
+```{r}
+ggplot(ninja_summary, aes(x = obstacle, y = km)) +
+  geom_step() +
+  geom_point() +
+  labs(title = "Ninja Warrior Estimated KM Survival Plot",
+       x = "Obstacle Number",
+       y = "S(t) Estimate")
+```
+
+a.  Plot produced using the code above.
+
+b.  We see the greatest decrease in survival probability at obstacle 4. There are obstacles with no failures (6,9) where the curve stays at the same value.
+
+c.  The curve never reaches 0, lowest value around 0.45 (we know the exact value is 0.451) since there are competitors censored on the last obstacle (i.e. they complete the course, and have not failed an obstacle yet).
+
+# R for Kaplan-Meier
+
+```{r}
+ninja_km <- survfit(Surv(obstacle_number, censor) ~ 1, data = ninja)
+summary(ninja_km)
+```
+
+## Exercise 4: Kaplan-Meier Estimates and Interpretation
+
+a.  The survival probabilities from the R command match what we computed previously.
+
+b.  The first CI which includes 0.5 is at obstacle 5: (0.467, 0.704)
+
+c.  The standard error of the KM survival probability estimate increases as time (obstacle number) increases. This makes sense; there are fewer samples (number at risk) at each subsequent obstacles leading to less certainty about estimates.
+
+## Exercise 5: Interprating Quantiles
+
+```{r}
+
+quantile(ninja_km)
+```
+
+a.  Obstacle (time) 3 is the first CI including 0.75 (0.708, 0.898) and obstacle 5 the first that does not (0.474, 0.709). Thus, the CI produce for the 25th quantile (meaning 75 percent still survive) is 3, 5.
+
+b.  The 75th percentile estimate and CI is NA because the curve never reaches 0.25. We don't know how many obstacles it would take to reach this value.
+
+c.  Obstacle 5 is the first time when we have a CI including 0.5.
+
+## Plotting Kaplan-Meier with R
+
+```{r}
+ggsurvplot(ninja_km,
+           conf.int = TRUE)
+```
+
+# Kaplan-Meier Estimator by Groups
+
+```{r}
+ninja_km_gender <- survfit(Surv(obstacle_number, 
+                                censor)~ sex, data = ninja)
+```
+
+```{r}
+ggsurvplot(ninja_km_gender,
+           conf.int = TRUE)
+```
+
+## Exercise 6: Kaplan-Meier Estimates by Group
+
+a.  Males have higher survival probabilities for all but possibly the first obstacle.
+
+b.  The CI for females is wider (shaded area greater)
+
+c.  There are fewer female competitors so we have less precision for their estimated probabilities.
+
+## Exercise 7: Comparing Survival Vs. Expected Survival
+
+```{r}
+ninja_km_diff <- survdiff(Surv(obstacle_number,
+                               censor) ~ sex, data = ninja)
+ninja_km_diff
+```
+
+a.  12 females competed. 10 fell. 4 were expected to fall.
+
+b.  Less. The expected number of male falls was 32.89 but only 27 fell.
+
+c.  Log-rank test p = 0.001. We have evidence of a difference in survival experience based on sex (females fall more than expected, males less, if there were not a sex effect).
+
+## Exercise 8: Log Rank Tests
+
+```{r}
+surv_pvalue(ninja_km_gender) #log rank
+surv_pvalue(ninja_km_gender, method = "n") #Gehan Breslow (generalized Wilcoxon)
+surv_pvalue(ninja_km_gender, method = "TW") #Tarone-Ware
+surv_pvalue(ninja_km_gender, method = "PP") #Peto-Prentice
+surv_pvalue(ninja_km_gender, method = "FH") #Fleming-Harrington
+```
+
+a.  All tests have p-values less than 0.05 so the conclusions would remain unchanged using this cutoff value.
+
+b.  Smallest p-value: Peto-Prentice (7e-04)
+
+c.  Largest p-value: Fleming-Harrington (0.03)
+
+d.  More significant early (Peto-Prentice and Wilcoxon weight these points more and had the smallest p-values). Note that the graph starts to separate more early and then that separation remains somewhat constant. Also, the sample sizes get much smaller at the later points so when those are weighted more we have less ability to detect differences (wider CI)
+
+# More Practice
+
+## Challenge 1: Cleaning Data
+
+a.  Code to load data and removed 2nd run (RJ Roman):
+
+    ```{r}
+    # Load Data
+    ninja23 <- read_csv("anw_2023_stage1.csv")
+    ninja23 <- ninja23 |>
+      filter(name != "RJ Roman 2nd run")
+    ```
+
+b.  A second run allows the ninja to practice the obstacles and thus this is not an independent observation as with the others
+
+c.  Code to add a 0-1 censor variable:
+
+```{r}
+ninja23 <- ninja23 |> 
+  mutate(censor = if_else(cause %in%  c("Complete", "Time"), 0, 1))
+
+```
+
+## Challenge 2: Fitting KM
+
+a.  Code to produce KM estimates:
+
+    ```{r}
+    ninja23_km <- survfit(Surv(obstacle_number, censor) ~ 1, data = ninja23)
+    summary(ninja23_km)
+    ```
+
+b.  50 were still at risk at obstacle 5
+
+c.  Estimated probability of surviving past obstacle 7 is 0.476
+
+    ```{r}
+    quantile(ninja23_km)
+    ```
+
+d.  Estimated median obstacles survived is 7 (code above)
+
+## Challenge 3: Comparing Groups
+
+a.  Code to obtain the survival estimates by group and get differences:
+
+    ```{r}
+    ninja23_km_gender <- survfit(Surv(obstacle_number, 
+                                    censor)~ sex, data = ninja23)
+
+    ninja23_km_diff <- survdiff(Surv(obstacle_number,
+                                   censor) ~ sex, data = ninja23)
+    ```
+
+b.  The test statistic value of the log-rank test is 18.4 (code below)
+
+    ```{r}
+    ninja23_km_diff
+    ```
+
+c.  Based on the log-rank test (p \< 0.0001) we have evidence of a difference in survival experience based on sex of competitors.
+
+d.  Plot by groups code:
+
+```{r}
+ggsurvplot(ninja23_km_gender,
+           conf.int = TRUE)
+```
+
+e\. In the plot it appears that the probability of males surviving past obstacle 8 is higher (or about the same) as the probability for females surviving beyond obstacle 4. Both are around 0.35. We can look at the summary to get the actual estimates (code below). 0.375 for females beyond obstacle 4 is barely higher than 0.342 (but about the same) for males beyond obstacle 8.
+
+```{r}
+summary(ninja23_km_gender)
+```
+
+f\. From the graph it appears that at obstacle 4 the confidence intervals for the two groups overlap (we see a gray area which is how this overlap is depicted, rather than white). The summary above confirms that the upper CI value for females is 0.706 and the lower value for males 0.67 so they overlap. We lack evidence that the true probabilities differ at obstacle 4.

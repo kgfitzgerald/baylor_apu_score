@@ -36,13 +36,17 @@ c.  YOUR ANSWER HERE
 
 # Kaplan-Meier Survival Analysis
 
+## Exercise 2: Fake Data Table Completion
+
+YOUR ANSWER HERE
+
 ```{r}
 # Makes a column called censor that is 1 if the competitor failed and 0 if they completed the course or ran out of time
 ninja <- ninja |> 
   mutate(censor = if_else(cause %in%  c("Complete", "Time"), 0, 1))
 ```
 
-## Exercise 2: Manual Kaplan-Meier Calculation
+## Exercise 3: Manual Kaplan-Meier Calculation
 
 #### Part 1: Number of Events
 
@@ -112,7 +116,7 @@ c.  YOUR ANSWER HERE
 ninja_km <- survfit(Surv(obstacle_number, censor) ~ 1, data = ninja)
 ```
 
-## Exercise 3: Kaplan-Meier Estimates and Interpretation
+## Exercise 4: Kaplan-Meier Estimates and Interpretation
 
 a.  YOUR ANSWER HERE
 
@@ -120,7 +124,7 @@ b.  YOUR ANSWER HERE
 
 c.  YOUR ANSWER HERE
 
-## Exercise 4: Interprating Quantiles
+## Exercise 5: Interprating Quantiles
 
 a.  YOUR ANSWER HERE
 
@@ -147,7 +151,7 @@ ggsurvplot(ninja_km_gender,
            conf.int = TRUE)
 ```
 
-## Exercise 5: Kaplan-Meier Estimates by Group
+## Exercise 6: Kaplan-Meier Estimates by Group
 
 a.  YOUR ANSWER HERE
 
@@ -155,7 +159,7 @@ b.  YOUR ANSWER HERE
 
 c.  YOUR ANSWER HERE
 
-## Exercise 6: Comparing Survival Vs. Expected Survival
+## Exercise 7: Comparing Survival Vs. Expected Survival
 
 ```{r}
 ninja_km_diff <- survdiff(Surv(obstacle_number,
@@ -169,11 +173,17 @@ b.  YOUR ANSWER HERE
 
 c.  YOUR ANSWER HERE
 
-## Exercise 7: Log Rank Tests
+## Exercise 8: Log Rank Tests
 
 a.  YOUR ANSWER HERE
 
 b.  YOUR ANSWER HERE
+
+c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+# 
 
 # More Practice
 
