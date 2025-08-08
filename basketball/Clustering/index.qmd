@@ -1,0 +1,1708 @@
+---
+title: "K-Means Clustering with NBA Data"
+author: "Caleb Skinner, Tony Munoz, Michael P.B. Gallaugher, Rodney X. Sturdivant"
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: tango
+editor: visual
+editor_options:
+  chunk_output_type: console
+---
+
+# Overview
+
+Cluster analysis is a statistical analysis tool that partitions observations into sub-populations of similar characteristics within the data set. This process can be useful, because similar observations often behave and respond to stimuli in similar ways. Identifying clusters can allow researchers to predict and draw conclusions on the behavior of certain groups. There are many popular topics that use cluster analysis: risk analysis, marketing, real estate, insurance, medical research, and earthquakes.
+
+In this module, we'll use the clustering of NBA players as an example. Suppose you were an NBA General Manager interested in constructing a high-quality team. The best teams use lots of different kinds of players to achieve their goals. Golden State Warriors Guard Stephen Curry is an incredible shooter and ball-handler, but the Warriors need other kinds of players, too. A team comprised completely of Stephen Curry and his clones would struggle to defend or rebound the ball. The team would also struggle to give each Stephen Curry the playing time and shots that he has come to expect. Instead, General Managers can separate potential players into groups, because it helps them to identify their team needs. This is where cluster analysis proves useful.
+
+For this exercise, imagine that you are the General Manager of the Dallas Mavericks. You are tasked with creating a strong, balanced team. Later in the module, you will have an opportunity to create hypothetical trade scenarios that could benefit the team.
+
+# Getting Started
+
+## Required Packages
+
+We will be using the following packages in this module. Take the time now to make sure these packages are installed and loaded on your computer.
+
+```{r, message = FALSE}
+library("parameters")
+library("factoextra")
+library("NbClust")
+library("cluster")
+library("formatR")
+library("tidyverse"); theme_set(theme_minimal())
+library("ClusterR")
+library("mclust")
+library("easystats")
+library("here")
+library("knitr")
+library("kableExtra")
+library("condformat")
+library("formattable")
+library("reactablefmtr")
+library("scales")
+library("plotly")
+library("flextable")
+```
+
+## The Data
+
+Our data for this exercise comes from the 2021-2022 NBA Season. This season, the Mavericks finished 4th in the Western Conference with 52 wins and 30 losses under coach Jason Kidd. They exceeded expectations and made the Western Conference Finals.
+
+```{r, message=F,echo=FALSE}
+# loads in large dataset of nbaData
+nbaData_full <- read_csv("NBA_player_data_21_22.csv")
+
+# renaming column names
+nbaData_full <- nbaData_full %>%
+  rename(POS = Position)
+
+# changing percentages into decimals because it annoys me. Also changing the column names to remove %
+nbaData_full <- nbaData_full %>%
+  mutate(
+    FGP = `FG%` / 100,
+    `3PP` = `3P%` / 100,
+    `2PP` = `2P%` / 100,
+    `FTP` = `FT%` / 100
+  ) %>% select(-`FG%`, -`3P%`, -`2P%`, -`FT%`)
+
+nbaData <- nbaData_full %>%
+  filter(MIN > 12, GP > 25)
+
+# loading in players dataset that has age, height, and weight. Age is as of September 8, 2021
+players <- read_csv("players.csv")
+players <- players %>%
+  select(Name, Age, Height_i, Height, Weight)
+
+# Editing the names so the two datasets match
+players <- players %>%
+  mutate(Name = recode(Name,
+                       "Nicolas Claxton" = "Nic Claxton",
+                       "Cameron Thomas" = "Cam Thomas",
+                       "Domantas Saboni" = "Domantas Sabonis",
+                       "Greg Brown" = "Greg Brown III")) %>%
+  # add missing players from NBA.com website
+  add_row(
+    Name = "Bones Hyland", Age = 20, Height_i = 6.20, Height = "6' 2\"", Weight = 169) %>%
+  add_row(
+    Name = "DeAndre Jordan", Age = 33, Height_i = 6.11, Height = "6' 11\"", Weight = 265) %>%
+  add_row(
+    Name = "Duane Washington Jr.", Age = 21, Height_i = 6.20, Height = "6' 2\"", Weight = 197) %>%
+  add_row(
+    Name = "Terry Taylor", Age = 21, Height_i = 6.40, Height = "6' 4\"", Weight = 230) %>%
+  add_row(
+    Name = "Lance Stephenson", Age = 31, Height_i = 6.60, Height = "6' 6\"", Weight = 230) %>%
+  add_row(
+    Name = "Keifer Sykes", Age = 27, Height_i = 5.11, Height = "5' 11\"", Weight = 167) %>%
+  add_row(
+    Name = "Isaiah Hartenstein", Age = 23, Height_i = 7.00, Height = "7'", Weight = 250) %>%
+  add_row(
+    Name = "Austin Reaves", Age = 23, Height_i = 6.50, Height = "6' 5\"", Weight = 197) %>%
+  add_row(
+    Name = "Jose Alvarado", Age = 23, Height_i = 6.00, Height = "6'", Weight = 179) %>%
+  add_row(
+    Name = "Davon Reed", Age = 26, Height_i = 6.50, Height = "6' 5\"", Weight = 206) %>%
+  add_row(
+    Name = "Brandon Boston Jr.", Age = 19, Height_i = 6.60, Height = "6' 6\"", Weight = 188) %>%
+  add_row(
+    Name = "Admiral Schofield", Age = 24, Height_i = 6.50, Height = "6' 5\"", Weight = 241)
+
+# convert height into inches
+players <- players %>%
+  mutate(
+    Feet = (Height_i %/% 1)*12,
+    Segway = (Height_i * 10) %% 1,
+    Inches = if_else(Height == "6' 10\"", 10, if_else(Height == "5' 10\"", 10, if_else(Segway != 0, 11, (Height_i %% 1) * 10))),
+    Height = Feet + Inches
+  ) %>% select(-Feet, -Segway, -Inches, -Height_i)
+
+# joining the two datasets together
+nba <- nbaData %>%
+  left_join(players, by = "Name")
+
+# standardizing some values per minute like points, rebounds, assists, etc.
+perMin <- function(x) (x / nba$MIN)
+
+nba <- nba %>% mutate(across(where(is.numeric), \(x)
+                                    perMin(x), .names = "{col}PerMin"))
+
+nba <- nba %>% select(-GPPerMin, -GSPerMin, -MINPerMin, -`AST/TOPerMin`, -PERPerMin, -FGPPerMin, -`3PPPerMin`, -FTPPerMin,
+                 -`2PPPerMin`, -`SC-EFFPerMin`, -`SH-EFFPerMin`, -AgePerMin, -WeightPerMin, -HeightPerMin)
+
+# removing REB, because OR and DR are already within dataset
+nba <- nba %>% select(-REB)
+
+# adding a 1 to duplicated names
+nba <- nba %>%
+  mutate(
+    Duplicate = if_else(duplicated(Name), 1, 0),
+    Name = if_else(Duplicate == 1, str_c(Name, "1"), Name)) %>%
+  select(-Duplicate)
+
+# creating the usage dataset
+usage <- nba %>%
+  select(Name, POS, Team, GP, GS, MIN, PTS, AST, TO, STL, OR, DR, BLK, PF, FGM, FGA, `3PM`, `3PA`, FTM, FTA, PER, `SC-EFF`, `SH-EFF`)
+
+# creating the role dataset
+role <- nba %>%
+  select(Name, POS, Team, Height, Weight, PTSPerMin, ASTPerMin, TOPerMin, STLPerMin, ORPerMin, DRPerMin, BLKPerMin, PFPerMin, FGP, FGMPerMin, FGAPerMin, `3PP`, `3PMPerMin`, `3PAPerMin`, FTP, FTMPerMin, FTAPerMin) %>%
+  mutate(across(where(is.numeric), \(x) round(x, digits = 3)))
+
+
+```
+
+Our data includes 374 players. Each of these 374 players fulfilled our requirements of appearing in at least 25 games and playing an average of at least 12 minutes (a complete game is 48) in those games. Because of midseason trades or acquisitions, some of the players will appear in our data twice. That's because they fulfilled our playing time requirements for two different teams in the same season. The second iteration of the player will be marked with a 1 following his name (i.e. Smith becomes Smith1). We've divided the variables into two data sets.
+
+The first set of variables are focused on determining the influence a player has on the game. Some of these variables are the players' minutes per game, total games played and started, points and rebounds per game, and field goal attempts per game. This will be helpful in clustering the players into groups of stars, average starters, and reserves. We've termed this data set "usage". Below is a data dictionary for the first set of variables.
+
+```{r,echo=FALSE}
+set_flextable_defaults(
+  font.size = 10,
+  theme_fun = theme_zebra,
+  padding = 6,
+  background.color = "#EFEFEF",
+  fonts_ignore = TRUE)
+
+usage_col <- tibble(Variable = colnames(usage),
+                    Explanation = c(
+                      "nba player's first and last name",
+                      "playing position",
+                      "abbreviation of city of player's team",
+                      "total games played",
+                      "total games started",
+                      "minutes per game",
+                      "points per game",
+                      "assists per game",
+                      "turnovers per game",
+                      "steals per game",
+                      "offensive rebounds per game",
+                      "defensive rebounds per game",
+                      "blocks per game",
+                      "personal fouls per game",
+                      "field goals made per game",
+                      "field goals attempted per game",
+                      "3-point field goals¬ made per game",
+                      "3-point field goals attempted per game",
+                      "free throws made per game",
+                      "free throws attempted per game",
+                      "player efficiency rating metric",
+                      "scoring efficiency",
+                      "shooting efficiency"),
+                    Example = c(
+                      "Trae Young or Trae Young1",
+                      "PG (point guard), SG (shooting guard), SF (small forward), PF (power forward), C (center)",
+                      "atl (Atlanta), bos (Boston), etc.",
+                      str_c(quantile(usage$GP, .25), ", ", quantile(usage$GP, .75), ", etc."),
+                      str_c(quantile(usage$GS, .25), ", ", quantile(usage$GS, .75), ", etc."),
+                      str_c(round(quantile(usage$MIN, .25) + .2,1), ", ", quantile(usage$MIN, .75), ", etc."),
+                      str_c(round(quantile(usage$PTS, .25),1), ", ", round(quantile(usage$PTS, .75),1), ", etc."),
+                      str_c(quantile(usage$AST, .25), ", ", round(quantile(usage$AST, .75),1), ", etc."),
+                      str_c(quantile(usage$TO, .25), ", ", quantile(usage$TO, .75), ", etc."),
+                      str_c(quantile(usage$STL, .25), ", ", round(quantile(usage$STL, .75)+.1, 1), ", etc."),
+                      str_c(quantile(usage$OR, .25), ", ", quantile(usage$OR, .75), ", etc."),
+                      str_c(quantile(usage$DR, .25), ", ", quantile(usage$DR, .75), ", etc."),
+                      str_c(quantile(usage$BLK, .25), ", ", quantile(usage$BLK, .75), ", etc."),
+                      str_c(quantile(usage$PF, .25), ", ", quantile(usage$PF, .75), ", etc."),
+                      str_c(quantile(usage$FGM, .25), ", ", quantile(usage$FGM, .75), ", etc."),
+                      str_c(round(quantile(usage$FGA, .25), 1), ", ", round(quantile(usage$FGA, .75) + .2,1), ", etc."),
+                      str_c(quantile(usage$`3PM`, .25), ", ", quantile(usage$`3PM`, .75), ", etc."),
+                      str_c(quantile(usage$`3PA`, .25), ", ", round(quantile(usage$`3PA`, .75),1), ", etc."),
+                      str_c(quantile(usage$FTM, .25), ", ", quantile(usage$FTM, .75), ", etc."),
+                      str_c(quantile(usage$FTA, .25), ", ", quantile(usage$FTA, .75), ", etc."),
+                      str_c(round(quantile(usage$PER, .25),2), ", ", round(quantile(usage$PER, .75),2), ", etc."),
+                      str_c(round(quantile(usage$`SC-EFF`, .25),3), ", ", round(quantile(usage$`SC-EFF`, .75),3), ", etc."),
+                      str_c(round(quantile(usage$`SH-EFF`, .25) - .02,2), ", ", round(quantile(usage$`SH-EFF`, .75),2), ", etc.")))
+
+flextable(usage_col) %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = .9) %>% 
+  width(j = 2, width = 2.3) %>%
+  width(j = 3, width = 3.5)
+```
+
+And here is a small slice of the usage data set.
+
+```{r,echo=FALSE}
+# in isle show full data
+slice_usage <- usage %>% slice(1:5)# %>% select(Name:FGM)
+
+slice_usage %>% flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(2:15), width = .5)
+
+```
+
+The second set of variables are helpful in determining a player's role or function in the game. Some of these variables are Field Goal Percentage, Height, and Weight. Lots of the common variables have been converted into per minute values in order to isolate their frequency. These players will be divided into sub-groups like scorers, big men, and wings. We've termed this data set "role". Below is a data dictionary for the second set of variables.
+
+```{r,echo=FALSE}
+role_col <- tibble(Variable = colnames(role),
+                   Explanation = c(
+                     "nba player's first and last name",
+                     "playing position",
+                     "abbreviation of city of player's team",
+                     "height in inches",
+                     "weight in pounds",
+                     "points per minute",
+                     "assists per minute",
+                     "turnovers per minute",
+                     "steals per minute",
+                     "offensive rebounds per minute",
+                     "defensive rebounds per minute",
+                     "blocks per minute",
+                     "fouls per minute",
+                     "field goal percentage",
+                     "field goals made per minute",
+                     "field goals attempted per minute",
+                     "3 point percentage",
+                     "3 point field goals made per minute",
+                     "3 point field goals attempted per minute",
+                     "free throw percentage",
+                     "free throws made per minute",
+                     "free throws attempted per minute"),
+                   Example = c(
+                     "Trae Young or Trae Young1",
+                     "PG (point guard), SG (shooting guard), SF (small forward), PF (power forward), C (center)",
+                     "atl (Atlanta), bos (Boston), etc.",
+                     str_c(quantile(role$Height, .25), ", ", quantile(role$Height, .75), ", etc."),
+                     str_c(quantile(role$Weight, .25), ", ", round(quantile(role$Weight, .75),0), ", etc."),
+                     str_c(round(quantile(role$PTSPerMin, .25),3), ", ", round(quantile(role$PTSPerMin, .75),3), ", etc."),
+                     str_c(round(quantile(role$ASTPerMin, .25),3), ", ", round(quantile(role$ASTPerMin, .75),3), ", etc."),
+                     str_c(round(quantile(role$TOPerMin, .25),3), ", ", round(quantile(role$TOPerMin, .75),3), ", etc."),
+                     str_c(round(quantile(role$STLPerMin, .25),3), ", ", round(quantile(role$STLPerMin, .75),3), ", etc."),
+                     str_c(round(quantile(role$ORPerMin, .25)+.003,3), ", ", round(quantile(role$ORPerMin, .75)+.006,3), ", etc."),
+                     str_c(round(quantile(role$DRPerMin, .25),3), ", ", round(quantile(role$DRPerMin, .75),3), ", etc."),
+                     str_c(round(quantile(role$BLKPerMin, .25),3), ", ", round(quantile(role$BLKPerMin, .75),3), ", etc."),
+                     str_c(round(quantile(role$PFPerMin, .25),3), ", ", round(quantile(role$PFPerMin, .75),3), ", etc."),
+                     str_c(quantile(role$FGP, .25), ", ", round(quantile(role$FGP, .75),3), ", etc."),
+                     str_c(round(quantile(role$FGMPerMin, .25),3), ", ", round(quantile(role$FGMPerMin, .75),3), ", etc."),
+                     str_c(round(quantile(role$FGAPerMin, .25),3), ", ", round(quantile(role$FGAPerMin, .75),3), ", etc."),
+                     str_c(quantile(role$`3PP`, .25), ", ", quantile(role$`3PP`, .75), ", etc."),
+                     str_c(round(quantile(role$`3PMPerMin`, .25),3), ", ", round(quantile(role$`3PMPerMin`, .75)+ .002,3), ", etc."),
+                     str_c(round(quantile(role$`3PAPerMin`, .25),3), ", ", round(quantile(role$`3PAPerMin`, .75),3), ", etc."),
+                     str_c(round(quantile(role$FTP, .25),3), ", ", quantile(role$FTP, .75), ", etc."),
+                     str_c(round(quantile(role$FTMPerMin, .25),3), ", ", round(quantile(role$FTMPerMin, .75),3), ", etc."),
+                     str_c(round(quantile(role$FTAPerMin, .25),3), ", ", round(quantile(role$FTAPerMin, .75)+.002,3), ", etc.")))
+
+flextable(role_col) %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1) %>% 
+  width(j = 2, width = 2.3) %>%
+  width(j = 3, width = 3.4)
+
+```
+
+And here is a small slice of the role data set.
+
+```{r,echo=FALSE}
+# in isle show full data
+slice_role <- role %>% slice(1:5)# %>% select(Name:ORPerMin)
+
+slice_role %>% flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(2:5), width = .6) %>%
+  width(j = c(6:11), width = .95)
+
+```
+
+# Part 1: Idea of similarity/distance - Interactive
+
+Below is a set of ten Dallas Maverick Players from 2021-2022 that met our playing-time restrictions. Kristaps Porzingis was traded in the middle of the season, but he still met our playing-time qualifications for the Dallas Mavericks. For this example, we've combined a few of the variables from both the usage and role data sets. Consider the players Sterling Brown, Maxi Kleber, Dwight Powell, and Josh Green.
+
+```{r,echo=FALSE}
+# Dallas Mavericks
+dallas <- nba %>%
+  filter(Team == "dal")
+
+dallas_t <- dallas %>%
+  select(Name, Height, Weight, MIN, PTS, OR, DR, AST, STL, BLK, TO, `2PA`, `2PP`, `3PA`, `3PP`, `3PAPerMin`, ORPerMin) %>%
+  mutate(
+    `3PAPerMin` = round(`3PAPerMin`, digits = 3),
+    ORPerMin = round(ORPerMin, digits = 3))
+```
+
+```{r,echo=FALSE}
+dallas_t %>% flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(2:3), width = .6) %>%
+  width(j = c(4:15), width = .5)
+
+```
+
+## Exercise 1
+
+a.  For these four players, compare their available statistics.
+
+b.  Which of the four players are most similar kinds of players? Which variables make them similar?
+
+c.  Which variables do they most differ? Which of the four players are the most "different"? Which variables differentiate them the most? Are they similar in any of the categories?
+
+One common and effective way to compare the similarity of two points (or in this case, players) is the **euclidean distance formula**. The distance formula is found by the following formula:
+
+$d = \sqrt{(x_{2} - x_{1})^{2} + (y_{2} - y_{1})^{2}}$
+
+You can visualize this as drawing the shortest line possible between two points and then measuring it. Right now, our variables are in different units (inches, pounds, points, percentage, etc.), so we'll standardize (more on this later) each of the variables, so the units are equal. This helps each variable to have equal importance in our distance formula.
+
+Below is a table of the distances between each of the players. Match up the player in the column with the player in the row and you'll find the distance between them. The smaller the value, the more similar the players are.
+
+```{r,echo=FALSE}
+Stu_players <- c("Sterling Brown", "Maxi Kleber", "Dwight Powell", "Josh Green")
+Stu_picks0 <- dallas_t %>% filter(Name %in% Stu_players)
+Stu_picks <- dallas_t %>%
+  mutate(across(where(is.numeric), standardize)) %>%
+  filter(Name %in% Stu_players) %>%
+  column_to_rownames(var = "Name")
+Distance <- get_dist(Stu_picks, method = "euclidean", stand = FALSE)
+Distance
+```
+
+Below is a visualization of the distances. As the distances increase, the color changes from red to blue. Players matched with themselves will be dark red, because their distance is 0.
+
+```{r}
+fviz_dist(Distance, gradient = list(low = "indianred3",mid = "white", high = "dodgerblue3"))
+```
+
+## Exercise 2
+
+a.  Do the tabulated results agree with your previous assessment?
+
+b.  Which is more accurate: your original assessment or the similarity metric?
+
+# Part 2: Performing a Cluster Analysis
+
+Calculating the distance between points is the first step in a distance-based cluster analysis. The players with the smallest distance (or with the most similarity) between them are naturally placed in a cluster together.
+
+How does the clustering actually work? As an illustration, we'll use a basic plot of the Offensive Rebounds and 3-Point Shooting of our Dallas Mavericks players. We've standardized the results by adjusting them to per-minute values.
+
+```{r, message = FALSE,echo=FALSE}
+dallas %>% select(Name, `3PAPerMin`, `ORPerMin`) %>%
+  ggplot(aes(`3PAPerMin`, `ORPerMin`)) +
+  geom_text(aes(label = Name), color = "royalblue3", size = 3, vjust = -.6) +
+  geom_point(color = "royalblue3", size = .5) +
+  labs(x = "3 Point Attempts Per Minute",
+       y = "Offensive Rebounds Per Minute") +
+  scale_x_continuous(name = "3 Point Attempts Per Minute", limits = c(0.02, .26), breaks = seq(.05, .25, .05))
+
+# IDEA: Add SA players so there's slghtly more data.
+# role %>%
+#   filter(Team == "sa" | Team == "dal") %>%
+#   ggplot() +
+#   geom_point(aes(Height, Weight, color = Team))
+```
+
+## Exercise 3
+
+a.  What do you notice about the data? How would you group the players?
+
+b.  How would you describe these groupings?
+
+c.  In a cluster analysis, every point needs to belong to a cluster. Do any points not seem to have a cluster?
+
+Cluster analysis is the process of partitioning the data into sub-populations or clusters. This is done so that observations in the same cluster are more similar to each other than observations in a different group. These clusters then can be analyzed.
+
+One common method to divide the data into these clusters is distance based and uses the **K-Means Algorithm**. The k-means algorithm partitions the data into clusters which can then be analyzed. Furthermore, this is performed in an unsupervized fashion. This means that the clusters are found by the algorithm and not predetermined by the researcher. In the NBA example, we cannot determine our clusters beforehand. The algorithm may confirm our original intuition, but this is not guaranteed.
+
+The K-Means Algorithm assigns the data into clusters so that the sum squared distance between the center (or mean) of the clusters and each observation is minimized. At the end, the variance of the all the points within each cluster is as small as possible. One downside of the K-Means Algorithm is that users must predetermine the number of clusters they'd like to create. This is entered as the parameter, K. Let's say we want to separate our data into K = 2 clusters. The K-Means algorithm will go through four basic steps:
+
+1.  Randomly select two initial cluster centers.
+2.  Assign each observation to the closest center.
+3.  Calculate the mean of all the observations within each cluster. These cluster means become the new center of each cluster.
+4.  Repeat steps 2-3 until no further changes are made.
+
+As these steps are followed, the clusters will move closer and closer to their final positions. Since the first step is to randomly assign cluster centers, the K-Means approach can occasionally yield different results. It's worth trying it a few different times with different starting points.
+
+Before you look below, provide your estimation of the two clusters of our Dallas Mavericks players. Where would you anticipate the cluster centers to be located?
+
+The code below runs the k-means algorithm. In the kmeans function, the first argument is the data, the second is the number of clusters to be fit (i.e. $k$) and nstart is the number of random starting points to use for the algorithm.
+
+```{r}
+set.seed(321)
+dallasKMeans_prep <- dallas %>%
+  select(Name, `3PAPerMin`, ORPerMin) %>%
+  column_to_rownames(var = "Name")
+
+dallas2Means <- kmeans(dallasKMeans_prep, centers = 2, nstart = 50)
+
+```
+
+```{r,echo=FALSE}
+dallas2fviz <- fviz_cluster(dallas2Means, dallasKMeans_prep,
+                            show.clust.cent = TRUE, stand = FALSE,
+                            labelsize = 7, pointsize = 1,
+                            main = "Mavericks K = 2 Clusters",
+                            xlab = "3 Point Attempts Per Minute",
+                            ylab = "Offensive Rebounds Per Minute")
+
+dallas2fviz
+```
+
+## Exercise 4
+
+a.  Is this how you would have grouped the players?
+
+b.  Notice the large points in the middle of each cluster. These are the cluster centers. Are they where you expected?
+
+c.  How do you think the groupings will change with three clusters?
+
+How do you think the groupings will change with three clusters? We can easily tell K-Means to randomly assign three centers, and the process of assigning points to cluster means will continue exactly as before.
+
+```{r}
+set.seed(3)
+dallas3Means <- kmeans(dallasKMeans_prep, centers = 3, nstart = 50)
+
+dallas3fviz <- fviz_cluster(dallas3Means, dallasKMeans_prep,
+                            show.clust.cent = TRUE, stand = FALSE,
+                            labelsize = 7, pointsize = 1,
+                            main = "Mavericks K = 3 Clusters",
+                            xlab = "3 Point Attempts Per Minute",
+                            ylab = "Offensive Rebounds Per Minute")
+dallas3fviz
+```
+
+Or four clusters?
+
+```{r}
+set.seed(22329)
+dallas4Means <- kmeans(dallasKMeans_prep, centers = 4, nstart = 50)
+
+dallas4fviz <- fviz_cluster(dallas4Means, dallasKMeans_prep,
+                            show.clust.cent = TRUE, stand = FALSE,
+                            labelsize = 7, pointsize = 1,
+                            main = "Mavericks K = 4 Clusters",
+                            xlab = "3 Point Attempts Per Minute",
+                            ylab = "Offensive Rebounds Per Minute")
+dallas4fviz
+```
+
+## Exercise 5
+
+a.  What happens to Dwight Powell when we increase \$k\$ to 4?
+
+b.  Would Dwight be considered an outlier? Why? Is this helpful from a clustering perspective?
+
+Now consider five clusters.
+
+```{r}
+set.seed(102)
+dallas5Means <- kmeans(dallasKMeans_prep, centers = 5, nstart = 50)
+
+dallas5fviz <- fviz_cluster(dallas5Means, dallasKMeans_prep,
+                            show.clust.cent = TRUE, stand = FALSE,
+                            labelsize = 7, pointsize = 1,
+                            main = "Mavericks K = 5 Clusters",
+                            xlab = "3 Point Attempts Per Minute",
+                            ylab = "Offensive Rebounds Per Minute")
+dallas5fviz
+```
+
+At some point, the power of clustering the points begins to fade. Does Dwight Powell deserve to be in a cluster of his own? Possibly. Does Reggie Bullock? Definitely not.
+
+## Exercise 6
+
+a.  Which of the four values of K did you find most useful or accurate?
+
+b.  Were there ever too few or too many clusters?
+
+# Part 4: Choosing the Number of Clusters
+
+So, how can we choose the optimal number of clusters?
+
+It's helpful to evaluate the effectiveness of the clusters for each value K. There are plenty of ways to test this effectiveness, but we'll walk through a common example called the **Elbow Method**. The Elbow Method totals up the distance between the centers of each cluster and their observations. This is called the **Total Within Summed Squares (TWSS)**. As K increases and more clusters are added to the model, the sum squared distance will decrease. Eventually, the value of each additional cluster diminishes. The Elbow Method plots the results, and the user can look for a point when increasing the number of clusters no longer proves useful. Often, this point looks like an Elbow.
+
+```{r}
+fviz_nbclust(dallasKMeans_prep, kmeans, method = "wss", k.max = 9) +
+  theme_minimal() +
+  labs(title = "The Elbow Method")
+```
+
+The graph demonstrates that the value of each additional cluster decreases as more clusters are added. The bends in the graph indicate that clusters beyond four have little value. Despite being common, the Elbow Method is often ambiguous and difficult to interpret. Look for the bend in the Elbow Plot. K = 2, K = 3, and K = 4 all seem like reasonable conclusions.
+
+The Elbow plot is just one test to determine the optimal number of clusters. Two other popular methods are the Average Silhouette Method and the Gap Statistic Method. In all, there are dozens of methods to determine the ideal number of clusters and they often disagree. We'll take a consensus of 27 methods and proceed from there.
+
+```{r}
+dallasClust <- n_clusters(dallasKMeans_prep,
+                          package = c("easystats", "NbClust"),
+                          standardize = FALSE, n_max = 5)
+
+plot(dallasClust)
+```
+
+The tests give varied estimates for the optimal clusters, but it is up to the user to decide how many clusters you will include in your K-Mean Algorithm. It's common practice to choose several and compare the results of each.
+
+From there, we would conduct our analysis of each cluster and examine the results.
+
+After the clustering is completed, how can we analyze our clustering solution?
+
+We want to reduce the Total Within Summed Squares (TWSS) or distance from each observation to its cluster mean, but we also want to minimize the total number of clusters used.
+
+Two helpful measurements to summarize these preferences for our clusters are **intra-class similarity** and **inter-class similarity**.
+
+Intra-class similarity tests the relationship between observations of the same cluster. We want this similarity to be high. We want all the observations in a cluster to exhibit similar features.
+
+Inter-class similarity tests the relationship between different clusters. We want this relationship to be low. Ideally, each cluster is distinct and the observations within can be clearly assigned to a cluster.
+
+As we increase the number of clusters, K. The intra-class similarity will increase, because observations will be assigned to smaller clusters that a more representative. However, the inter-class similarity will also increase, because the cluster centers are now closer together. This is why it is impractical to choose a large value for K.
+
+Recall our clustering for the Dallas Mavericks players.
+
+```{r, figures-side, fig.show = "hold", out.width= "33.3%"}
+dallas2fviz
+dallas3fviz +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.title.y = element_blank())
+dallas4fviz +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.title.y = element_blank())
+```
+
+## Exercise 7
+
+a.  Which value of K has the highest intra-class similarity?
+
+b.  Which cluster specifically?
+
+c.  Which value of K has the highest inter-class similarity?
+
+# Part 5: A Larger Dataset
+
+Let's focus now on our larger data set with many more variables and observations. It seems like it'd be more complicated, but the process is almost exactly the same. One important distinction to remember is that the large number of dimensions make the data difficult to visualize. There are different methods that aid in this visualization. We'll walk you through the usage data set and demonstrate appropriate analysis, and then allow you to work through the role data set.
+
+Remember the usage data set? It contains variables aimed at categorizing the workload and skill of the players. We hope to divide players into sub-groups like stars and bench players.
+
+It is very important that we standardize the data first. Lots of our variables have different units. Games played and Blocks per game are hard to compare without scaling. Without standardizing, the large values- like Games Started or Games Played- will exert too much influence on the data. Now, each value is described in relation to the other observations. After standardizing, Trae Young's assist total is 3.656, so we know that he has a lot more assists than the average player in our data set. Often, the standardized data is difficult to contextualize, so we'll want to convert the data back for analysis. Below is a small glimpse into what our standardized data looks like.
+
+```{r,echo=FALSE}
+
+usage_levels <- colnames(usage)
+
+
+standarize <- function(x) (x - mean(x)) / sd(x)
+
+usageKMeans_prep <- usage %>%
+  mutate_if(is.numeric, standardize) %>%
+  mutate(across(where(is.numeric), \(x) round(x, digits = 3)))
+
+
+usageKMeans_prep %>% slice(1:5) %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(2:15), width = .5)
+
+usageKMeans_prep <- usageKMeans_prep %>%
+  column_to_rownames(var = "Name") %>%
+  select(-Team, -POS)
+```
+
+Let's begin by taking a look at the Elbow plot of the usage dataset.
+
+```{r}
+
+usage_rm <- usage %>%
+  select(-Name, -POS, -Team) %>%
+  mutate(across(where(is.numeric), standardize))
+
+fviz_nbclust(usage_rm, kmeans, method = "wss", k.max = 24) +
+  theme_minimal() +
+  labs(title = "The Elbow Method")
+```
+
+The Elbow plot shows that the algorithm experiences diminishing returns after K = 2 and K = 3. From the Elbow Plot, we would expect that the consensus lies somewhere between 2 and 5 clusters. Now consider the multiple methods for the selection of \$k\$.
+
+```{r,echo=FALSE}
+usageClust <- n_clusters(usage_rm,
+                         package = c("easystats", "NbClust"),
+                         standardize = FALSE, n_max = 10)
+
+plot(usageClust)
+```
+
+The tests favor three clusters. Some tests also prefer two and four clusters, so those models are worth a look.
+
+```{r}
+set.seed(121)
+usage2Means <- kmeans(usageKMeans_prep, centers = 2, nstart = 50)
+set.seed(4)
+usage3Means <- kmeans(usageKMeans_prep, centers = 3, nstart = 50)
+set.seed(1210)
+usage4Means <- kmeans(usageKMeans_prep, centers = 4, nstart = 50)
+```
+
+\newpage
+
+### K = 2 Clusters
+
+Let's start simple and begin with K = 2 clusters.
+
+But before we begin, let's first look through the variables in our analysis and see which ones have the most influence on the clustering. If some have little or no influence, we can simplify our analysis by removing them.
+
+The visualization below demonstrates the differences between our two clusters. The variables that have large differences are important in the clustering assignment. They greatly influence the assignment of an observation.
+
+```{r}
+as_tibble(usage2Means$centers, rownames = "cluster") %>%
+  pivot_longer(cols = c(GP:`SH-EFF`), names_to = "variable") %>%
+  group_by(variable) %>%
+  summarise(Influence = abs(mean(value))) %>%
+  mutate(
+    variable = factor(variable, levels = usage_levels)
+  ) %>% 
+  ggplot(aes(x = variable, y = Influence)) +
+  geom_bar(stat = "identity", fill = "cadetblue3") +
+  labs(title = "Influence on Cluster Assignment", x = "", y = "") +
+  theme(axis.text.y = element_blank(),
+        legend.position = "none",
+        axis.text.x = element_text(angle = -45, size = 9))
+```
+
+This type of exercise is essential for clustering analysis, because it allows one to see which variables are important to consider when classifying an observation.
+
+This visualization scales the centers of the variables for each cluster and contrasts them. Variables with large positive or negative values have a large influence on the clustering. These variables help differentiate the cluster. Variables with an influence close to 0 have less importance.
+
+We see a great diversity in the variables that possess significant influence on the clustering.
+
+## Exercise 8
+
+a.  Which variables seem to contribute the most to the clustering result?
+
+b.  Which variables contribute the least to the clustering result?
+
+Scoring Efficiency and Shooting Efficiency both lack influence. Games Played, Offensive Rebounds, and Blocks all also don't contribute much to our clustering. We chose to remove Shooting Efficiency and keep the other four, but we easily could have removed them from our analysis.
+
+*Note for Reviewer. Removing the five variables causes a slight shift in the cluster assignment. This changes some of the analysis and points I was making on the outliers, and it makes comparison between K = 2 and K = 3 more difficult. We don't remove any of the variables when K = 3. Still, it could make things confusing to not remove variables with very little influence. I'm open to suggestions on what to do here.*
+
+```{r}
+
+set.seed(121)
+usage2Means <- usageKMeans_prep %>%
+  select(-`SH-EFF`) %>%
+  kmeans(centers = 2, nstart = 50)
+
+usage2 <- usage %>% select(-`SH-EFF`)
+usage_rm2 <- usage_rm %>% select(-`SH-EFF`)
+```
+
+\newpage
+
+Now that we've removed some variables. Let's see how many observations are within each cluster.
+
+```{r, echo=FALSE}
+usage2Means$size %>% as_tibble() %>%
+  rename(Size = value) %>% 
+  mutate(Cluster = 1:n()) %>%
+  relocate(Cluster, .before = Size) %>%
+  flextable() %>% align(align = "center", part = "all")
+
+```
+
+The clusters are not identical in size, and it's different enough that we should keep an eye on it. It's important to verify that each of the clusters contain a significant number of observations. Like we saw with Dwight Powell earlier, sometimes small clusters can tell us valuable information about the observations they contain.
+
+The K-Means Algorithm will assign each observation a cluster and print out descriptive statistics of each cluster. This can give us a good idea of what makes up each cluster. We went back and unstandardized the data.
+
+```{r}
+usage2centers <- as_tibble(usage2Means$cluster) %>%
+  mutate(Name = usage$Name) %>%
+  rename(Clusters = value) %>% left_join(usage2, by = "Name") %>%
+  group_by(Clusters) %>%
+  summarise(
+    across(where(is.numeric), mean)
+  ) %>%
+  mutate(across(where(is.numeric), round, digits = 3))
+
+usage2centers %>% flextable() %>% align(align = "center", part = "all") %>%
+  width(j = c(2:15), width = .5)
+
+```
+
+Generally, it looks like cluster 1 contains starter caliber players and cluster 2 includes the bench players. This helps to explain why cluster 1 is a bit smaller than cluster 2.
+
+Now, let's look at the clusters graphically. This can help us to see how different the clusters really are from each other. The graph is created by combining the values of all the variables in a visually understandable way. This is through a process called Principle Component Analysis (PCA). *Link to more defined explanation of PCA.*
+
+```{r}
+usage2fviz <- fviz_cluster(usage2Means, usageKMeans_prep,
+                           geom = "point",
+                           show.clust.cent = TRUE, stand = FALSE,
+                           pointsize = 1,
+                           main = "Usage K = 2 Clusters")
+usage2fviz
+```
+
+Many of the observations in both clusters lie close to the border. This indicates that the division between the clusters was close and there may be some observations that could have been placed in either cluster. The centers are fairly close and located at about (-3,0) and (2,0).
+
+There are several large outliers in both clusters, but especially in the lower portion of the visualization in both clusters and the left portion cluster 1.
+
+**Prototypes**
+
+To help us understand the clusters better, let's look at some players that fall very close to the cluster center. We'll call the players that represent the cluster well **prototype players**.
+
+```{r}
+usage2Means_scale <- as_tibble(usage2Means$centers) %>%
+  mutate(cluster = 1:2)
+
+
+usage_fitted2Means <- usage2Means$cluster %>%
+  as_tibble() %>%
+  rename(cluster = value) %>% left_join(usage2Means_scale) %>% select(-cluster)
+
+distances <- sqrt(rowSums((usage_rm2 - usage_fitted2Means)^ 2)) %>%
+  as_tibble() %>%
+  rename(distance = value) %>% 
+  mutate(
+    Name = usage$Name,
+    Cluster = usage2Means$cluster
+  )
+dist_slice1 <- distances %>%
+  arrange(distance) %>%
+  select(Name, Cluster, distance) %>%
+  filter(Cluster == 1) %>% slice(1:3)
+
+dist_slice1 %>%
+  mutate(distance = round(distance, digits = 4)) %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3)
+
+```
+
+## Exercise 9
+
+a.  Which player is closest to the center for Cluster 1?
+
+b.  Are there other players who are close to the center for Cluster 1 that could also be considered prototypes?
+
+c.  Look at the prototype players' statistics to see if we characterize Cluster 1.
+
+*This would be a good opportunity to play highlights of one of the players or show a picture or something to keep people engaged.*
+
+```{r}
+prototype_k2c1 <- dist_slice1 %>% select(Name) %>% left_join(usage2)
+
+prototype_k2c1 %>% flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(2:15), width = .5)
+
+```
+
+Consider Khris Middleton, Miles Bridges, and Gordon Hayward. The three players all play a similar position; one that allows them to contribute in all areas of the game. There was significant variety in the number of Games Played, but they Started in each game and received a lot of playing time. They all played over 30 Minutes per game and scored about 20 Points a game. Their Rebound, Assist, Block, and Turnover totals vary a little bit, but they are all fairly high. They all took and made roughly the same number of shots per game (15.2-15.9 FGA) and (6.8-7.5 FGM).
+
+Let's move on to cluster 2. First, notice how much smaller the distances are from the cluster 2 center. More observations lie close to cluster 2's center than cluster 1. This is not entirely surprising, as there are almost 100 more players in cluster 2 than 1.
+
+Again consider potential prototypes for the second cluster.
+
+```{r}
+dist_slice2 <- distances %>% arrange(distance) %>% select(Name, Cluster, distance) %>% filter(Cluster == 2) %>% slice(1:3)
+
+dist_slice2 %>%
+  mutate(distance = round(distance, digits = 4)) %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3)
+
+```
+
+Blake Griffin is our prototype player of cluster 2. Torrey Craig and Rudy Gay are also strong representative of cluster 2 as well.
+
+```{r}
+prototype_k2c2 <- dist_slice2 %>% select(Name) %>% left_join(usage2)
+
+prototype_k2c2 %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(2:15), width = .5)
+
+```
+
+Once again, the prototypes look like an average NBA player. They each played around 55 Games and Started in very few of them. They played about 17.1-20.3 Minutes a game and scored from 6.4-8.1 Points a game. Their Rebound, Assist, Steal, Block, Turnover, and Foul values are fairly low and generally close together. They also don't take as many shots as cluster 1 - only about 6 Field Goal Attempts per game.
+
+**Outliers**
+
+Now, let's look through some of the players that fall farthest from the center of their cluster. These players are **cluster outliers**. In these cases, the clustering least represents the observation. These players are very different from the center. It can be helpful to identify and explain outliers by comparing them to our prototype players. How do they differ? What attributes led to their classification?
+
+*Is there a way to only label a few of the points in the visualization*
+
+```{r}
+dist_slice3 <- distances %>% arrange(desc(distance)) %>% select(Name, Cluster, distance) %>% filter(Cluster == 1) %>% slice(1:2,5)
+
+dist_slice3 %>%
+  mutate(distance = round(distance, digits = 4)) %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3)
+
+```
+
+```{r}
+outlier_k2c1 <- dist_slice3 %>% select(Name) %>%
+  add_row(Name = "Khris Middleton") %>% add_row(Name = "Blake Griffin") %>% # want to add centers of clusters for reference
+  left_join(usage2) %>% arrange(desc(DR))
+
+outlier_k2c1 %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(2:15), width = .5)
+
+```
+
+Sometimes, you'll need to do some digging on the outliers. We chose to show you Khris Middleton and Blake Griffin's characteristics again for comparison. Joel Embiid, Giannis Antetokounmpo, and Myles Turner represent two very different kinds of outliers. Embiid and Giannis are superstars. They finished second and third in the MVP voting in the 2021-2022 season. They are very far from the prototype of cluster 1, but they are even further from the prototype of cluster 2. These are the points near (-10, -5) in the visualization.
+
+Myles Turner, however, possesses some attributes that could be classified as cluster 1 and cluster 2. He played lots of Minutes, Started most games, and had strong Rebounding values. However, his shooting numbers fall right between the clusters, and he doesn't tally very many Points, Assists, Steals, or Turnovers. This point is likely the (-5, -9) outlier in the visualization. He is a borderline case. *Is there a more statistical word for this?*
+
+```{r}
+dist_slice4 <- distances %>% arrange(desc(distance)) %>% select(Name, Cluster, distance) %>% filter(Cluster == 2) %>% slice(1:3)
+
+dist_slice4 %>%
+  mutate(distance = round(distance, digits = 4)) %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3)
+
+```
+
+```{r}
+outlier_k2c2 <- dist_slice4 %>% select(Name) %>% left_join(usage2)
+
+outlier_k2c2 %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(2:15), width = .5)
+
+```
+
+These cluster 2 outliers are all similar players. Robert Williams III, Mitchell Robinson, and Clint Capela are all big men. Like Myles Turner, they are players that play a lot of Games and Minutes, get lots of Rebounds and Blocks, but don't shoot very much. Our data emphasizes shooting a lot and perhaps this leaves players like these without an appropriate cluster. They are borderline candidates that perhaps would benefit from another cluster.
+
+```{r}
+# This below is from code that Dr. Sturdivant sent me. The cluster_analysis function produces a different size clusters than we got from the K-Means function
+# set.seed(121)
+# res_2means <- cluster_analysis(usage_rm,
+#                                n = 2,
+#                                method = "kmeans")
+# # res_2means
+# summary(res_2means)
+# 
+# # predict(res_2means) # get clusters
+# plot(res_2means)
+```
+
+Now, let's analyze the strength of K = 2 clusters. For reference, we've repeated the visualization below.
+
+```{r}
+usage2fviz
+```
+
+The two clusters possess strong inter-class differences. For only two clusters, cluster 1 and cluster 2 are fairly distinct. The centers are far apart and demonstrate two different classifications of players. Cluster 1 is clearly a sub-population of starting, high-volume players and cluster 2 is a sub-population of bench players. Still, we've analyzed the outliers and found some players that could fall in either cluster. There could be some confusion for players like Robert Williams and Myles Turner. These players seem more similar to each other than most of the players in their own cluster. These outliers fall around (-2, -7). Check the visualizations again to see the cluster of players near there.
+
+The intra-class similarity is fairly low. The clusters are large and have many outliers in each of the directions. Players like Giannis Antetokounmpo, Khris Middleton, and Myles Turner have little in common, but they are all grouped into cluster 1. Yet, most of cluster 1 produce larger values and most of cluster 2 have smaller numbers.
+
+\newpage
+
+### K = 3 Clusters - Interactive
+
+```{r}
+# keep in case of reset
+set.seed(4)
+usage3Means <- kmeans(usageKMeans_prep, centers = 3, nstart = 50)
+```
+
+Now, let's look at the consensus tests' most popular number of clusters: K = 3. Here, we'd like you to produce your own analysis of the results. If you need help, look back at the K = 2 example.
+
+As you progress, fill out this table with descriptors of the three clusters. This will be helpful for you as you try to identify their distinctions.
+
+```{r}
+stu_table <- tibble(
+  Cluster = 1:3,
+  Description = "")
+
+stu_table %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 2, width = 4)
+```
+
+Once again, let's first look through the variables in our analysis and see which ones have the most influence on the clustering.
+
+This visualization plots the centers for each variable in a cluster. At a glance, this helps us to understand the characteristics of each cluster. We can see that cluster 2, for example, has high offensive rebounds and blocks per game, but low 3 point attempts and 3 point makes.
+
+It can also tell us what variables are unimportant. If a variable has the similar mean throughout all three clusters, then the variable does not help us to distinguish between the clusters. If a variable has a large positive value in one cluster and a large negative value in another, then that variable is very useful for classifying our data.
+
+```{r}
+# creates a dataset of each variable and the standardized center and graphs it
+as_tibble(usage3Means$centers, rownames = "cluster") %>%
+  pivot_longer(cols = c(GP:`SH-EFF`), names_to = "variable") %>%
+  mutate(variable = factor(variable, usage_levels)) %>%
+  ggplot(aes(x = variable, y = value, fill = cluster)) +
+  geom_bar(stat = "identity") +
+  facet_grid(rows = vars(cluster)) +
+  theme(axis.text.x=element_text(angle = -45, hjust = 0, size = 10)) +
+  scale_y_continuous(position = "right") +
+  labs(title = "Influence on the Cluster Assignment", x = "", y = "Cluster") +
+  theme(axis.text.y = element_blank(),
+        legend.position = "none")
+```
+
+Before you analyze, remember that variables with a strong negative value still have large influence. It's just a negative association with a variable instead of a positive association.
+
+What do you notice about the variables? Which kinds of variables possess significant influence? Some variables have a strong influence in one cluster, but a weak influence in another cluster. Why is this?
+
+After analyzing, would you choose to remove any variables from the data?
+
+*Is there a better way to look at the variables and remove the less influential ones?*
+
+We chose to remove the Games Played variable, because its influence was close to 0 in all three clusters. All of the other variables had a large effect in some category.
+
+```{r}
+# reproducing K = 3 means without insignificant variables
+set.seed(4)
+usage3Means <- usageKMeans_prep %>%
+  select(-GP) %>%
+  kmeans(centers = 3, nstart = 50)
+
+# creating a second usage without those variables so i don't have to reproduce it 800 million times.
+usage3 <- usage %>% select(-GP)
+usage_rm3 <- usage_rm %>% select(-GP)
+```
+
+Now that we've removed some variables. Let's see how many observations are within each cluster.
+
+```{r}
+usage3Means$size %>% as_tibble() %>%
+  rename(Size = value) %>% 
+  mutate(Cluster = 1:n()) %>%
+  relocate(Cluster, .before = Size) %>%
+  flextable() %>%
+  align(align = "center", part = "all")
+```
+
+What do you notice about the cluster size? What could this tell us about the clusters?
+
+The clusters are not identical in size, but the clusters are each large enough that there is no reason to be concerned.
+
+```{r}
+# un-standardizing and calculating the mean
+usage3centers <- as_tibble(usage3Means$cluster) %>%
+  mutate(Name = usage$Name) %>%
+  rename(Clusters = value) %>% left_join(usage3, by = "Name") %>%
+  group_by(Clusters) %>%
+  summarise(
+    across(where(is.numeric), mean)
+  ) %>%
+  mutate(across(where(is.numeric), round, digits = 3))
+
+usage3centers %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = c(2:15), width = .5)
+
+```
+
+What do you notice about the cluster means? Without looking any further, how would you describe the three clusters? Jot down some notes in your table.
+
+Now, let's look at the clusters graphically.
+
+```{r}
+usage3fviz <- fviz_cluster(usage3Means, usageKMeans_prep,
+                           geom = "point",
+                           show.clust.cent = TRUE, stand = FALSE,
+                           pointsize = 1,
+                           main = "Usage K = 3 Clusters")
+usage3fviz
+```
+
+What do you notice about the visualization? Are there a lot of observations that reside on the border? Where are the centers and outliers of each cluster?
+
+Compare the new visualization with the K = 2 visualization. Where did the third cluster come from? What kinds of players?
+
+If you were to create a fourth cluster, what points would you group together?
+
+Let's look at our prototype and outlier players. We've compiled them all into a table for you to compare and contrast.
+
+```{r}
+# standardizing the distances between the players
+usage3Means_scale <- as_tibble(usage3Means$centers) %>%
+  mutate(cluster = 1:3)
+
+# creating appropriate tibble for distance formula
+usage_fitted3Means <- usage3Means$cluster %>%
+  as_tibble() %>%
+  rename(cluster = value) %>% left_join(usage3Means_scale) %>% select(-cluster)
+
+# distance from cluster center
+distances <- sqrt(rowSums((usage_rm3 - usage_fitted3Means)^ 2)) %>%
+  as_tibble() %>%
+  rename(distance = value) %>% 
+  mutate(
+    Name = usage$Name,
+    Cluster = usage3Means$cluster)
+
+# creating a master document with all of the prototypes and all of the outliers.
+master_distances <- distances %>%
+  group_by(Cluster) %>%
+  mutate(
+    outlier_rank = order(order(distance, decreasing=TRUE)),
+    proto_rank = order(order(distance, decreasing = FALSE))) %>%
+  filter(outlier_rank < 4 | proto_rank < 4) %>%
+  mutate(
+    Category = if_else(proto_rank < 4, "Prototype", "Outlier")
+  ) %>% 
+  select(Name, Cluster, Category) %>%
+  left_join(usage3) %>% arrange(Cluster, desc(Category))
+
+master_distances %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = 2, width = .8) %>%
+  width(j = c(4:15), width = .5)
+
+```
+
+Here is a smaller table that may help you compare the players more easily.
+
+```{r}
+master_distances1 <- distances %>%
+  group_by(Cluster) %>%
+  mutate(
+    outlier_rank = order(order(distance, decreasing=TRUE)),
+    proto_rank = order(order(distance, decreasing = FALSE))) %>%
+  filter(outlier_rank < 2 | proto_rank < 2) %>%
+  mutate(
+    Category = if_else(proto_rank < 2, "Prototype", "Outlier")
+  ) %>% 
+  select(Name, Cluster, Category) %>%
+  left_join(usage3) %>% arrange(desc(Category), Cluster)
+
+master_distances1 %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = 2, width = .8) %>%
+  width(j = c(4:15), width = .5)
+
+```
+
+Use the above tables to summarize each of the 6 categories. What kind of players belong in each category? Is there a lot of variation within the prototypes? Is there a lot of variation within the outliers? Which of the outliers are closest to a different cluster? Would you reclassify any of the outliers?
+
+After looking through the clusters, why do you think cluster 2 is so much smaller?
+
+Let's analyze the overall strength of K = 3 clusters. How does the intra-class similarity compare with K = 2? The inter-class similarity?
+
+```{r}
+# usage3fviz
+```
+
+\newpage
+
+### Comparing K = 2 to K = 3 - Mix
+
+Often, it is interesting to compare the cluster results. Here, we tabulated the cluster assignments between K = 2 and K = 3. This can help us to see how the clustering with K = 2 overlaps with K = 3.
+
+```{r}
+# creating a tibble of the cluster of each player for each K
+clusters <- tibble(
+  player = usage$Name,
+  Cluster = usage2Means$cluster,
+  clus3 = usage3Means$cluster,
+  clus4 = usage4Means$cluster
+)
+
+# tabulating K = 2 and K = 3 clusters
+compare_K2K3 <- with(clusters, table(Cluster, clus3)) %>%
+  as_tibble() %>%
+  pivot_wider(names_from = clus3, values_from = n)
+
+# printing table using kable
+compare_K2K3 %>%
+  flextable() %>%
+  align(align = "center", part = "all")
+
+
+```
+
+What do you notice about the clustering distribution?
+
+We can see that most players in cluster 1 from K = 2 stayed in cluster 1 when K = 3. We identified both of these clusters as the "starters," so this makes a lot of intuitive sense. Most of cluster 2 from K = 2 moved into cluster 3 when K = 3. The interesting transition comes with the middle cluster of K = 3. This cluster is full of big men that don't score a lot. They came from both cluster 1 and cluster 2 of K = 2. We saw this in our outlier analysis earlier.
+
+### Exercise 10
+
+What are the benefits and costs of both K = 2 and K = 3? Which would you choose?
+
+\newpage
+
+# Part 6: Role Data Set
+
+Now we move on to a second data set and we want to give you a lot more autonomy to test different clusters or outliers yourself. The data set is different, but the process is almost exactly the same. If you have questions, we'll give you hints or you can look back to the usage data set for a clear example.
+
+Remember the role data set? It contains variables aimed at categorizing the function and specific characteristics of the players. We hope to divide players into sub-groups like scorers, 3-point shooters, and rebounders.
+
+Even though most of our data has been set to adjusted "per minute" quantities. It is still very important that we standardize the data first. Otherwise common values like points per minute will outweigh the effect of less common characteristics like blocks per minute. Now each variable is on the same scale. Often, the standardized data is difficult to contextualize, so we'll want to convert the data back for analysis. Below is a small glimpse into what our standardized data looks like.
+
+*We could also give a short mini lesson on the importance of standardizing using games started and blocks or something like that.*
+
+```{r}
+# initializing our datasets a second time in case student decides to remove a variable.
+# For some reason, when I round to 3 digits, the elbow plot no longer suggests K = 7. This is very surprising. So I've decided to keep it rounding to 4 digits, because I have done so much work for K = 7.
+role <- nba %>%
+  select(Name, POS, Team, Height, Weight, PTSPerMin, ASTPerMin, TOPerMin, STLPerMin, ORPerMin, DRPerMin, BLKPerMin, PFPerMin, FGP, FGMPerMin, FGAPerMin, `3PP`, `3PMPerMin`, `3PAPerMin`, FTP, FTMPerMin, FTAPerMin)
+
+# standardizing the data for KMeans
+roleKMeans_prep <- role %>%
+  mutate(across(where(is.numeric), standardize))
+
+# displaying the standardized data for student
+roleKMeans_prep %>%
+  slice(1:5) %>%
+  mutate(across(where(is.numeric), round, digits = 3)) %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(2:5), width = .6) %>%
+  width(j = c(6:12), width = .95)
+
+
+# finishing prepping data for KMeans procedure
+roleKMeans_prep <- roleKMeans_prep %>%
+  column_to_rownames(var = "Name") %>%
+  select(-Team, -POS)
+```
+
+\newpage
+
+Let's check our Elbow plot to get an idea of the clustering.
+
+```{r}
+# removing text for visualizations and standardizing
+role_rm <- role %>%
+  select(-Name, -POS, -Team) %>%
+  mutate(across(where(is.numeric), standardize))
+
+fviz_nbclust(role_rm, kmeans, method = "wss", k.max = 24) +
+  theme_minimal() +
+  labs(title = "The Elbow Method")
+```
+
+### Exercise 11
+
+a\) What do you see from the Elbow plot? At what point do the returns diminish?
+
+b\) How many clusters does the Elbow plot suggest?
+
+\newpage
+
+```{r}
+# creates consensus clusters
+roleClust <- n_clusters(role_rm,
+                        package = c("easystats", "NbClust"),
+                        standardize = FALSE, n_max = 10)
+
+
+```
+
+```{r}
+plot(roleClust) +
+  labs(title = "Optimal Number of Clusters", x = "")
+
+```
+
+There's a lot of variation in the preferred number of clusters. How many clusters would you choose to analyze? How many values of K would you like to analyze? This is totally up to you. Feel free to move back and forth through this section to analyze the data as much as you like.
+
+### Exercise 12 (Maybe a final analysis for them to do?)
+
+We will be using K = 7 for the trade scenario portion, so we recommend you review through K = 7.
+
+*give them space to choose*
+
+```{r}
+# assume that they want K = 7.
+stu_cluster <- 7
+```
+
+Ok, you've chosen K = `r stu_cluster`. Here is an empty table for you to describe each of the clusters. As you grow in understanding of each of the clusters, fill it out with a few distinguishing words. Make sure you can glance at the table and understand what separates one cluster from another.
+
+```{r}
+stu_role_table <- tibble(
+  Cluster = 1:stu_cluster,
+  Description = "")
+
+stu_role_table %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 2, width = 4)
+```
+
+We'll begin by looking at the mean for each variable of a cluster. Remember, this can help us identify variables that are not useful and get a general understanding of the characteristics of each cluster.
+
+There may be a lot of variables, so we flipped the coordinates of the plot to make it easier to read. A bar to the right indicates a positive association and a bar to the left indicates a negative association.
+
+```{r}
+set.seed(100)
+roleKMeans <- kmeans(roleKMeans_prep, centers = stu_cluster, nstart = 50)
+```
+
+```{r fig.height = 8}
+# creating factor levels for role
+role_levels <- colnames(role)
+
+# creates a dataset of each variable and the standardized center and graphs it
+as_tibble(roleKMeans$centers, rownames = "cluster") %>%
+  pivot_longer(cols = c(Height:FTAPerMin), names_to = "variable") %>%
+  mutate(variable = factor(variable, role_levels)) %>%
+  ggplot(aes(x = variable, y = value, fill = cluster)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  geom_hline(yintercept = 0) +
+  facet_grid(cols = vars(cluster), switch = "both") +
+  labs(title = "Influence on the Cluster Assignment", x = "", y = "Cluster") +
+  theme(axis.text.x = element_blank(),
+        legend.position = "none")
+```
+
+Sift through the variables to see if any are unused throughout the clusters. If so, this indicates that the variable does not help differentiate the data into clusters. You can remove it here:
+
+```{r}
+# if the student wants to remove a variable enter it here
+role_var_rm <- 0
+
+# reproducing roleKMeans without the removed variables
+set.seed(100)
+roleKMeans <- roleKMeans_prep %>%
+  select(-all_of(role_var_rm)) %>%
+  kmeans(centers = stu_cluster, nstart = 50)
+
+
+role <- role %>% select(-role_var_rm)
+role_rm <- role_rm %>% select(-role_var_rm)
+```
+
+If you chose a large number of clusters, it may be difficult to use this visualization to remove unimportant variables. Instead, you should be able to see some of the important attributes of each of the clusters. Be thinking of identifiers for each cluster. Which variables are important throughout?
+
+Let's begin to analyze the numeric values of the centers. Look through each cluster's characteristics. What sticks out to you?
+
+```{r}
+role_summary <- role %>% summarise(
+  across(where(is.numeric), mean)) %>%
+  mutate(
+    Clusters = "Data Average"
+  ) %>% relocate(Clusters)
+
+roleKcenters <- as_tibble(roleKMeans$cluster) %>%
+  mutate(Name = role$Name) %>%
+  rename(Clusters = value) %>% left_join(role, by = "Name") %>%
+  group_by(Clusters) %>%
+  summarise(
+    across(where(is.numeric), mean)
+  ) %>%
+  mutate(
+    Clusters = as.character(Clusters)
+  ) %>% bind_rows(role_summary) %>%
+  mutate(across(where(is.numeric), round, digits = 3),
+         Height = round(Height, digits = 1),
+         Weight = round(Height, digits = 1))
+
+roleKcenters %>%
+  reactable(
+    defaultColDef = colDef(
+      cell = color_tiles(.)))
+
+```
+
+Which clusters are scorers? Which are rebounders? Which have higher assist numbers? Higher 3-point shooting? Are any two clusters similar? What differentiates them?
+
+At this point, give a short descriptor of each cluster. Each cluster should be uniquely described.
+
+Let's look at the size of each cluster.
+
+```{r}
+roleKMeans$size %>% as_tibble() %>%
+  rename(Size = value) %>% 
+  mutate(Cluster = 1:n()) %>%
+  relocate(Cluster, .before = Size) %>%
+  flextable() %>%
+  align(align = "center", part = "all")
+```
+
+Does this surprise you? Which clusters are large and small? Does this fit with your perception of the makeup of NBA teams?
+
+\newpage
+
+Let's look at the distribution of the players.
+
+```{r}
+rolefviz <- fviz_cluster(roleKMeans, roleKMeans_prep,
+                         geom = "point",
+                         show.clust.cent = TRUE, stand = FALSE,
+                         pointsize = 1,
+                         main = "Role K Clusters")
+rolefviz
+```
+
+What do you notice from the visualization? Remember, the dimensions cannot represent all the data, so we may have clusters that overlap. Imagine that there is a third dimension "Z" that explains another 30%-40% of the data.
+
+Where are the cluster centers and outliers? Which clusters seem to be the closest together? Furthest away? Are any clusters more isolated than others? Is this supported by your previous analysis?
+
+If you had to add another cluster where would it be? If you had to remove a cluster, where would it be?
+
+\newpage
+
+Let's look at our prototype and outlier analysis.
+
+First, we need to verify that our prototypes and outliers are prototypes and outliers. Now that we can change the number of clusters, its possible that you have some pretty small clusters. With a smaller sample size, we want to ensure that all our prototypes are indeed close to the cluster center and that all our outliers are indeed far away. In our K = 2 usage analysis, our prototypes were about 1-2.3 units away from the center. Our outliers were about 6-8.5. However, as K increases, the outlier distances should fall. Let's look at the distances from the center of our top 3 prototypes and outliers from each cluster to see how they compare.
+
+```{r}
+# standardizing the distances between the players
+roleKMeans_scale <- as_tibble(roleKMeans$centers) %>%
+  mutate(cluster = 1:n())
+
+# creating appropriate tibble for distance formula
+role_fittedKMeans <- roleKMeans$cluster %>%
+  as_tibble() %>%
+  rename(cluster = value) %>% left_join(roleKMeans_scale) %>% select(-cluster)
+
+# distance from cluster center
+distances <- sqrt(rowSums((role_rm - role_fittedKMeans)^ 2)) %>%
+  as_tibble() %>%
+  rename(distance = value) %>% 
+  mutate(
+    Name = role$Name,
+    Cluster = roleKMeans$cluster)
+
+master_distances <- distances %>%
+  group_by(Cluster) %>%
+  mutate(
+    outlier_rank = order(order(distance, decreasing=TRUE)),
+    proto_rank = order(order(distance, decreasing = FALSE))) %>%
+  filter(outlier_rank < 4 | proto_rank < 4) %>%
+  mutate(
+    Category = if_else(proto_rank < 4, "Prototype", "Outlier")
+  ) %>%
+  arrange(Cluster, distance) %>%
+  select(-outlier_rank, -proto_rank) %>%
+  relocate(distance, .after = Category) %>%
+  relocate(Name, .after = Category)
+
+master_distances %>%
+  mutate(distance = round(distance, digits = 4)) %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 3, width = 1.3)
+
+```
+
+Which prototypes are the strongest prototypes? Which prototypes do you trust the most? Which are the strongest outliers? Would you disqualify any outliers or prototypes from the analysis (i.e. a supposed outlier is not far enough from the center or a labeled prototype is too far from the center).
+
+*Is this too long? I could remove the two long outliers table and only use the shorter one?*
+
+If you wish to disqualify a player from analysis, do it here:
+
+*Provide a space for the student to remove player's from the analysis. Assume student disqualifies Nic Claxton. Just for the heck of it.*
+
+```{r}
+disqualify <- c("Nic Claxton")
+```
+
+```{r}
+roleKMeans$size %>% as_tibble() %>%
+  rename(Size = value) %>% 
+  mutate(Cluster = 1:n()) %>%
+  relocate(Cluster, .before = Size) %>%
+  flextable() %>%
+  align(align = "center", part = "all")
+
+```
+
+Look again at the size of each cluster. Does this help explain any of your findings?
+
+These outliers can be very different from each other. We'll need to look into them to see what kind of players they are. Once again, we'll show you the top 3 of each category first, and afterward a smaller table with only the top player.
+
+```{r}
+# creating a master document with all of the prototypes and all of the outliers.
+mast_dist_slice <- distances %>%
+  group_by(Cluster) %>%
+  mutate(
+    outlier_rank = order(order(distance, decreasing=TRUE)),
+    proto_rank = order(order(distance, decreasing = FALSE))) %>%
+  filter(outlier_rank < 4 | proto_rank < 4) %>%
+  mutate(
+    Category = if_else(proto_rank < 4, "Prototype", "Outlier")
+  ) %>% 
+  select(Name, Cluster, Category) %>%
+  left_join(role) %>% arrange(Cluster, desc(Category)) %>%
+  filter(Name != disqualify)
+
+mast_dist_slice %>%
+  mutate(across(where(is.numeric), ~round(.x, digits = 3))) %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(4:7), width = .6) %>%
+  width(j = c(8:14), width = .95)
+
+```
+
+Below is the smaller table.
+
+```{r}
+mast_dist_slice1 <- distances %>%
+  group_by(Cluster) %>%
+  mutate(
+    outlier_rank = order(order(distance, decreasing=TRUE)),
+    proto_rank = order(order(distance, decreasing = FALSE))) %>%
+  filter(outlier_rank < 2 | proto_rank < 2) %>%
+  mutate(
+    Category = if_else(proto_rank < 2, "Prototype", "Outlier")
+  ) %>% 
+  select(Name, Cluster, Category) %>%
+  left_join(role) %>% arrange(desc(Category), Cluster) %>%
+  filter(Name != disqualify)
+
+mast_dist_slice1 %>%
+  mutate(across(where(is.numeric), ~round(.x, digits = 3))) %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(4:7), width = .6) %>%
+  width(j = c(8:14), width = .95)
+
+```
+
+Look through the prototypes and outliers. Compare their results with your previous findings. Do the prototypes of each cluster match up with your summary of the cluster? How do the outliers fit in? Two outliers can be very different. Pick a few outliers and determine their closest two clusters.
+
+```{r}
+rolefviz
+```
+
+Analyze the K = `r stu_cluster` clusters as a whole. Are the clusters good? Do they have high intra-class similarity? What about a low intra-class similarity? If you were to do the analysis again, would you choose the same amount of clusters?
+
+### Compare lots of Ks
+
+Select two values of K (between 2 and 10) to compare. This table can become very complex. Remember, the rows are the cluster assignment with the first value of K and the columns are the cluster assignment with the second value. Isolate and analyze one row or column at a time.
+
+```{r}
+# let's say the student wants to compare K = 3 and K = 7
+stu_clus1 <- 7
+stu_clus2 <- 3
+# ensures that the first chosen cluster is lower.
+if(stu_clus1 > stu_clus2) {
+  space = stu_clus1
+  stu_clus1 = stu_clus2
+  stu_clus2 = space
+}
+
+set.seed(100)
+roleKMeans <- kmeans(roleKMeans_prep, centers = stu_clus1, nstart = 50)
+set.seed(100)
+roleK2Means <- kmeans(roleKMeans_prep, centers = stu_clus2, nstart = 50)
+
+# creating a tibble of the cluster of each player for each K
+clusters <- tibble(
+  player = role$Name,
+  Cluster = roleKMeans$cluster,
+  clusK2 = roleK2Means$cluster
+)
+
+compare_table <- with(clusters, table(Cluster, clusK2)) %>%
+  as_tibble() %>%
+  pivot_wider(names_from = clusK2, values_from = n)
+
+# tabulating clusters
+compare_table %>%
+  flextable() %>%
+  align(align = "center", part = "all")
+
+```
+
+\newpage
+
+# Part 7: GM of Dallas Mavericks
+
+Returning back to the Dallas Mavericks. Let's take a look at how the Mavericks players were clustered in our role dataset. Let's use K = 7. If you did not analyze K = 7 earlier, it is worth a look.
+
+Below are a few visual reminders of each cluster's characteristics.
+
+```{r, fig.height = 8}
+# initializing our datasets a third time in case student decided to remove a variable
+role <- nba %>%
+  select(Name, POS, Team, Height, Weight, FGP, `3PP`, FTP,  PTSPerMin, ORPerMin, DRPerMin, ASTPerMin, STLPerMin, BLKPerMin, TOPerMin, PFPerMin, FGMPerMin, FGAPerMin, `3PMPerMin`, `3PAPerMin`, FTMPerMin, FTAPerMin) %>%
+  mutate(across(where(is.numeric), round, digits = 4))
+
+# standardizing the data for KMeans
+roleKMeans_prep <- role %>%
+  mutate(across(where(is.numeric), standardize)) %>%
+  column_to_rownames(var = "Name") %>%
+  select(-Team, -POS)
+
+# creating K = 7 K-Means
+set.seed(100)
+role7Means <- kmeans(roleKMeans_prep, centers = 7, nstart = 50)
+
+# bar graph of centers
+as_tibble(role7Means$centers, rownames = "cluster") %>%
+  pivot_longer(cols = c(Height:FTAPerMin), names_to = "variable") %>%
+  mutate(variable = factor(variable, role_levels)) %>%
+  ggplot(aes(x = variable, y = value, fill = cluster)) +
+  geom_bar(stat = "identity") +
+  geom_hline(yintercept = 0) +
+  coord_flip() +
+  facet_grid(cols = vars(cluster), switch = "both") +
+  labs(title = "Influence on the Cluster Assignment", x = "", y = "Cluster") +
+  theme(axis.text.x = element_blank(),
+        legend.position = "none")
+```
+
+```{r}
+# creating tibble of all the centers
+role7centers <- as_tibble(role7Means$cluster) %>%
+  mutate(Name = role$Name) %>%
+  rename(Clusters = value) %>% left_join(role, by = "Name") %>%
+  group_by(Clusters) %>%
+  summarise(
+    across(where(is.numeric), mean)) %>%
+  mutate(Clusters = as.character(Clusters)) %>%
+  bind_rows(role_summary) %>%
+  mutate(across(where(is.numeric), round, digits = 3),
+         Height = round(Height, digits = 1),
+         Weight = round(Height, digits = 1))
+
+# printing conditional formatting table
+role7centers %>%
+  reactable(
+    defaultColDef = colDef(
+      cell = color_tiles(.)
+    ))
+```
+
+Before moving on, fill out this table to describe each cluster. Write a few descriptive words that distinguish each cluster. This will help you to organize your thoughts on each cluster. If you already completed this for K = 7 in the role dataset, then you are free to proceed.
+
+```{r}
+stu_table <- tibble(
+  Cluster = 1:7,
+  Description = "")
+
+stu_table %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 2, width = 4)
+
+```
+
+*Caleb's estimation of 7 clusters. I'd like to provide them a blank table to fill out somehow. Like a text file table with two columns.*
+
+```{r}
+Caleb_table <- tibble(
+  Cluster = 1:7,
+  Description = c("big men, mediocre scorers, kinda shoot deep",
+                  "small point guards, facilitaters",
+                  "meh players, 3 point shooters",
+                  "big men, can't shoot deep at all",
+                  "high-volume players, generally tall",
+                  "high-volume players, average height",
+                  "low production, very mediocre, likely corner 3 players"))
+
+Caleb_table %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 2, width = 4)
+```
+
+\newpage
+
+## Mavericks Offseason Analysis
+
+Now, let's look at the cluster assignments of our ten Dallas Mavericks players.
+
+```{r}
+role7Means_players <- role7Means$cluster %>%
+  as_tibble() %>%
+  rename(Cluster = value) %>%
+  mutate(
+    Name = role$Name
+  ) %>%
+  left_join(role, by = "Name") %>%
+  left_join(usage %>% select(Name, MIN), by = "Name") %>%
+  relocate(Cluster, .after = Name) %>%
+  relocate(MIN, .after = POS) %>%
+  arrange(Cluster)
+
+dallas_role2022 <- role7Means_players %>%
+  filter(Team == "dal") %>%
+  select(-Team)
+
+dallas_role2022 %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(2:10), width = .6) %>%
+  width(j = c(11:14), width = .95)
+```
+
+What do you notice about the player assignments? How many clusters do the Mavericks have represented? Which cluster is the most common on the Mavericks team?
+
+Why is cluster 7 the most common? What kind of player is in cluster 7?
+
+The Mavericks experienced a bit of turnover in the 2022 offseason. They'd already traded away C Kristaps Porzingis for SG Spencer Dinwiddie at the end of the 2022 season, and they lost productive SG Jalen Brunson to free agency. They traded away SF Sterling Brown and other assets for C Christian Wood during the 2022 Summer.
+
+Let's assess the offseason moves of the Dallas Mavericks by looking at the opening day roster for 2023 and its cluster distribution. Below are the eleven players on the Dallas Mavericks roster at Game 1 of the 2023 season, a loss against the Phoenix Suns.
+
+```{r}
+dallas_role2023 <- role7Means_players %>%
+  filter(Name == "JaVale McGee" | Name == "Reggie Bullock" | Name == "Dorian Finney-Smith" | Name == "Spencer Dinwiddie" | Name == "Luka Doncic" | Name == "Tim Hardaway Jr." | Name == "Maxi Kleber" | Name == "Christian Wood" | Name == "Josh Green" | Name == "Dwight Powell" | Name == "Davis Bertans") %>%
+  select(-Team) %>%
+  arrange(Cluster)
+
+dallas_role2023 %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(2:10), width = .6) %>%
+  width(j = c(11:14), width = .95)
+
+```
+
+The roster looks somewhat similar, but what classification of player did the Mavericks lose in the 2022 season and not return in the 2023 season? What classification of player did the Mavericks gain in the 2023 season?
+
+*Answer: They lost a cluster 2 player, lost a cluster 7 player, gained two cluster 3 players, and a cluster 4 player.*
+
+What kind of player is in cluster 2? What would losing this kind of player do to a team?
+
+\newpage
+
+## Dallas Mavericks Trade
+
+Let's say you're the GM of the Dallas Mavericks after game 1 of the 2022-2023 season. Which players would you consider trading and what cluster of player would you hope to acquire? Which players are you willing to give up?
+
+*Answer: I think the correct answer here is give up any of cluster 3 or 7 for a cluster 2. Maxi Kleber is the most expendable because he has some features of 1,4,5 and some of 7. And they have excess of these players.*
+
+Select four players you are willing to trade and one cluster that you are looking for.
+
+```{r}
+# let's say the student is smart and chooses
+trading <- c("Davis Bertans", "Spencer Dinwiddie", "Maxi Kleber", "Dwight Powell")
+# and is looking for a player in cluster...
+looking <- 2
+looking_clus <- role7Means_players %>%
+  filter(Cluster == looking)
+
+looking_clus %>%
+  flextable() %>%
+  align(align = "center", part = "all") %>%
+  width(j = 1, width = 1.3) %>%
+  width(j = c(2:5), width = .6) %>%
+  width(j = c(6:12), width = .95)
+
+```
+
+From the list, choose a player you like from a team that has several of these types of players. They'd be more likely to part ways. Assess the strengths of the pertinent players and propose a trade! How does it look?
+
+Feel free to make the trades as complex as you wish, but try to choose something that the opposing team would agree to.
+
+Defend your proposed trade using the cluster information. You may add in some basketball knowledge if you like.
+
+What do you think of this process? What are the strengths and weaknesses of evaluating a team based on cluster membership?
