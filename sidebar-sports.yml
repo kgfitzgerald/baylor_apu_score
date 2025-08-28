@@ -1,0 +1,33 @@
+sidebar:
+  - section: "By Sport"
+    contents:
+      - text: " Img"
+        href: _img/index.html
+      - text: "Baseball"
+        href: baseball/index.html
+      - text: "Esports"
+        href: esports/index.html
+      - text: "Football"
+        href: football/index.html
+      - text: "Games"
+        href: games/index.html
+      - text: "Hockey"
+        href: hockey/index.html
+      - text: "Lacrosse"
+        href: lacrosse/index.html
+      - text: "Marathons"
+        href: marathons/index.html
+      - text: "Mixed Martial Arts"
+        href: mixed_martial_arts/index.html
+      - text: "Motor Sports"
+        href: motor_sports/index.html
+      - text: "Robotics"
+        href: robotics/index.html
+      - text: "Rowing"
+        href: rowing/index.html
+      - text: "Soccer"
+        href: soccer/index.html
+      - text: "Tennis"
+        href: tennis/index.html
+      - text: "Triathlons"
+        href: triathlons/index.html
