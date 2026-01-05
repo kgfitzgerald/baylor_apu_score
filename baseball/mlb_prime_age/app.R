@@ -3,9 +3,11 @@ library(tidyverse)
 
 # Load the data
 batter_war <- read_csv("./batter_stats.csv") %>% 
-  select(player_name, age, war)
+  select(player_name, age, war) |> 
+  mutate(war_type = "batter")
 pitcher_war <- read_csv("./pitcher_stats.csv") %>% 
-  select(player_name, age, war)
+  select(player_name, age, war) |> 
+  mutate(war_type = "pitcher")
 
 all_players_war <- rbind(batter_war, pitcher_war)
 
@@ -48,11 +50,12 @@ server <- function(input, output, session) {
       player_data <- all_players_war %>% 
         filter(player_name == !!player_name)
       
-      if (nrow(player_data) > 0) {
+      if (nrow(player_data) > 2) {
         min_age <- min(player_data$age)
         max_age <- max(player_data$age)
         
-        ggplot(player_data, aes(x = age, y = war)) +
+        ggplot(player_data, aes(x = age, y = war, 
+                                linetype = war_type)) +
           geom_point() +
           geom_line() +
           # Shade the region above y = 6 as light purple
@@ -83,7 +86,7 @@ server <- function(input, output, session) {
           )
       } else {
         plot.new()
-        text(0.5, 0.5, "No data available for selected player", cex = 1.5)
+        text(0.5, 0.5, "Not enough data available for selected player", cex = 1.5)
       }
     } else {
       plot.new()

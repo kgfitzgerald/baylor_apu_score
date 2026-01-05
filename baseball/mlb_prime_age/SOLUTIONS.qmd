@@ -1,0 +1,173 @@
+---
+title: "What's the prime age of an MLB player?"
+author: "SOLUTIONS"
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: tango
+editor: visual
+editor_options:
+  chunk_output_type: console
+---
+
+# Getting started: MLB data
+
+```{r, message = FALSE}
+library(tidyverse)
+
+batter_stats <- read_csv("batter_stats.csv")
+pitcher_stats <- read_csv("pitcher_stats.csv")
+```
+
+```{r}
+head(batter_stats)
+```
+
+## Exercise 1
+
+```{r}
+first_season <- min(batter_stats$season)
+last_season <- max(batter_stats$season)
+```
+
+> The `batter_stats` dataset contains data from the `r first_season` to `r last_season` MLB seasons.
+
+## Exercise 2
+
+```{r}
+# create new best_war variable
+batter_stats <- batter_stats |> 
+  group_by(x_mlbamid) |> 
+  mutate(best_war = max(war)) |> 
+  ungroup()
+
+# confirm best_war is now in batter_stats
+glimpse(batter_stats)
+```
+
+## Exercise 3
+
+```{r}
+# create prime_age to only include 
+# row from year of best war for each player
+prime_age <- batter_stats |> 
+  filter(war == best_war)
+
+dim(prime_age)
+```
+
+> The new `prime_age` dataset contains `r nrow(prime_age)` rows and `r ncol(prime_age)` columns.
+
+## Exercise 4
+
+```{r}
+# find number of unique players 
+batter_stats |> distinct(x_mlbamid) |> nrow()
+
+# verify with a 2nd method (optional)
+length(unique(batter_stats$x_mlbamid))
+```
+
+> There are `r length(unique(batter_stats$x_mlbamid))` unique players in the `batter_stats` dataset, which is less than the number of rows in `prime_age`.
+
+```{r}
+# create variable that counts # of times each ID appears in the dataset
+prime_age <- prime_age |> 
+  group_by(x_mlbamid) |> 
+  mutate(n = n()) |> 
+  ungroup() |> 
+  relocate(n) # move to front for easier viewing
+
+prime_age |> 
+  arrange(desc(n))
+```
+
+> There are some players that have as many as 10 rows of data. Upon further inspection of the data (i.e., using `View(prime_age)`), we discover that some players have a WAR of 0 for each year, so all of their rows are being retained.
+
+## Exercise 5
+
+> One possible solution is to use `distinct()` to keep only distinct combinations of `x_mlbamid` and `best_war`. Because this results in the desired number of rows (3752), this solution is adequate. NOTE, you should not simply filter out all rows with `war` or `best_war` equal to 0, because this will exclude entire players from the data.
+
+```{r}
+prime_age <- prime_age |> 
+  distinct(x_mlbamid, best_war, .keep_all = TRUE) |> 
+  select(-n) # remove row count, no longer relevant
+
+glimpse(prime_age)
+```
+
+## Exercise 6
+
+```{r}
+ggplot(prime_age, aes(x = age)) +
+  geom_histogram(color = "white", binwidth = 2) +
+  labs(title = "Age at which MLB players have their highest WAR")
+```
+
+## Exercise 7
+
+> Based on the histogram, it looks like a typical player reaches their prime within a year or two of age 25.
+
+## Exercise 8
+
+```{r}
+prime_age |> 
+  summarize(mean_prime_age = mean(age),
+            med_prime_age = median(age))
+```
+
+## Exercise 9
+
+```{r}
+mean_age <- mean(prime_age$age)
+median_age <- median(prime_age$age)
+
+ggplot(prime_age, aes(x = age)) +
+  geom_histogram(color = "white",
+                 binwidth = 2) +
+  geom_vline(xintercept = mean_age, color = "red") +
+  geom_vline(xintercept = median_age, color = "blue")
+```
+
+## Exercise 10
+
+```{r}
+# create new best_war variable
+pitcher_stats <- pitcher_stats |> 
+  group_by(x_mlbamid) |> 
+  mutate(best_war = max(war)) |> 
+  ungroup()
+
+# keep only best war year for each player
+prime_age_pitchers <- pitcher_stats |> 
+  filter(war == best_war) |> 
+  distinct(x_mlbamid, best_war, .keep_all = TRUE)
+
+#check that dimensions match
+length(unique(pitcher_stats$x_mlbamid)) == nrow(prime_age_pitchers)
+
+# compute mean, median prime age for pitchers
+mean_age_pitchers <- mean(prime_age_pitchers$age)
+median_age_pitchers <- median(prime_age_pitchers$age)
+
+ggplot(prime_age_pitchers, aes(x = age)) +
+  geom_histogram(color = "white",
+                 binwidth = 2) +
+  geom_vline(xintercept = mean_age_pitchers, color = "red") +
+  geom_vline(xintercept = median_age_pitchers, color = "blue")
+```
+
+> The mean prime age for pitchers is `r round(mean_age_pitchers, 1)` and the median is `r round(median_age_pitchers, 1)`, which is slightly higher than for all batters. 
+
+## Exercise 11
+
+> The prime age of batters and pitchers are similar, but pitchers appear to reach their prime at a slightly older age (27 vs 26). Overall, there is a wide range of prime ages, anywhere from 19 to 42 or 43. However, it would be worth investigating whether there is a smaller age range if you restrict the analysis to only All-Star level players (often WAR of 3+) or MVP-level players (often WAR of 6+). 
+
+> One limitation is the relatively narrow range of seasons considered (2014 - 2023). In particular, some players may have peaked before this window or have yet to peak by 2023. You could extend the analysis to include more seasons, and take care to only include players who could have reasonably reached their prime in those years.
+
+> This analysis chose a particular definition of "prime age" - the age at which a MLB player reaches their peak WAR. WAR is only one metric of player performance (though it is intended to be multi-faceted); you could conduct similar analyses with different performance metrics to see if the prime age of 26-27 holds true. Similarly, it would be interesting to investigate whether this result has remained true over time, or if there have been any noteworthly age-related performance trends in the league over time (the MLB is over 100 years old!). 
+
+

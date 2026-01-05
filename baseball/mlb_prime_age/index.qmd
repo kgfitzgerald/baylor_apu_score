@@ -384,6 +384,12 @@ Write a paragraph summarizing your findings about the prime age of batters and p
 
 :::
 
+This analysis showcased many common steps in a data science workflow. We started with a motivating question *“at what age do professional baseball players typically reach their prime?”*. As is often the case in a data analysis, we had to decide how to *operationalize* our research question. That is, how would we define and measure our key outcome of interest: prime age. This process is often a combination of incorporating content knowledge (e.g., about baseball) and determining what data is realistically available for analysis. This module proposed defining a player's prime age to be the year at which he reaches his highest WAR. This metric is both readily available for all MLB players and is a widely used measure for comprehensive player performance. There are often many different ways to operationalize a research question, but the goal is to be transparent about the decisions that were made and why. 
+
+Once you have your data and a reasonable way of measuring your outcome of interest, data wrangling is often required to derive relevant variables and/or to get your dataset in a format more conducive for answering your question. For this analysis, you started with a dataset that had one row per season for every player, but you needed a dataset that had only one row per player, and that row should correspond to the season where he reached his highest WAR. This required a combination of dplyr verbs including `group_by()`, `mutate()`, `filter()`, and `distinct()`. Along the way, you used good data science practices to check the dimensions of your data to discern whether your code performed as expected and whether the analysis was proceeding logically. Both summary statistics and visualizations were used in actually answering the research question once the data was in its proper form. 
+
+At the end of any analysis, you should always identify the key takeaways, reflect on the limitations of the analyses, and consider how you might extend the analysis or incorporate additional data in the future. 
+
 # FOR FUN
 
 You can investigate an individual player's WAR trajectory over time using the app below. If you're curious, you can see the R code that built the Shiny app [here](https://github.com/kgfitzgerald/baylor_apu_score/blob/main/baseball/mlb_prime_age/app.R) and even try making your own! 
