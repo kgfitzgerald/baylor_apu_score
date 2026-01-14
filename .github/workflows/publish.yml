@@ -26,25 +26,27 @@ jobs:
 
       # 3 ▸ Install ONLY site dependencies (fast + avoids ggmosaic)
       - name: Install R package dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          cache: true
-          packages: |
-            tidyverse
-            fs
-            glue
-            lubridate
-            SimplyAgree
-            DescTools
-            fmsb
-            scales
-            janitor
-            psych
-            here
-            irr
-            magrittr
-            flextable
-            webexercises
+  uses: r-lib/actions/setup-r-dependencies@v2
+  with:
+    cache: true
+    extra-repositories: https://cloud.r-project.org
+    packages: |
+      tidyverse
+      fs
+      glue
+      lubridate
+      SimplyAgree
+      DescTools
+      fmsb
+      scales
+      janitor
+      psych
+      here
+      irr
+      magrittr
+      flextable
+      webexercises
+    pak-args: --no-suggests
 
       # 4 ▸ Install Quarto
       - name: Set up Quarto
