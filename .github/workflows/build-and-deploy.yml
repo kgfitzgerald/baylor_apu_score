@@ -8,35 +8,43 @@ jobs:
   render-deploy:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
+      # 1 ▸ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          persist-credentials: true
 
+      # 2 ▸ Setup R
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.4'
 
+      # 3 ▸ Setup Quarto
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
+      # 4 ▸ Install R dependencies
       - name: Install R dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          cache-version: 1
-          packages: |
-            any::fs
-            any::stringr
-            any::glue
-            any::quarto
+        run: |
+          packages <- c("fs","stringr","glue","quarto")
+          installed <- packages %in% rownames(installed.packages())
+          if(any(!installed)) install.packages(packages[!installed], repos = "https://cloud.r-project.org")
 
-      #- name: Build sport and sidebar pages
-      #  run: Rscript build_sport_pages.R && Rscript build_sidebar_yaml.R
-
+      # 5 ▸ Render site into docs/
       - name: Render site
-        run: quarto render
+        run: quarto render --output-dir docs
 
-      - name: Deploy to GitHub Pages
-        uses: quarto-dev/quarto-actions/publish@v2
-        with:
-          target: gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # 6 ▸ Commit and push rendered site back to main
+      - name: Commit and push docs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          git diff-index --quiet HEAD || git commit -m "Update site via GitHub Actions"
+          git push
+        shell: bash
