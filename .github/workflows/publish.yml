@@ -46,6 +46,7 @@ jobs:
       magrittr
       flextable
       webexercises
+      parameters
     pak-args: --no-suggests
 
       # 4 ▸ Install Quarto
