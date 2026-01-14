@@ -30,10 +30,11 @@ jobs:
       - name: Cache R packages
         uses: actions/cache@v3
         with:
-          path: ${{ R_LIBS_USER }}
-          key: ${{ runner.os }}-r-packages-${{ hashFiles('**/*.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-r-packages-
+        path: $R_LIBS_USER
+        key: ${{ runner.os }}-r-packages-${{ hashFiles('**/*.yml') }}
+        restore-keys: |
+      ${{ runner.os }}-r-packages-
+
 
       # 4 ▸ Install all required R packages
       - name: Install required R packages
