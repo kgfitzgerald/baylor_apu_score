@@ -1,86 +1,26 @@
-
-name: Publish Fitzgerald Modules (Fast & Fixed Lib)
+name: R build (modern)
 
 on:
   push:
-    branches: [main]
-    # ✅ Only run when your modules (or this workflow) change
-    paths:
-      - 'volleyball/ncaa_d1/**'
-      - 'baseball/mlb_prime_age/**'
-      - '.github/workflows/publish-fitzgerald-modules.yml'
-  workflow_dispatch:  # lets you run it on demand from the Actions tab
-
-# ✅ Cancel an in‑flight run if you push again quickly
-concurrency:
-  group: publish-fitzgerald-${{ github.ref }}
-  cancel-in-progress: true
+  pull_request:
 
 jobs:
-  render-and-publish:
+  modern:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write     # needed to publish to gh-pages
-
-    # ✅ Make R & Quarto use the SAME user library across all steps (workspace-local)
-    env:
-      R_LIBS_USER: ${{ github.workspace }}/.r-lib
-
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Set up R
-        uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-r@v2
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          r-version: '4.4'   # latest 4.4.x
+          packages: |
+            tidyverse
+            ggridges
+            cowplot
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-
-      # ✅ Ensure the library folder exists (shared by all steps)
-      - name: Create R user library
-        run: mkdir -p "$R_LIBS_USER"
-
-      # ✅ Cache the exact library path we will install into (big speed-up after first run)
-      - name: Cache R packages
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-4.4-lib-${{ hashFiles('volleyball/ncaa_d1/**', 'baseball/mlb_prime_age/**', '.github/workflows/publish-fitzgerald-modules.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-r-4.4-lib-
-
-      # ───────── Volleyball ─────────
-      # ✅ Install directly into R_LIBS_USER so Quarto uses the same library
-      - name: Install packages for volleyball
+      - name: Run module checks
         run: |
-          Rscript -e 'cat("Lib paths BEFORE install:\\n"); print(.libPaths())'
-          Rscript -e 'install.packages(c("tidyverse","ggridges","cowplot"), lib=Sys.getenv("R_LIBS_USER"), repos="https://cloud.r-project.org")'
-          Rscript -e '.libPaths(c(Sys.getenv("R_LIBS_USER"), .libPaths())); cat("Lib paths AFTER install:\\n"); print(.libPaths())'
-          Rscript -e 'library(tidyverse); library(ggridges); library(cowplot); cat("Loaded volleyball packages OK\\n")'
+          Rscript -e "library(tidyverse); cat('Modern stack OK\n')"
 
-      # ✅ Render the exact file (avoids project-root ambiguity)
-      - name: Render volleyball index.qmd
-        run: quarto render volleyball/ncaa_d1/index.qmd
-
-      # ───────── MLB Prime Age ─────────
-      # Add any other packages that MLB uses to the vector below (e.g., "DT","patchwork","lubridate")
-      - name: Install packages for MLB module
-        run: |
-          Rscript -e 'install.packages(c("tidyverse","knitr","shiny"), lib=Sys.getenv("R_LIBS_USER"), repos="https://cloud.r-project.org")'
-          Rscript -e '.libPaths(c(Sys.getenv("R_LIBS_USER"), .libPaths())); library(tidyverse); library(knitr); library(shiny); cat("Loaded MLB packages OK\\n")'
-
-      - name: Render MLB index.qmd
-        run: quarto render baseball/mlb_prime_age/index.qmd
-
-      # ───────── Publish without re-rendering the whole site ─────────
-      - name: Publish to GitHub Pages (no re-render)
-        uses: quarto-dev/quarto-actions/publish@v2
-        with:
-          target: gh-pages
-          path: .
-          render: false     # publish what we already rendered
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
