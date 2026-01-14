@@ -1,72 +1,74 @@
+name: Quarto Publish
+
 on:
   workflow_dispatch:
   push:
     branches:
       - main
 
-name: Quarto Publish
-
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write
+      contents: write  # allows pushing to gh-pages
 
     steps:
-      # 1 ▸ Check out your repository
+      # 1 ▸ Check out the repository
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # 2 ▸ Install R
+      # 2 ▸ Set up R
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: '4.4'
 
-      # 3 ▸ Install ONLY site dependencies (fast + avoids ggmosaic)
-      - name: Install R package dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
+      # 3 ▸ Cache R packages
+      - name: Cache R packages
+        uses: actions/cache@v3
         with:
-          cache: true
-          extra-repositories: https://cloud.r-project.org
-          packages: |
-            tidyverse
-            fs
-            glue
-            lubridate
-            SimplyAgree
-            DescTools
-            fmsb
-            scales
-            janitor
-            psych
-            here
-            irr
-            magrittr
-            flextable
-            webexercises
-            parameters
-            factoextra
-            NbClust
-            cluster
-            formatR
-            ClusterR
-            mclust
-            easystats
-            knitr
-            kableExtra
-            condformat
-            formattable
-            rectablefmtr
-            plotly
-          pak-args: --no-suggests
+          path: ${{ R_LIBS_USER }}
+          key: ${{ runner.os }}-r-packages-${{ hashFiles('**/*.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-r-packages-
 
-      # 4 ▸ Install Quarto
+      # 4 ▸ Install all required R packages directly
+      - name: Install all required R packages
+        run: |
+          packages <- c(
+            "parameters",
+            "factoextra",
+            "NbClust",
+            "cluster",
+            "formatR",
+            "tidyverse",
+            "ClusterR",
+            "mclust",
+            "easystats",
+            "here",
+            "knitr",
+            "kableExtra",
+            "condformat",
+            "formattable",
+            "reactablefmtr",
+            "scales",
+            "plotly",
+            "flextable"
+          )
+          installed <- packages %in% rownames(installed.packages())
+          if(any(!installed)) {
+            install.packages(packages[!installed], repos = "https://cloud.r-project.org", dependencies = TRUE)
+          }
+          # Verify all packages load
+          lapply(packages, library, character.only = TRUE)
+          cat("All required packages installed and loaded successfully!\n")
+
+      # 5 ▸ Set up Quarto
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      # 5 ▸ Render the site and publish to gh-pages
+      # 6 ▸ Render the site and publish to gh-pages
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
