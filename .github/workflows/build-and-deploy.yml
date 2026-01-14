@@ -28,8 +28,8 @@ jobs:
             any::glue
             any::quarto
 
-      - name: Build sport and sidebar pages
-        run: Rscript build_sport_pages.R && Rscript build_sidebar_yaml.R
+      #- name: Build sport and sidebar pages
+      #  run: Rscript build_sport_pages.R && Rscript build_sidebar_yaml.R
 
       - name: Render site
         run: quarto render

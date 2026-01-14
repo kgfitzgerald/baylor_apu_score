@@ -2,7 +2,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main          # run on every push to main
+      - main
 
 name: Quarto Publish
 
@@ -11,47 +11,44 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write          # allow the workflow to push to gh-pages
+      contents: write
 
     steps:
       # 1 ▸ Check out your repository
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 2 ▸ Install R 4.4.x
+      # 2 ▸ Install R
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
         with:
-          r-version: '4.4'      # GitHub will pick the latest patch (currently 4.4.2)
+          r-version: '4.4'
 
-      # 3 ▸ Install required R packages (CRAN)
+      # 3 ▸ Install ONLY site dependencies (fast + avoids ggmosaic)
       - name: Install R package dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          needs: |
-            any::tidyverse
-            any::quarto
-            any::fs
-            any::glue
-            any::lubridate
-            any::SimplyAgree
-            any::DescTools
-            any::fmsb
-            any::scales
-            any::janitor
-            any::psych
-            any::here
-            any::irr
-            any::magrittr
-            any::flextable
-            any::webexercises
-            cache: true         # uncomment to enable dependency caching
+          cache: true
+          packages: |
+            tidyverse
+            fs
+            glue
+            lubridate
+            SimplyAgree
+            DescTools
+            fmsb
+            scales
+            janitor
+            psych
+            here
+            irr
+            magrittr
+            flextable
+            webexercises
 
       # 4 ▸ Install Quarto
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-        # with:
-        #   version: '1.5.48'   # pin a specific Quarto version if desired
 
       # 5 ▸ Render the site and publish to gh-pages
       - name: Render and Publish
