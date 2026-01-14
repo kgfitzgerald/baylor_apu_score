@@ -384,7 +384,10 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#data-analytics-in-volleyball" id="toc-data-analytics-in-volleyball" class="nav-link" data-scroll-target="#data-analytics-in-volleyball">Data Analytics in volleyball</a></li>
+  </ul></li>
   <li><a href="#getting-started-volleyball-data" id="toc-getting-started-volleyball-data" class="nav-link" data-scroll-target="#getting-started-volleyball-data">Getting started: Volleyball data</a>
   <ul class="collapse">
   <li><a href="#volleyball-lingo" id="toc-volleyball-lingo" class="nav-link" data-scroll-target="#volleyball-lingo">Volleyball lingo</a></li>
@@ -554,6 +557,12 @@ cookieconsent.run({
 <br>
 </p>
 <p><strong>NOTE</strong>: <strong>R</strong> is the name of the programming language itself and <strong>RStudio</strong> is a convenient interface. To throw even more lingo in, you may be accessing RStudio through a web-based version called <strong>Posit Cloud</strong>. But R is the programming language you are learning :)</p>
+</div></div><section id="data-analytics-in-volleyball" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="data-analytics-in-volleyball">Data Analytics in volleyball</h2>
+<p>While this module utilizes aggregate team-level data to explore trends across all NCAA Division I teams, individual teams are increasingly collecting their own player-level and point-by-point level data to help inform their strategy. Check out <a href="https://www.avca.org/blog/the-guide-to-developing-an-analytics-strategy/">this article</a> where Julie Street, a D1 volleyball coach and recruiting coordinator, discusses how their team harnesses data to inform all parts of their game, from determining play time to what defense to use against an opponent to even allocating practice time effectively.</p>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p>Street, Julie. 13 July 2021. “The Guide to Developing an Analytics Strategy in Volleyball.” American Volleyball Coaches Association. https://www.avca.org/blog/the-guide-to-developing-an-analytics-strategy/</p>
 </div></div><div class="callout callout-style-default callout-caution no-icon callout-titled" title="Research Questions">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -582,6 +591,7 @@ cookieconsent.run({
 </div>
 </div>
 </div>
+</section>
 </section>
 <section id="getting-started-volleyball-data" class="level1 page-columns page-full">
 <h1>Getting started: Volleyball data</h1>
@@ -881,14 +891,18 @@ $ winning_season       &lt;chr&gt; "no", "yes", "yes", "yes", "yes", "yes", "yes
 <li>spread (e.g.&nbsp;the range of possible values or a summary statistic such as the IQR or standard deviation)</li>
 <li>potential outliers (e.g.&nbsp;any unusual or extreme observations)</li>
 </ul>
-<p>Don’t simply report technical terms or summary stats, but rather seek to interpret what those mean in the context of the data.</p>
-</div>
-</div>
-<p>For the visualization of <code>kills_per_set</code> above, we might describe and interpret the distribution as follows:</p>
+<p>Don’t simply report technical terms or summary stats, but rather seek to interpret what those mean in the context of the data. For example, for the visualization of <code>kills_per_set</code> above, we might describe and interpret the distribution as follows:</p>
 <blockquote class="blockquote">
-<p>Looking across all NCAA Division I team averages for the 2022 season, we see a unimodal left-skewed distribution of average number of kills per set. A “typical” team averages about 12 kills per set, which is just under half the number of points requried to win a set (25). The vast majority of teams average between 8 and 15 kills per set, but there are a few outlier teams that average as few as 5 kills per set.</p>
+<p>Looking across all NCAA Division I team averages for the 2022 season, we see a unimodal left-skewed distribution of average number of kills per set. The vast majority of teams average between 8 and 15 kills per set, but there are a few outlier teams that average as few as 5 kills per set. A “typical” team averages about 12 kills per set, which is just under half the number of points requried to win a set (25).</p>
 </blockquote>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
+</div>
+</div>
+
+<div class="no-row-height column-margin column-container"><div class="">
+<p><br>
+<br>
+<strong>TIP</strong>: Read <a href="https://openintro-ims.netlify.app/explore-numerical#histograms">here</a> for a reminder of terminology and how to describe a distribution in terms of its modality and skewness.</p>
+</div></div><div class="callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -935,28 +949,6 @@ We use the term “argument” to refer to the “inputs” to a function.</p>
 </div>
 <div class="callout-body-container callout-body">
 <ol type="a">
-<li><p>Copy, paste the code above to reproduce the visualization in your document.</p></li>
-<li><p>Describe the shape of the distribution of <code>kills_per_set</code>. Make sure to comment on <strong>modality</strong>, <strong>skewness</strong>, and whether there are any <strong>potential outliers</strong>.</p></li>
-<li><p>Based on this histogram, how would you answer the research question (how many kills are typical per set)?</p></li>
-</ol>
-</div>
-</div>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p><br>
-<br>
-<strong>TIP</strong>: Read <a href="https://openintro-ims.netlify.app/explore-numerical#histograms">here</a> for a reminder of terminology and how to describe a distribution in terms of its modality and skewness.</p>
-</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 4">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Exercise 4
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="a">
 <li><p>Copy, paste, tweak the <code>ggplot()</code> code above to explore the distribution of <code>blocks_per_set</code>.</p></li>
 <li><p>Describe the shape of the distribution and interpret what you see.</p></li>
 <li><p>Copy, paste, tweak the <code>ggplot()</code> code above to explore the distribution of <code>aces_per_set</code>.</p></li>
@@ -975,13 +967,13 @@ We use the term “argument” to refer to the “inputs” to a function.</p>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 5">
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 4">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Exercise 5
+<span class="screen-reader-only">Note</span>Exercise 4
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1018,13 +1010,13 @@ We use the term “argument” to refer to the “inputs” to a function.</p>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Notice it follows the same general format as the histogram code, but now we use <code>geom_bar()</code> instead of <code>geom_histogram()</code> because we are dealing with one categorical instead of one numeric variable.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 6">
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 5">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Exercise 6
+<span class="screen-reader-only">Note</span>Exercise 5
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1071,13 +1063,13 @@ We use the term “argument” to refer to the “inputs” to a function.</p>
 <p><br>
 </p>
 <p>Notice that the scatterplot code again follows the same general format of a <code>ggplot()</code> layer, with data and <code>aes</code>thetics sepcified inside, and a <code>geom_</code> layer, this time <code>geom_point()</code>. Because a scatterplot is for <em>two</em> variables instead of one, we must specify two variables, <code>x</code> and <code>y</code>, in the <code>aes()</code> function.</p>
-</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 7">
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 6">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Exercise 7
+<span class="screen-reader-only">Note</span>Exercise 6
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1142,13 +1134,13 @@ We use the term “argument” to refer to the “inputs” to a function.</p>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 8">
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 7">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Exercise 8
+<span class="screen-reader-only">Note</span>Exercise 7
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1219,13 +1211,13 @@ We use the term “argument” to refer to the “inputs” to a function.</p>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 9">
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 8">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Exercise 9
+<span class="screen-reader-only">Note</span>Exercise 8
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1272,13 +1264,13 @@ We use the term “argument” to refer to the “inputs” to a function.</p>
 </div>
 </div>
 </div></div>
-<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 10">
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 9">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Exercise 10
+<span class="screen-reader-only">Note</span>Exercise 9
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1313,6 +1305,19 @@ We use the term “argument” to refer to the “inputs” to a function.</p>
 <p>For example, if you identify that you have two numeric variables, you should copy paste code for scatterplots from the “Two numeric variables” section of this lab.</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 10">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Exercise 10
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Kills and blocks are both typically scored by tall players at the net. Is there a strong positive relationship between kills and blocks? In other words, if a team has strong hitters (that get lots of kills), are they also more likely to have strong blockers? Produce a visualization to investigate this question and comment on your findings.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 11">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1320,19 +1325,6 @@ We use the term “argument” to refer to the “inputs” to a function.</p>
 </div>
 <div class="callout-title-container flex-fill">
 <span class="screen-reader-only">Note</span>Exercise 11
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Kills and blocks are both typically scored by tall players at the net. Is there a strong positive relationship between kills and blocks? In other words, if a team has strong hitters (that get lots of kills), are they also more likely to have strong blockers? Produce a visualization to investigate this question and comment on your findings.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 12">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Exercise 12
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1349,26 +1341,26 @@ We use the term “argument” to refer to the “inputs” to a function.</p>
 <br>
 <br>
 <strong>TIP</strong>: If the x-axis of your visualization is too cluttered to read all the category labels, try switching the categorical variable to the y-axis instead. You can do this by simply specifying <code>y = variable</code> instead of <code>x = variable</code> inside <code>aes()</code>.</p>
-</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 13">
+</div></div><div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 12">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Exercise 13
+<span class="screen-reader-only">Note</span>Exercise 12
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p>Produce a visualization to investigate the relationship between assists and kills. Comment on what you find and explain why the relationship is what it is.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 14">
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 13">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Exercise 14
+<span class="screen-reader-only">Note</span>Exercise 13
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1383,13 +1375,13 @@ We use the term “argument” to refer to the “inputs” to a function.</p>
 </section>
 <section id="wrap-up-reflection" class="level1">
 <h1>Wrap-up / reflection</h1>
-<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 15">
+<div class="callout callout-style-default callout-note no-icon callout-titled" title="Exercise 14">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Exercise 15
+<span class="screen-reader-only">Note</span>Exercise 14
 </div>
 </div>
 <div class="callout-body-container callout-body">

@@ -16,5 +16,24 @@
       "/volleyball/ncaa_d1/index.html",
       "/baseball/mlb_prime_age/index.html"
     ]
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/basketball/Clustering/index.html",
+      "/mma/MMA_IRR/index.html",
+      "/anw/kaplan_meier/index.html",
+      "/soccer/mls_decision_errors/index.html",
+      "/golf/pga_masters/index.html",
+      "/golf/pga_masters_nor/index.html",
+      "/baseball/mlb_injuries/index.html",
+      "/baseball/mlb_prime_age/index.html",
+      "/golf/pga_gir_nor/index.html",
+      "/basketball/conditional_probability/index.html",
+      "/golf/pga_gir/index.html",
+      "/mma/mma_chisquare/index.html",
+      "/tennis/tennis_sampsize/index.html",
+      "/volleyball/ncaa_d1/index.html"
+    ]
   }
 ]

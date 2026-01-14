@@ -47,6 +47,19 @@ jobs:
             flextable
             webexercises
             parameters
+            factoextra
+            NbClust
+            cluster
+            formatR
+            ClusterR
+            mclust
+            easystats
+            knitr
+            kableExtra
+            condformat
+            formattable
+            rectablefmtr
+            plotly
           pak-args: --no-suggests
 
       # 4 ▸ Install Quarto

@@ -22,5 +22,11 @@
   },
   "anw/kaplan_meier/index.qmd": {
     "index.html": "b1c48943"
+  },
+  "basketball/Clustering/index.qmd": {
+    "index.html": "1a901ba5"
+  },
+  "baseball/mlb_prime_age/index.qmd": {
+    "index.html": "53b80495"
   }
 }

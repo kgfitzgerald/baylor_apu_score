@@ -59,18 +59,6 @@ f.  YOUR ANSWER HERE
 a.  
 
 ```{r}
-# your code here - remove the hashtag! 
-```
-
-b.  YOUR ANSWER HERE
-
-c.  YOUR ANSWER HERE
-
-## Exercise 4
-
-a.  
-
-```{r}
 #your code here - remove the hashtag! 
 ```
 
@@ -86,7 +74,7 @@ d.  YOUR ANSWER HERE
 
 e.  YOUR ANSWER HERE
 
-## Exercise 5
+## Exercise 4
 
 a.  YOUR ANSWER HERE
 
@@ -98,7 +86,7 @@ d.  YOUR ANSWER HERE
 
 # One categorical variable
 
-## Exercise 6
+## Exercise 5
 
 a.  
 
@@ -110,7 +98,7 @@ b.  YOUR ANSWER HERE
 
 # Two numeric variables
 
-## Exercise 7
+## Exercise 6
 
 a.  
 
@@ -122,7 +110,7 @@ b.  YOUR ANSWER HERE
 
 # Two categorical variables
 
-## Exercise 8
+## Exercise 7
 
 a.  
 
@@ -142,7 +130,7 @@ e.  YOUR ANSWER HERE
 
 # One numeric & one categorical variable
 
-## Exercise 9
+## Exercise 8
 
 a.  
 
@@ -160,7 +148,7 @@ c.  YOUR ANSWER HERE
 
 # More than two variables
 
-## Exercise 10
+## Exercise 9
 
 a.  
 
@@ -171,6 +159,14 @@ a.
 b.  YOUR ANSWER HERE
 
 c.  YOUR ANSWER HERE
+
+## Exercise 10
+
+```{r}
+# your code here - remove the hashtag!
+```
+
+YOUR ANSWER HERE
 
 ## Exercise 11
 
@@ -197,14 +193,6 @@ YOUR ANSWER HERE
 YOUR ANSWER HERE
 
 ## Exercise 14
-
-```{r}
-# your code here - remove the hashtag!
-```
-
-YOUR ANSWER HERE
-
-## Exercise 15
 
 a.  YOUR ANSWER HERE
 
