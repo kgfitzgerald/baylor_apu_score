@@ -104,15 +104,14 @@ Street, Julie. 13 July 2021. "The Guide to Developing an Analytics Strategy in V
 During this lab, you'll investigate the following research questions (don't worry if you're new to volleyball, we'll introduce lingo soon!):
 
 + Which NCAA Division I women’s volleyball team had the best and worst records during the 2022-3 season? What percentage of matches did they win? (Exercise 2)
-+ How many kills are typically scored per set? (Exercise 3)
-+ What is the most common way of scoring a point in volleyball (kill, block, or ace)? (Exercises 4 & 5)
-+ Which region has the most teams? Which conference has the most teams? How many teams are in a typical conference? (Exercises 6 & 12) 
-+ If your defense tends to be strong (e.g. lots of digs), does your offense also tend to be strong (lots of kills)? (Exercise 7)
-+ Which conference had the most teams with winning seasons? Which conference had the least? (Exercise 8)
-+ Does the average number of attacks vary by region? (Exercise 9)
-+ What's the relationship between a team's hitting percentage, their opponent's hitting percentage, and their win percentage? (Exercise 10)
-+ If a team has strong hitters (that get lots of kills), are they also more likely to have strong blockers? (Exercise 11)
-+ What's the relationship between assists and kills? (Exercise 13)
++ What is the most common way of scoring a point in volleyball (kill, block, or ace)? (Exercises 3 & 4)
++ Which region has the most teams? Which conference has the most teams? How many teams are in a typical conference? (Exercises 5 & 11) 
++ If your defense tends to be strong (e.g. lots of digs), does your offense also tend to be strong (lots of kills)? (Exercise 6)
++ Which conference had the most teams with winning seasons? Which conference had the least? (Exercise 7)
++ Does the average number of attacks vary by region? (Exercise 8)
++ What's the relationship between a team's hitting percentage, their opponent's hitting percentage, and their win percentage? (Exercise 9)
++ If a team has strong hitters (that get lots of kills), are they also more likely to have strong blockers? (Exercise 10)
++ What's the relationship between assists and kills? (Exercise 12)
 
 :::
 
