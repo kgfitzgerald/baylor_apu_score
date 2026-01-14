@@ -96,6 +96,8 @@ c.  YOUR ANSWER HERE
 
 d.  YOUR ANSWER HERE
 
+# One categorical variable
+
 ## Exercise 6
 
 a.  
@@ -133,6 +135,10 @@ a.
 b.  YOUR ANSWER HERE
 
 c.  YOUR ANSWER HERE
+
+d.  YOUR ANSWER HERE
+
+e.  YOUR ANSWER HERE
 
 # One numeric & one categorical variable
 

@@ -1,0 +1,247 @@
+---
+title: "Volleyball - Women's NCAA Division I"
+author: "SAMPLE SOLUTION"
+format:
+  html:
+    self-contained: true
+    toc: true
+    toc_float: true
+    number_section: false
+    highlight: tango
+editor: visual
+editor_options:
+  chunk_output_type: console
+---
+
+# Getting started: Volleyball data
+
+```{r, message = FALSE}
+library(tidyverse) #loads package
+library(ggridges)
+
+volleyball <- read_csv("volleyball_ncaa_div1_2022_23_clean.csv") #loads data
+```
+
+```{r}
+glimpse(volleyball)
+```
+
+## Exercise 1
+
+a.  This dataset contains `r nrow(volleyball)` rows and `r ncol(volleyball)` columns 
+
+b.  Each row represents a NCAA volleyball team
+
+c.  4 categorical variables: `team`, `conference`, `region`, `winning_season`
+
+d.  There are 9 continuous numeric variables
+
+e.  There are 2 discrete numeric variables: `w` and `l`
+
+## Exercise 2
+
+a.  Texas had the highest win percentage in the 2022-3 season.
+
+b.  They won 96.6% of their matches
+
+c.  In 2022-3, Texas was in the Big 12 conference in the South region (note, Texas has since moved out of the Big 12 into the SEC)
+
+d.  South Carolina State had the worst record 
+
+e.  They won 0% of their matches
+
+f.  They are in the MEAC conference in the southeast region
+
+# One numeric variable
+
+## Exercise 3
+
+a.  
+
+```{r}
+ggplot(volleyball, aes(x = kills_per_set)) + 
+  geom_histogram(color = "white")
+```
+
+b.  The distribution of average kills per set is unimodal (with a peak around 12) and left-skewed, with potential outliers around 5 kills per set.
+
+c.  From the histogram, it looks like a typical (median) number of kills per set is around 12. 
+
+## Exercise 4
+
+a.  
+
+```{r}
+ggplot(volleyball, aes(x = blocks_per_set)) + 
+  geom_histogram(color = "white")
+```
+
+b.  The distribution of average blocks per set is unimodal (with peak around 2) and symmetric. There are a few teams that averaged less than 1 or above 3 blocks per set, but the vast majority are between 1 and 3 blocks per set. 
+
+c.  
+
+```{r}
+ggplot(volleyball, aes(x = aces_per_set)) + 
+  geom_histogram(color = "white")
+```
+
+d.  The distribution of average aces per set is unimodal (with a peak around 1.5) and slightly skewed right, with a few potential outliers of teams that average more than 2 aces per set. 
+
+e.  Based on the three histograms, kills are by far the most common way of scoring a point in volleyball. A team scores roughly 12 kills a set, but only 1-3 blocks and 1-2 aces on average. 
+
+## Exercise 5
+
+a.  The mode (most common value) is only visible in the histogram (visible by highest bar)
+
+b.  The skewness is visible in both visualizations by discerning whether there is a longer "tail" on the left or right, or whether the two tails are "balanced". For histograms, this is visible by the location and height of the bars at each end of the range. For boxplots, this is visible by how far the "whiskers" extend on both sides of the box, and by the outliers represented as dots. 
+
+c.  Yes, outliers are visible in both histograms and boxplots. The boxplots make them slightly more obvious, since datapoints only appear as dots if they fall beyond 1.5*IQR. 
+
+d.  A boxplot demarcates the median and 1st & 3rd quantiles of the data
+
+# One categorical variable
+
+## Exercise 6
+
+a.  
+
+```{r}
+ggplot(volleyball, aes(x = region)) +
+  geom_bar()
+```
+
+b.  The East region has the most teams, with more than 70
+
+# Two numeric variables
+
+## Exercise 7
+
+a.  
+
+```{r}
+ggplot(volleyball, aes(x = digs_per_set, 
+                       y = kills_per_set)) +
+  geom_point()
+```
+
+b.  There is a moderate positive relationship between digs and kills per set. That is, teams that tend to be good on defense (lots of digs) also tend to be good on offense (lots of kills), though this is not a particularly strong relationship (as evidenced by the variation/scatter in the cloud of points). 
+
+# Two categorical variables
+
+## Exercise 8
+
+a.  
+
+```{r}
+ggplot(volleyball, aes(y = conference, 
+                       fill = winning_season)) +
+  geom_bar()
+
+ggplot(volleyball, aes(y = conference, 
+                       fill = winning_season)) +
+  geom_bar(position = "fill") +
+  labs(x = "proportion")
+```
+
+b. The regular stacked bar plot shows counts on the x-axis, whereas the standardized stacked bar plots show proportions on the x-axis. The former allows you to see how many teams had winning (and losing) seasons, whereas the later allows you to see what proportion of teams within a conference had winning seasons. The stacked bar plot secondarily allows you to see the total number of teams in each conference.
+
+c.  The first plot shows that the Big Ten has the most teams with winning seasons, as evidenced by the blue bar that reaches farthest to the right. However, if looking at *proportion* of conference teams with winning seasons, the Big 12 beats the Big 10. The fact that the conferences do not have the same total number of teams makes comparing proportions more appropriate. 
+
+d. DI Independent had no teams with winning seasons, which is the same in both visualization types
+
+e. The fact that the conferences do not have the same total number of teams makes comparing proportions more appropriate. By showing proportions, however, you do obscure the raw counts of winning teams and ability to see differences in size of conferences.
+
+# One numeric & one categorical variable
+
+## Exercise 9
+
+a.  
+
+```{r}
+ggplot(volleyball, aes(x = team_attacks_per_set)) +
+  geom_histogram(color = "white", binwidth = 0.5) + 
+  facet_wrap(~ region, ncol = 1)
+
+ggplot(volleyball, aes(x = team_attacks_per_set, 
+                       y = region)) +
+   geom_density_ridges()
+
+ggplot(volleyball, aes(x = team_attacks_per_set, 
+                       y = region)) +
+   geom_boxplot()
+```
+
+b.  The number of attacks does appear to differ somewhat by region. The Midwest has the highest median number of attacks, and the East and West have the lowest, though all region medians fall between about 33 and 36. The Southeast and South have some outliers on the low end, and the East region has some outliers on the high end. 
+
+c.  (Answers will vary) The ridge plots are more aestheticaly pleasing, but the boxplots make it easier to see the median and IQR explicitly. 
+
+# More than two variables
+
+## Exercise 10
+
+a.  
+
+```{r}
+ggplot(volleyball, aes(x = hitting_pctg, 
+                       y = opp_hitting_pctg,
+                        color = win_pctg)) +
+  geom_point() +
+  scale_color_gradient(trans = "reverse")
+```
+
+b.  The visualization displays 3 variables: hitting percentage, opponent's hitting percentage, and win percentage. They are all continuous numeric variables. 
+
+c.  There is a moderate negative relationship between hitting percentage and opponent's hitting percentage. That is, teams with high hitting percentages tend to hold their opponents to lower hitting percentages. Unsurprisingly, this is more likely to be true for teams with high win percentages, as evidenced by the concentration of darker dots in the bottom right area of the graph (teams that tend to outperform their opponents tend to win more games). Conversely, teams that allow their opponents to convert a lot of hits to kills (high `opp_hitting_avg`) tend to win fewer of their games (lighter blue dots). 
+
+## Exercise 11
+
+```{r}
+ggplot(volleyball, aes(x = kills_per_set, 
+                       y = blocks_per_set)) +
+  geom_point()
+```
+
+> This question involves two numeric variables, so a scatterplot is appropriate. We see there is a moderate positive relationship between kills and blocks per set; teams that tend to score a lot of kills also tend to score more blocks. 
+
+## Exercise 12
+
+```{r}
+ggplot(volleyball, aes(y = conference)) +
+  geom_bar()
+```
+
+> The ACC has the most teams, with 15. A typical conference has roughly 10 teams. 
+
+## Exercise 13
+
+```{r}
+ggplot(volleyball, aes(x = assists_per_set, 
+                       y = kills_per_set)) +
+  geom_point()
+```
+
+> This question involves two numeric variables, so a scatterplot is appropriate. There is an extremely strong positive relationship, because in order for a set/pass to be classified as an assist, the next touch has to result in a kill. The only reason it is not a perfect positive correlation (with no scatter) is that it is possible to have a kill without an assist (e.g. when a hitter attacks the ball directly at the net on the 1st touch). 
+
+## Exercise 14
+
+```{r}
+ggplot(volleyball, aes(x = win_pctg)) +
+  geom_histogram(color = "white")
+```
+
+> There is a wide range in win percentages, from 0% to almost 100%. No team had a perfect season, as evidenced by no data points (bar) at 1.00. Texas won the National Championship in 2022, and they are the team that happened to have the highest win percentage that season (though this won't always be the case). 
+
+## Exercise 15
+
+a.  Variable types, which types of visualizations are appropriate for variable types, and how to interpret visualizations.
+
+b.  Answers will vary.
+
+c.  Answers will vary.
+
+d.  Answers will vary.
+
+## BONUS
+
+Answers will vary.
+

@@ -91,20 +91,28 @@ By the end of this module, you will be able to:
 **NOTE**: **R** is the name of the programming language itself and **RStudio** is a convenient interface. To throw even more lingo in, you may be accessing RStudio through a web-based version called **Posit Cloud**. But R is the programming language you are learning :) 
 :::
 
+## Data Analytics in volleyball
+
+While this module utilizes aggregate team-level data to explore trends across all NCAA Division I teams, individual teams are increasingly collecting their own player-level and point-by-point level data to help inform their strategy. Check out [this article](https://www.avca.org/blog/the-guide-to-developing-an-analytics-strategy/) where Julie Street, a D1 volleyball coach and recruiting coordinator, discusses how their team harnesses data to inform all parts of their game, from determining play time to what defense to use against an opponent to even allocating practice time effectively. 
+
+::: column-margin
+Street, Julie. 13 July 2021. "The Guide to Developing an Analytics Strategy in Volleyball." American Volleyball Coaches Association. https://www.avca.org/blog/the-guide-to-developing-an-analytics-strategy/
+:::
+
 ::: {.callout-caution collapse="true" title="Research Questions"}
 
 During this lab, you'll investigate the following research questions (don't worry if you're new to volleyball, we'll introduce lingo soon!):
 
-+ Which NCAA Division I women’s volleyball team had the best and worst records during the 2022-3 season? What percentage of matches did they win? 
-+ How many kills are typically scored per set?
-+ What is the most common way of scoring a point in volleyball (kill, block, or ace)?
-+ Which region has the most teams? Which conference has the most teams? How many teams are in a typical conference?
-+ If your defense tends to be strong (e.g. lots of digs), does your offense also tend to be strong (lots of kills)?
-+ Which conference had the most teams with winning seasons? Which conference had the least?
-+ Does the average number of blocks vary by region?
-+ What's the relationship between a team's hitting percentage, their opponent's hitting percentage, and their win percentage?
-+ If a team has strong hitters (that get lots of kills), are they also more likely to have strong blockers? 
-+ What's the relationship between assists and kills? 
++ Which NCAA Division I women’s volleyball team had the best and worst records during the 2022-3 season? What percentage of matches did they win? (Exercise 2)
++ How many kills are typically scored per set? (Exercise 3)
++ What is the most common way of scoring a point in volleyball (kill, block, or ace)? (Exercises 4 & 5)
++ Which region has the most teams? Which conference has the most teams? How many teams are in a typical conference? (Exercises 6 & 12) 
++ If your defense tends to be strong (e.g. lots of digs), does your offense also tend to be strong (lots of kills)? (Exercise 7)
++ Which conference had the most teams with winning seasons? Which conference had the least? (Exercise 8)
++ Does the average number of attacks vary by region? (Exercise 9)
++ What's the relationship between a team's hitting percentage, their opponent's hitting percentage, and their win percentage? (Exercise 10)
++ If a team has strong hitters (that get lots of kills), are they also more likely to have strong blockers? (Exercise 11)
++ What's the relationship between assists and kills? (Exercise 13)
 
 :::
 
@@ -310,6 +318,33 @@ ggplot(volleyball, aes(x = kills_per_set)) +
 **TIP**: When you run the histogram code, you may see the default message: "`stat_bin() using bins = 30. Pick better value with binwidth`." This is just a message, not an error. It's simply informing you that by default `ggplot()` uses 30 bins when creating a histogram, but you can change this by adding `bins = XX` inside of `geom_histogram()`. For example, `geom_histogram(bins = 10)` will create a histogram with 10 bins. Alternatively, you can specify the *width* of each bin using `binwidth`. Try using `geom_histogram(binwidth = 1)` to see what happens. 
 :::
 
+
+::: {.callout-important}
+
+## Describing distributions
+
+Visualizing one numeric variable shows the **distribution** of the data. We often want to comment on several things to adequately describe a distribution:
+
++ modality (e.g. unimodal, bimodal, multimodal, uniform)
++ skewness (e.g. right-skewed, left-skewed, symmetric)
++ center (e.g. a "typical" value as represented by the mean or median)
++ spread (e.g. the range of possible values or a summary statistic such as the IQR or standard deviation)
++ potential outliers (e.g. any unusual or extreme observations)
+
+Don't simply report technical terms or summary stats, but rather seek to interpret what those mean in the context of the data. For example, for the visualization of `kills_per_set` above, we might describe and interpret the distribution as follows:
+
+> Looking across all NCAA Division I team averages for the 2022 season, we see a unimodal left-skewed distribution of average number of kills per set. The vast majority of teams average between 8 and 15 kills per set, but there are a few outlier teams that average as few as 5 kills per set. A "typical" team averages about 12 kills per set, which is just under half the number of points requried to win a set (25).  
+
+:::
+
+::: column-margin :::
+\
+\
+**TIP**: Read [here](https://openintro-ims.netlify.app/explore-numerical#histograms) for a reminder of terminology and how to describe a distribution in terms of its modality and skewness.    
+:::
+
+
+
 ::: {.callout-important}
 ## IMPORTANT SUMMARY: ggplot basics
 Every basic visualization created with `ggplot` must contain at least two "layers" that are added together with a `+` sign: 
@@ -338,23 +373,9 @@ The `ggplot()` layer should always have two things:
 We use the term "argument" to refer to the "inputs" to a function. 
 :::
 
+
+
 ::: {.callout-note  title="Exercise 3"}
-
-a. Copy, paste the code above to reproduce the visualization in your document.
-
-b. Describe the shape of the distribution of `kills_per_set`. Make sure to comment on **modality**, **skewness**, and whether there are any **potential outliers**. 
-
-c. Based on this histogram, how would you answer the research question (how many kills are typical per set)? 
-
-:::
-
-::: column-margin :::
-\
-\
-**TIP**: Read [here](https://openintro-ims.netlify.app/explore-numerical#histograms) for a reminder of terminology and how to describe a distribution in terms of its modality and skewness.    
-:::
-
-::: {.callout-note  title="Exercise 4"}
 a. Copy, paste, tweak the `ggplot()` code above to explore the distribution of `blocks_per_set`.
 
 b. Describe the shape of the distribution and interpret what you see.
@@ -394,7 +415,7 @@ ggplot(volleyball, aes(x = aces_per_set)) +
 plot_grid(h1, h2, h3, b1, b2, b3, align = 'v', axis = 'l')
 ```
 
-::: {.callout-note  title="Exercise 5"}
+::: {.callout-note  title="Exercise 4"}
 
 The histograms and boxplots are visualizing the same information, but each visualization types has different pros/cons. 
 
@@ -429,7 +450,7 @@ ggplot(data, aes(x = variable)) +
 
 Notice it follows the same general format as the histogram code, but now we use `geom_bar()` instead of `geom_histogram()` because we are dealing with one categorical instead of one numeric variable. 
 
-::: {.callout-note  title="Exercise 6"}
+::: {.callout-note  title="Exercise 5"}
 a. Copy, paste, tweak the code above to create a bar plot for `region`. 
 
 b. Which region has the most teams?
@@ -452,8 +473,6 @@ If your defense tends to be strong (e.g. lots of digs), does your offense also t
 
 To investigate this question, we need a **scatterplot** because we are dealing with **two numeric variables**.
 
-
-
 ```{r}
 ggplot(volleyball, aes(x = digs_per_set, y = kills_per_set)) +
   geom_point()
@@ -466,7 +485,7 @@ Notice that the scatterplot code again follows the same general format of a `ggp
 
 :::
 
-::: {.callout-note  title="Exercise 7"}
+::: {.callout-note  title="Exercise 6"}
 a. Copy, paste the scatterplot code into your .qmd to reproduce the visualization in your document. 
 
 b. Use the scatterplot to answer the research question. Make sure to comment on the strength and direction of the relationship.
@@ -513,7 +532,7 @@ ggplot(volleyball, aes(y = conference, fill = winning_season)) +
 ```
 
 
-::: {.callout-note  title="Exercise 8"}
+::: {.callout-note  title="Exercise 7"}
 
 a. Copy, paste the code for both visualizations above to recreate them in your document.
 
@@ -563,7 +582,7 @@ ggplot(volleyball, aes(x = team_attacks_per_set, y = region)) +
    geom_boxplot()
 ```
 
-::: {.callout-note  title="Exercise 9"}
+::: {.callout-note  title="Exercise 8"}
 
 a. Copy, paste the code for the three visualizations above to reproduce them in your document.
 
@@ -602,7 +621,7 @@ ggplot(volleyball, aes(x = hitting_pctg, y = opp_hitting_pctg,
 
 :::
 
-::: {.callout-note  title="Exercise 10"}
+::: {.callout-note  title="Exercise 9"}
 
 a. Copy, paste the code above to recreate the visualization in your document. 
 
@@ -630,13 +649,13 @@ In the following exercises, once you determine the appropriate visualization for
 For example, if you identify that you have two numeric variables, you should copy paste code for scatterplots from the "Two numeric variables" section of this lab.
 :::
 
-::: {.callout-note  title="Exercise 11"}
+::: {.callout-note  title="Exercise 10"}
 
 Kills and blocks are both typically scored by tall players at the net. Is there a strong positive relationship between kills and blocks? In other words, if a team has strong hitters (that get lots of kills), are they also more likely to have strong blockers? Produce a visualization to investigate this question and comment on your findings. 
 
 :::
 
-::: {.callout-note  title="Exercise 12"}
+::: {.callout-note  title="Exercise 11"}
 
 Produce one visualization to answer the following questions:
 
@@ -653,13 +672,13 @@ b. About how many teams are in a typical conference? (You can "eyeball" this fro
 **TIP**: If the x-axis of your visualization is too cluttered to read all the category labels, try switching the categorical variable to the y-axis instead. You can do this by simply specifying `y = variable` instead of `x = variable` inside `aes()`.
 :::
 
-::: {.callout-note  title="Exercise 13"}
+::: {.callout-note  title="Exercise 12"}
 
 Produce a visualization to investigate the relationship between assists and kills. Comment on what you find and explain why the relationship is what it is. 
 
 :::
 
-::: {.callout-note  title="Exercise 14"}
+::: {.callout-note  title="Exercise 13"}
 
 Produce one visualization to investigate the following questions and comment on your findings: 
 
@@ -673,7 +692,7 @@ c. The name of the "best" team isn't visible in your visualization, but in Exerc
 
 # Wrap-up / reflection
 
-::: {.callout-note  title="Exercise 15"}
+::: {.callout-note  title="Exercise 14"}
 
 Now that you've explored the `volleyball` data, spend a few minutes reflecting on your learning by responding to the following questions:
 
