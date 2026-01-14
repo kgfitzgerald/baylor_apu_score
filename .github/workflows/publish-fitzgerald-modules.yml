@@ -1,0 +1,58 @@
+
+name: Publish Fitzgerald Modules Only
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:   # gives  a "Run workflow" button in Actions
+
+jobs:
+  render-and-publish-my-modules:
+    runs-on: ubuntu-latest
+
+    # Needed so the workflow can push to gh-pages
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.4'   # current stable; GitHub picks latest patch
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      # ---- Install only what VOLLEYBALL module needs (no repo scan) ----
+      - name: Install R packages for volleyball module
+        run: |
+          Rscript -e 'install.packages(c("tidyverse","ggridges","cowplot"), repos="https://cloud.r-project.org")'
+
+      # ---- Render your VOLLEYBALL module folder ----
+      - name: Render volleyball module
+        run: quarto render volleyball/ncaa_d1
+
+      # ---- Install packages for your mlb prime age module ----
+      - name: Install R packages for mlb prime age module
+        run: |
+          Rscript -e 'install.packages(c("tidyverse", "shiny"), repos="https://cloud.r-project.org")'
+        # ↑ If the second module uses more packages (e.g., "patchwork","lubridate","gt"),
+        #   add them inside the c("...","...") list above.
+
+      # ---- Render your SECOND module folder ----
+      - name: Render second module
+        run: quarto render baseball/mlb_prime_age
+        # Example: quarto render golf/pga_gir_nor
+
+      # ---- Publish WITHOUT re-rendering the whole site ----
+      - name: Publish to GitHub Pages (no re-render)
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+          path: .        # publish the current project
+          render: false  # don't re-render; publish what we already rendered
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
