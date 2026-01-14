@@ -23,9 +23,9 @@ jobs:
     permissions:
       contents: write     # needed to publish to gh-pages
 
-    # ✅ Make R & Quarto use the SAME user library across all steps
+    # ✅ Make R & Quarto use the SAME user library across all steps (workspace-local)
     env:
-      R_LIBS_USER: ${{ runner.temp }}/Rlib
+      R_LIBS_USER: ${{ github.workspace }}/.r-lib
 
     steps:
       - name: Check out repository
