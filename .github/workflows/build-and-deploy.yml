@@ -11,6 +11,11 @@ jobs:
     permissions:
       contents: write
 
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      # Force R (including Quarto's R) to use a writable, cached library
+      R_LIBS_USER: ${{ github.workspace }}/Rlibs
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -33,11 +38,18 @@ jobs:
             libharfbuzz-dev \
             libfribidi-dev
 
-      # Cache the default R library used by setup-r-dependencies
-      - name: Install R packages (minimal, no pak lockfile)
+      - name: Cache R library
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r44-${{ hashFiles('**/*.qmd', '_quarto.yml', '.github/workflows/build-and-deploy.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-r44-
+
+      - name: Install core R packages
         run: |
-          Rscript -e 'install.packages(c("quarto","rmarkdown","knitr"), repos="https://cloud.r-project.org")'
-          Rscript -e 'install.packages(c("tidyverse","ggplot2","dplyr","readr","stringr","lubridate","scales","here","gt","kableExtra","DT"), repos="https://cloud.r-project.org")'
+          mkdir -p "${R_LIBS_USER}"
+          Rscript -e 'install.packages(c("knitr","rmarkdown","tidyverse"), lib=Sys.getenv("R_LIBS_USER"), repos="https://cloud.r-project.org")'
 
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
@@ -57,4 +69,5 @@ jobs:
           git commit -m "Update site via GitHub Actions [skip ci]"
           git pull --rebase
           git push
+        shell: bash
 
