@@ -13,8 +13,6 @@ jobs:
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      # Force R (including Quarto's R) to use a writable, cached library
-      R_LIBS_USER: ${{ github.workspace }}/Rlibs
 
     steps:
       - name: Checkout repository
@@ -38,24 +36,31 @@ jobs:
             libharfbuzz-dev \
             libfribidi-dev
 
+      - name: Set R library path for Quarto (write .Renviron)
+        run: |
+          echo "R_LIBS_USER=${GITHUB_WORKSPACE}/Rlibs" >> .Renviron
+          echo "R_LIBS=${GITHUB_WORKSPACE}/Rlibs" >> .Renviron
+          mkdir -p "${GITHUB_WORKSPACE}/Rlibs"
+
       - name: Cache R library
         uses: actions/cache@v4
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r44-${{ hashFiles('**/*.qmd', '_quarto.yml', '.github/workflows/build-and-deploy.yml') }}
+          path: ${{ github.workspace }}/Rlibs
+          key: ${{ runner.os }}-r44-${{ hashFiles('.Renviron', '_quarto.yml') }}
           restore-keys: |
             ${{ runner.os }}-r44-
 
-      - name: Install core R packages
+      - name: Install core R packages into Rlibs
         run: |
-          mkdir -p "${R_LIBS_USER}"
-          Rscript -e 'install.packages(c("knitr","rmarkdown","tidyverse"), lib=Sys.getenv("R_LIBS_USER"), repos="https://cloud.r-project.org")'
+          Rscript -e 'install.packages(c("tidyverse","knitr","rmarkdown"), lib=Sys.getenv("R_LIBS_USER"), repos="https://cloud.r-project.org")'
+          Rscript -e 'cat("R lib paths in CI:\n"); print(.libPaths()); cat("\nHas tidyverse? "); print(requireNamespace("tidyverse", quietly=TRUE))'
 
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
       - name: Render site
-        run: quarto render
+        run: |
+          quarto render
 
       - name: Commit and push docs
         run: |
@@ -70,4 +75,5 @@ jobs:
           git pull --rebase
           git push
         shell: bash
+
 
