@@ -7,7 +7,8 @@ project:
     - "*/index.qmd"         # <- new sport pages
     - "*/*/index.qmd"       # module pages
     - "by-statsds-topic.qmd"
-    
+  exclude:
+    - "mma/**"              # skip anything under mma b/c of ggmosaic issue
 metadata-files:
   - sidebar-sports.yml
     
