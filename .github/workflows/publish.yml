@@ -65,7 +65,7 @@ jobs:
           }
           # Load packages to check
           lapply(packages, library, character.only = TRUE)
-
+        shell: Rscript {0}
       # 5 ▸ Set up Quarto
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2

@@ -59,7 +59,7 @@ jobs:
             install.packages(packages[!installed], repos = "https://cloud.r-project.org", dependencies = TRUE)
           }
           lapply(packages, library, character.only = TRUE)
-
+        shell: Rscript {0}
       # 5 ▸ Set up Quarto
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
