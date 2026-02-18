@@ -12,81 +12,21 @@ jobs:
       contents: write
 
     steps:
-      # 1 ▸ Checkout repo
       - uses: actions/checkout@v4
 
-      # 2 ▸ Setup R
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: '4.4'
 
-      # 3 ▸ Setup Quarto
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: 1
+
       - uses: quarto-dev/quarto-actions/setup@v2
 
-      # 4 ▸ Install required CRAN packages
-      - name: Install CRAN packages
-        run: |
-          Rscript -e 'install.packages(c(
-            "tidyverse",
-            "knitr",
-            "kableExtra",
-            "plotly",
-            "flextable",
-            "NbClust",
-            "ClusterR",
-            "parameters",
-            "mclust",
-            "easystats",
-            "condformat",
-            "formattable",
-            "reactablefmtr",
-            "scales",
-            "here",
-            "formatR",
-            "cluster",
-            "cowplot",
-            "DescTools",
-            "effectsize",
-            "fmsb",
-            "fpp3",
-            "ggplot2",
-            "ggridges",
-            "gt",
-            "gtExtras",
-            "infer",
-            "irr",
-            "janitor",
-            "lubridate",
-            "magrittr",
-            "patchwork",
-            "psych",
-            "pwr",
-            "readr",
-            "rmarkdown",
-            "shiny",
-            "showtext",
-            "SimplyAgree",
-            "survival",
-            "survminer",
-            "webexercises",
-            "DT",
-            "learnr"
-          ), repos="https://cloud.r-project.org")'
-
-      # 5 ▸ Install archived ggmosaic
-      - name: Install ggmosaic (archived)
-        run: |
-          Rscript -e 'install.packages(
-            "https://cran.r-project.org/src/contrib/Archive/ggmosaic/ggmosaic_0.3.3.tar.gz",
-            repos = NULL,
-            type = "source"
-          )'
-
-      # 6 ▸ Render site into docs/
       - name: Render site
         run: quarto render --output-dir docs
 
-      # 7 ▸ Commit rendered docs back to main
       - name: Commit and push docs
         run: |
           git config user.name "github-actions[bot]"
