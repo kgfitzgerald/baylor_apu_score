@@ -8,9 +8,6 @@ on:
 jobs:
   render-deploy:
     runs-on: ubuntu-latest
-    env:
-      # Define R_LIBS_USER explicitly for GitHub Actions
-      R_LIBS_USER: ${{ runner.temp }}/R/library
 
     permissions:
       contents: write
@@ -30,7 +27,7 @@ jobs:
       - name: Cache R packages
         uses: actions/cache@v3
         with:
-          path: ${{ env.R_LIBS_USER }}
+          path: Rlibs   # <--- fixed path inside repo/workspace
           key: ${{ runner.os }}-r-packages-${{ hashFiles('**/DESCRIPTION') }}
           restore-keys: |
             ${{ runner.os }}-r-packages-
@@ -38,7 +35,8 @@ jobs:
       # 4 ▸ Install pak & dependencies
       - name: Install dependencies via pak
         run: |
-          Rscript -e 'install.packages("pak", repos="https://cloud.r-project.org")'
+          mkdir -p Rlibs
+          Rscript -e 'install.packages("pak", lib="Rlibs", repos="https://cloud.r-project.org")'
           Rscript -e 'pak::pak(c(
             "tidyverse","knitr","kableExtra","plotly","flextable","NbClust",
             "ClusterR","parameters","mclust","easystats","condformat","formattable",
@@ -47,7 +45,7 @@ jobs:
             "irr","janitor","lubridate","magrittr","patchwork","psych","pwr","readr",
             "rmarkdown","shiny","showtext","SimplyAgree","survival","survminer",
             "webexercises","DT","learnr"
-          ))'
+          ), lib="Rlibs")'
 
       # 5 ▸ Setup Quarto
       - name: Setup Quarto
