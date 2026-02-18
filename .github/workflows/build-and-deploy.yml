@@ -12,32 +12,32 @@ jobs:
     permissions:
       contents: write
 
+    env:
+      R_LIBS_USER: ${{ github.workspace }}/Rlibs
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
-      # 1 ▸ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2 ▸ Setup R
       - name: Setup R
         uses: r-lib/actions/setup-r@v2
         with:
-          r-version: '4.4'
+          r-version: "4.4"
 
-      # 3 ▸ Cache R packages
       - name: Cache R packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
-          path: Rlibs   # <--- fixed path inside repo/workspace
-          key: ${{ runner.os }}-r-packages-${{ hashFiles('**/DESCRIPTION') }}
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r44-${{ hashFiles('**/DESCRIPTION') }}
           restore-keys: |
-            ${{ runner.os }}-r-packages-
+            ${{ runner.os }}-r44-
 
-      # 4 ▸ Install pak & dependencies
       - name: Install dependencies via pak
         run: |
-          mkdir -p Rlibs
-          Rscript -e 'install.packages("pak", lib="Rlibs", repos="https://cloud.r-project.org")'
-          Rscript -e 'pak::pak(c(
+          mkdir -p "${R_LIBS_USER}"
+          Rscript -e 'install.packages("pak", lib=Sys.getenv("R_LIBS_USER"), repos="https://cloud.r-project.org")'
+          Rscript -e 'pak::pkg_install(c(
             "tidyverse","knitr","kableExtra","plotly","flextable","NbClust",
             "ClusterR","parameters","mclust","easystats","condformat","formattable",
             "reactablefmtr","scales","here","formatR","cluster","cowplot","DescTools",
@@ -45,22 +45,26 @@ jobs:
             "irr","janitor","lubridate","magrittr","patchwork","psych","pwr","readr",
             "rmarkdown","shiny","showtext","SimplyAgree","survival","survminer",
             "webexercises","DT","learnr"
-          ), lib="Rlibs")'
+          ), lib=Sys.getenv("R_LIBS_USER"))'
 
-      # 5 ▸ Setup Quarto
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      # 6 ▸ Render site (mma/ excluded via _quarto.yml)
       - name: Render site
         run: quarto render
 
-      # 7 ▸ Commit and push rendered docs
       - name: Commit and push docs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
           git add docs/
-          git diff-index --quiet HEAD || git commit -m "Update site via GitHub Actions"
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Update site via GitHub Actions [skip ci]"
+          git pull --rebase
           git push
         shell: bash
