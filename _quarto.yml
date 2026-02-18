@@ -1,32 +1,34 @@
 project:
   type: website
   output-dir: docs
-  render: 
+
+render:
+  files:
     - "index.qmd"
     - "_team.qmd"
-    - "*/index.qmd"         # <- new sport pages
-    - "*/*/index.qmd"       # module pages
+    - "*/index.qmd"
+    - "*/*/index.qmd"
     - "by-statsds-topic.qmd"
   exclude:
-    - "mma/**"              # skip anything under mma b/c of ggmosaic issue
+    - "mma/**"
+
 metadata-files:
   - sidebar-sports.yml
-    
+
 website:
   google-analytics: "G-JVDQHPRYT1"
   cookie-consent:
     type: implied
     prefs-text: "Manage cookies"
   title: "Baylor APU SCORE Module Preprint Repository"
-  page-footer: 
-    center:
+  page-footer:
+    center: |
       Maintained by Katie Fitzgerald <br>
-    
-      We use cookies to track usage statistics 
+
+      We use cookies to track usage statistics
       to help measure impact of the materials
-      for authors. Please consider allowing 
+      for authors. Please consider allowing
       tracking cookies.
-    
   navbar:
     left:
       - href: index.qmd
