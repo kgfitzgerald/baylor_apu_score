@@ -45,5 +45,4 @@ Imports:
     webexercises,
     DT,
     learnr
-Remotes:
-    cran::ggmosaic@0.3.3
+
