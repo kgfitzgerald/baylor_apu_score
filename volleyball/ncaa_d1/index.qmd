@@ -181,7 +181,7 @@ e. How many **discrete numeric variables** are there? List the names of these va
 \
 \
 \
-**TIP:** To distinguish between continuous and discrete, ask yourself "can this variable have decimal values or only whole-numbers?" Read more about variable types [here](win_loss_pctg).
+**TIP:** To distinguish between continuous and discrete, ask yourself "can this variable have decimal values or only whole-numbers?" Read more about variable types [here](https://openintro-ims.netlify.app/data-hello#sec-variable-types){target="_blank"}.
 :::
 
 ## Volleyball lingo
@@ -332,7 +332,7 @@ Visualizing one numeric variable shows the **distribution** of the data. We ofte
 
 Don't simply report technical terms or summary stats, but rather seek to interpret what those mean in the context of the data. For example, for the visualization of `kills_per_set` above, we might describe and interpret the distribution as follows:
 
-> Looking across all NCAA Division I team averages for the 2022 season, we see a unimodal left-skewed distribution of average number of kills per set. The vast majority of teams average between 8 and 15 kills per set, but there are a few outlier teams that average as few as 5 kills per set. A "typical" team averages about 12 kills per set, which is just under half the number of points requried to win a set (25).  
+> Looking across all NCAA Division I team averages for the 2022 season, we see a unimodal left-skewed distribution of average number of kills per set. The vast majority of teams average between 8 and 15 kills per set, but there are a few outlier teams that average as few as 5 kills per set. A "typical" team averages about 12 kills per set, which is just under half the number of points required to win a set (25).  
 
 :::
 
@@ -685,7 +685,7 @@ a. Is there a wide range of win percentages across college volleyball teams, or 
 
 b. Did any team have a perfect season? That is, did anyone win 100% of their matches? 
 
-c. The name of the "best" team isn't visible in your visualization, but in Exercise 2a you identified who this team was. Google to find out who won the championship in 2022-3. Was it the team with the best record? 
+c. The name of the "best" team isn't visible in your visualization, but in Exercise 2 you identified who this team was. Google to find out who won the championship in 2022-3. Was it the team with the best record? 
 
 :::
 

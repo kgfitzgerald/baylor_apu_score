@@ -1,16 +1,10 @@
 project:
   type: website
   output-dir: docs
-
-render:
-  files:
+  render:
     - "index.qmd"
-    - "_team.qmd"
-    - "*/index.qmd"
     - "*/*/index.qmd"
     - "by-statsds-topic.qmd"
-  exclude:
-    - "mma/**"
 
 metadata-files:
   - sidebar-sports.yml

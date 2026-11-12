@@ -1,0 +1,10 @@
+# MMA pages: never re-run R code during a full-site render.
+# They use ggmosaic (and other packages) that are hard to install,
+# so the site reuses the saved results in _freeze/mma/ instead.
+#
+# If you edit an MMA module, re-run it explicitly (requires its packages):
+#   quarto render mma/mma_chisquare/index.qmd
+#   quarto render mma/MMA_IRR/index.qmd
+# then commit the updated _freeze/ and docs/ folders.
+execute:
+  freeze: true
